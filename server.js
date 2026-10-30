@@ -1,3 +1,8 @@
+const express = require('express');
+const app = express();
+
+// Yeh line add karni hai:
+app.use(express.static(__dirname));
 // Ghar to Health - backend (no npm packages needed, Node 18+)
 // Run:  node server.js   ->  http://localhost:3000
 const http = require('http');
@@ -23,7 +28,7 @@ let GOOGLE_MAPS_KEY = (process.env.GOOGLE_MAPS_KEY || '').trim();
 if (!GOOGLE_MAPS_KEY) { try { GOOGLE_MAPS_KEY = fs.readFileSync(path.join(__dirname, 'google-key.txt'), 'utf8').trim(); } catch {} }
 const hospHits = new Map();   // ip -> [timestamps]  (rate limit)
 const hospCache = new Map();  // query -> { t, items }
-const PUBLIC_DIR = path.join(__dirname, 'public');
+const PUBLIC_DIR = __dirname;
 const UPLOAD_DIR = path.join(PUBLIC_DIR, 'uploads');
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 // Airline MEDIF forms (admin can replace them from Ambulance Charges). Add more airlines here later, e.g. indigo: 'IndiGo'
