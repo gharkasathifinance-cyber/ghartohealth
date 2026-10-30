@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track my service | Ghar to Health</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f3f8fb;color:#12344d}
+header{background:#0e6e8c;color:#fff;padding:14px 18px;font-weight:700;font-size:18px;display:flex;justify-content:space-between;align-items:center}
+header a{color:#fff;text-decoration:none;font-size:14px;font-weight:600}
+.wrap{max-width:640px;margin:0 auto;padding:14px}
+.card{background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.h{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.muted{color:#5d7a8c;font-size:13px}
+.msg{margin:8px 0;font-size:15px}
+.steps{display:flex;justify-content:space-between;margin:10px 0 4px}
+.step{flex:1;text-align:center;font-size:11px;color:#9bb0bd}
+.dot{width:20px;height:20px;border-radius:50%;background:#d5e2ea;margin:0 auto 4px;line-height:20px;color:#fff;font-size:12px}
+.step.done{color:#0e6e8c}.step.done .dot{background:#0e6e8c}
+.step.now .dot{box-shadow:0 0 0 4px rgba(14,110,140,.25)}
+.eta{font-size:20px;font-weight:700;color:#0e6e8c;margin-top:8px}
+button.loc{margin-top:8px;border:0;background:#e3f1f6;color:#0e6e8c;font-weight:600;padding:9px 12px;border-radius:9px;cursor:pointer}
+.pin{font-size:28px;line-height:28px}
+.mapw{position:relative}
+.map{height:340px;border-radius:14px;margin-top:8px}
+.etab{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#0e6e8c;color:#fff;border-radius:14px;padding:12px 16px;margin-top:6px}
+.etm{font-size:26px;font-weight:800;line-height:1.1}
+.ets{font-size:13px;opacity:.9;margin-top:2px}
+.etp{display:flex;align-items:center;gap:8px;font-size:13px;text-align:right}
+.etp .av{width:36px;height:36px;border-radius:50%;background:#fff;color:#0e6e8c;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center}
+.etab.ok{background:#1a9e5c}
+.rider{width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:24px;position:relative}
+.rider:after{content:"";position:absolute;inset:-6px;border-radius:50%;border:3px solid rgba(14,110,140,.45);animation:pul 1.6s ease-out infinite}
+@keyframes pul{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.homep{width:38px;height:38px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);background:#d32f2f;box-shadow:0 2px 8px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center}
+.homep span{transform:rotate(45deg);font-size:19px}
+button.rc{position:absolute;right:10px;bottom:10px;z-index:500;border:0;background:#fff;color:#0e6e8c;font-size:22px;width:40px;height:40px;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer}
+
+.air{display:none;margin-top:6px}
+.aeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.aeta div{background:#eef6fa;border-radius:10px;padding:8px 10px}
+.aeta small{display:block;color:#5d7a8c;font-size:12px}
+.aeta b{font-size:19px;color:#0e6e8c}
+.amap{height:280px;border-radius:12px;margin-top:4px}
+.alog,.abill table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+.alog td,.abill td{padding:6px 4px;border-bottom:1px solid #e6eef3;vertical-align:top}
+.alog .r,.abill .r{text-align:right;white-space:nowrap}
+.abill{margin-top:10px;font-size:14px}
+.abill summary{cursor:pointer;font-weight:600;color:#0e6e8c}
+.abal{margin-top:8px;padding:8px 10px;border-radius:10px;background:#eef6fa;font-weight:600;font-size:13.5px}
+.atag{display:inline-block;padding:1px 8px;border-radius:10px;background:#fff2d6;color:#8a5a00;font-size:12px;font-weight:600;margin-left:6px}
+</style>
+</head>
+<body>
+<header><span>Ghar to Health &middot; Live Tracking</span><a href="/">Home</a></header>
+<div class="wrap">
+  <div id="list"></div>
+  <div class="card" id="empty" style="display:none">No bookings found on this phone yet. After you book a service, it will appear here automatically.</div>
+  <div class="muted" style="text-align:center">The partner's location is shown only while your service is in progress.</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+var STEPS=['Booked','Accepted','On the way','Arrived','Completed'];
+var cards={};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function items(){
+  var l=[];try{l=JSON.parse(localStorage.getItem('gth_bookings')||'[]')}catch(e){}
+  try{var g=JSON.parse(localStorage.getItem('gth_last')||'null');
+    if(g&&g.id&&g.phone&&!l.some(function(x){return x.id===g.id}))l.push({id:g.id,phone:String(g.phone).replace(/\D/g,'').slice(-10)})}catch(e){}
+  return l.slice(-8).reverse();
+}
+function km(a,b,c,d){var R=6371,t=function(x){return x*Math.PI/180};
+  var h=Math.pow(Math.sin(t(c-a)/2),2)+Math.cos(t(a))*Math.cos(t(c))*Math.pow(Math.sin(t(d-b)/2),2);return 2*R*Math.asin(Math.sqrt(h))}
+function ic(e){return L.divIcon({html:'<div class="pin">'+e+'</div>',className:'',iconSize:[28,28],iconAnchor:[14,26]})}
+function riderIcon(){return L.divIcon({html:'<div class="rider">&#128757;</div>',className:'',iconSize:[44,44],iconAnchor:[22,22]})}
+function homeIcon(){return L.divIcon({html:'<div class="homep"><span>&#127968;</span></div>',className:'',iconSize:[38,38],iconAnchor:[19,38]})}
+function steps(el,idx,labels){
+  el.querySelector('.steps').innerHTML=(labels||STEPS).map(function(s,i){return'<div class="step '+(i<=idx?'done ':'')+(i===idx?'now':'')+'"><div class="dot">'+(i<=idx?'&#10003;':'')+'</div>'+s+'</div>'}).join('');
+}
+function mk(it){
+  var el=document.createElement('div');el.className='card';
+  el.innerHTML='<div class="h"><b class="svc">Booking</b><span class="muted">'+esc(it.id)+'</span></div><div class="msg">Loading...</div><div class="steps"></div>'+
+    '<div class="mb" style="display:none"><div class="etab"><div><div class="etm">--</div><div class="ets"></div></div><div class="etp"></div></div>'+
+    '<div class="mapw"><div class="map"></div><button class="rc" type="button" title="Show partner and my place">&#9678;</button></div>'+
+    '<button class="loc" type="button" style="display:none">📍 Show distance from my location</button></div><div class="air"></div>';
+  document.getElementById('list').appendChild(el);
+  var c={el:el,id:it.id,phone:it.phone,map:null,vm:null,hm:null,route:null,casing:null,destLL:null,cur:null,done:false,user:false,rinfo:null,rFrom:null,rAt:0,rBusy:false,state:'',stale:false,partner:''};
+  el.querySelector('.loc').onclick=function(){
+    if(!navigator.geolocation)return;
+    navigator.geolocation.getCurrentPosition(function(p){setDest(c,[p.coords.latitude,p.coords.longitude])});
+  };
+  el.querySelector('.rc').onclick=function(){c.user=false;fit(c,true)};
+  cards[it.id]=c;return c;
+}
+function setDest(c,ll){
+  c.destLL=ll;
+  if(c.map){if(c.hm)c.map.removeLayer(c.hm);c.hm=L.marker(ll,{icon:homeIcon()}).addTo(c.map)}
+  c.el.querySelector('.loc').style.display='none';
+  if(c.cur){c.rFrom=null;route(c);fit(c,true)}
+  eta(c);
+}
+/* partner marker glides smoothly to the new point (like Swiggy / Zomato) */
+function glide(c,to){
+  if(!c.vm){c.vm=L.marker(to,{icon:riderIcon(),zIndexOffset:1000}).addTo(c.map);c.cur=to;return}
+  var a=c.cur||to;cancelAnimationFrame(c.raf);
+  if(km(a[0],a[1],to[0],to[1])>2){c.vm.setLatLng(to);c.cur=to;return}
+  var t0=performance.now(),D=9000;
+  (function f(n){var k=Math.min(1,(n-t0)/D),p=[a[0]+(to[0]-a[0])*k,a[1]+(to[1]-a[1])*k];c.vm.setLatLng(p);c.cur=p;if(k<1)c.raf=requestAnimationFrame(f)})(t0);
+  c.target=to;
+}
+function fit(c,force){
+  if(!c.map||!c.cur)return;
+  var pts=[c.cur];if(c.destLL)pts.push(c.destLL);
+  if(pts.length<2){if(force)c.map.setView(c.cur,16);return}
+  if(!force&&(c.user||c.map.getBounds().pad(-0.15).contains(L.latLngBounds(pts))))return;
+  c.map.fitBounds(pts,{padding:[50,50],maxZoom:17});
+}
+/* road route + real driving time (OSRM free service); falls back to a straight line estimate */
+function route(c){
+  if(!c.cur||!c.destLL||c.rBusy)return;
+  var f=c.target||c.cur,now=Date.now();
+  if(c.rFrom&&km(c.rFrom[0],c.rFrom[1],f[0],f[1])<0.05&&now-c.rAt<30000)return;
+  c.rBusy=true;
+  fetch('https://router.project-osrm.org/route/v1/driving/'+f[1]+','+f[0]+';'+c.destLL[1]+','+c.destLL[0]+'?overview=full&geometries=geojson')
+  .then(function(r){return r.json()}).then(function(d){
+    c.rBusy=false;var r0=d&&d.routes&&d.routes[0];if(!r0)return;
+    c.rFrom=f;c.rAt=Date.now();c.rinfo={min:Math.max(1,Math.round(r0.duration/60)),km:r0.distance/1000,at:Date.now()};
+    var pts=r0.geometry.coordinates.map(function(p){return[p[1],p[0]]});
+    if(c.route){c.route.setLatLngs(pts);c.casing.setLatLngs(pts)}
+    else{c.casing=L.polyline(pts,{color:'#fff',weight:9,opacity:.9}).addTo(c.map);c.route=L.polyline(pts,{color:'#0e6e8c',weight:5}).addTo(c.map)}
+    eta(c);fit(c,false);
+  }).catch(function(){c.rBusy=false});
+}
+function clearRoute(c){if(c.route){c.map.removeLayer(c.route);c.map.removeLayer(c.casing);c.route=c.casing=null}}
+function eta(c){
+  var el=c.el,m=el.querySelector('.etm'),s=el.querySelector('.ets'),box=el.querySelector('.etab'),p=el.querySelector('.etp');
+  box.className='etab';
+  p.innerHTML=c.partner?'<div>'+esc(c.partner)+'<br><span style="opacity:.85">Your service partner</span></div><div class="av">'+esc(c.partner.charAt(0).toUpperCase())+'</div>':'';
+  if(c.state==='arrived'){box.className='etab ok';m.textContent='Partner arrived';s.textContent='Your service partner is at your place.';return}
+  if(c.stale&&!c.cur){m.textContent='Updating...';s.textContent='Waiting for the partner\u2019s location';return}
+  if(!c.destLL){m.textContent='On the way';s.textContent='Tap the button below to see the distance from you.';return}
+  var mins,d;
+  if(c.rinfo){mins=c.rinfo.min;d=c.rinfo.km}
+  else{d=km(c.cur[0],c.cur[1],c.destLL[0],c.destLL[1])*1.3;mins=Math.max(1,Math.round(d/22*60))}
+  var at=new Date(Date.now()+mins*60000),hh=at.getHours(),mm=('0'+at.getMinutes()).slice(-2);
+  m.textContent=(mins<=1?'Arriving now':'Arriving in '+mins+' min');
+  s.textContent=d.toFixed(1)+' km away \u00B7 by '+((hh%12)||12)+':'+mm+' '+(hh>=12?'PM':'AM')+(c.stale?' \u00B7 updating location...':'');
+}
+function geocode(c,addr){
+  if(c.geo||!addr)return;c.geo=true;
+  var key='gth_geo_'+c.id,hit=null;try{hit=JSON.parse(localStorage.getItem(key)||'null')}catch(e){}
+  if(hit){setDest(c,hit);return}
+  var parts=String(addr).replace(/\s+/g,' ').split(',').map(function(x){return x.trim()}).filter(Boolean),tries=[];
+  for(var i=0;i<Math.min(parts.length,3);i++)tries.push(parts.slice(i).join(', '));
+  (function next(k){
+    if(k>=tries.length)return;
+    fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=in&q='+encodeURIComponent(tries[k])).then(function(r){return r.json()}).then(function(a){
+      if(a&&a[0]){var ll=[parseFloat(a[0].lat),parseFloat(a[0].lon)];try{localStorage.setItem(key,JSON.stringify(ll))}catch(e){}setDest(c,ll)}else next(k+1);
+    }).catch(function(){c.geo=false});
+  })(0);
+}
+function show(c,j){
+  c.last=j;var el=c.el;
+  if(j.tracking===false){el.querySelector('.svc').textContent='Booking';el.querySelector('.msg').textContent='Live tracking is not available for this service.';el.querySelector('.steps').innerHTML='';return}
+  el.querySelector('.svc').textContent=j.service||'Booking';
+  var t=j.track,idx=0,msg;
+  if(j.status==='cancelled'){msg='This booking was cancelled.';idx=-1}
+  else if(j.vendorStatus==='done'||j.status==='completed'){idx=4;msg='Service completed. Thank you for choosing Ghar to Health!';c.done=true}
+  else if(t&&t.state==='arrived'){idx=3;msg='Your partner has arrived.'}
+  else if(t&&t.state==='on_the_way'){idx=2;msg=t.stale?'Your partner is on the way. Waiting for location update...':'Your partner is on the way.'}
+  else if(j.vendorStatus==='accepted'){idx=1;msg=(j.partnerName?esc(j.partnerName)+' has accepted your booking.':'Your booking is accepted.')+' Tracking starts when the partner leaves.'}
+  else{idx=0;msg='Booking received. We are assigning a partner.'}
+  el.querySelector('.msg').innerHTML=msg;steps(el,idx);
+  var mb=el.querySelector('.mb');
+  c.partner=j.partnerName||'';c.state=t?t.state:'';c.stale=!!(t&&t.stale);
+  var has=t&&t.lat!=null&&!c.done, keep=t&&c.vm&&!c.done;   // keep the last known spot while a location update is delayed
+  if(has||keep){
+    mb.style.display='block';
+    if(!c.map){c.map=L.map(el.querySelector('.map'),{zoomControl:true}).setView(has?[t.lat,t.lng]:c.cur,16);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(c.map);
+      c.map.getContainer().addEventListener('pointerdown',function(){c.user=true})}
+    if(!c.destLL){
+      if(j.destLL&&j.destLL.lat!=null)c.destLL=[j.destLL.lat,j.destLL.lng];
+      else{geocode(c,j.address);if(!c.destLL)el.querySelector('.loc').style.display='block'}
+      if(c.destLL)c.hm=L.marker(c.destLL,{icon:homeIcon()}).addTo(c.map);
+    }
+    if(has){var first=!c.cur;glide(c,[t.lat,t.lng]);if(first){fit(c,true)}
+      if(t.state==='arrived'){clearRoute(c);c.map.setView([t.lat,t.lng],17)}else{route(c);fit(c,false)}}
+    eta(c);
+    setTimeout(function(){c.map.invalidateSize()},50);
+  }else mb.style.display='none';
+}
+/* ===== Air ambulance: aircraft on the map, ETA, flight log and bill (data from /api/air/track) ===== */
+var AIRSTEPS=['Booked','Aircraft ready','To pickup','Patient on board','Completed'];
+var AIRIDX={planned:1,to_pickup:2,at_pickup:2,ground:2,flying:2,to_dest:3,at_dest:3,returning:4,done:4};
+var LEGN={positioning:'Aircraft to pickup',patient:'Patient flight','return':'Return to base',extra:'Extra stop'};
+function inr(n){return(n<0?'-':'')+'\u20B9'+Math.abs(Math.round(n)).toLocaleString('en-IN')}
+function hm(m){if(m==null)return'-';if(m<=0)return'Arrived';var h=Math.floor(m/60),x=m%60;return h?h+' h '+x+' min':x+' min'}
+function airGet(it){
+  return fetch('/api/air/track',{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({id:it.id,phone:it.phone})})
+    .then(function(r){return r.ok?r.json():null}).catch(function(){return null});
+}
+function showAir(c,d){
+  var el=c.el,a=el.querySelector('.air'),p=d.position,pl=d.places,pos=[p.lat,p.lng];
+  c.air=true;
+  el.querySelector('.svc').innerHTML=esc(d.aircraftType)+' | '+esc(d.tail)+(d.demo?'<span class="atag">Demo</span>':'');
+  el.querySelector('.msg').textContent=d.state.text;
+  var ix=AIRIDX[d.state.code];steps(el,ix==null?1:ix,AIRSTEPS);
+  el.querySelector('.mb').style.display='none';
+  if(!c.ab){
+    a.innerHTML='<div class="aeta"><div><small>Aircraft reaches pickup in</small><b class="e1">-</b></div><div><small>Patient reaches destination in</small><b class="e2">-</b></div></div>'+
+      '<div class="amap"></div><div class="muted ameta"></div><table class="alog"><tbody></tbody></table>'+
+      '<div class="abal"></div>';
+    c.ab=true;
+  }
+  a.style.display='block';
+  a.querySelector('.e1').textContent=hm(d.eta.toPickupMin);a.querySelector('.e2').textContent=hm(d.eta.toDestMin);
+  a.querySelector('.ameta').textContent=(p.source==='gps'?'Live GPS':p.source==='demo'?'Demo position':p.source==='ground'?'Aircraft on the ground':'Last known position')+(p.source==='gps'&&p.speedKmh?' | '+p.speedKmh+' km/h':'');
+  a.querySelector('.alog tbody').innerHTML=d.legs.map(function(l){
+    return'<tr><td>'+esc(LEGN[l.type]||l.type)+'<br><span class="muted">'+esc(l.from.name)+' to '+esc(l.to.name)+'</span></td><td>'+(l.state==='done'?'Landed':l.state==='flying'?'In the air':'Planned')+'</td><td class="r">'+l.hours.toFixed(2)+' h</td></tr>';
+  }).join('');
+  a.querySelector('.abal').textContent='Amount paid '+inr(d.paid);
+  if(typeof L==='undefined'){a.querySelector('.amap').innerHTML='<p class="muted" style="padding:16px">Map could not load. Check your internet connection.</p>'}
+  else{
+    if(!c.amap){
+      c.amap=L.map(a.querySelector('.amap'));
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(c.amap);
+      [['base','Base','#7a8ea3'],['pickup','Pickup','#1b7f3b'],['drop','Destination','#b3261e']].forEach(function(m){
+        L.circleMarker([pl[m[0]].lat,pl[m[0]].lng],{radius:8,color:m[2],fillColor:m[2],fillOpacity:.8}).addTo(c.amap).bindTooltip(m[1]+': '+pl[m[0]].name);
+      });
+      d.legs.forEach(function(l){L.polyline([[l.from.lat,l.from.lng],[l.to.lat,l.to.lng]],{color:'#0e6e8c',weight:2,dashArray:'6 8',opacity:.6}).addTo(c.amap)});
+      c.atrail=L.polyline([],{color:'#0e6e8c',weight:4}).addTo(c.amap);
+      c.aplane=L.marker(pos,{icon:L.divIcon({html:'<div class="pin">&#9992;&#65039;</div>',className:'',iconSize:[28,28],iconAnchor:[14,14]})}).addTo(c.amap);
+    }
+    c.aplane.setLatLng(pos);c.atrail.setLatLngs(d.trail.length?d.trail.concat([pos]):[]);
+    if(!c.afit){c.amap.fitBounds([pl.base,pl.pickup,pl.drop].map(function(x){return[x.lat,x.lng]}).concat([pos]),{padding:[30,30]});c.afit=true}
+    setTimeout(function(){c.amap.invalidateSize()},50);
+  }
+  if(d.final)c.done=true;
+}
+function live(c,it){
+  fetch('/api/live?id='+encodeURIComponent(it.id)+'&phone='+encodeURIComponent(it.phone),{cache:'no-store'})
+  .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+  .then(function(x){
+    if(!x.ok){c.el.querySelector('.msg').textContent='Booking not confirmed yet. If you have paid, it will appear here shortly.';return}
+    show(c,x.j);
+    if(/^AMB/i.test(it.id)&&x.j.tracking===false)c.el.querySelector('.msg').textContent='Your ambulance request is confirmed and our team will call you. For an air ambulance, the live location appears here once the aircraft is assigned.';
+  }).catch(function(){});
+}
+function poll(){
+  var l=items();
+  document.getElementById('empty').style.display=l.length?'none':'block';
+  l.forEach(function(it){
+    var c=cards[it.id]||mk(it);if(c.done)return;
+    if(/^AMB/i.test(it.id)){
+      airGet(it).then(function(d){if(d)showAir(c,d);else if(!c.air)live(c,it)});
+      return;
+    }
+    live(c,it);
+  });
+}
+poll();setInterval(poll,10000);   // refresh every 10 seconds
+</script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Services | Ghar to Health</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f7fbff;color:#12365d}
+button{font-family:inherit;cursor:pointer}
+.wrap{width:94%;max-width:1200px;margin:auto}
+.top{background:#fff;border-bottom:1px solid #e3edf6;position:sticky;top:0;z-index:5}
+.bar{display:flex;align-items:center;gap:14px;padding:12px 0}
+.bar a.logo{font-weight:800;color:#0758ad;font-size:18px;text-decoration:none;white-space:nowrap}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px}
+.chip{border:1px solid #d3e4f1;background:#f1f7fc;border-radius:22px;padding:8px 16px;font-size:13px;font-weight:700;color:#375775;white-space:nowrap}
+.chip.on{background:#087cf2;border-color:#087cf2;color:#fff}
+.chip .cnt{margin-left:4px;padding:1px 7px;border-radius:10px;background:rgba(0,0,0,.08);font-size:11px}.chip.on .cnt{background:rgba(255,255,255,.3)}
+h1{font-size:28px;margin:22px 0 4px;color:#0a396b}
+.sub{font-size:14px;color:#5b7690;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start;padding-bottom:40px}
+.card{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #e1edf6;border-radius:14px;padding:14px;margin-bottom:12px}
+.ico{font-size:30px;width:64px;height:64px;border-radius:12px;background:#e8f3ff;display:flex;align-items:center;justify-content:center;flex:none}
+.ico.photo{width:84px;height:84px;padding:0;overflow:hidden;background:#e8f3ff}.ico.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.info{flex:1}.info h3{font-size:16px}.info p{font-size:13px;color:#5b7690;margin:2px 0}.info small{font-size:12px;color:#6c8299}
+.price{text-align:right;flex:none}.price small{display:block;font-size:11px;color:#6c8299}.price b{font-size:20px;display:block;margin-bottom:6px}
+.add{border:1px solid #087cf2;background:#fff;color:#087cf2;border-radius:10px;padding:7px 20px;font-weight:700}
+.add:hover{background:#edf6ff}
+.cart{background:#fff;border:1px solid #d9ebf8;border-radius:16px;padding:18px;position:sticky;top:70px}
+.cart h2{font-size:17px;margin-bottom:12px}
+.line{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eef4f9;font-size:13px}
+.qty{display:flex;align-items:center;gap:8px;border:1px solid #d3e4f1;border-radius:8px;padding:2px 6px}
+.qty button{border:none;background:none;font-size:16px;color:#087cf2;font-weight:700}
+.row{display:flex;justify-content:space-between;font-size:13px;color:#375775;margin-top:8px}
+.tot{font-size:17px;font-weight:800;color:#0a396b}
+.go{width:100%;margin-top:14px;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#087ff5,#0564cf);color:#fff;font-weight:700;font-size:15px}
+.go:disabled{opacity:.5;cursor:not-allowed}
+.empty{font-size:13px;color:#6c8299;padding:10px 0}
+dialog{margin:auto;border:none;border-radius:16px;width:min(420px,92vw);padding:0;max-height:92vh;overflow:auto}dialog::backdrop{background:rgba(7,57,110,.45)}
+form{padding:22px}form label{display:block;font-size:12px;font-weight:700;margin:10px 0 4px}
+form input,form textarea{width:100%;padding:10px;border:1px solid #cfe0ee;border-radius:10px;font:inherit}
+.msg{font-size:13px;margin-top:10px;min-height:18px}.err{color:#c62828}.ok{color:#1b7f3b;font-weight:600}
+/* payment */
+.pay{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.po{display:flex;align-items:center;gap:6px;border:1px solid #d3e4f1;border-radius:10px;padding:8px 12px;font-size:13px;margin:0;cursor:pointer}
+.po input{width:auto}
+.payinfo{background:#f1f7fc;border:1px solid #d9ebf8;border-radius:10px;padding:12px;font-size:13px;color:#375775;line-height:1.7;margin-top:6px}
+.payinfo b{color:#0a396b}
+.upibtn{display:inline-block;margin-top:8px;padding:9px 16px;border-radius:10px;background:#087cf2;color:#fff;font-weight:700;text-decoration:none}
+.cp{border:1px solid #087cf2;background:#fff;color:#087cf2;border-radius:8px;padding:2px 10px;font-size:12px;font-weight:700;margin-left:6px}
+.qr{display:block;width:150px;height:150px;object-fit:contain;margin:8px 0}
+.sbox{position:relative;margin:0 0 16px}
+.sbox input{width:100%;padding:13px 40px 13px 42px;border:1.5px solid #cfe0ee;border-radius:14px;font:inherit;font-size:15px;background:#fff;outline:none}
+.sbox input:focus{border-color:#087cf2;box-shadow:0 0 0 3px rgba(8,124,242,.12)}
+.sbox .si{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
+.sbox .sx{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:#e8f1f9;color:#375775;width:24px;height:24px;border-radius:50%;font-size:14px;cursor:pointer;display:none}
+.subrow{display:none;gap:10px;overflow-x:auto;padding:4px 2px 14px;margin:0 0 6px;scrollbar-width:thin}
+.sc{flex:none;display:inline-flex;align-items:center;gap:8px;border:1px solid #d3e4f1;background:#fff;border-radius:26px;padding:8px 16px 8px 10px;font-size:13px;font-weight:700;color:#375775;white-space:nowrap}
+.sc .si2{width:26px;height:26px;border-radius:50%;background:#e8f3ff;display:inline-flex;align-items:center;justify-content:center;font-size:15px}
+.sc .cnt{padding:1px 7px;border-radius:10px;background:rgba(0,0,0,.07);font-size:11px;font-weight:600}
+.sc:hover{border-color:#087cf2}
+.sc.on{background:#087cf2;border-color:#087cf2;color:#fff}.sc.on .si2{background:rgba(255,255,255,.25)}.sc.on .cnt{background:rgba(255,255,255,.3)}
+.rcount{font-size:13px;color:#5b7690;margin:-6px 0 12px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.cart{position:static}}
+
+/* no text select / no Google Touch-to-Search popup */
+html,body{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+input,textarea,select{-webkit-user-select:text;-moz-user-select:text;user-select:text;-webkit-touch-callout:default}
+a,button{touch-action:manipulation}
+/* invoice */
+.invrow{display:none;gap:8px;flex-wrap:wrap;margin-top:12px}
+.invrow .add{flex:1;white-space:nowrap}
+.lastinv{display:none;align-items:center;gap:10px;flex-wrap:wrap;background:#eef7ff;border:1px solid #d3e4f1;border-radius:12px;padding:10px 14px;margin:0 0 14px;font-size:13px}
+.lastinv .add{padding:6px 14px}
+/* service details popup */
+.det{border:1px solid #d3e4f1;background:#fff;color:#375775;border-radius:10px;padding:5px 14px;font-weight:700;font-size:12px;display:inline-block;margin-top:8px}
+.det:hover{border-color:#087cf2;color:#087cf2}
+#detDlg{padding:0}
+.dsec{margin-top:16px}
+.dsec h4{font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#5b7690;margin-bottom:6px}
+#dtInc{list-style:none;padding:0}
+#dtInc li{font-size:14px;color:#0a6fd6;padding:5px 0;display:flex;gap:8px}
+#dtInc li:before{content:"\2713";font-weight:700;color:#0a7cff}
+#dtIncWrap h4{color:#0a7cff}
+</style></head><body>
+<div class="top"><div class="wrap bar"><a class="logo" href="/">⌂ Ghar to Health</a><div class="chips" id="chips"></div></div></div>
+<div class="wrap">
+<h1 id="title">Our Services</h1><p class="sub">Verified professionals, fair prices, at your doorstep.</p>
+<div class="subrow" id="subrow"></div>
+<div class="lastinv" id="lastInv"></div>
+<div class="sbox"><span class="si">🔍</span><input id="q" type="search" placeholder="Search all home maintenance services (e.g. tap, fan, AC, cleaning)..." autocomplete="off"><button type="button" class="sx" id="qx" aria-label="Clear search">✕</button></div>
+<div class="rcount" id="rc"></div>
+<div class="grid"><div id="list"><p class="empty">Loading services...</p></div>
+<aside class="cart"><h2>🛍️ Your Booking</h2><div id="lines"></div><div id="sum"></div>
+<button class="go" id="go" disabled>Proceed to Book →</button></aside></div></div>
+<dialog id="detDlg"><div style="padding:22px">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><h3 id="dtName" style="font-size:19px;color:#0a396b;line-height:1.3"></h3><button type="button" class="add" id="dtX" style="padding:4px 12px;flex:none">✕</button></div>
+<p id="dtMeta" style="font-size:13px;color:#5b7690;margin-top:6px"></p>
+<div class="dsec" id="dtIncWrap"><h4>What's Included</h4><ul id="dtInc"></ul></div>
+<button type="button" class="go" id="dtAdd" style="margin-top:18px">Add to booking</button>
+</div></dialog>
+<dialog id="ldlg"><form id="lf" novalidate>
+<h3>Log in</h3>
+<p style="font-size:13px;color:#5b7690;margin:4px 0 8px">Please log in with your mobile number to add services to your cart.</p>
+<div id="lStep1">
+  <label>Full name (new users only)</label><input id="lName" autocomplete="name" placeholder="Your name">
+  <label>Mobile number</label><input id="lPhone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number">
+  <div style="display:flex;gap:10px;margin-top:14px"><button type="button" class="add" id="lCancel" style="flex:1">Cancel</button><button type="button" class="go" id="lSend" style="flex:1;margin:0">Send OTP</button></div>
+</div>
+<div id="lStep2" style="display:none">
+  <label>Enter OTP</label><input id="lOtp" inputmode="numeric" maxlength="6" placeholder="6-digit OTP">
+  <div style="display:flex;gap:10px;margin-top:14px"><button type="button" class="add" id="lBack" style="flex:1">Back</button><button type="button" class="go" id="lVerify" style="flex:1;margin:0">Verify</button></div>
+</div>
+<div class="msg" id="lMsg" role="status"></div>
+</form></dialog>
+<dialog id="dlg"><form id="f" novalidate><h3>Confirm your booking</h3>
+<label>Your name</label><input name="name" required autocomplete="name">
+<label>Mobile number</label><input name="phone" type="tel" inputmode="numeric" placeholder="10-digit number" required>
+<label>Address</label><textarea name="address" rows="3" required placeholder="House no., street, area, landmark"></textarea>
+<button type="button" class="add" id="loc" style="width:100%;margin-top:6px">📍 Use my current location</button><small id="locMsg" style="display:block;margin-top:4px;font-size:12px"></small>
+<label>Preferred date</label><input name="date" type="date">
+
+<label>Payment method</label>
+<div class="pay">
+<label class="po"><input type="radio" name="payment_method" value="UPI" checked> 📱 UPI</label>
+<label class="po"><input type="radio" name="payment_method" value="Bank Transfer"> 🏦 Bank Transfer</label>
+<label class="po"><input type="radio" name="payment_method" value="Cash"> 💵 Cash</label>
+</div>
+<div class="payinfo" id="payInfo"></div>
+<div id="txnBox"><label id="txnLabel" for="txn">Transaction reference (UTR)</label><input id="txn" name="txn_id" placeholder="Optional - enter after paying"></div>
+
+<div class="msg" id="msg" role="status"></div>
+<div class="invrow" id="paidBox" style="display:none"></div>
+<div style="display:flex;gap:10px;margin-top:14px"><button type="button" class="add" id="close" style="flex:1">Close</button><button class="go" style="flex:1;margin:0" id="send">Confirm</button><button type="button" class="add" id="invBtn" data-inv="view" style="flex:1;display:none">🧾 View / Print</button></div></form></dialog>
+<script>
+/* ===== PAYMENT SETTINGS: yahan apni details bharo ===== */
+var PAY={
+  upiId:'sy4453805@oksbi',            /* apna UPI ID */
+  upiName:'Shubham Yadav',        /* UPI par dikhne wala naam */
+  bank:{
+    name:'Ghar to Health',         /* account holder ka naam */
+    bankName:'state bank of india',          /* bank ka naam */
+    acc:'44213436889',              /* account number */
+    ifsc:'SBIN0009511'             /* IFSC code */
+  }
+};
+
+var all=[],cat='All',cart={},done=false,payOverride=null;
+try{cart=JSON.parse(localStorage.getItem('gth_cart')||'{}')}catch(e){}
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function inr(n){return '₹'+(Math.round(n*100)/100).toLocaleString('en-IN')}
+function save(){try{localStorage.setItem('gth_cart',JSON.stringify(cart))}catch(e){}}
+
+/* ===== AUTO ICON FROM SERVICE NAME =====
+   Order important hai: upar wale keyword pehle check hote hain.
+   Naya keyword jodna ho to bas ek line add karo, jaise ['gas','🔥'], */
+var ICONS=[
+  ['tyre','🛞'],['tire','🛞'],['wheel','🛞'],['alignment','🛞'],
+  ['polish','✨'],['wax','✨'],['interior','💺'],['seat','💺'],
+  ['engine','🔧'],['battery','🔋'],['inverter','🔋'],
+  ['washing machine','🧺'],['wash','🚿'],
+  ['mattress','🛏️'],['matress','🛏️'],['sofa','🛋️'],['carpet','🧶'],['curtain','🪟'],['window','🪟'],['glass','🪟'],
+  ['pest','🐜'],['termite','🐜'],['cockroach','🪳'],['rat','🐀'],
+  ['plumb','🚰'],['pipe','🚰'],['tap','🚰'],['leak','💧'],['tank','💧'],
+  ['waterproof','☔'],['water','💧'],
+  ['electric','⚡'],['wiring','⚡'],['switch','⚡'],['light','💡'],['fan','🌀'],
+  ['carpent','🔨'],['furniture','🪑'],['door','🚪'],['lock','🔒'],['wood','🪵'],
+  ['paint','🎨'],['wall','🧱'],['tile','🧱'],
+  ['ac','❄️'],['cooler','❄️'],['fridge','🧊'],['refrigerator','🧊'],
+  ['microwave','🍳'],['chimney','🍳'],['kitchen','🍳'],['geyser','♨️'],['tv','📺'],
+  ['bathroom','🚿'],['toilet','🚽'],
+  ['doctor','🧑‍⚕️'],['consult','🧑‍⚕️'],['medicine','💊'],['lab','🧪'],['test','🧪'],['check','💙'],
+  ['clean','🧽'],['car','🚗'],['bike','🏍️']
+];
+function autoIcon(name){
+  var words=String(name||'').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  var joined=words.join(' ');
+  for(var i=0;i<ICONS.length;i++){
+    var k=ICONS[i][0],hit;
+    if(k.indexOf(' ')>-1) hit=joined.indexOf(k)>-1;
+    else if(k.length<=3) hit=words.some(function(w){return w===k||w===k+'s'});
+    else hit=words.some(function(w){return w.indexOf(k)===0});
+    if(hit) return ICONS[i][1];
+  }
+  return '';
+}
+function svcIcon(s){return autoIcon(s.name)||s.icon||'🛠️'}
+
+function ic(c){
+  var s=all.find(function(x){return x.category===c&&x.icon});
+  return s?s.icon:'🛠️';
+}
+
+function chips(){
+  var cs=['All'];
+  all.forEach(function(s){if(cs.indexOf(s.category)<0)cs.push(s.category)});
+  $('chips').innerHTML=cs.map(function(c){
+    var n=c==='All'?all.length:all.filter(function(s){return String(s.category).trim().toLowerCase()===String(c).trim().toLowerCase()}).length;
+    return '<button class="chip'+(c===cat?' on':'')+'" data-c="'+esc(c)+'">'+(c==='All'?'🏠':ic(c))+' '+esc(c)+' <span class="cnt">'+n+'</span></button>';
+  }).join('');
+}
+
+var term='',sub='All';
+var SUB_ORDER=['Sofa & Carpet','Mattress Cleaning','Car Cleaning','Full Home Deep Clean','Bathroom & Kitchen','Water Tank Cleaning','Glass Cleaning'];
+var CAT_ALIAS={'ac & appliances':'Home Appliance','ac service':'Home Appliance','appliance repair':'Home Appliance','sofa cleaning':'Cleaning','mattress cleaning':'Cleaning','matress cleaning':'Cleaning','car cleaning':'Cleaning'};
+function sameCat(s){return cat==='All'||String(s.category).trim().toLowerCase()===String(cat).trim().toLowerCase()}
+function subOf(s){return String(s.sub||'General')}
+function subIcon(n){return /\bcar\b/i.test(n)?'🚗':(autoIcon(n)||'🧹')}
+/* Sub-category chips (folder -> files): Cleaning -> Sofa & Carpet, Mattress ... */
+function renderSubs(){
+  var box=$('subrow'),inCat=all.filter(sameCat),names=[];
+  inCat.forEach(function(s){if(names.indexOf(subOf(s))<0)names.push(subOf(s))});
+  if(cat==='All'||term.trim()||names.length<2){box.style.display='none';box.innerHTML='';if(names.length<2)sub='All';return}
+  if(sub!=='All'&&names.indexOf(sub)<0)sub='All';
+  names.sort(function(a,b){var x=SUB_ORDER.indexOf(a),y=SUB_ORDER.indexOf(b);return (x<0?99:x)-(y<0?99:y)});
+  var h='<button type="button" class="sc'+(sub==='All'?' on':'')+'" data-s="All"><span class="si2">✨</span>All Services <span class="cnt">'+inCat.length+'</span></button>';
+  names.forEach(function(n){
+    var c=inCat.filter(function(s){return subOf(s)===n}).length;
+    h+='<button type="button" class="sc'+(sub===n?' on':'')+'" data-s="'+esc(n)+'"><span class="si2">'+subIcon(n)+'</span>'+esc(n)+' <span class="cnt">'+c+'</span></button>';
+  });
+  box.innerHTML=h;box.style.display='flex';
+}
+function list(){
+  renderSubs();
+  var t=term.trim().toLowerCase();
+  var v=all.filter(function(s){
+    if(t){
+      return (String(s.name)+' '+String(s.description)+' '+String(s.category)).toLowerCase().indexOf(t)>-1;
+    }
+    return sameCat(s)&&(sub==='All'||subOf(s)===sub);
+  });
+  $('title').textContent=t?'Search results':(cat==='All'?'Our Services':cat+' Services'+(sub!=='All'?' › '+sub:''));
+  $('rc').textContent=t?(v.length+' service'+(v.length===1?'':'s')+' found for "'+term.trim()+'"'):'';
+  $('qx').style.display=term?'block':'none';
+  $('list').innerHTML=v.length?v.map(function(s){
+    return '<div class="card">'+(s.image?'<div class="ico photo"><img src="'+esc(s.image)+'" alt="'+esc(s.name)+'" loading="lazy" onerror="this.parentNode.className=\'ico\';this.parentNode.textContent=\''+esc(svcIcon(s))+'\'"></div>':'<div class="ico">'+esc(svcIcon(s))+'</div>')+'<div class="info"><h3>'+esc(s.name)+'</h3><p>'+esc(s.description)+'</p><small>⏱ '+esc(s.duration)+' · '+esc(s.category)+(s.sub&&s.sub!=='General'?' › '+esc(s.sub):'')+'</small><br><button class="det" data-det="'+esc(s.id)+'">Details</button></div><div class="price"><small>Starting at</small><b>'+inr(s.price)+'</b><button class="add" data-id="'+esc(s.id)+'">Add +</button></div></div>';
+  }).join(''):(t?'<p class="empty">No services found. Please try a different word.</p>':'<p class="empty">No services here yet.</p>');
+}
+$('q').addEventListener('input',function(){term=this.value;list()});
+$('qx').addEventListener('click',function(){$('q').value='';term='';list();$('q').focus()});
+
+function draw(){
+  var ids=Object.keys(cart).filter(function(id){return all.some(function(s){return s.id===id})}),sub=0,n=0;
+  $('lines').innerHTML=ids.length?ids.map(function(id){
+    var s=all.find(function(x){return x.id===id});sub+=s.price*cart[id];n+=cart[id];
+    return '<div class="line"><div><b>'+esc(s.name)+'</b><br>'+inr(s.price)+'</div><div class="qty"><button data-m="'+esc(id)+'">−</button>'+cart[id]+'<button data-p="'+esc(id)+'">+</button></div></div>';
+  }).join(''):'<p class="empty">Your cart is empty. Add a service to begin.</p>';
+  var t=calc();
+  $('sum').innerHTML=ids.length?'<div class="row"><span>Service subtotal</span><span>'+inr(t.sub)+'</span></div>'
+    +t.rows.map(function(r){return '<div class="row"><span>'+esc(r.label)+'</span><span>'+inr(r.amount)+'</span></div>'}).join('')
+    +'<div class="row tot"><span>Total Pay</span><span>'+inr(t.total)+'</span></div>':'';
+  $('go').disabled=!ids.length;$('go').textContent='Proceed to Book ('+n+') →';
+}
+
+function change(id,d){cart[id]=Math.min(10,(cart[id]||0)+d);if(cart[id]<=0)delete cart[id];save();draw()}
+
+/* ===== INVOICE ===== */
+var lastBk=null;
+try{lastBk=JSON.parse(localStorage.getItem('gth_last')||'null')}catch(e){}
+function showLast(){
+  var b=lastBk,bar=$('lastInv');
+  if(!b){bar.style.display='none';$('invBtn').style.display='none';return}
+  var h='🧾 Booking <b>'+esc(b.id)+'<\/b> <span class="ght-uid" style="color:#5b7690;font-size:13px"><\/span> ';
+  h+=(b.paid?'· ✅ Paid ':(b.payment==='Cash'?'· Pay cash after the service ':'· Payment confirmation pending '))+'<button type="button" class="add" data-inv="view">View / Print Invoice<\/button>';
+  bar.innerHTML=h;bar.style.display='flex';
+  $('invBtn').style.display=done?'block':'none';
+}
+function markPaid(){
+  if(!lastBk)return;
+  lastBk.paid=true;lastBk.paidAt=new Date().toISOString();
+  fetch('/api/orders/paid',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:lastBk.id,txn_id:lastBk.txn||''})}).catch(function(){});
+  try{localStorage.setItem('gth_last',JSON.stringify(lastBk))}catch(e){}
+  $('paidBox').style.display='none';
+  var m=$('msg');m.className='msg ok';m.textContent='Thank you! Payment noted. You can now view or print your invoice.';
+  showLast();
+}
+/* Opens the shared invoice.html template with this booking's data (items, charges, total change with the services booked) */
+function openInv(){
+  if(!lastBk)return;
+  var b=lastBk,inv;
+  if(b.invoice&&b.invoice.items){inv=JSON.parse(JSON.stringify(b.invoice))}
+  else{
+    inv={
+      category:'home',
+      invoiceNo:b.invoiceNo||('INV-'+b.id),
+      date:b.date,
+      bookingId:b.id,
+      paymentMode:b.payment,
+      client:{name:b.name,mobile:b.phone,address:b.address},
+      service:b.service||'Home Maintenance',
+      schedule:b.prefDate?('Preferred date: '+b.prefDate):'',
+      items:b.items.map(function(i){return{label:i.name,qty:i.qty,rate:i.price}}),
+      charges:b.charges,
+      total:b.total
+    };
+  }
+  inv.status=b.paid?'PAID':'PENDING';
+  if(b.txn&&!inv.paymentId)inv.paymentId=b.txn;
+  var raw=JSON.stringify(inv);
+  try{sessionStorage.setItem('gth_invoice',raw)}catch(e){}
+  try{localStorage.setItem('gth_invoice',raw)}catch(e){}
+  location.href='invoice.html';
+}
+showLast();
+
+/* ===== PAYMENT SECTION ===== */
+function r2(n){return Math.round(n*100)/100}
+/* Server ke charges ke hisaab se breakdown: GST, Platform fee, extra charges alag lines mein.
+   Jis service par charges set nahi, us par purana 3% "Convenience & safety" lagta hai. */
+function calc(){
+  var sub=0,legacy=0,plat=0,gst={},gstOrder=[],ex={},exOrder=[];
+  Object.keys(cart).forEach(function(id){
+    var s=all.find(function(x){return x.id===id});if(!s)return;
+    var q=cart[id],base=s.price*q;sub+=base;
+    var c=s.charges;
+    if(!c){legacy+=base*0.03;return}
+    var g=Number(c.gstPercent)||0;
+    if(g){if(!(g in gst)){gst[g]=0;gstOrder.push(g)}gst[g]+=base*g/100}
+    plat+=(Number(c.platformFee)||0)*q;
+    (c.extras||[]).forEach(function(e){
+      var a=(Number(e.amount)||0)*q;if(!a)return;
+      if(!(e.label in ex)){ex[e.label]=0;exOrder.push(e.label)}ex[e.label]+=a;
+    });
+  });
+  var rows=[];
+  gstOrder.forEach(function(g){rows.push({label:'GST ('+g+'%)',amount:r2(gst[g])})});
+  if(plat)rows.push({label:'Platform fee',amount:r2(plat)});
+  exOrder.forEach(function(l){rows.push({label:l,amount:r2(ex[l])})});
+  if(legacy)rows.push({label:'Convenience & safety',amount:r2(legacy)});
+  var fee=rows.reduce(function(a,r){return a+r.amount},0);
+  return{sub:sub,rows:rows,fee:r2(fee),total:r2(sub+fee)};
+}
+function totals(){return calc()}
+function upiLink(amount){
+  return 'upi://pay?pa='+encodeURIComponent(PAY.upiId)+'&pn='+encodeURIComponent(PAY.upiName)+'&am='+Number(amount).toFixed(2)+'&cu=INR&tn='+encodeURIComponent('Ghar to Health booking');
+}
+function isMobile(){return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)}
+function renderPay(){
+  var m=document.querySelector('input[name="payment_method"]:checked').value;
+  var t=(payOverride!=null?payOverride:totals().total),h='';
+  if(m==='UPI'){
+    h='<b>Pay '+inr(t)+' to this UPI ID:</b><br>'+esc(PAY.upiId)+' <button type="button" class="cp" data-copy="'+esc(PAY.upiId)+'">Copy</button><br>'
+     +'<img class="qr" src="upi-qr.png" alt="UPI QR code" onerror="this.style.display=\'none\'">'
+     +'<small>Tap "Proceed to Pay" to save your booking and open your UPI app (GPay / PhonePe / Paytm).</small>';
+  }else if(m==='Bank Transfer'){
+    h='<b>Transfer '+inr(t)+' to:</b><br>'
+     +'Account name: '+esc(PAY.bank.name)+'<br>'
+     +'Bank: '+esc(PAY.bank.bankName)+'<br>'
+     +'Account no: '+esc(PAY.bank.acc)+' <button type="button" class="cp" data-copy="'+esc(PAY.bank.acc)+'">Copy</button><br>'
+     +'IFSC: '+esc(PAY.bank.ifsc)+'<br>'
+     +'<small>After transferring, enter the transaction reference (UTR) below.</small>';
+  }else{
+    h='<b>Cash payment</b><br>Please pay <b>'+inr(t)+'</b> in cash to our professional after the service is completed.';
+  }
+  $('payInfo').innerHTML=h;
+  /* UPI me UTR box nahi: payment booking save hone ke baad UPI app me hota hai */
+  $('txnBox').style.display=(m==='Bank Transfer')?'block':'none';
+  $('txn').disabled=(m!=='Bank Transfer');
+  $('txnLabel').textContent='Bank transfer reference / UTR';
+  $('send').textContent=(m==='UPI'&&t>0)?'Proceed to Pay '+inr(t)+' →':'Confirm';
+}
+
+document.addEventListener('click',function(e){var t=e.target;
+  var cb=t.closest&&t.closest('[data-c]'),sb=t.closest&&t.closest('[data-s]');
+  if(cb){cat=cb.dataset.c;sub='All';term='';$('q').value='';chips();list()}
+  if(sb){sub=sb.dataset.s;list()}
+  if(t.dataset.det)openDet(t.dataset.det);
+  if(t.dataset.id){var aid=t.dataset.id;requireLogin(function(){change(aid,1)})}
+  if(t.dataset.p)change(t.dataset.p,1);
+  if(t.dataset.m)change(t.dataset.m,-1);
+  if(t.dataset.inv)openInv();
+  if(t.dataset.paid)markPaid();
+  if(t.dataset.copy){
+    if(navigator.clipboard)navigator.clipboard.writeText(t.dataset.copy);
+    t.textContent='Copied ✓';
+  }
+});
+document.addEventListener('change',function(e){
+  if(e.target.name==='payment_method')renderPay();
+});
+
+$('go').onclick=function(){requireLogin(function(){done=false;payOverride=null;$('paidBox').style.display='none';$('invBtn').style.display='none';$('send').disabled=false;$('msg').textContent='';renderPay();$('dlg').showModal()})};
+$('close').onclick=function(){$('dlg').close()};
+
+$('f').onsubmit=function(e){
+  e.preventDefault();
+  var d={};new FormData($('f')).forEach(function(v,k){d[k]=v});
+  d.items=Object.keys(cart).map(function(id){return{id:id,qty:cart[id]}});
+  var amount=totals().total; /* cart clear hone se pehle amount yaad rakho */
+  $('send').disabled=true;$('msg').className='msg';$('msg').textContent='Sending...';
+  fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+  .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+  .then(function(x){
+    if(x.ok){
+      done=true;
+      var base=x.j.message+' ID: '+x.j.id+' · Total '+inr(x.j.total)+' · Payment: '+(d.payment_method||'');
+      var upi=(d.payment_method==='UPI');
+      var link=upiLink(x.j.total||amount);
+      var tt=totals(),srv=x.j.total||tt.total;
+      var cats=[];Object.keys(cart).forEach(function(id){var sv=all.find(function(z){return z.id===id});if(sv&&sv.category&&cats.indexOf(sv.category)<0)cats.push(sv.category)});
+      lastBk={id:x.j.id,invoiceNo:x.j.invoiceNo||'',date:new Date().toISOString(),prefDate:d.date||'',name:d.name,phone:d.phone,address:d.address,payment:d.payment_method||'',txn:d.txn_id||'',
+        service:cats.length?cats.join(', '):'Home Maintenance',
+        items:Object.keys(cart).map(function(id){var sv=all.find(function(z){return z.id===id});return{name:sv?sv.name:id,qty:cart[id],price:sv?sv.price:0}}),
+        charges:tt.rows.map(function(r){return{label:r.label,amount:r.amount}}),sub:tt.sub,total:srv,paid:false};
+      if(Array.isArray(x.j.charges)&&x.j.charges.length)lastBk.charges=x.j.charges.map(function(c){return{label:c.label,amount:c.amount}});
+      if(x.j.invoice&&x.j.invoice.items)lastBk.invoice=x.j.invoice;
+      var chSum=lastBk.charges.reduce(function(a,c){return a+(Number(c.amount)||0)},0);
+      var gap=Math.round((srv-(lastBk.sub+chSum))*100)/100;
+      if(Math.abs(gap)>=0.01)lastBk.charges.push({label:'Other charges',amount:gap});
+      try{localStorage.setItem('gth_last',JSON.stringify(lastBk))}catch(e){}
+      payOverride=srv;renderPay();
+      $('paidBox').style.display='none';
+      $('send').textContent='Booking saved ✓';showLast();
+      cart={};save();draw();$('f').reset();
+      $('msg').className='msg ok';
+      if(upi){
+        if(isMobile()){
+          $('msg').innerHTML=esc(base)+'<br>Opening your UPI app... <a class="upibtn" href="'+esc(link)+'">📱 Tap here if the app does not open</a>';
+          window.location.href=link; /* seedha UPI app par */
+        }else{
+          $('msg').innerHTML=esc(base)+'<br>Please pay <b>'+esc(inr(x.j.total||amount))+'</b> from your phone\'s UPI app to this UPI ID: <b>'+esc(PAY.upiId)+'</b> (or scan the QR code above).';
+        }
+      }else{
+        $('msg').textContent=base;
+      }
+    }
+    else{$('msg').className='msg err';$('msg').textContent=x.j.error||'Something went wrong.'}
+  })
+  .catch(function(){$('msg').className='msg err';$('msg').textContent='Cannot reach the server.'})
+  .then(function(){$('send').disabled=done});
+};
+
+/* ===== SERVICE DETAILS POPUP ===== */
+var detId='';
+function openDet(id){
+  var s=all.find(function(x){return x.id===id});if(!s)return;
+  detId=id;
+  $('dtName').textContent=s.name;
+  $('dtMeta').textContent='⏱ '+(s.duration||'')+' · '+(s.category||'')+(s.sub&&s.sub!=='General'?' › '+s.sub:'');
+  var inc=Array.isArray(s.included)?s.included.filter(Boolean):[];
+  $('dtIncWrap').style.display=inc.length?'block':'none';
+  $('dtInc').innerHTML=inc.map(function(x){return '<li>'+esc(x)+'</li>'}).join('');
+  $('detDlg').showModal();
+}
+$('dtX').onclick=function(){$('detDlg').close()};
+$('dtAdd').onclick=function(){var id=detId;$('detDlg').close();requireLogin(function(){change(id,1)})};
+
+fetch('/api/catalog').then(function(r){return r.json()}).then(function(d){
+  all=d;
+  var q=new URLSearchParams(location.search).get('cat');
+  if(q)cat=CAT_ALIAS[q.trim().toLowerCase()]||q;
+  chips();list();draw();
+}).catch(function(){
+  $('list').innerHTML='<p class="empty">Could not load services. Open this page through the server (localhost:3000/services.html).</p>';
+});
+
+/* ===== CURRENT LOCATION ===== */
+$('loc').onclick=function(){
+  var btn=this,ta=document.querySelector('#f [name=address]'),m=$('locMsg');
+  function say(t,bad){m.textContent=t;m.style.color=bad?'#c62828':'#1b7f3b'}
+  function reset(){btn.disabled=false;btn.textContent='📍 Use my current location'}
+  if(!navigator.geolocation){say('Your browser does not support location. Please type your address.',1);return}
+  if(!window.isSecureContext){say('Location works only on a secure (https) page. Please type your address.',1);return}
+  btn.disabled=true;btn.textContent='📍 Getting your location...';say('');
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var la=pos.coords.latitude,lo=pos.coords.longitude;
+    var link='https://www.google.com/maps/search/?api=1&query='+la.toFixed(6)+','+lo.toFixed(6);
+    function put(addr){
+      if(addr.length>170)addr=addr.slice(0,170).replace(/[,\s]+\S*$/,'');
+      ta.value=(addr?addr+'\n':'')+'Map: '+link;
+      reset();
+      say(addr?'Location added. Please add your house/flat number and a landmark.':'Map location added. Please add your house/flat number and a landmark.');
+    }
+    fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=en&lat='+la+'&lon='+lo)
+      .then(function(r){return r.json()})
+      .then(function(j){put(j&&j.display_name?j.display_name:'')})
+      .catch(function(){put('')});
+  },function(err){
+    reset();
+    if(err&&err.code===1)say('Location access is blocked. Tap the lock icon (🔒) next to the website address, set Location to "Allow", reload the page and try again. Or type your address manually.',1);
+    else if(err&&err.code===3)say('Getting your location took too long. Please try again or type your address.',1);
+    else say('Could not get your location. Please turn on GPS/location on your device, or type your address.',1);
+  },{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+};
+</script><script>
+(function(){
+  function isField(t){return t&&t.closest&&t.closest('input,textarea,select')}
+  document.addEventListener('selectstart',function(e){if(!isField(e.target))e.preventDefault()});
+  document.addEventListener('contextmenu',function(e){if(!isField(e.target))e.preventDefault()});
+  document.addEventListener('selectionchange',function(){
+    var a=document.activeElement;if(a&&/^(INPUT|TEXTAREA)$/.test(a.tagName))return;
+    var s=window.getSelection&&window.getSelection();if(s&&!s.isCollapsed)s.removeAllRanges();
+  });
+})();
+</script><script>
+/* ===== CUSTOMER LOGIN (phone + OTP) ===== */
+var pendingAfter=null,lPhone='';
+function lMsg(t,bad){var m=$('lMsg');m.textContent=t;m.className='msg '+(bad?'err':'ok')}
+function lStep(n){$('lStep1').style.display=n===1?'block':'none';$('lStep2').style.display=n===2?'block':'none'}
+function post(url,body){return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})}
+function checkLogin(){return fetch('/api/auth/me',{credentials:'same-origin'}).then(function(r){return r.ok}).catch(function(){return false})}
+function requireLogin(fn){checkLogin().then(function(ok){if(ok)fn();else{pendingAfter=fn;lStep(1);lMsg('');$('ldlg').showModal()}})}
+$('lSend').onclick=function(){
+  lPhone=$('lPhone').value.replace(/\D/g,'').slice(-10);
+  if(!/^[6-9]\d{9}$/.test(lPhone)){lMsg('Please enter a valid 10-digit mobile number.',1);return}
+  var btn=$('lSend');btn.disabled=true;lMsg('Sending OTP...');
+  post('/api/auth/send-otp',{name:$('lName').value,phone:lPhone}).then(function(x){
+    btn.disabled=false;
+    if(!x.ok){lMsg(x.j.error||'Could not send OTP.',1);return}
+    lStep(2);$('lOtp').value='';lMsg('OTP sent. Please enter it within 5 minutes.');$('lOtp').focus();
+  }).catch(function(){btn.disabled=false;lMsg('Cannot reach the server. Please try again.',1)});
+};
+$('lVerify').onclick=function(){
+  var otp=$('lOtp').value.replace(/\D/g,'');
+  if(otp.length!==6){lMsg('Please enter the 6-digit OTP.',1);return}
+  var btn=$('lVerify');btn.disabled=true;
+  post('/api/auth/verify-otp',{phone:lPhone,otp:otp}).then(function(x){
+    btn.disabled=false;
+    if(!x.ok){lMsg(x.j.error||'Verification failed.',1);return}
+    $('ldlg').close();
+    var fn=pendingAfter;pendingAfter=null;if(fn)fn();
+  }).catch(function(){btn.disabled=false;lMsg('Cannot reach the server. Please try again.',1)});
+};
+$('lBack').onclick=function(){lStep(1);lMsg('')};
+$('lCancel').onclick=function(){pendingAfter=null;$('ldlg').close()};
+</script>
+<script src="login.js"></script>
+<script src="protect.js"></script>
+</body></html>

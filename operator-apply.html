@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Air Ambulance Operator Application - Ghar to Health</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eef5fb;color:#0a2a4d;font:15px/1.5 "Segoe UI",system-ui,Arial,sans-serif}
+  .hd{background:#fff;border-bottom:1px solid #d9ebf8}
+  .hdin{max-width:900px;margin:0 auto;padding:14px 16px}
+  .bn{font-weight:800;font-size:18px;color:#0a4fa8}
+  main{max-width:900px;margin:0 auto;padding:20px 14px 70px}
+  h1{font-size:24px;margin:6px 0 4px;color:#0a4fa8}
+  p.sub{margin:0 0 16px;color:#5b7690}
+  .card{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:16px;margin-top:14px}
+  .card h2{font-size:17px;margin:0 0 4px;color:#0a396b}
+  .card .hint{margin:0 0 12px;color:#5b7690;font-size:13px}
+  label{display:block;font-size:12.5px;font-weight:600;color:#375775;margin-bottom:3px}
+  input,select{width:100%;padding:9px 10px;border:1.5px solid #cfe0ee;border-radius:10px;font:inherit;color:#12365d;background:#fff}
+  input[type=checkbox]{width:auto}
+  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+  .note{font-size:12.5px;color:#5b7690;margin:4px 0 0}
+  button{font:600 15px "Segoe UI",Arial,sans-serif;border-radius:24px;padding:11px 22px;cursor:pointer;border:1.5px solid #087cf2;background:#087cf2;color:#fff}
+  button:disabled{opacity:.55;cursor:default}
+  #msg{margin-top:12px;font-weight:600;min-height:22px}.ok{color:#1b7f3b}.err{color:#b3261e}
+  .ac{position:relative}
+  .aclist{display:none;position:absolute;left:0;right:0;top:100%;z-index:40;background:#fff;border:1.5px solid #cfe0ee;border-radius:10px;max-height:220px;overflow:auto;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+  .aclist div{padding:8px 10px;cursor:pointer;border-bottom:1px solid #eef3f8;font-size:13.5px}
+  .dr{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:8px 0;border-top:1px solid #edf3f9}
+  .dn{flex:1 1 220px;font-weight:600;font-size:13.5px}
+  .dr input[type=file]{flex:1 1 180px;max-width:260px;width:auto;padding:6px;font-size:12.5px}
+  .dr input[type=date]{width:auto;padding:7px 9px}
+  .agr{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;margin:4px 0;padding:10px 12px;background:#fff8e6;border:1px solid #f3dca0;border-radius:10px}
+  .done{background:#e3f6e9;border:1px solid #9fd7b1;border-radius:14px;padding:18px;margin-top:14px}
+  .done h2{margin:0 0 6px;color:#1b6b3a}
+  @media(max-width:640px){.g3,.g2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="hdin"><span class="bn">Ghar to Health &middot; Air Ambulance Operator Application</span></div></header>
+<main>
+  <h1>Join as an air ambulance operator</h1>
+  <p class="sub">Fill in your company, aircraft, rates and documents. Our team will check everything and then contact you. You start getting bookings only after approval.</p>
+
+  <div id="formWrap">
+    <div class="card">
+      <h2>1. Company and contact</h2>
+      <div class="g3">
+        <div><label for="f_name">Company / operator name</label><input id="f_name" maxlength="60" autocomplete="organization"></div>
+        <div><label for="f_person">Contact person</label><input id="f_person" maxlength="60" autocomplete="name"></div>
+        <div><label for="f_phone">Mobile number (10 digits)</label><input id="f_phone" maxlength="15" inputmode="tel" autocomplete="tel"></div>
+      </div>
+      <div class="g3"><div><label for="f_email">Email (optional)</label><input id="f_email" maxlength="80" type="email" autocomplete="email"></div><div></div><div></div></div>
+    </div>
+
+    <div class="card">
+      <h2>2. Aircraft</h2>
+      <div class="g3">
+        <div><label for="f_type">Aircraft type</label><select id="f_type"><option value="heli">Helicopter</option><option value="charter">Charter aircraft (jet / turboprop)</option></select></div>
+        <div><label for="f_reg">Aircraft registration number</label><input id="f_reg" maxlength="12" placeholder="e.g. VT-ABC" autocomplete="off"><small class="note" id="spd_h"></small></div>
+        <div class="ac"><label for="f_base">Base airport (where the aircraft is parked)</label><input id="f_base" autocomplete="off" placeholder="e.g. Raipur Airport"><div class="aclist" id="bl"></div><small class="note" id="bs">Type and pick from the list.</small></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3. Your rates</h2>
+      <p class="hint">Write the rates you charge. Our team may talk to you before approving them.</p>
+      <div class="g3">
+        <div><label for="r_hr">Hourly rate (&#8377; per flight hour)</label><input id="r_hr" type="number" min="0" step="any"></div>
+        <div><label for="r_min">Minimum billable flight hours</label><input id="r_min" type="number" min="0" step="any" value="1"></div>
+        <div><label for="r_land">Landing fee per landing (&#8377;)</label><input id="r_land" type="number" min="0" step="any" value="0"></div>
+      </div>
+      <div class="g3">
+        <div><label for="r_spd">Average speed (km/h)</label><input id="r_spd" type="number" min="0" step="any" value="200"></div>
+        <div><label for="r_pos">Empty leg, base to pickup (% of hourly rate)</label><input id="r_pos" type="number" min="0" max="100" step="any" value="100"></div>
+        <div><label for="r_ret">Empty return leg (% of hourly rate)</label><input id="r_ret" type="number" min="0" max="100" step="any" value="100"></div>
+      </div>
+      <p class="note">Empty leg = the flight when the aircraft has no patient: going to the pickup and coming back. 100 = full hourly rate, 50 = half, 0 = you do not charge for it.</p>
+    </div>
+
+    <div class="card">
+      <h2>4. Aircraft documents</h2>
+      <p class="hint">Upload a photo or PDF (under 2.4 MB) and the expiry date of each document.</p>
+      <div id="docs"></div>
+    </div>
+
+    <div class="card">
+      <h2>5. Owner identity</h2>
+      <div class="g2">
+        <div><label for="f_aad">Aadhaar photo (JPG / PNG)</label><input id="f_aad" type="file" accept="image/*"></div>
+        <div><label for="f_pan">PAN photo (JPG / PNG)</label><input id="f_pan" type="file" accept="image/*"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="agr"><input type="checkbox" id="f_ag"><span>I declare that all the details and documents above are genuine and valid, and I agree to Ghar to Health's vendor agreement.</span></label>
+      <div style="margin-top:12px"><button id="send">Submit application</button></div>
+      <div id="msg" role="status"></div>
+    </div>
+  </div>
+
+  <div class="done" id="done" hidden>
+    <h2>Application received</h2>
+    <p style="margin:0">Your application number is <b id="doneId"></b>. Please keep it. Our team will check your details and documents and contact you on your mobile number.</p>
+  </div>
+</main>
+
+<script>
+var $ = function (s) { return document.querySelector(s); };
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function say(t, ok){var m=$('#msg');m.textContent=t;m.className=ok?'ok':'err';}
+function ymd(){return new Date(Date.now()+19800000).toISOString().slice(0,10);}
+function post(u, b){
+  return fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)})
+    .then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok)throw new Error(j.error||'Something went wrong. Please try again.');return j;});});
+}
+
+/* ===== documents list ===== */
+var DOCS = [['aoc','DGCA Permit (AOC/NSOP)'],['cor','Aircraft Registration Certificate'],['coa','Airworthiness Certificate'],['ins','Aircraft Insurance'],['med','Medical Team Registration (Doctor / Paramedic)']];
+$('#docs').innerHTML = DOCS.map(function(d){
+  return '<div class="dr"><span class="dn">'+esc(d[1])+'</span><input type="file" class="df" data-k="'+d[0]+'" accept="image/*,application/pdf" aria-label="'+esc(d[1])+' file"><input type="date" class="dx" data-k="'+d[0]+'" title="Expiry date" aria-label="'+esc(d[1])+' expiry date"></div>';
+}).join('');
+
+/* ===== files ===== */
+function isPdf(f){return /pdf/i.test(f.type)||/\.pdf$/i.test(f.name);}
+function shrink(f){ return new Promise(function(ok,no){ var r=new FileReader(); r.onerror=no; r.onload=function(){ var im=new Image(); im.onerror=function(){no(new Error('That file is not a valid image.'));};
+  im.onload=function(){ var sc=Math.min(1,1400/Math.max(im.width,im.height)), c=document.createElement('canvas'); c.width=Math.round(im.width*sc); c.height=Math.round(im.height*sc);
+    var x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height); ok(c.toDataURL('image/jpeg',0.8)); }; im.src=r.result; }; r.readAsDataURL(f); }); }
+function fileData(f){ if(isPdf(f)) return new Promise(function(ok,no){var r=new FileReader();r.onload=function(){ok(r.result);};r.onerror=no;r.readAsDataURL(f);}); return shrink(f); }
+
+/* ===== base airport search (OpenStreetMap / Photon) ===== */
+var BASE = null, acT = null, acSeq = 0;
+function pickBase(label, lat, lng){ BASE = {name:label, lat:+lat, lng:+lng}; $('#f_base').value = label; $('#bl').style.display = 'none'; $('#bs').textContent = 'Location set.'; }
+$('#f_base').addEventListener('input', function(){
+  var q = this.value.trim(); BASE = null;
+  if (/^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(q)) { var m = q.split(','); pickBase(q, +m[0], +m[1]); return; }
+  $('#bs').textContent = 'Type and pick from the list.'; clearTimeout(acT);
+  if (q.length < 2) { $('#bl').style.display = 'none'; return; }
+  acT = setTimeout(function(){
+    var my = ++acSeq; $('#bs').textContent = 'Searching...';
+    fetch('https://photon.komoot.io/api/?limit=8&osm_tag=aeroway:aerodrome&q=' + encodeURIComponent(q)).then(function(r){return r.json();}).then(function(d){
+      if (my !== acSeq) return; var out = [];
+      (d.features||[]).forEach(function(f){ var p=f.properties||{}, c=f.geometry&&f.geometry.coordinates; if(!p.name||!c) return;
+        out.push({label:[p.name,p.street,p.city||p.county,p.state,p.country].filter(function(v,i,a){return v&&a.indexOf(v)===i;}).join(', '),lat:c[1],lng:c[0]}); });
+      var l = $('#bl'); l._items = out; l.innerHTML = out.map(function(x,i){return '<div data-j="'+i+'">'+esc(x.label)+'</div>';}).join('');
+      l.style.display = out.length ? 'block' : 'none';
+      $('#bs').textContent = out.length ? 'Select from the list.' : 'Nothing found. Try another name or paste coordinates like 21.1804, 81.7388.';
+    }).catch(function(){ if (my===acSeq) $('#bs').textContent = 'Search not available. Paste coordinates like 21.1804, 81.7388.'; });
+  }, 300);
+});
+document.addEventListener('mousedown', function(e){
+  var it = e.target.closest && e.target.closest('#bl > div');
+  if (it) { e.preventDefault(); var x = $('#bl')._items[+it.dataset.j]; pickBase(x.label, x.lat, x.lng); }
+  else if (e.target.id !== 'f_base') $('#bl').style.display = 'none';
+});
+
+/* ===== speed: registration -> model -> typical cruise speed (km/h, approximate) ===== */
+var SPD = { B407:240,B06:215,B206:215,B412:225,B429:250,B105:240,EC35:250,EC45:245,EC30:230,EC25:260,A109:285,A119:250,A139:290,A169:290,AS50:230,AS55:250,AS65:270,S76:270,H160:295,B505:210,
+  C525:700,C25A:740,C25B:770,C25C:800,C510:640,C550:680,C560:730,C56X:800,C680:850,LJ35:750,LJ45:780,LJ55:790,LJ60:800,H25B:780,E50P:720,E55P:830,F2TH:830,GLF4:850,CL60:850,BE40:780,PC24:740,BE20:540,BE30:550,B350:560,PC12:500,C208:340 };
+var spT = null, spSeq = 0;
+$('#f_reg').addEventListener('input', function(){
+  this.value = this.value.toUpperCase(); var reg = this.value.trim(); clearTimeout(spT); $('#spd_h').textContent = '';
+  if (!/^[A-Z0-9]{1,2}-?[A-Z0-9]{3,5}$/.test(reg) || reg.replace('-','').length < 5) return;
+  spT = setTimeout(function(){
+    var my = ++spSeq;
+    fetch('https://api.adsbdb.com/v0/aircraft/' + encodeURIComponent(reg)).then(function(r){return r.json();}).then(function(d){
+      if (my !== spSeq) return; var a = d && d.response && d.response.aircraft, v = a && SPD[String(a.icao_type||'').toUpperCase()];
+      if (v) { $('#r_spd').value = v; $('#spd_h').textContent = 'Found ' + [a.manufacturer, a.type].filter(Boolean).join(' ') + '. Speed set to ' + v + ' km/h. Change it if needed.'; }
+    }).catch(function(){});
+  }, 700);
+});
+
+/* ===== submit ===== */
+var APP = null, SENT = {}, busy = false;
+function num(id){ var v = $(id).value; return v === '' ? NaN : Number(v); }
+function collect(){
+  var o = { name:$('#f_name').value.trim(), person:$('#f_person').value.trim(), phone:$('#f_phone').value.replace(/[\s-]/g,''), email:$('#f_email').value.trim(),
+    aircraft:$('#f_type').value, reg:$('#f_reg').value.trim().toUpperCase() };
+  if (o.name.length < 2) return {err:'Enter the company / operator name.'};
+  if (o.person.length < 2) return {err:'Enter the contact person name.'};
+  if (!/^(\+91)?[6-9]\d{9}$/.test(o.phone)) return {err:'Enter a valid 10-digit mobile number.'};
+  if (o.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.email)) return {err:'The email address does not look right.'};
+  if (o.reg.length < 4) return {err:'Enter the aircraft registration number.'};
+  if (!BASE) return {err:'Pick the base airport from the list (or paste coordinates).'};
+  var hr = num('#r_hr'), mn = num('#r_min'), ld = num('#r_land'), sp = num('#r_spd'), ps = num('#r_pos'), rt = num('#r_ret');
+  if (!(hr > 0)) return {err:'Enter your hourly rate.'};
+  if (!(mn > 0)) return {err:'Enter the minimum billable flight hours.'};
+  if (!(ld >= 0)) return {err:'Enter the landing fee (0 if you do not charge one).'};
+  if (!(sp > 0)) return {err:'Enter the average speed.'};
+  if (!(ps >= 0 && ps <= 100) || !(rt >= 0 && rt <= 100)) return {err:'Empty leg percentages must be between 0 and 100.'};
+  var t = ymd(), docs = [];
+  for (var i = 0; i < DOCS.length; i++) {
+    var k = DOCS[i][0], f = document.querySelector('.df[data-k="'+k+'"]').files[0], x = document.querySelector('.dx[data-k="'+k+'"]').value;
+    if (!f && !SENT[k]) return {err:DOCS[i][1] + ': choose the file.'};
+    if (!x) return {err:DOCS[i][1] + ': enter the expiry date.'};
+    if (x < t) return {err:DOCS[i][1] + ': the expiry date is in the past.'};
+    if (f && isPdf(f) && f.size > 2.4e6) return {err:DOCS[i][1] + ': PDF must be under 2.4 MB.'};
+    docs.push({key:k, name:DOCS[i][1], f:f, x:x});
+  }
+  var aad = $('#f_aad').files[0], pan = $('#f_pan').files[0];
+  if (!APP && (!aad || !pan)) return {err:'Aadhaar and PAN photos are required.'};
+  if (!$('#f_ag').checked) return {err:'Tick the box to confirm the declaration.'};
+  o.base = BASE; o.rates = {hourlyRate:hr, minHours:mn, landingFee:ld, avgSpeedKmh:sp, positioningPct:ps, returnPct:rt}; o.declared = true;
+  return {data:o, docs:docs, aad:aad, pan:pan};
+}
+$('#send').addEventListener('click', function(){
+  if (busy) return; var c = collect(); if (c.err) { say(c.err); return; }
+  busy = true; $('#send').disabled = true; say('Sending your application...', true);
+  var first = APP ? Promise.resolve() : Promise.all([shrink(c.aad), shrink(c.pan)]).then(function(im){
+    c.data.aadhaar = im[0]; c.data.pan = im[1]; return post('/api/air/operator-apply', c.data);
+  }).then(function(r){ if (!r || !r.id) throw new Error('The server did not return an application number. Please try again.'); APP = {id:r.id, token:r.token}; });
+  var p = first;
+  c.docs.forEach(function(d){ p = p.then(function(){
+    if (SENT[d.key]) return;
+    say('Uploading ' + d.name + '...', true);
+    return fileData(d.f).then(function(data){ return post('/api/air/operator-apply-doc', {id:APP.id, token:APP.token, key:d.key, expiry:d.x, file:data}); })
+      .then(function(){ SENT[d.key] = true; }).catch(function(e){ throw new Error(d.name + ': ' + e.message); });
+  }); });
+  p.then(function(){ $('#formWrap').hidden = true; $('#doneId').textContent = APP.id; $('#done').hidden = false; window.scrollTo(0, 0); })
+   .catch(function(e){ busy = false; $('#send').disabled = false; say(e.message + (APP ? ' Your details are saved (application ' + APP.id + '). Press Submit again to retry the missing files.' : '')); });
+});
+</script>
+</body>
+</html>

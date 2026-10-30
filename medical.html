@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Services | Ghar to Health</title>
+<link rel="icon" href="logo.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f7fbff;color:#12365d;line-height:1.5;padding-bottom:90px}
+[hidden]{display:none!important}
+a{text-decoration:none;color:inherit}button,select,input,textarea{font-family:inherit}
+:focus-visible{outline:3px solid #087cf2;outline-offset:2px}
+.wrap{width:92%;max-width:1100px;margin:auto}
+.hd{background:#fff;border-bottom:1px solid #e3edf6;position:sticky;top:0;z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:66px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;color:#0758ad;font-size:18px}
+.logo img{height:42px;width:auto;display:block}
+.back{font-size:13px;font-weight:700;color:#0875df}
+.top{background:linear-gradient(110deg,#e8f8ff,#cceeff 55%,#a8defb);padding:34px 0 30px;border-radius:0 0 30px 30px}
+.top h1{font-size:34px;color:#07213f;line-height:1.15}
+.top h1 span{color:#087cf2}
+.top p{color:#496981;max-width:560px;margin-top:6px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 20px}
+.tabs button{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:30px;border:1px solid #cfe0ee;background:#fff;font-weight:700;font-size:14px;color:#375775;cursor:pointer}
+.tabs button.on{background:#087cf2;border-color:#087cf2;color:#fff}
+.lead{color:#5b7690;margin-bottom:16px;max-width:680px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.item{position:relative;text-align:left;background:#fff;border:1.5px solid #d9ebf8;border-radius:16px;padding:16px;cursor:pointer;transition:.2s;font-size:inherit;color:inherit}
+.item:hover{border-color:#087cf2}
+.pic{display:block;width:100%;height:160px;object-fit:cover;border-radius:10px;margin-bottom:10px;background:#eaf4fd}
+.item.on{border-color:#087cf2;background:#f1f8ff;box-shadow:0 0 0 3px rgba(8,124,242,.15)}
+.item b{display:block;font-size:15px;color:#0a396b;padding-right:26px}
+.item small{display:block;color:#6c8299;font-size:12.5px;margin-top:3px}
+.item .pr{display:block;margin-top:10px;font-weight:800;color:#087cf2;font-size:16px}
+.item ul{list-style:none;margin-top:8px;display:grid;gap:3px;font-size:12.5px;color:#375775}
+.item li::before{content:"✓";color:#087cf2;font-weight:800;margin-right:6px}
+.item .tick{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;border:1.5px solid #bcd4e8;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:800;background:#fff}
+.item.on .tick{background:#087cf2;border-color:#087cf2}
+.box{background:#fff;border:1px solid #d9ebf8;border-radius:16px;padding:18px;margin-top:16px}
+.box h3{font-size:15px;color:#0a396b;margin-bottom:10px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.how div{background:#eaf4ff;border-radius:14px;padding:14px;font-size:13px;color:#375775}
+.how b{display:block;color:#0a396b;margin-bottom:2px}
+label{display:block;font-size:12px;font-weight:700;color:#375775;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid #cfe0ee;border-radius:12px;font-size:14px;color:#12365d;background:#fff}
+textarea{resize:vertical}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #d9ebf8;box-shadow:0 -8px 24px rgba(12,89,145,.1);z-index:60;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px))}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.bar small{display:block;color:#6c8299;font-size:12px}
+.bar b{font-size:18px;color:#0a396b}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:30px;font-weight:700;font-size:14px;border:none;cursor:pointer;background:linear-gradient(135deg,#087ff5,#0564cf);color:#fff;box-shadow:0 10px 22px rgba(8,124,242,.2)}
+.btn.ghost{background:#fff;color:#0875df;border:1px solid #1687ed;box-shadow:none}
+.lastinv{display:none;align-items:center;gap:10px;flex-wrap:wrap;background:#eef7ff;border:1px solid #d3e4f1;border-radius:12px;padding:10px 14px;margin:0 0 14px;font-size:13px}
+.lastinv .btn{padding:6px 14px;font-size:13px;box-shadow:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+dialog{border:none;border-radius:20px;padding:0;width:min(440px,94vw);max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(7,57,110,.35)}
+dialog::backdrop{background:rgba(7,57,110,.45)}
+.modal{padding:24px}
+.modal h3{color:#0a396b;font-size:22px}
+.modal .sum{background:#eef7ff;border-radius:12px;padding:10px 12px;margin:10px 0 2px;font-size:13px;color:#375775}
+.modal .row{display:flex;gap:10px;margin-top:16px}.modal .row .btn{flex:1}
+.msg{font-size:13px;margin-top:10px;min-height:18px}.msg.err{color:#c62828}.msg.ok{color:#1b7f3b;font-weight:600}
+.note{font-size:12px;color:#6c8299;margin-top:14px}
+.medif-ref{background:#eef6ff;border:1px solid #b9d6f5;border-radius:12px;padding:12px;margin:14px 0 4px}
+.medif-ref .mt{font-weight:700;color:#0a396b;font-size:14px;margin-bottom:6px}
+.medif-ref ol{margin:0 0 10px 18px;padding:0;font-size:12.5px;color:#375775;line-height:1.55}
+.medif-ref a.mbtn{display:inline-block;background:#087cf2;color:#fff;padding:9px 16px;border-radius:24px;font-weight:700;font-size:13.5px}
+.medif-ref small{display:block;margin-top:8px;color:#6c8299;font-size:11.5px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;font-weight:500;color:#375775;margin-top:12px}
+.chk input{width:auto;margin-top:3px}
+.bar[hidden]{display:none}
+@media(max-width:860px){.grid,.how{grid-template-columns:1fr 1fr}.top h1{font-size:28px}}
+@media(max-width:560px){.grid,.how{grid-template-columns:1fr}.tabs button{padding:9px 14px;font-size:13px}}
+.gwrap{position:relative}.gdrop{position:absolute;z-index:60;background:#fff;border:1px solid #cfe0ee;border-radius:12px;box-shadow:0 8px 24px rgba(10,57,107,.18);overflow:hidden}.gdrop:empty{display:none}
+.gi{padding:10px 12px;font-size:14px;color:#12365d;cursor:pointer;border-bottom:1px solid #eef4f9}.gi:hover{background:#eef7ff}.gpw{padding:4px 12px;font-size:10px;color:#7a8da0;text-align:right}
+.gloc{display:block;margin-top:6px;padding:7px 12px;border:1px solid #087cf2;border-radius:20px;background:#fff;color:#087cf2;font:600 13px 'Segoe UI',sans-serif;cursor:pointer}.gloc[hidden]{display:none}.gloc:disabled{opacity:.6}
+.val{background:#0a2c55;color:#fff;border-radius:16px;padding:20px;margin-top:16px;max-width:540px}
+.val h3{color:#fff;font-size:20px;margin-bottom:10px}
+.vbox{background:#071f3d;border-radius:12px;padding:10px 14px;margin:10px 0}
+.vr{display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-size:14px;color:#cfe3f7}
+.vr b{color:#fff;text-align:right}
+.vr.s{border-top:1px solid #1e4a7c;margin-top:6px;padding-top:9px}
+.vr em{font-style:normal;color:#6fe3a8;font-size:12px}
+.vt small{display:block;color:#9bbbdc;font-size:13px}.vt strong{font-size:34px;font-weight:800}
+.vn{font-size:12.5px;color:#9bbbdc;margin-top:8px}
+.vbtn{width:100%;margin-top:14px;padding:14px;border:0;border-radius:30px;background:#0a84ff;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
+.sigw{border:1.5px dashed #9fb6cc;border-radius:12px;background:#fff;margin-top:6px}.sigw canvas{display:block;width:100%;height:150px;touch-action:none;cursor:crosshair}.sgc{margin-top:6px;border:1px solid #d3e3f1;background:#fff;color:#087cf2;border-radius:99px;padding:6px 16px;font-weight:700;cursor:pointer}
+/* ===== No text selection / no Google "Touch to Search" popup on mobile ===== */
+html,body{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+img,svg{-webkit-user-drag:none}
+a,button{touch-action:manipulation}
+input,textarea,select,[contenteditable="true"]{-webkit-user-select:text;-moz-user-select:text;user-select:text;-webkit-touch-callout:default}
+</style>
+</head>
+<body>
+<header class="hd"><div class="wrap nav">
+<a class="logo" href="index.html"><img src="logo.png" alt="Ghar to Health"><b>Ghar to Health</b></a>
+<a class="back" href="index.html">← Back to home</a>
+</div></header>
+
+<section class="top"><div class="wrap">
+<h1>Medical Services, <span>from home.</span></h1>
+<p>Consult a doctor, order medicines, book lab tests and health check-ups without leaving your house.</p>
+</div></section>
+
+<main class="wrap">
+<div class="lastinv" id="lastInv"></div>
+<div class="tabs" id="tabs" role="tablist"></div>
+<div id="panel"></div>
+<p class="note">Pay online to confirm your booking. <span id="medPayNote" hidden>Medicine Delivery: 50% advance now and 50% on delivery. </span>All other services (except Ambulance): full payment first. If you cancel yourself, no refund is given. See our <a href="legal.html#refund" style="color:#087cf2;font-weight:700">Refund Policy</a>.</p>
+</main>
+
+<div class="bar"><div class="wrap">
+<div><small id="bSub">Nothing selected</small><b id="bTot"></b></div>
+<button class="btn" id="bBtn" disabled>Book now</button>
+</div></div>
+
+<dialog id="dlg"><form class="modal" id="frm" method="dialog" novalidate>
+<h3 id="mT">Confirm booking</h3>
+<div class="sum" id="mS"></div>
+<label for="fN">Patient name</label><input id="fN" name="name" autocomplete="name" required>
+<div class="two"><div><label for="fP">Mobile number</label><input id="fP" name="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel" required></div>
+<div><label for="fG" id="fGl">Age (optional)</label><input id="fG" name="age" type="number" min="0" max="120"></div></div>
+<label for="fA">Address</label><textarea id="fA" name="address" rows="2" required autocomplete="off"></textarea><button type="button" class="gloc" data-g="fA" id="fAloc" hidden>📍 Use my current location</button>
+<div id="urgBox" hidden><label for="aUr">How urgent is the transfer?</label><select id="aUr"><option value="now">Immediately (as soon as possible)</option><option value="today">Today</option><option value="planned" selected>Planned - on a date I choose</option></select></div>
+<div class="two" id="dtRow"><div><label for="fD">Preferred date</label><input id="fD" name="date" type="date" required></div>
+<div><label for="fS">Time slot</label><select id="fS" name="slot"><option value="Morning (9-12)">Morning (9-12)</option><option value="Afternoon (12-4)">Afternoon (12-4)</option><option value="Evening (4-8)">Evening (4-8)</option></select></div></div>
+<p class="note" id="dtAirNote" hidden style="margin:4px 0 0">For a flight transfer, please choose a date at least 5 days from today, because Air India needs the MEDIF and approval before the flight.</p>
+<label for="fT">Anything we should know? (optional)</label><textarea id="fT" rows="2" maxlength="200"></textarea>
+<div id="idBox" hidden><label for="fI">Patient's Aadhaar card photo (compulsory)</label><input id="fI" type="file" accept="image/*"><p class="note" style="margin-top:4px">Aadhaar card of the <b>patient</b> (the person being transported). Attendants' Aadhaar cards are asked separately below. Used only for verification and seen only by our team.</p></div>
+<div id="airBox" hidden><p class="note" style="margin:10px 0 0"><b>Flight transfer details</b> (needed by the <span class="opW">airline</span>)</p>
+<div id="heliWarn" class="note" hidden style="background:#fff4e5;border:1px solid #f0c27b;color:#7a4a00;border-radius:10px;padding:8px 10px">Helicopter cabin is small. Usually only stable patients can travel, and a ventilator, incubator or heavy ICU set-up often does not fit. The operator will check and confirm.</div>
+<label for="aW">Patient weight (kg)</label><input id="aW" type="number" min="1" max="250">
+<label for="aCo">Patient condition</label><select id="aCo"><option value="">Select</option><option value="stable">Stable</option><option value="critical">Critical</option></select>
+<label for="aDx">Medical condition / diagnosis</label><textarea id="aDx" rows="2" maxlength="200"></textarea>
+<label for="aSt">Patient can</label><select id="aSt"><option value="stretcher">Only lie down (stretcher)</option><option value="sit">Sit in a seat</option></select>
+<label for="aOx">Needs oxygen?</label><select id="aOx"><option value="no">No</option><option value="yes">Yes</option></select>
+<label>Other medical support needed (tick all that apply)</label>
+<label class="chk" style="margin-top:6px"><input type="checkbox" class="aSp" value="Ventilator"><span>Ventilator</span></label>
+<label class="chk" style="margin-top:4px"><input type="checkbox" class="aSp" value="ICU setup"><span>ICU set-up</span></label>
+<label class="chk" style="margin-top:4px"><input type="checkbox" class="aSp" value="Cardiac monitor"><span>Cardiac monitor</span></label>
+<label class="chk" style="margin-top:4px"><input type="checkbox" class="aSp" value="Incubator (child)"><span>Incubator (for a baby)</span></label>
+<label for="aIn">Any infection or pregnancy?</label><select id="aIn"><option value="no">No</option><option value="yes">Yes</option></select>
+<label for="aPh">Pickup hospital name (and city) - write "Home" if the patient is at home</label><input id="aPh" maxlength="120">
+<label for="aDh">Drop hospital name (and city)</label><input id="aDh" maxlength="120">
+<div id="acBox" hidden><p class="note" style="margin:12px 0 0"><b>Flight route</b> (chosen on the previous screen)</p><p class="note" id="acSum" style="margin:4px 0 0;font-weight:700;color:#12365d"></p></div>
+<div id="heBox" hidden><p class="note" style="margin:12px 0 0"><b>Helicopter landing details</b> (tell us only what you know - the operator will check the landing place and distance)</p>
+<label for="aLp">Landing place at pickup</label><select id="aLp"><option value="unsure">Not sure</option><option value="helipad">Hospital has a helipad</option><option value="ground">Open ground / field nearby</option></select>
+<label for="aLd">Landing place at drop</label><select id="aLd"><option value="unsure">Not sure</option><option value="helipad">Hospital has a helipad</option><option value="ground">Open ground / field nearby</option></select>
+<p class="note" style="margin-top:6px">Helicopters usually fly only in daylight and good weather, and have a limited range. The operator confirms timing, distance and landing permission.</p></div>
+<p class="note" style="margin:12px 0 0"><b>Attendants</b> travelling with the patient</p>
+<label for="aAn">Main attendant</label><input id="aAn" maxlength="80" placeholder="Name"><input id="aAp" type="tel" inputmode="numeric" placeholder="Attendant mobile (10 digits)" style="margin-top:6px">
+<label for="aAc">Number of attendants travelling (including the main one)</label><select id="aAc"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+<label for="aAw">Weight of each attendant in kg, separated by commas (e.g. 70, 55)</label><input id="aAw" placeholder="70">
+<label for="aAid">Attendant's Aadhaar card photo (compulsory - one photo for each attendant travelling, up to 3)</label><input id="aAid" type="file" accept="image/*" multiple>
+<label for="aFit">Doctor's fitness-to-fly certificate (photos, compulsory - up to 5)</label><input id="aFit" type="file" accept="image/*" multiple>
+<label for="aRep">Medical reports / discharge summary (photos, compulsory - up to 5)</label><input id="aRep" type="file" accept="image/*" multiple>
+<label for="aBed">Drop hospital bed confirmation / acceptance letter (photos, compulsory - up to 5)</label><input id="aBed" type="file" accept="image/*" multiple>
+<div id="aMedBox"><div class="medif-ref" id="medifRef"><div class="mt">&#128196; Air India official MEDIF (Medical Information Form)</div>
+<ol><li>Download the form below and take a print-out.</li><li>Fill in the patient details (Part 1).</li><li>Your treating doctor fills Part 2, then signs and stamps it.</li><li>Scan it or take clear photos, and upload it in the box below.</li></ol>
+<a class="mbtn" id="medifDl" href="/api/medif/airindia" target="_blank" rel="noopener" download>&#11015; Download Air India MEDIF (PDF)</a>
+<small id="medifUpd">This is Air India's official form. Air India needs a separate MEDIF for every flight.</small></div>
+<label for="aMed">Filled and signed MEDIF (compulsory - scan PDF or photos, up to 5)</label><input id="aMed" type="file" accept="image/*,application/pdf" multiple>
+<p class="note" style="margin:4px 0 0">PDF must be under 2.4 MB. If your scan is bigger, upload a photo of each page instead.</p></div>
+<p class="note" style="margin:14px 0 0"><b>Can be submitted later</b> (but must reach us before the flight)</p>
+<label for="aRx">Medicine prescription list (photos, optional now - up to 5)</label><input id="aRx" type="file" accept="image/*" multiple>
+<label class="chk" style="margin-top:10px"><input type="checkbox" id="aRel"><span>I am a relative / another person booking on behalf of the patient</span></label>
+<div id="aAuthBox" hidden><label for="aRn">Your name (the person booking)</label><input id="aRn" maxlength="80"><label for="aRr">Your relation to the patient</label><input id="aRr" maxlength="40" placeholder="e.g. Son, Brother"><label for="aAuth">Authorization letter (photos, compulsory when a relative is booking - up to 5)</label><input id="aAuth" type="file" accept="image/*" multiple></div>
+<p class="note" style="margin:12px 0 0"><b>Treating doctor</b> (the doctor who treats the patient now)</p>
+<label for="aDn">Doctor name</label><input id="aDn" maxlength="80" placeholder="Dr. ...">
+<label for="aDH">Doctor's hospital / clinic (optional)</label><input id="aDH" maxlength="120">
+<div class="two"><div><label for="aDr">Registration no. (optional)</label><input id="aDr" maxlength="40"></div><div><label for="aDp">Doctor / hospital coordinator phone</label><input id="aDp" type="tel" inputmode="numeric" placeholder="10 digits"></div></div>
+<p class="note" style="margin:12px 0 0"><b>Emergency contact</b> (a family member other than the attendant)</p>
+<label for="aEn">Name</label><input id="aEn" maxlength="80"><div class="two"><div><label for="aEr">Relation (optional)</label><input id="aEr" maxlength="40" placeholder="e.g. Brother"></div><div><label for="aEp">Mobile</label><input id="aEp" type="tel" inputmode="numeric" placeholder="10 digits"></div></div>
+<label>Patient / representative signature (compulsory)</label><div class="sigw"><canvas id="sg" width="600" height="180"></canvas></div><button type="button" class="sgc" id="sgC">Clear signature</button><p class="note" style="margin-top:4px">Sign with your finger or mouse. By signing, you confirm these details are correct and agree to share them with the <span class="opW">airline</span> for medical clearance.</p>
+<p class="note" id="noteAir" style="margin-top:6px">Today you pay only a small booking amount. Our team gets the airline's approval, then we show you the final price (your booking amount is deducted from it). You pay the balance and we handle pickup, flight and hospital drop. If the airline does not approve, you get a full refund. If you cancel yourself, a processing fee is kept (see the refund table on the payment page).</p>
+<p class="note" id="noteOp" hidden style="margin-top:6px">Our team will share your details with the air ambulance operator and call you. Final availability, price, landing / flight permission and weather clearance are confirmed by the operator.</p></div>
+<label class="chk"><input type="checkbox" id="fC"><span>I agree to share these details with Ghar to Health and its partner for this service, and I accept the <a href="legal.html#privacy" target="_blank" style="color:#087cf2;font-weight:700">Privacy Policy</a>.</span></label>
+<p class="note" style="margin-top:8px">In an emergency, call 108 right away.</p>
+<div class="msg" id="mM" role="status"></div>
+<div class="row"><button type="button" class="btn ghost" id="mX">Close</button><button type="submit" class="btn" id="mB">Confirm booking</button></div>
+</form></dialog>
+
+<dialog id="pdlg"><div class="modal">
+<div id="pBody"><h3>Pay to confirm</h3>
+<div class="sum"><div id="pRule"></div><div style="margin-top:6px;font-size:22px;font-weight:800;color:#0a396b" id="pAmt"></div></div>
+<p class="note" style="margin-top:12px"><b>Pay to this UPI ID:</b></p>
+<p style="font-weight:700;color:#0a396b;word-break:break-all"><span id="pUpi"></span> <button type="button" class="sgc" id="pCopy" style="margin:0 0 0 6px">Copy</button></p>
+<a class="btn" id="pLink" href="#" style="margin-top:10px;width:100%">Open UPI app and pay</a>
+<img src="upi-qr.png" alt="UPI QR" style="display:block;max-width:180px;margin:12px auto 0" onerror="this.style.display='none'">
+<p class="note">On a computer, scan the QR or pay to the UPI ID above. Enter exactly the amount shown.</p>
+<label for="pUtr">UPI reference number (UTR, 12 digits)</label><input id="pUtr" inputmode="numeric" maxlength="12" placeholder="Enter after paying">
+<div class="msg" id="pMsg" role="status"></div>
+<p class="note">Your booking is confirmed only after payment. <b>If you cancel the booking yourself, the amount paid is not refundable.</b> See our <a href="legal.html#refund" target="_blank" style="color:#087cf2;font-weight:700">Refund Policy</a>.</p>
+<div class="row"><button type="button" class="btn ghost" id="pX">Close</button><button type="button" class="btn" id="pDone">&#10003; I have paid</button></div></div>
+<div id="pOk" hidden><h3>Booking received</h3><p class="msg ok" id="pOkT" style="margin-top:12px"></p><p class="note">Booking ID: <b id="pOkId"></b></p>
+<div class="row"><a class="btn ghost" href="track.html">Track booking</a><button type="button" class="btn ghost" id="pOkInv" hidden>View / Print Invoice</button><button type="button" class="btn" id="pOkX">Done</button></div></div>
+</div></dialog>
+<dialog id="qdlg" style="border:0;padding:0;background:transparent;width:94%;max-width:460px;max-height:92vh;overflow:auto;margin:auto"><div id="qdBody"></div><button type="button" id="qdX" style="display:block;width:100%;margin-top:10px;padding:12px;border:0;border-radius:12px;background:#fff;color:#0a3a6b;font:700 15px inherit;cursor:pointer">Close</button></dialog>
+
+<script>
+/* login.js - shared customer login (phone + OTP) for any page.
+   Same backend as the Services page: /api/auth/*  -> same GTHU id.
+   Use:  GHTLogin.require(function(){ ...do the booking... });   */
+(function () {
+  if (window.GHTLogin) return;
+  var css = '#ghtLd{margin:auto;border:none;border-radius:16px;width:min(420px,92vw);padding:0;max-height:92vh;overflow:auto;font-family:inherit}' +
+    '#ghtLd::backdrop{background:rgba(7,57,110,.45)}#ghtLd form{padding:22px}' +
+    '#ghtLd h3{margin:0;font-size:18px}#ghtLd p{font-size:13px;color:#5b7690;margin:4px 0 8px}' +
+    '#ghtLd label{display:block;font-size:12px;font-weight:700;margin:10px 0 4px}' +
+    '#ghtLd input{width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid #cfe0ee;border-radius:10px;font:inherit;font-size:15px}' +
+    '#ghtLd .row{display:flex;gap:10px;margin-top:14px}#ghtLd button{flex:1;padding:12px;border-radius:12px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}' +
+    '#ghtLd .sec{border:1px solid #087cf2;background:#fff;color:#087cf2}' +
+    '#ghtLd .pri{border:none;background:linear-gradient(135deg,#087ff5,#0564cf);color:#fff}#ghtLd button:disabled{opacity:.6}' +
+    '#ghtLd .m{font-size:13px;margin-top:10px;min-height:18px}#ghtLd .err{color:#c62828}#ghtLd .ok{color:#1b7f3b;font-weight:600}';
+  var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+  var d = document.createElement('dialog'); d.id = 'ghtLd';
+  d.innerHTML = '<form novalidate onsubmit="return false"><h3>Log in</h3>' +
+    '<p>Please log in with your mobile number to continue your booking.</p>' +
+    '<div id="ghtS1"><label>Full name (new users only)</label><input id="ghtName" autocomplete="name" placeholder="Your name">' +
+    '<label>Mobile number</label><input id="ghtPhone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number">' +
+    '<div class="row"><button type="button" class="sec" id="ghtCancel">Cancel</button><button type="button" class="pri" id="ghtSend">Send OTP</button></div></div>' +
+    '<div id="ghtS2" style="display:none"><label>Enter OTP</label><input id="ghtOtp" inputmode="numeric" maxlength="6" placeholder="6-digit OTP">' +
+    '<div class="row"><button type="button" class="sec" id="ghtBack">Back</button><button type="button" class="pri" id="ghtVerify">Verify</button></div></div>' +
+    '<div class="m" id="ghtMsg" role="status"></div></form>';
+  document.body.appendChild(d);
+  var $ = function (i) { return document.getElementById(i); }, after = null, ph = '';
+  function msg(t, bad) { var m = $('ghtMsg'); m.textContent = t; m.className = 'm ' + (bad ? 'err' : 'ok'); }
+  function step(n) { $('ghtS1').style.display = n === 1 ? 'block' : 'none'; $('ghtS2').style.display = n === 2 ? 'block' : 'none'; }
+  function post(u, b) { return fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify(b) }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); }); }
+  function check() { return fetch('/api/auth/me', { credentials: 'same-origin' }).then(function (r) { return r.ok; }).catch(function () { return false; }); }
+  $('ghtSend').onclick = function () {
+    ph = $('ghtPhone').value.replace(/\D/g, '').slice(-10);
+    if (!/^[6-9]\d{9}$/.test(ph)) { msg('Please enter a valid 10-digit mobile number.', 1); return; }
+    var b = $('ghtSend'); b.disabled = true; msg('Sending OTP...');
+    post('/api/auth/send-otp', { name: $('ghtName').value, phone: ph }).then(function (x) {
+      b.disabled = false;
+      if (!x.ok) { msg(x.j.error || 'Could not send OTP.', 1); return; }
+      step(2); $('ghtOtp').value = ''; msg('OTP sent. Please enter it within 5 minutes.'); $('ghtOtp').focus();
+    }).catch(function () { b.disabled = false; msg('Cannot reach the server. Please try again.', 1); });
+  };
+  $('ghtVerify').onclick = function () {
+    var otp = $('ghtOtp').value.replace(/\D/g, '');
+    if (otp.length !== 6) { msg('Please enter the 6-digit OTP.', 1); return; }
+    var b = $('ghtVerify'); b.disabled = true;
+    post('/api/auth/verify-otp', { phone: ph, otp: otp }).then(function (x) {
+      b.disabled = false;
+      if (!x.ok) { msg(x.j.error || 'Verification failed.', 1); return; }
+      d.close(); var fn = after; after = null; if (fn) fn();
+    }).catch(function () { b.disabled = false; msg('Cannot reach the server. Please try again.', 1); });
+  };
+  $('ghtBack').onclick = function () { step(1); msg(''); };
+  $('ghtCancel').onclick = function () { after = null; d.close(); };
+  window.GHTLogin = {
+    check: check,
+    require: function (fn) { check().then(function (ok) { if (ok) fn(); else { after = fn; step(1); msg(''); d.showModal(); } }); }
+  };
+})();
+
+</script>
+<script src="airports.js"></script>
+<script>
+(function(){
+/* ====== EDIT HERE: your services, tests, packages and prices (in rupees) ====== */
+var DATA={
+ doctor:{label:'Doctor Consultation',icon:'🧑‍⚕️',mode:'single',
+  lead:'Talk to a registered doctor by video or phone, or ask for a home visit. Choose a speciality to begin.',
+  how:['Pick a speciality','Our team calls you and fixes a time','Consult the doctor and get a prescription'],
+  items:[
+   {id:'gp',name:'General Physician',sub:'Fever, cold, stomach pain, general health',price:299},
+   {id:'skin',name:'Skin Specialist',sub:'Rashes, acne, hair fall, allergies',price:499},
+   {id:'child',name:'Child Specialist',sub:'Children\'s health, growth, vaccination advice',price:499},
+   {id:'women',name:'Women\'s Health',sub:'Periods, pregnancy care, general women\'s health',price:599},
+   {id:'diab',name:'Diabetes & Thyroid',sub:'Sugar control, thyroid, weight',price:499},
+   {id:'heart',name:'Heart Specialist',sub:'BP, chest pain, heart check',price:699}
+  ],
+  extra:{label:'How would you like to consult?',opts:['Video call','Phone call','Doctor visit at home']}},
+ medicine:{label:'Medicine Delivery',icon:'💊',mode:'none',
+  lead:'Share your medicines and our team will arrange delivery at your door through a licensed pharmacy.',
+  how:['Tell us what you need','We confirm availability and price on call','Medicines reach your home'],
+  items:[],
+  form:true,
+  features:['Regular monthly medicines (BP, sugar, thyroid)','Prescription medicines (keep the prescription ready)','Health devices: thermometer, BP monitor, sugar strips','Priority delivery for senior citizens']},
+ lab:{label:'Lab Tests',icon:'🧪',mode:'multi',
+  lead:'Choose one or more tests. A trained person comes home to collect the sample and the report is sent to you.',
+  how:['Select your tests','Sample collected at your home','Report sent to you'],
+  items:[
+   {id:'cbc',name:'CBC (Complete Blood Count)',sub:'Blood health, infection, anaemia',price:300},
+   {id:'fbs',name:'Blood Sugar (Fasting)',sub:'Diabetes screening',price:100},
+   {id:'hba1c',name:'HbA1c',sub:'3-month average sugar',price:450},
+   {id:'tsh',name:'Thyroid (TSH)',sub:'Thyroid function',price:350},
+   {id:'lipid',name:'Lipid Profile',sub:'Cholesterol and heart risk',price:600},
+   {id:'lft',name:'Liver Function (LFT)',sub:'Liver health',price:600},
+   {id:'kft',name:'Kidney Function (KFT)',sub:'Kidney health',price:600},
+   {id:'vitd',name:'Vitamin D',sub:'Bone and immunity',price:1000},
+   {id:'b12',name:'Vitamin B12',sub:'Nerves and energy',price:800}
+  ]},
+ checkup:{label:'Health Check-up',icon:'💙',mode:'single',
+  lead:'Complete packages for you and your family. Pick the one that fits.',
+  how:['Choose a package','Sample collected at home','Report with doctor advice on call'],
+  items:[
+   {id:'basic',name:'Basic Health Check',sub:'12 tests',price:999,inc:['CBC','Blood sugar','Lipid profile','Urine routine']},
+   {id:'full',name:'Full Body Check-up',sub:'60+ tests',price:1999,inc:['CBC, sugar, HbA1c','Lipid, liver, kidney','Thyroid, Vitamin D & B12']},
+   {id:'senior',name:'Senior Citizen',sub:'Ages 60+',price:2499,inc:['Heart and sugar checks','Liver, kidney, thyroid','Bone health, Vitamin D']},
+   {id:'diab',name:'Diabetes Care',sub:'Sugar and complications',price:1299,inc:['Fasting sugar, HbA1c','Kidney function','Lipid profile']},
+   {id:'women',name:'Women\'s Health',sub:'Women-focused tests',price:1799,inc:['CBC, thyroid, iron','Vitamin D & B12','Sugar and lipid profile']},
+   {id:'heart',name:'Heart Care',sub:'Heart risk screening',price:2299,inc:['Lipid profile','Blood sugar, HbA1c','Kidney and liver function']}
+  ]}
+ ,nurse:{label:'Nurse at Home',icon:'👩‍⚕️',mode:'multi',
+  lead:'A trained nurse visits your home for injections, dressings, vitals checks and patient care.',
+  how:['Choose the care you need','Our team confirms a time on call','Nurse visits your home'],
+  items:[
+   {id:'inj',name:'Injection / IV Drip',sub:'As prescribed by your doctor',price:299},
+   {id:'dress',name:'Wound Dressing',sub:'Cleaning and dressing of wounds',price:349},
+   {id:'vitals',name:'BP, Sugar & Vitals Check',sub:'Home visit with readings noted',price:249},
+   {id:'shift',name:'Patient Care (per day shift)',sub:'Elderly and bed-ridden care, 8 hours',price:1200}
+  ]}
+ ,physio:{label:'Physiotherapy',icon:'🦴',mode:'single',
+  lead:'Physiotherapy sessions at home for pain relief, recovery and movement.',
+  how:['Choose a session type','Our team fixes a time on call','Physiotherapist visits your home'],
+  items:[
+   {id:'one',name:'Single Home Session',sub:'Assessment and treatment, about 45 mins',price:599},
+   {id:'back',name:'Back & Neck Pain Plan',sub:'5 sessions',price:2799},
+   {id:'post',name:'Post-Surgery Rehab',sub:'10 sessions',price:5499},
+   {id:'sport',name:'Sports Injury Recovery',sub:'5 sessions',price:2999}
+  ]}
+ ,ambulance:{label:'Ambulance',icon:'🚑',mode:'single',keep:true,route:true,pay:true,
+  lead:'Choose the type of ambulance you need. The total price is shown below. Pay it online to confirm your booking and our team will call you. In an emergency, please call 108 first.',
+  how:['Choose the ambulance type and enter pickup and drop','Pay the total amount online to confirm','Ambulance arrives with a trained medical team'],
+  items:[
+   {id:'charter',img:'charter',name:'Domestic Air Ambulance (Charter Aircraft, India)',sub:'Private chartered aircraft with a medical team, for long-distance transfers',price:0},
+   {id:'airline',img:'airline',name:'Domestic Commercial Airline Transfer',sub:'Stretcher and lying-down transfer on a scheduled airline, for stable patients',price:0},
+   {id:'heli',img:'heli',name:'Helicopter Ambulance',sub:'Fast air transfer for shorter distances and hard-to-reach places',price:0},
+   {id:'van',img:'van',name:'Road Ambulance (Van)',sub:'Normal ambulance van for city and intercity patient transfer',price:0}
+  ]}
+ ,scans:{label:'Scans & Imaging',icon:'🩻',mode:'multi',
+  lead:'Book X-ray, ultrasound, ECG and other scans through our partner centres.',
+  how:['Select your scans','Our team books the slot for you','Visit the centre, get the report'],
+  items:[
+   {id:'xray',name:'X-Ray',sub:'Chest, bones and joints',price:500},
+   {id:'ecg',name:'ECG',sub:'Heart rhythm test',price:300},
+   {id:'usg',name:'Ultrasound (USG)',sub:'Abdomen and pelvis',price:1000},
+   {id:'ct',name:'CT Scan',sub:'Detailed body imaging',price:3500},
+   {id:'mri',name:'MRI Scan',sub:'Brain, spine and joints',price:6000}
+  ]}
+ ,dental:{label:'Dental Care',icon:'🦷',mode:'single',
+  lead:'Dental check-ups and treatment with our partner dentists.',
+  how:['Choose a treatment','Our team books your appointment','Visit the dentist'],
+  items:[
+   {id:'cons',name:'Dental Consultation',sub:'Check-up and advice',price:299},
+   {id:'clean',name:'Teeth Cleaning',sub:'Scaling and polishing',price:799},
+   {id:'fill',name:'Tooth Filling',sub:'Per tooth',price:1200},
+   {id:'rct',name:'Root Canal',sub:'Per tooth',price:3500}
+  ]}
+ ,eye:{label:'Eye Care',icon:'👁️',mode:'single',
+  lead:'Eye tests and consultation with our partner eye specialists.',
+  how:['Choose a service','Our team books your appointment','Visit the clinic'],
+  items:[
+   {id:'test',name:'Eye Check-up & Vision Test',sub:'Power check and eye health',price:299},
+   {id:'cat',name:'Cataract Consultation',sub:'Specialist opinion',price:499},
+   {id:'kid',name:'Child Eye Check-up',sub:'For children',price:399}
+  ]}
+ ,mental:{label:'Mental Health',icon:'🧠',mode:'single',
+  lead:'Private, confidential sessions with counsellors and psychiatrists.',
+  how:['Choose a session','Our team fixes a time on call','Talk with the expert'],
+  items:[
+   {id:'couns',name:'Counselling Session',sub:'Stress, anxiety, low mood',price:799},
+   {id:'psy',name:'Psychiatrist Consultation',sub:'Medical assessment',price:999},
+   {id:'fam',name:'Couple / Family Counselling',sub:'Joint session',price:999}
+  ],
+  extra:{label:'How would you like to consult?',opts:['Video call','Phone call']}}
+ ,diet:{label:'Diet & Nutrition',icon:'🥗',mode:'single',
+  lead:'Personal diet plans from qualified dietitians.',
+  how:['Choose a plan','Our team fixes a time on call','Get your diet plan'],
+  items:[
+   {id:'cons',name:'Diet Consultation',sub:'One-time session',price:499},
+   {id:'wl',name:'Weight Management Plan',sub:'1 month with follow-ups',price:1999},
+   {id:'dia',name:'Diabetes Diet Plan',sub:'Sugar-friendly meal plan',price:999},
+   {id:'preg',name:'Pregnancy Nutrition',sub:'Plan for mother and baby',price:999}
+  ]}
+};
+/* ====== end of editable part ====== */
+
+var $=function(s){return document.querySelector(s)},
+esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})},
+inr=function(n){return '\u20B9'+Number(n).toLocaleString('en-IN')},
+priceTxt=function(n){return n>0?inr(n):'On request'},
+keys=Object.keys(DATA),LBL={},COMING_SOON=[],sel={},route=routeInit(),key='doctor',mode='';
+keys.forEach(function(k){LBL[DATA[k].label.toLowerCase()]=k});
+
+var qp=new URLSearchParams(location.search),q=(qp.get('cat')||qp.get('s')||'').toLowerCase(),
+soonReq=COMING_SOON.indexOf(q)>-1;
+if(DATA[q])key=q;else if(LBL[q])key=LBL[q];
+
+/* Load the live service list and prices from the server (admin panel); built-in data above is the fallback */
+Promise.all([
+ fetch('/api/services').then(function(r){return r.json()}).catch(function(){return null}),
+ fetch('/api/medical-catalog').then(function(r){return r.json()}).catch(function(){return[]})
+]).then(function(r){
+ var names=r[0]&&r[0].medical,valid=names?names.map(function(n){return String(n).toLowerCase()}):null,live={};
+ (r[1]||[]).forEach(function(s){
+  var c=String(s.category||'').trim(),lc=c.toLowerCase();if(!c)return;
+  var k=LBL[lc];
+  if(!k){k='x'+lc.replace(/[^a-z0-9]/g,'');
+   if(!DATA[k]){DATA[k]={label:c,icon:'\uD83D\uDC99',mode:'single',lead:'Book this service and our team will call you to confirm.',how:['Choose an option','Our team confirms on call','Service is provided'],items:[]};keys.push(k);LBL[lc]=k}}
+  (live[k]=live[k]||[]).push({id:'c'+s.id,name:s.name,sub:s.description||s.duration||'',price:Number(s.price)||0});
+ });
+ Object.keys(live).forEach(function(k){if(!DATA[k].keep)DATA[k].items=live[k]});
+ if(valid)keys=keys.filter(function(k){return valid.indexOf(DATA[k].label.toLowerCase())>-1});
+ keys=keys.filter(function(k){return COMING_SOON.indexOf(DATA[k].label.toLowerCase())<0});
+ if(keys.indexOf(key)<0)key=keys[0];
+ render();
+});
+
+function routeInit(){return{from:'',to:'',fromLL:null,toLL:null,fromOut:false,toOut:false,fromC:'',toC:'',fromCLL:null,toCLL:null,fromRes:null,toRes:null,fromAp:0,toAp:0,gp:'no',gd:'no',rt:'bls',ox:0,pm:0,dc:0,wh:0,hr:null}}
+function roadObj(){if(route.hr===null)route.hr=new Date().getHours();return{type:route.rt,oxygen:!!route.ox,paramedic:!!route.pm,doctor:!!route.dc,waitHours:+route.wh||0,hour:route.hr}}
+function curKindHeli(){var p=picked()[0];return !!p&&p.id==='heli'}
+function isAcAir(){var p=picked()[0];return !!p&&(p.id==='charter'||p.id==='airline'||p.id==='heli')}
+function apHtml(side){var r=route[side+'Res'];if(!r)return'';var c=route[side+'C'].split(',')[0].trim(),ap=route[side+'Ap']||0,o=r.options;
+ if(!o.length)return'<p class="note" style="margin:6px 0 0">No airport found near '+esc(c)+'. Please call us to book.</p>';
+ var far=o[ap]&&o[ap].km>FAR_KM;
+ return'<p class="note" style="margin:8px 0 4px">'+esc(r.note)+'</p><label for="apSel'+side+'">'+(curKindHeli()?(side==='from'?'Airport / helipad at pickup':'Airport / helipad at drop'):(side==='from'?'Airport at pickup':'Airport at drop'))+'</label><select id="apSel'+side+'">'+o.map(function(a,i){return'<option value="'+i+'"'+(i===ap?' selected':'')+'>'+esc(a.name+', '+a.city+' ('+a.km+' km)')+'</option>'}).join('')+'</select>'+
+ (far?'<p class="note" style="margin:6px 0 0;color:#7a4a00">This airport is '+o[ap].km+' km from '+esc(c)+'. We recommend a ground ambulance.</p>':'')}
+function apRender(side){var b=$('#ap'+(side==='from'?'From':'To')+'Box');if(b)b.innerHTML=apHtml(side);var g=$(side==='from'?'#rGp':'#rGd');if(g)g.value=route[side==='from'?'gp':'gd']}
+function apPick(side,i){var r=route[side+'Res'];if(!r||!r.options[i])return;var a=r.options[i];route[side+'Ap']=i;
+ if(side==='from'){route.from=a.name+', '+a.city;route.fromLL={lat:a.lat,lng:a.lng};route.gp=a.km>FAR_KM?'yes':'no'}else{route.to=a.name+', '+a.city;route.toLL={lat:a.lat,lng:a.lng};route.gd=a.km>FAR_KM?'yes':'no'}}
+function apFill(side){var ll=route[side+'CLL'],p=picked()[0];if(!ll||!p||!route[side+'C'])return;
+ route[side+'Res']=airportsForCity(route[side+'C'].split(',')[0].trim(),ll.lat,ll.lng,p.id);apPick(side,0);apRender(side);reQuote()}
+function apClear(side){route[side+'Res']=null;route[side+'Ap']=0;if(side==='from'){route.from='';route.fromLL=null;route.fromCLL=null}else{route.to='';route.toLL=null;route.toCLL=null}apRender(side);reQuote()}
+function tabs(){$('#tabs').innerHTML=keys.map(function(k){return '<button data-k="'+k+'" class="'+(k===key&&!soonReq?'on':'')+'" role="tab">'+DATA[k].icon+' '+esc(DATA[k].label)+'</button>'}).join('')}
+function qtKey(){var p=picked()[0];return p?p.id+'|'+route.from.trim()+'|'+route.to.trim()+(isAcAir()?'|'+route.gp+'|'+route.gd:'|'+route.rt+route.ox+route.pm+route.dc+route.wh):''}
+function qtNow(){return(qt&&qt.key===qtKey())?qt:null}
+function valHtml(m){
+ var p=picked()[0];if(!p)return'';
+ var o=qtNow();if(!o){var em=(qtE&&qtE.key===qtKey())?qtE.msg:'';return'<p class="vn">'+esc(em||'Enter pickup and drop to see the total price.')+'</p>'}var q=o.quote;
+ if(p.id==='airline'){var adv=o.payNow||q.total||0,rt=(route.from&&route.to)?'<div class="vr"><span>Route</span><b>'+esc(route.from.split(',')[0])+' to '+esc(route.to.split(',')[0])+'</b></div>':'';
+  return'<div class="val"><h3>Live booking valuation</h3><div class="vr"><span>Service</span><b>'+esc(p.name)+'</b></div>'+rt+
+  '<div class="vbox"><div class="vr s"><span>Booking amount (advance)</span><b>'+inr(adv)+'</b></div></div>'+
+  '<div class="vt"><small>Pay now</small><strong>'+inr(adv)+'</strong></div>'+
+  '<div class="vbox"><p class="vn" style="margin:0 0 6px;color:#fff"><b>How it works</b></p>'+
+  '<p class="vn" style="margin:0 0 5px">1. You pay only '+inr(adv)+' now. We use it to check your documents and get the airline medical approval.</p>'+
+  '<p class="vn" style="margin:0 0 5px">2. After the airline approves, you get the final price here with a full breakup (ticket, medical escort, oxygen, ground ambulance and fees).</p>'+
+  '<p class="vn" style="margin:0 0 5px">3. Your '+inr(adv)+' is deducted from the final price. You pay only the balance to get the ticket.</p>'+
+  '<p class="vn" style="margin:0">If the airline does not approve, you get a full refund.</p></div>'+
+  '<button type="button" class="vbtn" id="vBook'+(m?'M':'')+'">Book now</button>'+
+  '<p class="vn">If a technical error occurs, the payment will be refunded to your bank account within 4 days.</p></div>'}
+ return'<div class="val"><h3>Live booking valuation</h3><div class="vr"><span>Service</span><b>'+esc(p.name)+'</b></div><div class="vbox">'+
+ q.items.map(function(i){return'<div class="vr"><span>'+esc(i.label)+'</span><b>'+inr(i.amount)+'</b></div>'}).join('')+
+ '<div class="vr s"><span>Service total <em>(GST exempt)</em></span><b>'+inr(q.serviceTotal)+'</b></div>'+
+ '<div class="vr"><span>Platform and booking fee ('+q.feePct+'%)</span><b>'+inr(q.fee)+'</b></div>'+
+ '<div class="vr"><span>GST ('+q.gstPct+'% on platform fee)</span><b>'+inr(q.gst)+'</b></div></div>'+
+ '<div class="vt"><small>Total payable</small><strong>'+inr(q.total)+'</strong></div>'+
+ '<button type="button" class="vbtn" id="vBook'+(m?'M':'')+'">Book now</button>'+
+ '<p class="vn">If a technical error occurs, the payment will be refunded to your bank account within 4 days.</p></div>'}
+function panel(){
+ if(soonReq){$('#panel').innerHTML='<div class="box"><h3>\uD83D\uDE91 Ambulance \u2014 Coming Soon</h3><p class="lead" style="margin:0">This service is not open yet. For an emergency, please call <b>108</b> right away.</p></div>';return}
+ var d=DATA[key],h='<p class="lead">'+esc(d.lead)+'</p>';
+ if(d.items.length){
+  h+='<div class="grid">'+d.items.map(function(it){
+   var on=!!sel[it.id];
+   return '<button type="button" class="item'+(on?' on':'')+'" data-i="'+esc(it.id)+'" aria-pressed="'+on+'">'+
+   '<span class="tick">'+(on?'\u2713':'')+'</span>'+(it.img?'<img class="pic" src="ambulance/'+it.img+'.jpg" alt="'+esc(it.name)+'" onerror="this.onerror=null;this.style.display=\'none\'">':'')+'<b>'+esc(it.name)+'</b><small>'+esc(it.sub||'')+'</small>'+
+   (it.inc?'<ul>'+it.inc.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>':'')+
+   '<span class="pr">'+(d.pay?'Price shown after pickup &amp; drop':(it.pl||'')+priceTxt(it.price))+'</span></button>'}).join('')+'</div>';
+ }
+ if(d.extra){h+='<div class="box"><h3>'+esc(d.extra.label)+'</h3><select id="xMode">'+d.extra.opts.map(function(o){return '<option'+(o===mode?' selected':'')+'>'+esc(o)+'</option>'}).join('')+'</select></div>'}
+ if(d.route&&isAcAir()){h+='<div class="box"><h3>Pickup &amp; drop</h3><p class="note" style="margin:0 0 8px">Enter only the city. We show the airports there (or the nearest ones) and you choose.</p><div class="two"><div><label for="aFromC">Pickup city (search and select)</label><input id="aFromC" maxlength="80" value="'+esc(route.fromC)+'" placeholder="e.g. Raipur" autocomplete="off">'+gBtn('aFromC')+'<div id="apFromBox">'+apHtml('from')+'</div></div><div><label for="aToC">Drop city (search and select)</label><input id="aToC" maxlength="80" value="'+esc(route.toC)+'" placeholder="e.g. Delhi" autocomplete="off"><div id="apToBox">'+apHtml('to')+'</div></div></div>'+
+  '<div class="two" style="margin-top:10px"><div><label for="rGp">Ground ambulance from your home / hospital to the pickup airport?</label><select id="rGp"><option value="no"'+(route.gp==='no'?' selected':'')+'>No</option><option value="yes"'+(route.gp==='yes'?' selected':'')+'>Yes</option></select></div><div><label for="rGd">Ground ambulance from the drop airport to the hospital?</label><select id="rGd"><option value="no"'+(route.gd==='no'?' selected':'')+'>No</option><option value="yes"'+(route.gd==='yes'?' selected':'')+'>Yes</option></select></div></div><p class="msg err" id="aErr"></p></div>'}
+ else if(d.route){h+='<div class="box"><h3>Pickup &amp; drop</h3><p class="note" style="margin:0 0 8px">Road ambulance is currently available within '+SVC.city+' only. Type the hospital name (1 to 4 words) or use your current location. If it is not a hospital, you can type the address manually.</p><div class="two"><div><label for="aFrom">Pickup (hospital name or current location)</label><input id="aFrom" maxlength="80" value="'+esc(route.from)+'" placeholder="e.g. Ambedkar Hospital" autocomplete="off">'+gBtn('aFrom')+'</div><div><label for="aTo">Drop (hospital name or address)</label><input id="aTo" maxlength="80" value="'+esc(route.to)+'" placeholder="e.g. Narayana Hospital" autocomplete="off"></div></div><div class="two" style="margin-top:10px"><div><label for="rType">Ambulance type</label><select id="rType"><option value="bls"'+(route.rt==='bls'?' selected':'')+'>Basic (BLS) - normal patient transfer</option><option value="als"'+(route.rt==='als'?' selected':'')+'>ICU / ALS - ventilator and monitor</option></select></div><div><label for="rWh">Waiting time at hospital</label><select id="rWh">'+[0,1,2,3,4].map(function(n){return'<option value="'+n+'"'+(+route.wh===n?' selected':'')+'>'+(n?n+' hour'+(n>1?'s':''):'No waiting')+'</option>'}).join('')+'</select></div></div><div style="margin-top:10px"><label>Extras (optional)</label><label style="font-weight:400;display:inline-block;margin-right:16px"><input type="checkbox" id="rOx"'+(route.ox?' checked':'')+'> Oxygen cylinder</label><label style="font-weight:400;display:inline-block;margin-right:16px"><input type="checkbox" id="rPm"'+(route.pm?' checked':'')+'> Paramedic with patient</label><label style="font-weight:400;display:inline-block"><input type="checkbox" id="rDc"'+(route.dc?' checked':'')+'> Doctor with patient</label></div><p class="note" id="svcMsg"'+(svcText()?'':' hidden')+' style="color:#7a4a00;background:#fff6e5;border:1px solid #f0d9a8;border-radius:10px;padding:10px 12px;margin:10px 0 0">'+esc(svcText())+'</p><p class="msg err" id="aErr"></p></div>'}
+ if(d.pay)h+='<div id="valBox">'+valHtml()+'</div>';
+ if(d.form){
+  h+='<div class="box"><h3>What do you need?</h3><ul style="list-style:none;display:grid;gap:5px;font-size:13.5px;color:#375775;margin-bottom:12px">'+d.features.map(function(f){return '<li>\u2713 '+esc(f)+'</li>'}).join('')+'</ul>'+
+  '<label for="mList">Medicine names or details</label><textarea id="mList" rows="4" maxlength="250" placeholder="e.g. BP tablets for 1 month, or: I will share my prescription on the call"></textarea></div>';
+ }
+ h+='<div class="how">'+d.how.map(function(x,i){return '<div><b>Step '+(i+1)+'</b>'+esc(x)+'</div>'}).join('')+'</div>';
+ $('#panel').innerHTML=h;
+}
+function picked(){return DATA[key].items.filter(function(i){return sel[i.id]})}
+function noPick(){var d=DATA[key];return d.mode==='none'&&!d.items.length}
+function bar(){
+ var bb=document.querySelector('.bar');bb.hidden=soonReq;if(soonReq)return;
+ var p=picked(),t=p.reduce(function(a,i){return a+i.price},0),b=$('#bBtn');
+ if(noPick()){$('#bSub').textContent='Our team will confirm the price on call';$('#bTot').textContent='';b.disabled=false;b.textContent='Order medicines';return}
+ b.textContent='Book now';b.disabled=!p.length;
+ $('#bSub').textContent=p.length?(p.length===1?p[0].name:p.length+' selected'):'Nothing selected';
+ if(p.length&&!DATA[key].pay&&DATA[key].label!=='Medicine Delivery'&&p.some(function(i){return !(i.price>0)})){b.disabled=true;$('#bSub').textContent='Price not set yet, online booking unavailable'}
+ if(DATA[key].pay&&p.length){var qn=qtNow();b.disabled=!qn;$('#bSub').textContent=qn?p[0].name:((qtE&&qtE.key===qtKey())?qtE.msg:'Enter pickup and drop to see price');$('#bTot').textContent=qn?inr(p[0].id==='airline'&&qn.payNow?qn.payNow:qn.quote.total):'';return}
+ $('#bTot').textContent=p.length&&t>0?inr(t):'';
+}
+function render(){tabs();panel();bar();var mn=document.getElementById('medPayNote');if(mn)mn.hidden=(key!=='medicine')}
+
+$('#tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;soonReq=false;key=b.dataset.k;sel={};mode='';route=routeInit();render()});
+$('#panel').addEventListener('click',function(e){if(e.target.id==='vBook'){$('#bBtn').click();return}var b=e.target.closest('.item');if(!b)return;
+ var id=b.dataset.i,m=DATA[key].mode,wasAc=isAcAir();
+ if(m==='single'){var was=sel[id];sel={};if(!was)sel[id]=1}else{if(sel[id])delete sel[id];else sel[id]=1}
+ if(wasAc!==isAcAir())route=routeInit();
+ panel();bar();if(isAcAir()){apFill('from');apFill('to')}reQuote()});
+$('#panel').addEventListener('change',function(e){if(e.target.id==='xMode')mode=e.target.value;
+ if(e.target.id==='apSelfrom'){apPick('from',+e.target.value);apRender('from');reQuote()}
+ if(e.target.id==='apSelto'){apPick('to',+e.target.value);apRender('to');reQuote()}
+ if(e.target.id==='rGp'){route.gp=e.target.value;reQuote()}
+ if(e.target.id==='rGd'){route.gd=e.target.value;reQuote()}
+ if(e.target.id==='rType'){route.rt=e.target.value;reQuote()}
+ if(e.target.id==='rWh'){route.wh=+e.target.value;reQuote()}
+ if(e.target.id==='rOx'){route.ox=e.target.checked?1:0;reQuote()}
+ if(e.target.id==='rPm'){route.pm=e.target.checked?1:0;reQuote()}
+ if(e.target.id==='rDc'){route.dc=e.target.checked?1:0;reQuote()}});
+$('#panel').addEventListener('input',function(e){if(e.target.id==='aFrom')route.from=e.target.value;if(e.target.id==='aTo')route.to=e.target.value;if(e.target.id==='aFrom'||e.target.id==='aTo')reQuote()});
+
+var dlg=$('#dlg'),frm=$('#frm'),msg=$('#mM'),sb=$('#mB'),itemTxt='',detTxt='',bookTotal=0,qt=null,qtE=null,qtTimer=0;
+function payDue(d,t){return d.label==='Medicine Delivery'?Math.ceil(t/2):t}
+function payLbl(d,t){return t>0?'Pay \u20B9'+payDue(d,t).toLocaleString('en-IN')+(d.label==='Medicine Delivery'?' advance':'')+' & Book':'Confirm booking'}
+$('#fD').min=new Date().toISOString().slice(0,10);
+$('#fP').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'')});
+/* Customer login (same phone + OTP and same GTHU id as home services) */
+var loginOk=false;
+$('#bBtn').addEventListener('click',function(e){
+ if(loginOk){loginOk=false;return}
+ e.stopImmediatePropagation();
+ if(!window.GHTLogin){alert('Login file (login.js) could not load. Please refresh the page and try again.');return}
+ GHTLogin.require(function(){loginOk=true;$('#bBtn').click()})});
+$('#bBtn').addEventListener('click',function(){
+ var d=DATA[key],p=picked(),t=d.pay?(qtNow()?qtNow().quote.total:0):p.reduce(function(a,i){return a+i.price},0),parts=[],sm='';
+ if(noPick()){
+  var l=(($('#mList')||{}).value||'').trim();itemTxt='Medicine order';parts.push('Medicines: '+(l||'to be shared on call'));sm=d.label+(l?': '+l.slice(0,100):'');
+ }else{
+  var names=p.map(function(i){return i.name});
+  itemTxt=p.length===1?p[0].name:p.length+' selected';
+  parts.push('Selected: '+names.join(', ')+(t>0?' (Total '+inr(t)+')':''));
+  if(d.pay&&!(t>0)){var e2=$('#aErr');if(e2)e2.textContent='Please enter pickup and drop locations to see the price.';return}
+  if(d.route){var rf=route.from.trim(),rt=route.to.trim();if(!rf||!rt){var er=$('#aErr');if(er){er.textContent=isAcAir()?'Please enter the pickup and drop city and choose an airport for each.':'Please enter both pickup and drop locations.';er.scrollIntoView({block:'center'})}return}if(route.fromOut||route.toOut){svcShow();var sm2=$('#svcMsg');if(sm2)sm2.scrollIntoView({block:'center'});return}if(LOC_ON&&!gFail&&((!route.fromLL&&!gNo.aFrom)||(!route.toLL&&!gNo.aTo))){var er2=$('#aErr');if(er2){er2.textContent='Please choose a hospital from the list, tap "Use my current location" for pickup, or choose "Use ... as typed" to enter the place manually.';er2.scrollIntoView({block:'center'})}return}parts.push('Pickup: '+rf+' | Drop: '+rt)}
+  if(d.extra){mode=($('#xMode')||{}).value||d.extra.opts[0];parts.push('Mode: '+mode)}
+  sm=d.label+': '+names.join(', ')+(t>0?' | '+inr(t):'')+(mode&&d.extra?' | '+mode:'')+(d.route?' | '+route.from.trim()+' \u2192 '+route.to.trim():'');
+ }
+ bookTotal=noPick()?0:t;detTxt=parts.join(' | ');$('#mS').textContent=sm;$('#mT').textContent='Book '+d.label;$('#idBox').hidden=!d.pay;var _id=(d.pay&&p[0])?p[0].id:'';$('#airBox').hidden=!airKind(_id);airSetup(_id);var pn=(p[0]&&p[0].id==='airline'&&qtNow())?(qtNow().payNow||t):t;$('#mB').textContent=d.pay?'Pay \u20B9'+pn.toLocaleString('en-IN')+' & Book':payLbl(d,bookTotal);
+ msg.textContent=(d.pay&&AMB&&!AMB.live)?'Demo mode: no real money is charged.':'';msg.className='msg';dlg.showModal()});
+$('#mX').addEventListener('click',function(){dlg.close()});
+function post(u,b){return fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(function(r){return r.json().then(function(j){if(!r.ok){var er=new Error(j.error||'Something went wrong.');er.requote=!!j.requote;er.auth=(r.status===401);throw er}return j})})}
+function say(t,c){msg.className='msg '+(c||'');msg.textContent=t}
+function shrink(f){return new Promise(function(ok,no){var r=new FileReader();if(f.type==='application/pdf'){if(f.size>2.4e6)return no(new Error(f.name+': PDF is larger than 2.4 MB. Please upload a photo of each page instead.'));r.onload=function(){ok(r.result)};r.onerror=no;return r.readAsDataURL(f)}r.onload=function(){var m=new Image();m.onload=function(){var z=Math.min(1,1400/Math.max(m.width,m.height)),c=document.createElement('canvas');c.width=m.width*z;c.height=m.height*z;c.getContext('2d').drawImage(m,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.75))};m.onerror=no;m.src=r.result};r.onerror=no;r.readAsDataURL(f)})}
+/* up to 5 photos per document: one photo is sent as a single value, several as a list */
+function many(id){return Promise.all([].slice.call(document.getElementById(id).files,0,5).map(function(f){return shrink(f)})).then(function(a){return a.length>1?a:(a[0]||'')})}
+['aFit','aRep','aBed','aMed','aRx','aAuth'].forEach(function(id){var el=document.getElementById(id),h=document.createElement('p');h.className='note';h.style.margin='4px 0 0';el.parentNode.insertBefore(h,el.nextSibling);
+ function upd(){var n=el.files.length;h.textContent=n?(n>5?'Only the first 5 photos will be sent.':n+' photo'+(n>1?'s':'')+' selected'):'You can select up to 5 photos at once.'}
+ el.addEventListener('change',upd);frm.addEventListener('reset',function(){setTimeout(upd,0)});upd()});
+function paid(j){if(j.invoice){try{var iv=JSON.stringify(j.invoice);sessionStorage.setItem('gth_invoice',iv);localStorage.setItem('gth_invoice',iv)}catch(e){}location.href='ambulance-invoice.html';return}
+msg.className='msg ok';msg.textContent=j.message+' Booking ID: '+j.id+'. ';var a=document.createElement('a');a.href='track.html';a.textContent='Track your booking';a.style.color='#087cf2';msg.appendChild(a);frm.reset();sb.disabled=false}
+/* signature pad for the airline medical summary */
+(function(){var c=document.getElementById('sg');if(!c)return;var x=c.getContext('2d'),on=false,dr=false;x.lineWidth=2.6;x.lineCap='round';x.lineJoin='round';x.strokeStyle='#12365d';
+function pt(e){var r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]}
+c.addEventListener('pointerdown',function(e){e.preventDefault();on=true;try{c.setPointerCapture(e.pointerId)}catch(_){}var p=pt(e);x.beginPath();x.moveTo(p[0],p[1])});
+c.addEventListener('pointermove',function(e){if(!on)return;e.preventDefault();var p=pt(e);x.lineTo(p[0],p[1]);x.stroke();dr=true});
+['pointerup','pointercancel','pointerleave'].forEach(function(n){c.addEventListener(n,function(){on=false})});
+window.sgClear=function(){x.clearRect(0,0,c.width,c.height);dr=false};
+window.sgData=function(){return dr?c.toDataURL('image/png'):''};
+document.getElementById('sgC').addEventListener('click',window.sgClear);frm.addEventListener('reset',window.sgClear)})();
+/* ---- air ambulance: extra fields for charter aircraft, commercial airline and helicopter ---- */
+var curAir='';
+function airKind(id){return id==='airline'||id==='charter'||id==='heli'}
+function istToday(){return new Date(Date.now()+19800000).toISOString().slice(0,10)}
+var AIR_MIN_DAYS=5;   // Air India needs the MEDIF at least 5 days before the flight. Keep the same as AIRLINE_MIN_DAYS in ambulance.js
+function airMinDate(){return new Date(Date.now()+19800000+AIR_MIN_DAYS*864e5).toISOString().slice(0,10)}
+function urgChange(){$('#dtRow').hidden=!$('#urgBox').hidden&&$('#aUr').value!=='planned'}
+function heliCheck(){var w=$('#heliWarn');if(curAir!=='heli'){w.hidden=true;return}
+ var heavy=$('#aCo').value==='critical'||[].some.call(document.querySelectorAll('.aSp:checked'),function(c){return c.value!=='Cardiac monitor'});w.hidden=!heavy}
+function acSum(){var s=$('#acSum');if(s)s.textContent=route.from+' \u2192 '+route.to+' | Pickup ambulance: '+(route.gp==='yes'?'Yes':'No')+' | Drop ambulance: '+(route.gd==='yes'?'Yes':'No')}
+function airSetup(id){curAir=id;acSum();var a=airKind(id),h=id==='heli',ln=id==='airline';
+ $('#urgBox').hidden=!(id==='charter'||h);if($('#urgBox').hidden)$('#aUr').value='planned';urgChange();
+ $('#acBox').hidden=!(id==='airline'||id==='charter'||h);$('#heBox').hidden=!h;
+ [].forEach.call(document.querySelectorAll('.opW'),function(e){e.textContent=ln?'airline':'air ambulance operator'});
+ $('#aMedBox').hidden=!ln;$('#dtAirNote').hidden=!ln;var _mn=ln?airMinDate():istToday();$('#fD').min=_mn;if(ln&&$('#fD').value&&$('#fD').value<_mn)$('#fD').value='';$('#noteAir').hidden=!ln;$('#noteOp').hidden=ln;$('#fGl').textContent=a?'Age (compulsory)':'Age (optional)';heliCheck()}
+/* approximate straight-line distance from the pickup and drop map points (0 if the client typed the places without choosing from the list) */
+function airKm(){var f=route.fromLL,t=route.toLL;if(!f||!t)return 0;var r=Math.PI/180,dl=(t.lat-f.lat)*r,dn=(t.lng-f.lng)*r,x=Math.sin(dl/2)*Math.sin(dl/2)+Math.cos(f.lat*r)*Math.cos(t.lat*r)*Math.sin(dn/2)*Math.sin(dn/2);return Math.round(12742*Math.asin(Math.sqrt(x)))}
+$('#aRel').addEventListener('change',function(){$('#aAuthBox').hidden=!this.checked});frm.addEventListener('reset',function(){setTimeout(function(){$('#aAuthBox').hidden=!$('#aRel').checked},0)});
+$('#aUr').addEventListener('change',urgChange);$('#airBox').addEventListener('change',heliCheck);
+function payFlow(){
+ var f=$('#fI').files[0],pk=picked()[0];
+ if(!$('#fC').checked)return say('Please tick the consent box to continue.','err');
+ if(!f)return say('Please upload the patient\'s Aadhaar card photo.','err');
+ var isA=airKind(pk.id),isH=pk.id==='heli',isAc=pk.id==='airline'||pk.id==='charter'||pk.id==='heli',air=null;
+ if(isA){var ap=$('#aAp').value.replace(/\D/g,'').slice(-10),ag=$('#fG').value.trim();
+  if(ag===''||!(+ag>=0&&+ag<=120))return say('Please enter the patient age.','err');
+  if(!(+$('#aW').value>0)||!$('#aCo').value||$('#aDx').value.trim().length<3||$('#aAn').value.trim().length<2||ap.length!==10||$('#aPh').value.trim().length<2||$('#aDh').value.trim().length<2)return say('Please fill all flight transfer details (including patient condition and pickup hospital).','err');
+  var ac=+$('#aAc').value,aw=$('#aAw').value.split(/[,\s]+/).filter(Boolean).map(Number);
+  if(aw.length!==ac||aw.some(function(w){return !(w>0&&w<=200)}))return say('Please enter the weight of each attendant in kg ('+ac+' value'+(ac>1?'s, e.g. 70, 55':'')+').','err');
+  if($('#aAid').files.length<ac)return say('Please upload the Aadhaar photo of each attendant ('+ac+' photo'+(ac>1?'s':'')+').','err');
+  if(isAc&&(!route.fromLL||!route.toLL))return say('Please choose the pickup and drop airport on the previous screen.','err');
+  if(!$('#aFit').files[0]||!$('#aRep').files[0])return say('Please upload the fitness certificate and medical reports.','err');
+  if(!$('#aBed').files[0])return say('Please upload the drop hospital bed confirmation (acceptance letter).','err');
+  if(pk.id==='airline'&&!$('#aMed').files[0])return say('Please upload the filled and signed Air India MEDIF. Download it from the box above the upload field.','err');
+  if($('#aRel').checked&&($('#aRn').value.trim().length<2||$('#aRr').value.trim().length<2))return say('Please enter your name and your relation to the patient.','err');
+  if($('#aRel').checked&&!$('#aAuth').files[0])return say('Since a relative is booking, please upload the authorization letter.','err');
+  var dp=$('#aDp').value.replace(/\D/g,'').slice(-10),ep=$('#aEp').value.replace(/\D/g,'').slice(-10);
+  if($('#aDn').value.trim().length<2||dp.length!==10||$('#aEn').value.trim().length<2||ep.length!==10)return say('Please fill the treating doctor name and 10-digit phone, and the emergency contact (name and 10-digit mobile).','err');
+  var ur=$('#urgBox').hidden?'planned':$('#aUr').value;if(ur!=='planned')$('#fD').value=istToday();
+  if(!$('#fD').value)return say('Please choose the preferred date.','err');
+  if(pk.id==='airline'&&$('#fD').value<airMinDate())return say('For a flight transfer please choose a date at least '+AIR_MIN_DAYS+' days from today, because Air India needs the MEDIF and approval before the flight.','err');
+  if(!sgData())return say('Please sign in the signature box.','err');
+  air={weight:+$('#aW').value,cond:$('#aCo').value,dx:$('#aDx').value.trim(),mode:$('#aSt').value,oxygen:$('#aOx').value,infection:$('#aIn').value,support:[].map.call(document.querySelectorAll('.aSp:checked'),function(c){return c.value}),attendant:$('#aAn').value.trim(),attendantPhone:ap,attCount:ac,attWeights:aw,pickupHospital:$('#aPh').value.trim(),dropHospital:$('#aDh').value.trim(),urgency:ur,signature:sgData(),docName:$('#aDn').value.trim(),docHospital:$('#aDH').value.trim(),docReg:$('#aDr').value.trim(),docPhone:dp,emName:$('#aEn').value.trim(),emRel:$('#aEr').value.trim(),emPhone:ep};
+  air.distanceKm=airKm();
+  if($('#aRel').checked){air.requester='relative';air.requesterName=$('#aRn').value.trim();air.requesterRel=$('#aRr').value.trim()}
+  if(isAc){air.airportPickup=route.from.trim();air.airportDrop=route.to.trim();air.groundPickup=route.gp;air.groundDrop=route.gd}
+  if(isH){air.landPickup=$('#aLp').value;air.landDrop=$('#aLd').value;air.distanceKm=airKm()}}
+ sb.disabled=true;say('Please wait...');
+ Promise.all([shrink(f)].concat(isA?[many('aFit'),many('aRep'),many('aBed'),many('aAid'),many('aMed'),many('aRx'),many('aAuth')]:[])).then(function(im){var img=im[0];return post('/api/ambulance/start',{air:isA?Object.assign({},air,{docs:{fit:im[1],rep:im[2],bed:im[3],att:im[4],medif:im[5],rx:im[6],auth:im[7]}}):null,option:pk.id,name:$('#fN').value.trim(),phone:$('#fP').value,age:$('#fG').value,address:$('#fA').value.trim(),date:$('#fD').value,slot:$('#fS').value,pickup:route.from.trim(),drop:route.to.trim(),pickupLL:route.fromLL||null,dropLL:route.toLL||null,addressLL:gAddrLL||null,note:$('#fT').value.trim(),consent:true,expectTotal:(qtNow()?qtNow().quote.total:0),road:pk.id==='van'?roadObj():undefined,idProof:img})}).then(function(s){
+  if(s.demo)return post('/api/ambulance/confirm',{id:s.id}).then(paid);
+  return new Promise(function(ok){var sc=document.createElement('script');sc.src='https://checkout.razorpay.com/v1/checkout.js';
+   sc.onload=function(){new Razorpay({key:s.keyId,amount:s.amount*100,currency:'INR',order_id:s.orderId,name:'Ghar to Health',description:'Ambulance booking',prefill:{name:$('#fN').value,contact:$('#fP').value},theme:{color:'#087cf2'},
+    handler:function(r){ok(post('/api/ambulance/confirm',{id:s.id,razorpay_payment_id:r.razorpay_payment_id,razorpay_order_id:r.razorpay_order_id,razorpay_signature:r.razorpay_signature}).then(paid))},
+    modal:{ondismiss:function(){say('Payment cancelled. Your ambulance is not booked yet.','err');sb.disabled=false}}}).open()};
+   sc.onerror=function(){say('Cannot open the payment page. Please try again.','err');sb.disabled=false};document.head.appendChild(sc)})
+ }).catch(function(x){sb.disabled=false;if(x&&x.auth){dlg.close();GHTLogin.require(function(){dlg.showModal();say('Logged in. Please tap Pay & Book again.','ok')});return}say(x&&x.message?x.message:'Something went wrong. Please try again.','err');if(x&&x.requote){qt=null;reQuote()}})}
+frm.addEventListener('submit',function(e){
+ e.preventDefault();if(DATA[key].pay){payFlow();return}
+ var extra=$('#fT').value.trim();
+ var data={service:DATA[key].label,item:itemTxt,name:$('#fN').value.trim(),phone:$('#fP').value,age:$('#fG').value,
+  address:$('#fA').value.trim(),date:$('#fD').value,slot:$('#fS').value,details:(detTxt+(extra?' | Note: '+extra:'')).slice(0,400),consent:$('#fC').checked,total:bookTotal};
+ if(!data.consent){msg.className='msg err';msg.textContent='Please tick the consent box to continue.';return}
+ sb.disabled=true;msg.className='msg';msg.textContent='Sending...';
+ fetch('/api/medical-bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+ .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+ .then(function(x){
+  if(x.ok&&x.j.pending){dlg.close();showPay(x.j,data.phone);pend.mode=x.j.mode;frm.reset()}
+  else if(x.ok){saveLast({id:x.j.id,phone:data.phone,paid:false,inv:false});msg.className='msg ok';msg.textContent=x.j.message+' Booking ID: '+x.j.id+'. ';
+   var a=document.createElement('a');a.href='track.html';a.textContent='Track your booking';a.style.color='#087cf2';msg.appendChild(a);frm.reset()}
+  else{msg.className='msg err';msg.textContent=x.j.error||'Something went wrong.'}})
+ .catch(function(){msg.className='msg err';msg.textContent='Cannot reach the server. Please try again.'})
+ .then(function(){sb.disabled=false});
+});
+
+/* ===== UPI payment dialog (same UPI details as services.html) ===== */
+var PAY={upiId:'sy4453805@oksbi',upiName:'Shubham Yadav'},pend=null,pdlg=$('#pdlg');
+function pSay(t,c){var m=$('#pMsg');m.className='msg '+(c||'');m.textContent=t}
+function showPay(j,phone){
+ pend={id:j.id,phone:phone};
+ $('#pBody').hidden=false;$('#pOk').hidden=true;$('#pOkInv').hidden=true;$('#pDone').disabled=false;$('#pUtr').value='';pSay('');
+ $('#pAmt').textContent=inr(j.due);
+ $('#pRule').textContent=j.mode==='advance50'?('50% advance of '+inr(j.total)+'. The remaining '+inr(j.balance)+' is paid on delivery.'):'Full payment to confirm your booking.';
+ $('#pUpi').textContent=PAY.upiId;
+ $('#pLink').href='upi://pay?pa='+encodeURIComponent(PAY.upiId)+'&pn='+encodeURIComponent(PAY.upiName)+'&am='+Number(j.due).toFixed(2)+'&cu=INR&tn='+encodeURIComponent('Ghar to Health '+j.id);
+ pdlg.showModal()}
+$('#pUtr').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'')});
+$('#pCopy').addEventListener('click',function(){var b=this;try{navigator.clipboard.writeText(PAY.upiId);b.textContent='Copied'}catch(e){}});
+$('#pX').addEventListener('click',function(){pdlg.close()});
+$('#pOkX').addEventListener('click',function(){pdlg.close()});
+$('#pDone').addEventListener('click',function(){
+ var u=$('#pUtr').value;if(u.length!==12)return pSay('Enter the 12-digit UPI reference (UTR) number shown in your payment app.','err');
+ var b=this;b.disabled=true;pSay('Please wait...');
+ post('/api/medical-bookings/paid',{id:pend.id,phone:pend.phone,utr:u}).then(function(j){
+  $('#pBody').hidden=true;$('#pOk').hidden=false;$('#pOkT').textContent=j.message||'Payment noted. We will call you to confirm.';$('#pOkId').textContent=j.id||pend.id;
+  saveLast({id:j.id||pend.id,phone:pend.phone,paid:true,mode:pend.mode,inv:!!j.invoiceNo});$('#pOkInv').hidden=!j.invoiceNo
+ }).catch(function(e){pSay(e&&e.message?e.message:'Something went wrong. Please try again.','err');b.disabled=false})});
+
+/* ===== Last booking bar: Booking ID + payment status + invoice (same as home maintenance) ===== */
+var lastMed=null;try{lastMed=JSON.parse(localStorage.getItem('gth_med_last')||'null')}catch(e){}
+function saveLast(b){lastMed=b;try{localStorage.setItem('gth_med_last',JSON.stringify(b))}catch(e){}showLastMed()}
+function openMedInv(){if(!lastMed)return;window.open('/api/invoice?id='+encodeURIComponent(lastMed.id)+'&phone='+encodeURIComponent(String(lastMed.phone).slice(-10)),'_blank')}
+function showLastMed(){
+ var b=lastMed,bar=$('#lastInv');
+ if(!b||!/^[A-Za-z0-9]+$/.test(String(b.id))){bar.style.display='none';return}
+ bar.style.display='flex';
+ bar.innerHTML='\uD83E\uDDFE Booking <b>'+b.id+'</b> <span class="ght-uid" style="color:#5b7690;font-size:13px"></span> '+(b.paid?(b.mode==='advance50'?'\u00B7 \u2705 Advance paid ':'\u00B7 \u2705 Paid '):'\u00B7 We will call you to confirm ')+(b.inv?'<button type="button" class="btn ghost" id="lastInvBtn">View / Print Invoice</button>':'');
+ var ib=$('#lastInvBtn');if(ib)ib.addEventListener('click',openMedInv)}
+$('#pOkInv').addEventListener('click',openMedInv);
+showLastMed();
+
+/* ===== Free location search (OpenStreetMap / Photon): suggestions + current location. No API key needed ===== */
+var LOC_ON=true,gAddrLL=null,gTimer=null,gFail=false,gNo={},gSeq={};
+function gBtn(id){return '<button type="button" class="gloc" data-g="'+id+'">📍 Use my current location</button>'}
+function gLabel(p){var a=[p.name,[p.street,p.housenumber].filter(Boolean).join(' '),p.district||p.locality,p.city,p.state,p.postcode],o=[];
+ a.forEach(function(x){if(x&&o.indexOf(x)<0)o.push(x)});return o.join(', ')}
+function gBox(inp){var p=inp.parentNode;p.classList.add('gwrap');var b=p.querySelector('.gdrop[data-for="'+inp.id+'"]');
+ if(!b){b=document.createElement('div');b.className='gdrop';b.setAttribute('data-for',inp.id);p.appendChild(b)}
+ b.style.top=(inp.offsetTop+inp.offsetHeight+2)+'px';b.style.left=inp.offsetLeft+'px';b.style.width=inp.offsetWidth+'px';return b}
+var SVC={city:'Raipur',lat:21.2514,lng:81.6296,km:35,bbox:'81.29,20.93,81.97,21.57'};
+function kmApart(a,b){var r=function(d){return d*Math.PI/180},dl=r(b.lat-a.lat),dg=r(b.lng-a.lng),x=Math.sin(dl/2)*Math.sin(dl/2)+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dg/2)*Math.sin(dg/2);return 6371*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))}
+function svcOut(ll){return !!ll&&kmApart(ll,SVC)>SVC.km}
+function svcText(){var f=route.fromOut,t=route.toOut;if(!f&&!t)return'';return'Ghar to Health currently provides road ambulance service within '+SVC.city+' only. We will be expanding to other cities very soon. Please choose '+(f&&t?'pickup and drop locations':f?'a pickup location':'a drop location')+' within '+SVC.city+'.'}
+function svcShow(){var el=$('#svcMsg');if(!el)return;var s=svcText();el.hidden=!s;el.textContent=s}
+function gFeat(j){return(j.features||[]).filter(function(f){return f.properties&&f.properties.countrycode==='IN'&&f.geometry&&f.geometry.coordinates}).slice(0,5).map(function(f){return{t:gLabel(f.properties),ll:{lat:f.geometry.coordinates[1],lng:f.geometry.coordinates[0]}}}).filter(function(x){return x.t})}
+function photon(v,inCity){return fetch('https://photon.komoot.io/api/?lang=en&limit=10&lat='+SVC.lat+'&lon='+SVC.lng+(inCity?'&bbox='+SVC.bbox:'')+'&q='+encodeURIComponent(v)).then(function(r){if(!r.ok)throw 0;return r.json()}).then(gFeat)}
+function gSuggestRoad(inp){clearTimeout(gTimer);var v=inp.value.trim(),b=gBox(inp),id=inp.id,side=id==='aFrom'?'from':'to';gSeq[id]=(gSeq[id]||0)+1;var my=gSeq[id];
+ if(v.length<3){b.innerHTML='';return}
+ gTimer=setTimeout(function(){
+  photon(v,true).then(function(list){if(list.length)return{list:list};return photon(v,false).then(function(l2){return{list:[],out:l2.length>0}})}).then(function(r){
+   if(my!==gSeq[id])return;gFail=false;
+   var list=r.list.slice();route[side+'Out']=!!r.out;svcShow();gNo[id]=!list.length&&!r.out;
+   var h=list.map(function(s,i){return '<div class="gi" data-i="'+i+'">'+esc(s.t)+'</div>'}).join('');
+   if(r.out)h+='<div class="gpw">This place is outside '+SVC.city+'. Road ambulance is available within '+SVC.city+' only.</div>';
+   else if(!list.length)h+='<div class="gpw">No match found in '+SVC.city+'. You can type the hospital or address manually.</div>';
+   list.push({t:v,ll:null,manual:true});b._list=list;
+   h+='<div class="gi" data-i="'+(list.length-1)+'">\u270F\uFE0F Use \u201C'+esc(v)+'\u201D as typed (manual entry)</div>';
+   if(r.list.length)h+='<div class="gpw">\u00A9 OpenStreetMap contributors</div>';
+   b.innerHTML=h}).catch(function(){gFail=true})},500)}
+function gApply(id,text,ll){var inp=document.getElementById(id);if(!inp)return;inp.value=text;gNo[id]=false;
+ if(id==='aFrom'){route.from=text;route.fromOut=svcOut(ll);route.fromLL=route.fromOut?null:ll}else if(id==='aTo'){route.to=text;route.toOut=svcOut(ll);route.toLL=route.toOut?null:ll}else if(id==='fA'){gAddrLL=ll}else if(id==='aFromC'){route.fromC=text;route.fromCLL=ll;apFill('from')}else if(id==='aToC'){route.toC=text;route.toCLL=ll;apFill('to')}
+ var b=inp.parentNode.querySelector('.gdrop[data-for="'+id+'"]');if(b)b.innerHTML='';var er=$('#aErr');if(er)er.textContent='';if(id==='aFrom'||id==='aTo'){svcShow();reQuote()}}
+function gSuggest(inp){clearTimeout(gTimer);var v=inp.value.trim(),b=gBox(inp),id=inp.id;gSeq[id]=(gSeq[id]||0)+1;var my=gSeq[id];
+ if(v.length<3){b.innerHTML='';return}
+ gTimer=setTimeout(function(){
+  fetch('https://photon.komoot.io/api/?lang=en&limit=10&lat=22.5&lon=79&q='+encodeURIComponent(v)).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
+   if(my!==gSeq[id])return;gFail=false;
+   var list=(j.features||[]).filter(function(f){return f.properties&&f.properties.countrycode==='IN'&&f.geometry&&f.geometry.coordinates}).slice(0,5)
+    .map(function(f){return{t:gLabel(f.properties),ll:{lat:f.geometry.coordinates[1],lng:f.geometry.coordinates[0]}}}).filter(function(x){return x.t});
+   b._list=list;gNo[id]=!list.length;
+   b.innerHTML=list.length?list.map(function(s,i){return '<div class="gi" data-i="'+i+'">'+esc(s.t)+'</div>'}).join('')+'<div class="gpw">© OpenStreetMap contributors</div>':'<div class="gpw">No match found. You can type the place manually.</div>'
+  }).catch(function(){gFail=true})},500)}
+document.addEventListener('input',function(e){var id=e.target.id;
+ if(id==='aFrom'){route.fromLL=null;route.fromOut=false;svcShow();gSuggestRoad(e.target)}else if(id==='aTo'){route.toLL=null;route.toOut=false;svcShow();gSuggestRoad(e.target)}else if(id==='fA'){gAddrLL=null;gSuggest(e.target)}else if(id==='aFromC'){route.fromC=e.target.value;apClear('from');gSuggest(e.target)}else if(id==='aToC'){route.toC=e.target.value;apClear('to');gSuggest(e.target)}});
+document.addEventListener('mousedown',function(e){var it=e.target.closest&&e.target.closest('.gi');
+ if(!it){document.querySelectorAll('.gdrop').forEach(function(x){x.innerHTML=''});return}
+ e.preventDefault();var box=it.parentNode,s=box._list&&box._list[+it.dataset.i];if(s){gApply(box.getAttribute('data-for'),s.t,s.ll);if(s.manual)gNo[box.getAttribute('data-for')]=true}});
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.gloc');if(!b)return;e.preventDefault();gHere(b)});
+function gHere(btn){var id=btn.dataset.g,old=btn.textContent;
+ if(!navigator.geolocation){alert('Your browser does not support location. Please type the place and choose it from the list.');return}
+ btn.disabled=true;btn.textContent='Finding your location...';var done=function(){btn.disabled=false;btn.textContent=old};
+ navigator.geolocation.getCurrentPosition(function(p){var ll={lat:p.coords.latitude,lng:p.coords.longitude},fb=ll.lat.toFixed(5)+', '+ll.lng.toFixed(5);
+  fetch('https://photon.komoot.io/reverse?lang=en&lat='+ll.lat+'&lon='+ll.lng).then(function(r){return r.json()}).then(function(j){
+   var f=j.features&&j.features[0];gApply(id,(f&&f.properties&&gLabel(f.properties))||fb,ll)}).catch(function(){gApply(id,fb,ll)}).then(done)},
+ function(){done();alert('Could not get your location. Please allow location access in the browser (needs https), or type the place and choose it from the list.')},
+ {enableHighAccuracy:true,timeout:15000,maximumAge:0})}
+(function(){var fAb=document.getElementById('fAloc');if(fAb)fAb.hidden=false})();
+var AMB=null;fetch('/api/ambulance/options').then(function(r){return r.json()}).then(function(o){AMB=o;o.items.forEach(function(x){var it=DATA.ambulance.items.filter(function(i){return i.id===x.id})[0];if(it){it.price=0}});render()}).catch(function(){});
+function locOk(){if(isAcAir())return !!(route.fromLL&&route.toLL);if(route.fromOut||route.toOut)return false;var rf=route.from.trim(),rt=route.to.trim();if(rf.length<2||rt.length<2)return false;if(LOC_ON&&!gFail&&((!route.fromLL&&!gNo.aFrom)||(!route.toLL&&!gNo.aTo)))return false;return true}
+function qBody(){var p=picked()[0];if(!p)return'';if(qtNow())return valHtml(true);var e=(qtE&&qtE.key===qtKey())?qtE.msg:'';return'<div class="val"><h3>Live booking valuation</h3><div class="vr"><span>Service</span><b>'+esc(p.name)+'</b></div><p class="vn" style="font-size:15px;margin-top:14px">'+esc(e||'Calculating your price...')+'</p></div>'}
+function showQ(){var d=$('#qdlg');if(!d)return;$('#qdBody').innerHTML=qBody();if(!d.open)d.showModal()}
+$('#qdlg').addEventListener('click',function(e){if(e.target.id==='vBookM'){this.close();$('#bBtn').click()}else if(e.target.id==='qdX'||e.target===this)this.close()});
+function reQuote(){clearTimeout(qtTimer);var vb=$('#valBox');if(vb)vb.innerHTML=valHtml();bar();var p=picked()[0];if(!DATA[key].pay||!p||qtNow())return;
+ qtTimer=setTimeout(function(){if(!locOk())return;var k=qtKey();qtE=null;
+  fetch('/api/ambulance/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({option:p.id,pickup:route.from.trim(),drop:route.to.trim(),pickupLL:route.fromLL||null,dropLL:route.toLL||null,groundPickup:isAcAir()?route.gp:undefined,groundDrop:isAcAir()?route.gd:undefined,road:p.id==='van'?roadObj():undefined})}).then(function(r){return r.json()}).then(function(q){if(k!==qtKey())return;if(q&&q.quote)qt={key:k,quote:q.quote,payNow:q.payNow};else qtE={key:k,msg:(q&&q.error)||'Could not calculate the price. Please try again.'};var v2=$('#valBox');if(v2)v2.innerHTML=valHtml();bar()}).catch(function(){if(k!==qtKey())return;qtE={key:k,msg:'Could not get the price from the server. Please try again.'};var v3=$('#valBox');if(v3)v3.innerHTML=valHtml();bar()})},400)}
+render();
+})();
+</script>
+<script>
+/* Block text selection (and Chrome's Touch-to-Search panel) everywhere except form fields */
+(function(){
+  function isField(t){return t&&t.closest&&t.closest('input,textarea,select,[contenteditable="true"]')}
+  document.addEventListener('selectstart',function(e){if(!isField(e.target))e.preventDefault()});
+  document.addEventListener('contextmenu',function(e){if(!isField(e.target))e.preventDefault()});
+  document.addEventListener('dragstart',function(e){if(!isField(e.target))e.preventDefault()});
+  document.addEventListener('selectionchange',function(){
+    var a=document.activeElement;
+    if(a&&/^(INPUT|TEXTAREA)$/.test(a.tagName))return;
+    var s=window.getSelection&&window.getSelection();
+    if(s&&!s.isCollapsed)s.removeAllRanges();
+  });
+})();
+</script>
+
+<script>
+fetch('/api/medif/airindia/info').then(function(r){return r.json()}).then(function(d){
+ var dl=document.getElementById('medifDl'),u=document.getElementById('medifUpd'); if(!dl||!u)return;
+ if(!d.available){dl.hidden=true;u.textContent='The Air India MEDIF will be shared by our team on WhatsApp after booking.';return}
+ if(d.updatedAt)u.textContent="This is Air India's official form (last updated "+new Date(d.updatedAt).toLocaleDateString('en-IN')+"). Air India needs a separate MEDIF for every flight."
+}).catch(function(){});
+</script>
+<script src="login.js"></script>
+</body>
+</html>

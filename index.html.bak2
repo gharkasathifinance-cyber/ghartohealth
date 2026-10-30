@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghar to Health | Home Maintenance & Medical Services</title>
+<meta name="description" content="Ghar to Health provides trusted home maintenance services, doctor consultation and medicine delivery.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f7fbff;color:#12365d;line-height:1.6}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit}
+.container{width:92%;max-width:1200px;margin:auto}
+:focus-visible{outline:3px solid #087cf2;outline-offset:2px}
+
+/* header */
+.header{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid #e3edf6}
+.navbar{height:78px;display:flex;align-items:center;justify-content:space-between;gap:25px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#087cf2,#075bc1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 8px 20px rgba(8,124,242,.2)}
+.logo-text h2{color:#0758ad;font-size:20px;line-height:1.1}
+.logo-text span{display:block;font-size:10px;color:#6c8299;letter-spacing:.5px;font-weight:600}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:14px;font-weight:600;color:#375775;padding-bottom:4px;border-bottom:2px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:#087cf2;border-color:#087cf2}
+.nav-right{display:flex;align-items:center;gap:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:30px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:.25s}
+.btn-primary{color:#fff;background:linear-gradient(135deg,#087ff5,#0564cf);box-shadow:0 10px 22px rgba(8,124,242,.2)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-outline{color:#0875df;background:#fff;border:1px solid #1687ed}
+.btn-outline:hover{background:#edf8ff}
+.btn-white{background:#fff;color:#0564cf}
+
+/* hero */
+.hero{background:linear-gradient(110deg,#e8f8ff,#cceeff 50%,#a8defb);padding:40px 0 60px;border-radius:0 0 50% 50%/0 0 40px 40px}
+.hero-container{display:grid;grid-template-columns:.85fr 1.15fr;align-items:center;gap:20px}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#0868c9;margin-bottom:10px}
+.hero h1{font-size:50px;line-height:1.1;letter-spacing:-1px;color:#07213f;margin-bottom:16px}
+.hero h1 span{color:#087cf2}
+.hero p{font-size:15px;color:#496981;margin-bottom:24px;max-width:420px}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+.hero-visual img {
+  width: 115%;
+  height: 110%;
+  max-height: 550px;
+  object-fit: contain;
+  object-position: top;
+  border-radius: 16px;
+}
+
+/* sections */
+section{padding:50px 0}
+.heading{text-align:center;margin-bottom:30px}
+.label{font-size:12px;font-weight:800;letter-spacing:1.5px;color:#087cf2;margin-bottom:6px}
+.heading h2{font-size:30px;color:#0a396b}
+.heading p{font-size:14px;color:#5b7690}
+.services-wrapper{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.service-box{border-radius:20px;padding:22px;border:1px solid #d9ebf8;background:#eef7ff;box-shadow:0 10px 30px rgba(12,89,145,.05)}
+.service-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.service-title{display:flex;align-items:center;gap:12px}
+.round-icon{width:50px;height:50px;border-radius:50%;background:#0b75e0;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}
+.service-title h3{font-size:18px;color:#0a396b;line-height:1.2}
+.service-title p{font-size:12px;color:#6c8299}
+.view-all{padding:7px 22px;font-size:12px;font-weight:700;border:1px solid #1687ed;color:#0875df;background:#fff;border-radius:20px;cursor:pointer}
+.service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.service-card{background:#fff;border:1px solid #e1edf6;border-radius:12px;padding:18px 8px;text-align:center;font-size:13px;font-weight:600;color:#12365d;transition:.25s;cursor:pointer}
+.service-card:hover{transform:translateY(-3px);border-color:#087cf2}
+.service-card i{display:block;font-style:normal;font-size:28px;margin-bottom:6px}
+
+.service-grid.med .service-card:nth-child(n+9){display:none}
+.service-grid.med.open .service-card{display:block}
+
+/* amc */
+.amc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.amc-card{display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:20px;border:1px solid #d9ebf8;background:linear-gradient(160deg,#fff,#eef7ff);box-shadow:0 10px 30px rgba(12,89,145,.05);transition:.25s}
+.amc-card:hover{transform:translateY(-4px);border-color:#087cf2;box-shadow:0 16px 36px rgba(12,89,145,.12)}
+.amc-top{display:flex;align-items:center;gap:14px}
+.amc-card h3{font-size:18px;color:#0a396b;line-height:1.2}
+.amc-card > p{font-size:13px;color:#5b7690}
+.amc-card ul{list-style:none;display:grid;gap:6px;font-size:13px;color:#375775;margin:2px 0 6px}
+.amc-card li::before{content:"✓";color:#087cf2;font-weight:800;margin-right:8px}
+.amc-link{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;padding:9px 22px;border-radius:30px;border:1px solid #1687ed;color:#0875df;background:#fff;font-size:13px;font-weight:700;align-self:flex-start}
+.amc-card:hover .amc-link{background:#087cf2;color:#fff}
+
+/* why */
+.why-wrapper{background:#eaf4ff;border-radius:30px;display:grid;grid-template-columns:1.3fr repeat(5,1fr);align-items:center}
+.why-intro{padding:25px 30px}
+.why-intro .label{color:#0868c9}
+.why-intro h2{font-size:26px;color:#0a58b0;line-height:1.2}
+.why-intro p{color:#087cf2;font-size:15px;margin-top:6px}
+.why-card{text-align:center;padding:20px 10px;border-left:1px solid #d5e5f3}
+.why-card i{display:flex;width:44px;height:44px;margin:0 auto 8px;border-radius:50%;border:1.5px solid #0b75e0;color:#0b75e0;align-items:center;justify-content:center;font-style:normal;font-size:20px}
+.why-card h4{font-size:14px;line-height:1.3}
+.why-card p{font-size:11px;color:#6c8299;margin-top:6px}
+
+/* how */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+.step{position:relative;padding:0 10px}
+.step i{display:flex;width:56px;height:56px;margin:0 auto 10px;border-radius:50%;background:#e4f1ff;align-items:center;justify-content:center;font-style:normal;font-size:26px}
+.step b.num{position:absolute;left:calc(50% - 60px);top:38px;width:22px;height:22px;border-radius:50%;background:#0b75e0;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center}
+.step h4{font-size:14px}
+.step p{font-size:12px;color:#6c8299}
+
+/* promo */
+.promo{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.promo-card{display:flex;align-items:center;gap:20px;border-radius:16px;border:1px solid #d3e6f5;background:linear-gradient(90deg,#fff,#e6f3ff);padding:0;overflow:hidden}
+.promo-card .txt{padding:22px 26px}
+.promo-card img{flex:none;width:38%;height:100%;min-height:150px;object-fit:cover;align-self:stretch}
+.promo-card h3{font-size:20px;color:#0a396b}
+.promo-card p{font-size:13px;color:#5b7690;margin:4px 0 14px}
+
+/* testimonials */
+.testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.review{background:#fff;border:1px solid #e1edf6;border-radius:12px;padding:16px 18px;box-shadow:0 6px 18px rgba(12,89,145,.05)}
+.review q{font-size:13px;color:#375775;display:block;margin-bottom:12px}
+.who{display:flex;align-items:center;gap:10px;font-size:12px;color:#6c8299}
+.who b{display:block;color:#12365d;font-size:13px}
+.avatar{width:42px;height:42px;border-radius:50%;overflow:hidden;flex:none}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.stars{color:#f5a623;font-size:12px}
+
+/* cta */
+.cta{background:linear-gradient(100deg,#0b6fdc,#3aa0f5);border-radius:18px;padding:28px 36px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.cta h3{font-size:20px}
+.cta p{font-size:13px;opacity:.9}
+
+/* footer */
+footer{background:#fff;padding-top:30px;margin-top:30px}
+.footer-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:22px}
+.footer-links{display:flex;gap:26px;font-size:12px;color:#375775;font-weight:600}
+.socials{display:flex;gap:8px;align-items:center;font-size:12px;color:#375775}
+.socials span{width:26px;height:26px;border-radius:50%;background:#0b75e0;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.footer-bottom{background:#062f60;color:#cfe4f8;padding:14px 0;font-size:12px}
+.footer-bottom .container{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.admin-link{display:inline-block;color:#8fb1d4;font-size:12px}
+
+@media(max-width:1000px){
+.nav-links{display:none}
+.hero-container,.services-wrapper,.promo,.testimonials,.amc-grid{grid-template-columns:1fr}
+.hero{border-radius:0 0 30px 30px}
+.hero h1{font-size:38px}
+.why-wrapper{grid-template-columns:1fr 1fr}
+.why-intro{grid-column:1/-1}
+.why-card{border-left:none;border-top:1px solid #d5e5f3}
+.steps{grid-template-columns:1fr 1fr}
+.service-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:520px){
+.hero-visual{min-height:240px}
+.why-wrapper,.steps{grid-template-columns:1fr}
+.promo-card{flex-direction:column;text-align:center}
+}
+
+/* booking modal */
+dialog{border:none;border-radius:18px;padding:0;width:min(440px,92vw);box-shadow:0 20px 60px rgba(7,57,110,.35)}
+dialog::backdrop{background:rgba(7,57,110,.45)}
+.modal{padding:26px}
+.modal h3{color:#0a396b;font-size:22px}
+.modal .sub{font-size:13px;color:#6c8299;margin-bottom:14px}
+.modal label{display:block;font-size:12px;font-weight:700;color:#375775;margin:10px 0 4px}
+.modal input,.modal select,.modal textarea{width:100%;padding:10px 12px;border:1px solid #cfe0ee;border-radius:10px;font:inherit;font-size:14px;color:#12365d}
+.modal .row{display:flex;gap:10px;margin-top:18px}
+.modal .row .btn{flex:1}
+.msg{font-size:13px;margin-top:12px;min-height:18px}
+.msg.err{color:#c62828}
+.msg.ok{color:#1b7f3b;font-weight:600}
+</style>
+</head>
+<body>
+
+<header class="header">
+<div class="container navbar">
+<a href="#" class="logo">
+<div class="logo-icon">⌂</div>
+<div class="logo-text"><h2>Ghar to Health</h2><span>Healthy Homes. Happier Lives.</span></div>
+</a>
+<nav class="nav-links">
+<a href="#" class="active">Home</a><a href="#services">Services</a><a href="#amc">AMC</a><a href="#why">About Us</a><a href="#">Blog</a><a href="#contact">Contact</a>
+</nav>
+<div class="nav-right">
+<span aria-label="Search">🔍</span>
+<button class="btn btn-primary">📅 Book a Service</button>
+</div>
+</div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container hero-container">
+<div>
+<div class="eyebrow">HOME MAINTENANCE | MEDICAL SERVICES</div>
+<h1>Your Home.<br>Our Care.<br><span>All in One Place.</span></h1>
+<p>From home maintenance to doctor consultation and medicine delivery — Ghar to Health brings trusted services to your doorstep.</p>
+<div class="hero-buttons">
+<button class="btn btn-primary">⌂ Book Home Service</button>
+<button class="btn btn-outline">🩺 Consult a Doctor</button>
+</div>
+</div>
+<div class="hero-visual"><img src="hero.png" alt="Technician repairing an AC and a doctor holding a Ghar to Health medicine bag"></div>
+</div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+<div class="container">
+<div class="services-wrapper">
+
+<div class="service-box">
+<div class="service-header">
+<div class="service-title">
+<div class="round-icon">⌂</div>
+<div><h3>Home Maintenance</h3><p>Keep your home safe, clean and running smoothly.</p></div>
+</div>
+<button class="view-all" data-cat="home">View All</button>
+</div>
+<div class="service-grid" id="homeGrid">
+<div class="service-card"><i>🚰</i><span>Plumber</span></div>
+<div class="service-card"><i>⚡</i><span>Electrician</span></div>
+<div class="service-card"><i>🔨</i><span>Carpenter</span></div>
+<div class="service-card"><i>❄️</i><span>AC Service</span></div>
+<div class="service-card"><i>🧹</i><span>Cleaning</span></div>
+<div class="service-card"><i>🛋️</i><span>Sofa Cleaning</span></div>
+<div class="service-card"><i>🐜</i><span>Pest Control</span></div>
+<div class="service-card"><i>🧺</i><span>Appliance Repair</span></div>
+</div>
+</div>
+
+<div class="service-box">
+<div class="service-header">
+<div class="service-title">
+<div class="round-icon">🩺</div>
+<div><h3>Medical Services</h3><p>Consult doctors, order medicines, all from home.</p></div>
+</div>
+<button class="view-all" data-cat="medical">View All</button>
+</div>
+<div class="service-grid med" id="medicalGrid"></div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- AMC -->
+<section id="amc" style="padding-top:10px">
+<div class="container">
+<div class="heading">
+<div class="label">— MAINTENANCE PLANS —</div>
+<h2>AMC Services</h2>
+<p>Choose the right maintenance plan for your property.</p>
+</div>
+
+<div class="amc-grid">
+
+<a class="amc-card" href="amc.html?type=residential">
+<div class="amc-top"><div class="round-icon">🏠</div><h3>Residential AMC</h3></div>
+<p>Maintenance plans for homes, apartments and villas.</p>
+<ul><li>Plumbing &amp; electrical checks</li><li>AC &amp; appliance servicing</li><li>Priority support</li></ul>
+<span class="amc-link">View Plans →</span>
+</a>
+
+<a class="amc-card" href="amc.html?type=cafe">
+<div class="amc-top"><div class="round-icon">☕</div><h3>Café &amp; Restaurant AMC</h3></div>
+<p>Regular maintenance for cafés and restaurants.</p>
+<ul><li>Kitchen equipment servicing</li><li>Pest control &amp; deep cleaning</li><li>Minimal downtime</li></ul>
+<span class="amc-link">View Plans →</span>
+</a>
+
+<a class="amc-card" href="amc.html?type=office">
+<div class="amc-top"><div class="round-icon">🏢</div><h3>Office &amp; Commercial AMC</h3></div>
+<p>Complete maintenance support for offices.</p>
+<ul><li>AC, electrical &amp; plumbing</li><li>Scheduled preventive visits</li><li>Dedicated support</li></ul>
+<span class="amc-link">View Plans →</span>
+</a>
+
+</div>
+</div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+<div class="container">
+<div class="why-wrapper">
+<div class="why-intro"><div class="label">WHY CHOOSE US</div><h2>Why Ghar to Health?</h2><p>Simple. Reliable. Convenient.</p></div>
+<div class="why-card"><i>🛡️</i><h4>Verified<br>Professionals</h4><p>Background verified &amp; trained experts</p></div>
+<div class="why-card"><i>⌂</i><h4>Convenient<br>Home Service</h4><p>Book from anywhere, at your time.</p></div>
+<div class="why-card"><i>₹</i><h4>Transparent<br>Pricing</h4><p>No hidden charges. Just fair prices.</p></div>
+<div class="why-card"><i>🕒</i><h4>Quick &amp; Easy<br>Booking</h4><p>In just a few taps.</p></div>
+<div class="why-card"><i>♡</i><h4>Your Well-being<br>Our Priority</h4><p>Because your health and home matter.</p></div>
+</div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+<div class="container">
+<div class="heading"><h2 style="font-size:22px">How It Works</h2><p>Book. Get Service. Relax.</p></div>
+<div class="steps">
+<div class="step"><i>⌂</i><b class="num">1</b><h4>Book Your Service</h4><p>Choose home maintenance or medical service.</p></div>
+<div class="step"><i>🧑‍💼</i><b class="num">2</b><h4>Expert Connects</h4><p>We assign a verified professional.</p></div>
+<div class="step"><i>🔧</i><b class="num">3</b><h4>Service/Consultation</h4><p>Get the service or consultation you need.</p></div>
+<div class="step"><i>🛡️</i><b class="num">4</b><h4>Complete &amp; Pay</h4><p>Easy and secure payment process.</p></div>
+</div>
+</div>
+</section>
+
+<!-- PROMO -->
+<section style="padding-top:10px">
+<div class="container promo">
+<div class="promo-card"><img src="promo-home.png" alt="Home maintenance tools"><div class="txt"><h3>Need Help at Home?</h3><p>Reliable home maintenance services for every need.</p><button class="btn btn-primary">Explore Home Services →</button></div></div>
+<div class="promo-card"><div class="txt"><h3>Take Care of Your Health</h3><p>Online doctor consultation, medicine delivery and more.</p><button class="btn btn-primary">Explore Medical Services →</button></div><img src="promo-medical.png" alt="Stethoscope and medicines"></div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="padding-top:20px">
+<div class="container">
+<div class="heading"><h2 style="font-size:20px">What Our Customers Say</h2><p>Real people. Real experiences.</p></div>
+<div class="testimonials">
+<div class="review"><q>The plumber arrived on time and did a great job. Very professional and polite.</q><div class="who"><div class="avatar"><img src="avatar3.jpg" alt="Rohit Sharma"></div><div><b>Rohit Sharma</b>Raipur<div class="stars">★★★★★</div></div></div></div>
+<div class="review"><q>Consulted a doctor online for my mother. It was quick and easy. Medicine also delivered on time.</q><div class="who"><div class="avatar"><img src="avatar1.png" alt="Priya Verma"></div><div><b>Priya Verma</b>Raipur<div class="stars">★★★★★</div></div></div></div>
+<div class="review"><q>AC service was really good. Technician was skilled and completed the work properly.</q><div class="who"><div class="avatar"><img src="avatar4.png" alt="Amit Singh"></div><div><b>Amit Singh</b>Raipur<div class="stars">★★★★★</div></div></div></div>
+</div></div>
+</section>
+
+<!-- CTA -->
+<section id="contact" style="padding-top:10px;padding-bottom:0">
+<div class="container">
+<div class="cta">
+<div><h3>Your Home. Your Health. Our Priority.</h3><p>Book a service today and experience the convenience of Ghar to Health.</p></div>
+<button class="btn btn-white">Book Now →</button>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<div class="container footer-top">
+<div class="logo"><div class="logo-icon">⌂</div><div class="logo-text"><h2>Ghar to Health</h2><span>Healthy Homes. Happier Lives.</span></div></div>
+<nav class="footer-links"><a href="#">Home</a><a href="#services">Services</a><a href="#amc">AMC</a><a href="#why">About Us</a><a href="#">Blog</a><a href="#contact">Contact</a></nav>
+<div class="socials">Follow Us <span>f</span><span>ig</span><span>▶</span><span>in</span></div>
+</div>
+<div class="footer-bottom">
+<div class="container">
+<p>&copy; 2026 Ghar to Health. All rights reserved.</p>
+<p>Terms &amp; Conditions | Privacy Policy | Support</p>
+<a class="admin-link" href="/admin-login.html">🔒 Admin Login</a>
+</div>
+</div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<dialog id="bookDialog">
+<form class="modal" id="bookForm" method="dialog" novalidate>
+<h3 id="bookTitle">Book a Service</h3>
+<p class="sub" id="bookSub">Share your details and our team will call you to confirm.</p>
+<label for="fType">Service type</label>
+<select id="fType" name="type"><option value="home">Home Maintenance</option><option value="medical">Medical Services</option></select>
+<label for="fService">Service</label>
+<select id="fService" name="service"></select>
+<label for="fName">Your name</label>
+<input id="fName" name="name" autocomplete="name" required>
+<label for="fPhone">Mobile number</label>
+<input id="fPhone" name="phone" type="tel" inputmode="numeric" placeholder="10-digit number" autocomplete="tel" required>
+<label for="fAddress">Address</label>
+<textarea id="fAddress" name="address" rows="2" required></textarea>
+<label for="fDate">Preferred date</label>
+<input id="fDate" name="date" type="date">
+<div class="msg" id="bookMsg" role="status"></div>
+<div class="row">
+<button type="button" class="btn btn-outline" id="bookCancel">Close</button>
+<button type="submit" class="btn btn-primary" id="bookSubmit">Confirm booking</button>
+</div>
+</form>
+</dialog>
+
+<script>
+(function(){
+var SERVICES={home:['Plumber','Electrician','Carpenter','AC Service','Cleaning','Sofa Cleaning','Pest Control','Appliance Repair'],medical:['Doctor Consultation','Medicine Delivery','Lab Tests','Health Check-up','Nurse at Home','Physiotherapy','Ambulance','Scans & Imaging','Dental Care','Eye Care','Mental Health','Diet & Nutrition']};
+var dlg=document.getElementById('bookDialog'),form=document.getElementById('bookForm'),
+type=document.getElementById('fType'),svc=document.getElementById('fService'),msg=document.getElementById('bookMsg'),btn=document.getElementById('bookSubmit');
+document.getElementById('fDate').min=new Date().toISOString().slice(0,10);
+fetch('/api/services').then(function(r){return r.json()}).then(function(d){SERVICES=d;renderMedical()}).catch(function(){});
+var MED_ICONS={"Doctor Consultation":"🧑‍⚕️","Medicine Delivery":"💊","Lab Tests":"🧪","Health Check-up":"💙","Nurse at Home":"👩‍⚕️","Physiotherapy":"🦴","Ambulance":"🚑","Scans & Imaging":"🩻","Dental Care":"🦷","Eye Care":"👁️","Mental Health":"🧠","Diet & Nutrition":"🥗"};
+function renderMedical(){var g=document.getElementById('medicalGrid');g.innerHTML='';SERVICES.medical.forEach(function(s){var c=document.createElement('div');c.className='service-card';c.innerHTML='<i></i><span></span>';c.firstChild.textContent=MED_ICONS[s]||'💙';c.lastChild.textContent=s;c.addEventListener('click',function(){open('medical',s)});g.appendChild(c)})}
+renderMedical();
+function fill(sel){svc.innerHTML='';SERVICES[type.value].forEach(function(s){var o=document.createElement('option');o.textContent=s;svc.appendChild(o)});if(sel)svc.value=sel}
+type.addEventListener('change',function(){fill()});
+function open(t,s){type.value=t;fill(s);msg.textContent='';msg.className='msg';document.getElementById('bookTitle').textContent=t==='medical'?'Book Medical Service':'Book Home Service';document.getElementById('bookSub').textContent=t==='medical'?'Our team will call you to confirm. For emergencies, call 108 right away.':'Share your details and our team will call you to confirm.';dlg.showModal()}
+
+/* Home Maintenance tiles -> price page (services.html) */
+document.querySelectorAll('#homeGrid .service-card').forEach(function(c){
+ c.addEventListener('click',function(){
+   var service=(c.querySelector('span')||c).textContent.trim();
+   if(c.dataset.type==='medical'){open('medical',service);return;}
+   var map={
+     'Plumber':'Plumber','Electrician':'Electrician','Carpenter':'Carpenter',
+     'AC Service':'AC & Appliances','Cleaning':'Cleaning','Sofa Cleaning':'Cleaning',
+     'Pest Control':'Pest Control','Appliance Repair':'AC & Appliances'
+   };
+   window.location.href='services.html?cat='+encodeURIComponent(map[service]||service);
+ });
+});
+
+/* Normal "Book" buttons -> booking form (View All is NOT here) */
+document.querySelectorAll('button.btn').forEach(function(b){
+ var t=b.textContent;
+ if(/Consult a Doctor|Medical Services/.test(t))b.addEventListener('click',function(){open('medical','Doctor Consultation')});
+ else if(/Book|Explore Home/.test(t))b.addEventListener('click',function(){open('home')});
+});
+
+/* View All buttons */
+document.querySelectorAll('.view-all').forEach(function(b){
+ b.addEventListener('click',function(){
+   if(b.dataset.cat==='medical'){var g=document.getElementById('medicalGrid');g.classList.toggle('open');b.textContent=g.classList.contains('open')?'Show Less':'View All';return;}
+   window.location.href='services.html?cat=All';
+ });
+});
+
+/* New categories added from admin -> extra tiles on homepage */
+fetch('/api/catalog').then(function(r){return r.json()}).then(function(list){
+ var known=['plumber','electrician','carpenter','ac & appliances','cleaning','pest control'];
+ var EX={painting:'🎨'},seen={},grid=document.getElementById('homeGrid');
+ list.forEach(function(s){
+  var c=String(s.category).trim(),k=c.toLowerCase();
+  if(!c||seen[k]||known.indexOf(k)>-1)return;
+  seen[k]=1;
+  var d=document.createElement('div');d.className='service-card';
+  d.innerHTML='<i></i><span></span>';
+  d.firstChild.textContent=s.icon||EX[k]||'🛠️';
+  d.lastChild.textContent=c;
+  d.addEventListener('click',function(){window.location.href='services.html?cat='+encodeURIComponent(c)});
+  grid.appendChild(d);
+ });
+}).catch(function(){});
+
+document.getElementById('bookCancel').addEventListener('click',function(){dlg.close()});
+form.addEventListener('submit',function(e){
+ e.preventDefault();
+ var data={};new FormData(form).forEach(function(v,k){data[k]=v});
+ btn.disabled=true;msg.className='msg';msg.textContent='Sending...';
+ fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+ .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+ .then(function(x){
+  if(x.ok){msg.className='msg ok';msg.textContent=x.j.message+' (ID: '+x.j.id+')';form.reset();fill()}
+  else{msg.className='msg err';msg.textContent=x.j.error||'Something went wrong.'}
+ })
+ .catch(function(){msg.className='msg err';msg.textContent='Cannot reach the server. Please try again.'})
+ .then(function(){btn.disabled=false});
+});
+})();
+</script>
+</body>
+</html>

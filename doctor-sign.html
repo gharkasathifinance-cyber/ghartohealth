@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Treating doctor sign | Ghar to Health</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f6faff;color:#12365d}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+.hd{display:flex;align-items:center;gap:12px;padding:10px 4px 14px;border-bottom:4px solid #0a58ad;margin-bottom:16px}
+.hd img{height:48px;width:auto}.hd b{display:block;font-size:20px;color:#0a58ad}.hd span{font-size:12.5px;color:#6b7f93}
+.card{background:#fff;border:1px solid #d9ebf8;border-radius:16px;padding:16px;margin-bottom:14px}
+h1{font-size:19px;margin:0 0 6px}h2{font-size:14px;color:#0a58ad;text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px}
+dl{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;margin:0;font-size:14.5px}dt{color:#6b7f93}dd{margin:0;font-weight:600;word-break:break-word}
+label{display:block;font-weight:700;font-size:13.5px;margin:12px 0 4px}
+input,textarea{width:100%;border:1px solid #cfe0ee;border-radius:12px;padding:11px 12px;font:inherit;font-size:15px;background:#fff}
+.chk{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:14px;line-height:1.5;font-weight:400}.chk input{width:auto;margin-top:4px}
+.sigw{border:1.5px dashed #9fb6cc;border-radius:12px;background:#fff}.sigw canvas{display:block;width:100%;height:170px;touch-action:none;cursor:crosshair}
+.lnk{margin-top:6px;border:1px solid #d3e3f1;background:#fff;color:#087cf2;border-radius:99px;padding:6px 16px;font-weight:700;cursor:pointer}
+.go{width:100%;margin-top:16px;border:0;border-radius:99px;background:#087cf2;color:#fff;font-weight:700;font-size:16px;padding:14px;cursor:pointer}.go:disabled{opacity:.6}
+.msg{margin-top:10px;font-size:14px;font-weight:600;min-height:20px}.err{color:#b42318}.ok{color:#1b7a34}
+.note{font-size:12.5px;color:#6b7f93;line-height:1.5}
+</style></head><body><div class="wrap">
+<div class="hd"><img src="/logo.png" alt="" onerror="this.style.display='none'"><div><b>Ghar to Health</b><span>Healthy Homes. Happier Lives.</span></div></div>
+<div id="bad" class="card" hidden><h1>Link not available</h1><p id="badt" class="note" style="font-size:14px"></p></div>
+<div id="done" class="card" hidden><h1>Thank you, Doctor</h1><p class="note" style="font-size:14px">Your signature and details have been saved. You can close this page.</p></div>
+<div id="main" hidden>
+ <div class="card"><h1>Treating doctor - sign for air transfer</h1><p class="note">Please check the patient details below, then fill your details and sign. This is used to support the airline's medical clearance (MEDIF).</p></div>
+ <div class="card"><h2>Patient details</h2><dl id="pd"></dl></div>
+ <div class="card"><h2>Your details</h2>
+  <label for="dn">Doctor name</label><input id="dn" maxlength="80">
+  <label for="dr">Medical registration number</label><input id="dr" maxlength="40">
+  <label for="dh">Hospital / clinic (optional)</label><input id="dh" maxlength="120">
+  <label for="dp">Your mobile (optional)</label><input id="dp" type="tel" inputmode="numeric" placeholder="10 digits">
+  <label for="dm">Remarks / special precautions (optional)</label><textarea id="dm" rows="3" maxlength="300"></textarea>
+  <label class="chk"><input type="checkbox" id="dc"><span>I am the treating doctor of this patient. The medical details shown above are correct to the best of my knowledge, and I am signing to support the airline's medical clearance (MEDIF).</span></label>
+  <label>Your signature</label><div class="sigw"><canvas id="sg" width="600" height="200"></canvas></div><button type="button" class="lnk" id="sc">Clear signature</button>
+  <button type="button" class="go" id="go">Submit</button><div class="msg" id="m" role="status"></div>
+ </div>
+</div></div>
+<script>
+var q=new URLSearchParams(location.search),ID=q.get('id')||'',T=q.get('t')||'';
+function $(i){return document.getElementById(i)}
+function bad(t){$('badt').textContent=t;$('bad').hidden=false;$('main').hidden=true}
+function say(t,c){$('m').className='msg '+(c||'');$('m').textContent=t}
+function add(k,v){var a=document.createElement('dt'),b=document.createElement('dd');a.textContent=k;b.textContent=v||'-';$('pd').appendChild(a);$('pd').appendChild(b)}
+fetch('/api/ambulance/doctor-info?id='+encodeURIComponent(ID)+'&t='+encodeURIComponent(T)).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Link not valid.');return j})}).then(function(j){
+ add('Patient',j.patient);add('Age',j.age?j.age+' years':'');add('Weight',j.weight+' kg');add('Condition',j.dx);add('Travels as',j.mode==='sit'?'Can sit in a seat':'Stretcher (lying down)');
+ add('Needs oxygen',j.oxygen==='yes'?'YES':'No');add('Infection / pregnancy',j.infection==='yes'?'YES':'No');add('Travel date',j.date);add('Pickup',j.pickup);add('Drop',j.drop);add('Drop hospital',j.dropHospital);
+ var d=j.doctor||{};$('dn').value=d.name||'';$('dr').value=d.regNo||'';$('dh').value=d.hospital||'';$('dp').value=d.phone||'';$('main').hidden=false
+}).catch(function(x){bad(x.message||'This link is not valid or has expired.')});
+(function(){var c=$('sg'),x=c.getContext('2d'),on=false,dr=false;x.lineWidth=2.8;x.lineCap='round';x.lineJoin='round';x.strokeStyle='#12365d';
+ function pt(e){var r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]}
+ c.addEventListener('pointerdown',function(e){e.preventDefault();on=true;try{c.setPointerCapture(e.pointerId)}catch(_){}var p=pt(e);x.beginPath();x.moveTo(p[0],p[1])});
+ c.addEventListener('pointermove',function(e){if(!on)return;e.preventDefault();var p=pt(e);x.lineTo(p[0],p[1]);x.stroke();dr=true});
+ ['pointerup','pointercancel','pointerleave'].forEach(function(n){c.addEventListener(n,function(){on=false})});
+ $('sc').addEventListener('click',function(){x.clearRect(0,0,c.width,c.height);dr=false});
+ window.sgData=function(){return dr?c.toDataURL('image/png'):''}})();
+$('go').addEventListener('click',function(){
+ var n=$('dn').value.trim(),r=$('dr').value.trim();
+ if(n.length<2||r.length<3)return say('Please enter your name and registration number.','err');
+ if(!$('dc').checked)return say('Please tick the declaration.','err');
+ if(!sgData())return say('Please sign in the signature box.','err');
+ $('go').disabled=true;say('Please wait...');
+ fetch('/api/ambulance/doctor-submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:ID,t:T,name:n,regNo:r,hospital:$('dh').value.trim(),phone:$('dp').value,remarks:$('dm').value.trim(),declaration:true,signature:sgData()})})
+ .then(function(res){return res.json().then(function(j){if(!res.ok)throw new Error(j.error||'Something went wrong.');return j})})
+ .then(function(){$('main').hidden=true;$('done').hidden=false})
+ .catch(function(x){say(x.message||'Something went wrong. Please try again.','err');$('go').disabled=false})});
+</script></body></html>

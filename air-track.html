@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track your air ambulance - Ghar to Health</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eef5fb;color:#0a2a4d;font:15px/1.5 "Segoe UI",system-ui,Arial,sans-serif}
+  main{max-width:900px;margin:0 auto;padding:16px 14px 60px}
+  h1{font-size:22px;margin:4px 0 2px;color:#0a4fa8}
+  .sub{margin:0 0 14px;color:#5b7690}
+  .card{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:14px 16px;margin-top:12px}
+  .card h2{font-size:16px;margin:0 0 8px;color:#0a396b}
+  label{display:block;font-size:12.5px;font-weight:600;color:#375775;margin-bottom:3px}
+  input{width:100%;padding:10px;border:1.5px solid #cfe0ee;border-radius:10px;font:inherit}
+  .frm{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+  button{font:600 14px "Segoe UI",Arial,sans-serif;border-radius:24px;padding:10px 20px;cursor:pointer;border:0;background:#087cf2;color:#fff}
+  #err{color:#b3261e;font-weight:600;min-height:20px;margin-top:8px}
+  .state{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+  .state b{font-size:18px;color:#0a396b}
+  .tag{display:inline-block;padding:2px 10px;border-radius:12px;background:#e6f1ff;color:#0a4fa8;font-size:12.5px;font-weight:600;margin-left:6px}
+  .tag.demo{background:#fff2d6;color:#8a5a00}
+  .etas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .eta{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:12px 16px}
+  .eta small{display:block;color:#5b7690}
+  .eta b{font-size:26px;color:#0a4fa8}
+  #map{height:380px;border-radius:14px;border:1px solid #d9ebf8;margin-top:12px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:7px 6px;text-align:left;border-bottom:1px solid #e6f0f8;vertical-align:top}
+  th{color:#375775;font-size:12.5px}
+  .r{text-align:right;white-space:nowrap}
+  .st{font-weight:600}.st.flying{color:#087cf2}.st.done{color:#1b7f3b}.st.planned{color:#7a8ea3}
+  .tot td{font-weight:700;border-top:2px solid #cfe0ee;font-size:16px}
+  .note{color:#5b7690;font-size:13px;margin:8px 0 0}
+  .bal{margin-top:10px;padding:10px 12px;border-radius:10px;background:#eef7ff;font-weight:600}
+  .scroll{overflow-x:auto}
+  /* ---- live progress timeline ---- */
+  .tl-route{background:#eef7ff;border-radius:12px;padding:12px 14px;margin-bottom:16px}
+  .tl-cities{display:flex;justify-content:space-between;gap:10px;font-weight:700;color:#0a396b}
+  .tl-cities small{display:block;font-weight:400;color:#5b7690;font-size:12px}
+  .tl-cities span:last-child{text-align:right}
+  .tl-bar{position:relative;height:8px;border-radius:8px;background:#d3e6f5;margin:12px 0 8px}
+  .tl-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:#087cf2;transition:width .8s}
+  .tl-bar b{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#087cf2;border:3px solid #fff;transition:left .8s}
+  .tl-meta{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#5b7690}
+  .tl-meta b{color:#0a396b}
+  ol.tl{list-style:none;margin:0;padding:0}
+  .tl li{position:relative;display:grid;grid-template-columns:26px 1fr auto;gap:0 12px;padding-bottom:20px}
+  .tl li:last-child{padding-bottom:0}
+  .tl li::before{content:"";position:absolute;left:12px;top:26px;bottom:-2px;width:2px;background:#d3e6f5}
+  .tl li:last-child::before{display:none}
+  .tl li.done::before{background:#1b7f3b}
+  .tl .dot{width:26px;height:26px;border-radius:50%;border:2px solid #cfe0ee;background:#fff;display:grid;place-items:center;z-index:1}
+  .tl li.done .dot{background:#1b7f3b;border-color:#1b7f3b}
+  .tl li.done .dot::after{content:"\2713";color:#fff;font-size:13px;font-weight:700}
+  .tl li.now .dot{border-color:#087cf2;box-shadow:0 0 0 5px #e1f0ff}
+  .tl li.now .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:#087cf2;animation:tlp 1.4s ease-in-out infinite}
+  @keyframes tlp{50%{transform:scale(.55);opacity:.6}}
+  .tl .tt{font-weight:600;color:#0a396b}
+  .tl li.todo .tt{color:#7a8ea3;font-weight:500}
+  .tl .dd{font-size:13px;color:#5b7690;margin-top:1px}
+  .tl .tm{font-size:12px;color:#5b7690;padding-top:3px;white-space:nowrap}
+  .tl-live{margin-top:8px;background:#eef7ff;border-radius:10px;padding:8px 11px;font-size:13px}
+  .tl-live .rw{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  .tl-live .tl-bar{height:6px;margin:8px 0 2px}
+  @media(prefers-reduced-motion:reduce){.tl li.now .dot::after{animation:none}.tl-bar i,.tl-bar b{transition:none}}
+  @media(max-width:560px){.frm{grid-template-columns:1fr}.eta b{font-size:22px}#map{height:300px}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Where is my air ambulance?</h1>
+  <p class="sub">See the aircraft on the map and how long it will take.</p>
+
+  <div class="card" id="login">
+    <div class="frm">
+      <div><label for="bid">Booking ID</label><input id="bid" autocomplete="off" placeholder="AMB..."></div>
+      <div><label for="ph">Mobile number</label><input id="ph" inputmode="numeric" maxlength="14" placeholder="10-digit mobile"></div>
+      <button id="go">Track</button>
+    </div>
+    <div id="err" role="alert"></div>
+  </div>
+
+  <div id="app" hidden>
+    <div class="card state">
+      <div><b id="stx"></b><div class="note" id="meta"></div></div>
+      <div><span id="ac" class="tag"></span><span id="dm" class="tag demo" hidden>Demo flight</span></div>
+    </div>
+    <div class="etas" style="margin-top:12px">
+      <div class="eta"><small>Aircraft reaches pickup in</small><b id="e1">-</b></div>
+      <div class="eta"><small>Patient reaches destination in</small><b id="e2">-</b></div>
+    </div>
+    <div id="map"></div>
+    <div class="card" id="tl"></div>
+    <div class="card" id="bill" hidden></div>
+  </div>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+var $ = function (s) { return document.querySelector(s); }, ID = '', PH = '', timer = null, map = null, L2 = {}, fitted = false;
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function inr(n){return (n<0?'-':'') + '\u20B9' + Math.abs(Math.round(n)).toLocaleString('en-IN');}
+function hm(m){ if (m == null) return '-'; if (m <= 0) return 'Arrived'; var h = Math.floor(m/60), x = m % 60; return h ? h + ' h ' + x + ' min' : x + ' min'; }
+function clock(t){ return t ? new Date(t).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) : '-'; }
+function ago(t){ var s = Math.max(0, Math.round((Date.now()-t)/1000)); return s < 60 ? s + ' sec ago' : s < 3600 ? Math.round(s/60) + ' min ago' : Math.round(s/3600) + ' h ago'; }
+var LEGNAME = {positioning:'Aircraft to pickup', patient:'Patient flight', 'return':'Return to base', extra:'Extra stop'};
+
+function draw(d) {
+  $('#login').hidden = true; $('#app').hidden = false;
+  $('#stx').textContent = d.state.text;
+  $('#ac').textContent = d.aircraftType + ' | ' + d.tail; $('#dm').hidden = !d.demo;
+  var p = d.position, waiting = d.auto && !d.final && (!d.seen || Date.now() - d.seen > 180000) && p.source !== 'demo' && p.source !== 'gps', src = waiting ? 'Waiting for the aircraft signal. The map shows its last known place.' : p.source === 'gps' ? 'Live position, updated ' + ago(p.at) : p.source === 'demo' ? 'Demo position' : p.source === 'ground' ? 'Aircraft on the ground' : 'Last known position';
+  $('#meta').textContent = src + (p.source === 'gps' && p.speedKmh ? ' | ' + p.speedKmh + ' km/h' : '');
+  $('#e1').textContent = hm(d.eta.toPickupMin); $('#e2').textContent = hm(d.eta.toDestMin);
+  drawMap(d);
+  drawTimeline(d);
+  drawBill(d);
+}
+
+/* ---------- live progress timeline (below the map) ---------- */
+function hav(a, b) {   // straight-line km between two {lat,lng} points
+  var R = 6371, r = Math.PI / 180, dl = (b.lat - a.lat) * r, dn = (b.lng - a.lng) * r,
+      x = Math.sin(dl/2) * Math.sin(dl/2) + Math.cos(a.lat*r) * Math.cos(b.lat*r) * Math.sin(dn/2) * Math.sin(dn/2);
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
+function legOf(d, type) { for (var i = 0; i < d.legs.length; i++) if (d.legs[i].type === type) return d.legs[i]; return null; }
+function legLeft(d, l) {   // km still to fly on this leg, from the live position (same route factor the server uses)
+  if (!l) return 0;
+  var f = l.plannedKm / Math.max(hav(l.from, l.to), 1);
+  return Math.max(0, Math.min(l.plannedKm, hav(d.position, l.to) * f));
+}
+var STAGE_NOW = {planned:1, to_pickup:2, at_pickup:3, to_dest:4, flying:4, at_dest:5, returning:6, ground:7, done:8};
+
+function drawTimeline(d) {
+  var pos = legOf(d, 'positioning'), pat = legOf(d, 'patient'), ret = legOf(d, 'return');
+  var cur = STAGE_NOW[d.state.code]; if (cur == null) cur = 1;
+  var posLeft = legLeft(d, pos), patLeft = legLeft(d, pat), retLeft = legLeft(d, ret);
+  var pct = function (l, left) { return l && l.plannedKm ? Math.round(Math.max(0, Math.min(100, (1 - left / l.plannedKm) * 100))) : 0; };
+  var patKm = pat ? pat.plannedKm : 0;
+  var patPct = cur >= 5 ? 100 : cur === 4 ? pct(pat, patLeft) : 0;
+
+  var route = '';
+  if (pat) {
+    route = '<div class="tl-route"><div class="tl-cities"><span>' + esc(d.places.pickup.name) + '<small>Pickup</small></span><span>' + esc(d.places.drop.name) + '<small>Destination</small></span></div>' +
+      '<div class="tl-bar"><i style="width:' + patPct + '%"></i><b style="left:' + patPct + '%"></b></div>' +
+      '<div class="tl-meta"><span><b>' + patKm + ' km</b> pickup to destination</span><span>' +
+      (cur >= 5 ? 'Reached' : cur === 4 ? '<b>' + Math.round(patLeft) + ' km</b> left' : 'Not started') + '</span></div></div>';
+  }
+
+  function live(a, b, p) { return '<div class="tl-live"><div class="rw"><span>' + a + '</span><span>' + b + '</span></div><div class="tl-bar"><i style="width:' + p + '%"></i></div></div>'; }
+  var steps = [
+    {t:'Booked', dd:'Your air ambulance is confirmed.'},
+    {t:'Aircraft ready at base', dd:'Crew and medical team are getting the aircraft ready.'},
+    {t:'Aircraft on the way to pickup', dd:'Flying to ' + esc(d.places.pickup.name), tm: pos && pos.takeoff,
+      live: cur === 2 ? live(Math.round(posLeft) + ' km to pickup', 'Arrives in ' + hm(d.eta.toPickupMin), pct(pos, posLeft)) : ''},
+    {t:'Landed at pickup', dd:'Patient is boarding with the medical team.', tm: pos && pos.landed},
+    {t:'Flying to destination', dd:'Patient is on board.', tm: pat && pat.takeoff,
+      live: cur === 4 ? live(Math.round(patKm - patLeft) + ' km covered', Math.round(patLeft) + ' km left | ' + hm(d.eta.toDestMin), patPct) : ''},
+    {t:'Landed at destination', dd:'Patient is handed over to the ground ambulance.', tm: pat && pat.landed},
+    {t:'Aircraft returning to base', dd:'Patient delivered.', tm: ret && ret.takeoff,
+      live: cur === 6 ? live(Math.round(retLeft) + ' km to base', '', pct(ret, retLeft)) : ''},
+    {t:'Mission completed', dd: d.billStatus === 'approved' ? 'Final bill is ready.' : 'Final bill is being prepared.', tm: ret && ret.landed}
+  ];
+  $('#tl').innerHTML = route + '<ol class="tl">' + steps.map(function (s, i) {
+    var c = i < cur ? 'done' : i === cur ? 'now' : 'todo';
+    return '<li class="' + c + '"><span class="dot"></span><div><div class="tt">' + s.t + '</div><div class="dd">' + s.dd + '</div>' + (s.live || '') + '</div>' +
+      '<div class="tm">' + (i <= cur && s.tm ? clock(s.tm) : '') + '</div></li>';
+  }).join('') + '</ol>';
+}
+
+/* ---------- final bill: shown only after our team has checked and approved it ---------- */
+function drawBill(d) {
+  var el = $('#bill');
+  if (d.billStatus === 'pending') { el.hidden = false; el.innerHTML = '<h2>Final bill</h2><p class="note" style="margin:0">Bill is being prepared. It will appear here once our team has checked it.</p>'; return; }
+  if (d.billStatus !== 'approved' || !d.bill) { el.hidden = true; return; }
+  var b = d.bill, rows = b.items.map(function (i) { return '<tr><td>' + esc(i.label) + '</td><td class="r">' + inr(i.amount) + '</td></tr>'; }).join('');
+  if (b.fee) rows += '<tr><td>Platform fee (' + b.feePct + '%)</td><td class="r">' + inr(b.fee) + '</td></tr>';
+  if (b.gst) rows += '<tr><td>GST (' + b.gstPct + '%)</td><td class="r">' + inr(b.gst) + '</td></tr>';
+  rows += '<tr class="tot"><td>Final bill</td><td class="r">' + inr(b.total) + '</td></tr><tr><td>Paid</td><td class="r">' + inr(d.paid) + '</td></tr>';
+  el.hidden = false;
+  el.innerHTML = '<h2>Final bill</h2><div class="scroll"><table><tbody>' + rows + '</tbody></table></div><div class="bal">' + (d.balance >= 0 ? 'Balance to pay: ' + inr(d.balance) : 'Refund due to you: ' + inr(-d.balance)) + '</div>';
+}
+
+function plane(){ return L.divIcon({className:'', html:'<div style="font-size:26px;line-height:26px;transform:translate(-13px,-13px)">&#9992;&#65039;</div>', iconSize:[0,0]}); }
+function drawMap(d) {
+  if (typeof L === 'undefined') { $('#map').innerHTML = '<p class="note" style="padding:20px">Map could not load. Check your internet connection.</p>'; return; }
+  var pl = d.places, pos = [d.position.lat, d.position.lng];
+  if (!map) {
+    map = L.map('map'); L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:18, attribution:'&copy; OpenStreetMap'}).addTo(map);
+    [['base','Base','#7a8ea3'],['pickup','Pickup','#1b7f3b'],['drop','Destination','#b3261e']].forEach(function (a) {
+      L.circleMarker([pl[a[0]].lat, pl[a[0]].lng], {radius:8, color:a[2], fillColor:a[2], fillOpacity:.8}).addTo(map).bindTooltip(a[1] + ': ' + pl[a[0]].name);
+    });
+    d.legs.forEach(function (l) { L.polyline([[l.from.lat,l.from.lng],[l.to.lat,l.to.lng]], {color:'#087cf2', weight:2, dashArray:'6 8', opacity:.6}).addTo(map); });
+    L2.trail = L.polyline([], {color:'#0a4fa8', weight:4}).addTo(map); L2.plane = L.marker(pos, {icon: plane()}).addTo(map);
+  }
+  L2.plane.setLatLng(pos); L2.trail.setLatLngs(d.trail.length ? d.trail.concat([pos]) : []);
+  if (!fitted) { var pts = [pl.base, pl.pickup, pl.drop].map(function (x) { return [x.lat, x.lng]; }); pts.push(pos); map.fitBounds(pts, {padding:[40,40]}); fitted = true; }
+}
+
+function load() {
+  fetch('/api/air/track', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id:ID, phone:PH})})
+   .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Something went wrong.'); return j; }); })
+   .then(function (d) { $('#err').textContent = ''; draw(d); if (!timer) timer = setInterval(load, 8000); if (d.billStatus === 'approved' && timer) { clearInterval(timer); timer = 'stop'; } })
+   .catch(function (e) { if (timer && timer !== 'stop' && !$('#app').hidden) return; $('#login').hidden = false; $('#err').textContent = e.message; });
+}
+function start() {
+  ID = $('#bid').value.trim().toUpperCase(); PH = $('#ph').value.replace(/\D/g, '').slice(-10);
+  if (!ID || PH.length !== 10) { $('#err').textContent = 'Enter your booking ID and 10-digit mobile number.'; return; }
+  sessionStorage.setItem('airId', ID); sessionStorage.setItem('airPh', PH); load();
+}
+$('#go').addEventListener('click', start);
+$('#ph').addEventListener('keydown', function (e) { if (e.key === 'Enter') start(); });
+$('#bid').value = (new URLSearchParams(location.search).get('id') || sessionStorage.getItem('airId') || '').toUpperCase();
+$('#ph').value = sessionStorage.getItem('airPh') || '';
+if ($('#bid').value && $('#ph').value) start();
+</script>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ambulance Operators &amp; Charges - Admin</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eef5fb;color:#0a2a4d;font:15px/1.5 "Segoe UI",system-ui,Arial,sans-serif}
+  main{max-width:900px;margin:0 auto;padding:20px 14px 60px}
+  h1{font-size:24px;margin:6px 0 4px;color:#0a4fa8}
+  p.sub{margin:0 0 16px;color:#5b7690}
+  .card{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:16px;margin-top:14px}
+  label{display:block;font-size:12.5px;font-weight:600;color:#375775;margin-bottom:3px}
+  input,select{width:100%;padding:9px 10px;border:1.5px solid #cfe0ee;border-radius:10px;font:inherit;color:#12365d;background:#fff}
+  input[type=checkbox]{width:auto}
+  button{font:600 14px "Segoe UI",Arial,sans-serif;border-radius:24px;padding:9px 18px;cursor:pointer;border:1.5px solid #087cf2;background:#fff;color:#087cf2}
+  button.primary{background:#087cf2;color:#fff}
+  button.sm{padding:5px 12px;font-size:13px}
+  button.del{border-color:#e0b4b4;color:#b3261e}
+  #msg{margin-top:12px;font-weight:600;min-height:22px}.ok{color:#1b7f3b}.err{color:#b3261e}
+  .hd{background:#fff;border-bottom:1px solid #d9ebf8}
+  .hdin{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .bn{font-weight:800;font-size:18px;color:#0a4fa8}
+  .hd nav{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .hd nav a{color:#0a396b;font-weight:600;text-decoration:none;font-size:14.5px}
+  .hd nav a:hover{color:#087cf2}
+  .keybar{display:flex;gap:8px;align-items:flex-end;max-width:520px}
+  .keybar div{flex:1}
+  .stick{position:sticky;bottom:0;background:#eef5fb;padding:12px 0;margin-top:10px}
+  .op{border-top:6px solid #087cf2}
+  .op.heli{border-top-color:#c2410c}
+  .oph{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .oph b{font-size:17px;color:#0a396b}
+  .pri{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#087cf2;color:#fff;font-size:13px;margin-right:8px}
+  .btns{display:flex;gap:6px;flex-wrap:wrap}
+  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+  .st{display:inline-block;font-size:12.5px;font-weight:700;border-radius:12px;padding:3px 10px}
+  .st.ready{background:#e3f6e9;color:#1b7f3b}.st.no{background:#fde8e6;color:#b3261e}.st.busy{background:#fff1d6;color:#9a5b00}
+  details{margin:4px 0 10px}summary{cursor:pointer;font-weight:600;color:#0a4fa8;font-size:13.5px}
+  .ac{position:relative}
+  .aclist{display:none;position:absolute;left:0;right:0;top:100%;z-index:40;background:#fff;border:1.5px solid #cfe0ee;border-radius:10px;max-height:220px;overflow:auto;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+  .aclist div{padding:8px 10px;cursor:pointer;border-bottom:1px solid #eef3f8;font-size:13.5px}
+  .acs{display:block;color:#5b7690;font-size:12px;margin-top:2px;min-height:15px}
+  .note2{font-size:12.5px;color:#5b7690;margin:6px 0 0}
+  .chk{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#0a396b;padding-top:22px}
+  @media(max-width:640px){.g3,.g2{grid-template-columns:1fr}}
+
+  .panel{border-radius:18px;padding:16px 16px 20px;margin-top:26px;border:2px solid}
+  .panel>h2{margin:0 0 2px;font-size:21px}
+  .panel>.sub2{margin:0 0 6px;font-size:13px;color:#4b6580}
+  .panel h3{margin:20px 0 6px;font-size:15px}
+  .pf{background:#fff8dc;border-color:#ecd27a}.pf>h2,.pf h3{color:#7a5b00}
+  .pc{background:#e6f1ff;border-color:#8fc0f4}.pc>h2,.pc h3{color:#0a4fa8}
+  .ph{background:#ffeedd;border-color:#f0b98c}.ph>h2,.ph h3{color:#b3410c}.ph .op{border-top-color:#c2410c}
+  .pa{background:#e3f6ea;border-color:#8fd0a6}.pa>h2,.pa h3{color:#1b6b3a}
+  .pv{background:#efe9fb;border-color:#bba8ea}.pv>h2,.pv h3{color:#5a3fb0}
+  .xr{display:grid;grid-template-columns:1fr 150px auto;gap:8px;margin-bottom:8px;align-items:center}
+  .xr button{padding:7px 12px}
+  @media(max-width:640px){.xr{grid-template-columns:1fr 110px auto}}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 4px}
+  .tab{padding:9px 18px;font-size:14.5px}.tab.on{background:#087cf2;color:#fff}
+  .bar2{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  textarea{width:100%;padding:9px 10px;border:1.5px solid #cfe0ee;border-radius:10px;font:inherit;color:#12365d;background:#fff;resize:vertical}
+  .adb{border:1px solid #d9ebf8;border-radius:12px;padding:12px 14px;margin:12px 0;background:#fafdff}.adb h4{margin:0 0 8px;font-size:14px;color:#0a396b}
+  .dr{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:7px 0;border-top:1px solid #edf3f9}
+  .dn{flex:1 1 220px;font-weight:600;font-size:13.5px}
+  .dr input[type=file]{flex:1 1 180px;max-width:240px;width:auto;padding:6px;font-size:12.5px}.dr input[type=date]{width:auto;padding:7px 9px}
+  .dsum{font-size:13px;font-weight:700;margin:0 0 6px}
+  .agr{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;margin:10px 0;padding:10px 12px;background:#fff8e6;border:1px solid #f3dca0;border-radius:10px}
+  .op.van{border-top-color:#5a3fb0}
+  .rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px 10px}
+  .rg label{font-size:12px;margin-bottom:2px}
+  .rg3{display:grid;grid-template-columns:110px 1fr 1fr;gap:6px 10px;align-items:center}
+  .rgh{font-size:12px;color:#375775}
+  #rdbox input{padding:7px 9px}
+</style>
+</head>
+<body>
+<header class="hd"><div class="hdin"><span class="bn">Ambulance Operators &amp; Charges</span><nav><a href="/admin-medical.html">Medical Admin</a><a href="/admin.html">Home Maintenance Admin</a><a href="#" id="lo">Logout</a></nav></div></header>
+<main>
+  <h1>Ambulance operators &amp; charges</h1>
+  <p class="sub">Each ambulance type has its own coloured section below, so nothing gets mixed. Add every operator here: its documents sit inside the operator's own card. Platform fee and GST apply to all of them. Changes show on the website and new invoices immediately.</p>
+
+  <div class="card keybar">
+    <div><label for="key">Admin key</label><input id="key" type="password" autocomplete="off" placeholder="Same ADMIN_KEY as in server.js"></div>
+    <button class="primary" id="load">Load</button>
+    <div id="kmsg" style="flex-basis:100%;font-weight:700;color:#c62828"></div>
+  </div>
+
+  <div id="app" hidden>
+    <div class="tabs" role="tablist"><button class="tab on" id="tb1" role="tab">Operators &amp; charges</button><button class="tab" id="tb2" role="tab">&#9993; Invite operator</button></div>
+    <div id="pane1">
+    <section class="panel pf">
+      <h2>Platform fee and GST</h2><p class="sub2">Common for every ambulance type.</p>
+      <div class="card" style="margin-top:8px"><div class="g2" style="margin-bottom:0">
+        <div><label for="fee">Platform and booking fee (%)</label><input id="fee" type="number" min="0" max="50" step="any"></div>
+        <div><label for="gst">GST on platform fee (%)</label><input id="gst" type="number" min="0" max="40" step="any"></div></div>
+        <p class="note2">Patient transport charges are GST exempt, so GST is added only on the platform fee. Confirm the current rates with your CA.</p></div>
+    </section>
+
+    <section class="panel pc" id="operators">
+      <h2 id="t_charter">Domestic Air Ambulance (Charter Aircraft)</h2><p class="sub2">Price = operator's flight charge + the fixed charges below + platform fee + GST.</p>
+<h3>Fixed charges</h3><div class="card" style="margin-top:6px"><div id="fx_charter"></div></div><h3>Charter operators</h3><p class="note2" style="margin:0 0 6px">The <b>first free operator from the top</b> of this list gets the booking. Use Up / Down to change the order.</p><div id="list_charter"></div><div style="margin-top:12px"><button id="addC">+ Add Charter operator</button></div>
+      <p class="note2">An operator is <b>free</b> when "Available" is ticked and it has no active booking. A booking keeps its operator until the mission is completed or cancelled. An unpaid booking holds the operator for 15 minutes.</p>
+    </section>
+
+    <section class="panel ph">
+      <h2 id="t_heli">Helicopter Ambulance</h2><p class="sub2">Price = operator's flight charge + the fixed charges below + platform fee + GST.</p>
+<h3>Fixed charges</h3><div class="card" style="margin-top:6px"><div id="fx_heli"></div></div><h3>Helicopter operators</h3><p class="note2" style="margin:0 0 6px">The <b>first free operator from the top</b> of this list gets the booking. Use Up / Down to change the order.</p><div id="list_heli"></div><div style="margin-top:12px"><button id="addH">+ Add Helicopter operator</button></div>
+    </section>
+
+    <section class="panel pa">
+      <h2 id="t_airline">Domestic Commercial Airline Transfer</h2><p class="sub2">No operators here. Set the booking amount and base price below, then press Save all changes.</p>
+<h3>Booking amount and base price</h3><div class="card" style="margin-top:6px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label for="air_adv">Booking amount (Rs) client pays at booking</label><input id="air_adv" type="number" min="1" step="1" placeholder="e.g. 5000"></div><div><label for="air_base">Base service charge (Rs) in our estimate</label><input id="air_base" type="number" min="1" step="1" placeholder="e.g. 10000"></div></div><p class="note2" style="margin:8px 0 0">The booking amount is shown to the client on the booking card and is deducted from the final price. The base price and fixed charges below are only our internal estimate, the client does not see them. After airline approval, enter the real prices in Airline Transfers Admin.</p></div>
+<h3>Fixed charges</h3><div class="card" style="margin-top:6px"><div id="fx_airline"></div></div>
+<h3>Air India MEDIF (PDF)</h3>
+<div class="card" id="medifCard" style="margin-top:6px">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><b>Form clients download</b><span class="st busy" id="medifBadge">Loading...</span></div>
+  <p class="note2">Clients see this PDF in the booking form (above the MEDIF upload) with a Download button. If Air India changes its MEDIF, upload the new PDF here. Clients get the new one immediately. The old PDF is kept as a backup on the server.</p>
+  <p class="note2" id="medifCur"></p>
+  <div class="g2" style="margin-top:10px"><div><label>New PDF</label><input type="file" id="medifFile" accept="application/pdf"></div><div><label>Note (optional)</label><input id="medifNote" maxlength="200" placeholder="e.g. Air India updated Part 2 in Oct 2026"></div></div>
+  <div class="btns"><button type="button" class="primary sm" id="medifUp">Replace PDF</button><button type="button" class="sm" id="medifView">View current PDF</button></div>
+  <p class="note2">This saves immediately. It is separate from "Save all changes".</p>
+</div>
+    </section>
+
+    <section class="panel pv">
+      <h2 id="t_van">Road Ambulance (Van)</h2><p class="sub2">Price = base + extra km + add-ons + night, then platform fee + GST. Set here separately; the client sees extra km merged into the base (one line).</p>
+<div id="rdbox" class="card" style="margin-top:8px"><div class="rg3"><b></b><b class="rgh">Base charge (₹)</b><b class="rgh">Extra km (₹ per km)</b><b>Basic (BLS)</b><div><input id="rd_bls_base" type="number" min="0" step="1"></div><div><input id="rd_bls_perKm" type="number" min="0" step="any"></div><b>ICU / ALS</b><div><input id="rd_als_base" type="number" min="0" step="1"></div><div><input id="rd_als_perKm" type="number" min="0" step="any"></div></div><div class="rg" style="margin-top:12px"><div><label for="rd_baseKm">Km in base</label><input id="rd_baseKm" type="number" min="0" step="any"></div><div><label for="rd_roadFactor">Road factor</label><input id="rd_roadFactor" type="number" min="0" step="0.1"></div><div><label for="rd_ox">Oxygen (₹)</label><input id="rd_ox" type="number" min="0" step="1"></div><div><label for="rd_pm">Paramedic (₹)</label><input id="rd_pm" type="number" min="0" step="1"></div><div><label for="rd_dc">Doctor (₹)</label><input id="rd_dc" type="number" min="0" step="1"></div><div><label for="rd_wait">Waiting (₹/hr)</label><input id="rd_wait" type="number" min="0" step="1"></div><div><label for="rd_nightPct">Night extra %</label><input id="rd_nightPct" type="number" min="0" step="any"></div><div><label for="rd_nightFrom">Night starts at</label><select id="rd_nightFrom"><option value="0">12:00 AM</option><option value="1">1:00 AM</option><option value="2">2:00 AM</option><option value="3">3:00 AM</option><option value="4">4:00 AM</option><option value="5">5:00 AM</option><option value="6">6:00 AM</option><option value="7">7:00 AM</option><option value="8">8:00 AM</option><option value="9">9:00 AM</option><option value="10">10:00 AM</option><option value="11">11:00 AM</option><option value="12">12:00 PM</option><option value="13">1:00 PM</option><option value="14">2:00 PM</option><option value="15">3:00 PM</option><option value="16">4:00 PM</option><option value="17">5:00 PM</option><option value="18">6:00 PM</option><option value="19">7:00 PM</option><option value="20">8:00 PM</option><option value="21">9:00 PM</option><option value="22">10:00 PM</option><option value="23">11:00 PM</option></select></div><div><label for="rd_nightTo">Night ends at</label><select id="rd_nightTo"><option value="0">12:00 AM</option><option value="1">1:00 AM</option><option value="2">2:00 AM</option><option value="3">3:00 AM</option><option value="4">4:00 AM</option><option value="5">5:00 AM</option><option value="6">6:00 AM</option><option value="7">7:00 AM</option><option value="8">8:00 AM</option><option value="9">9:00 AM</option><option value="10">10:00 AM</option><option value="11">11:00 AM</option><option value="12">12:00 PM</option><option value="13">1:00 PM</option><option value="14">2:00 PM</option><option value="15">3:00 PM</option><option value="16">4:00 PM</option><option value="17">5:00 PM</option><option value="18">6:00 PM</option><option value="19">7:00 PM</option><option value="20">8:00 PM</option><option value="21">9:00 PM</option><option value="22">10:00 PM</option><option value="23">11:00 PM</option></select></div><div><label for="rd_payout">Operator gets %</label><input id="rd_payout" type="number" min="0" step="any"></div></div><p class="note2">Road factor: map distance x this = road distance (1.3 is a good start). Night uses the server's India time. Operator gets % of service total, the rest is your commission (platform fee is extra); clients never see this.</p><h3 style="margin:14px 0 6px">Fixed charges</h3><p class="note2" style="margin:0 0 6px">Added to every road ambulance booking (for example Stretcher, Cleaning, Service charge). The client sees each one as its own line.</p><div id="fx_van"></div><details style="margin:10px 0 0"><summary>Check a trip (example)</summary><div class="g2" style="margin:10px 0 0"><div><label for="rd_pvkm">Road distance (km)</label><input id="rd_pvkm" type="number" min="0" step="any" value="12"></div><div><label for="rd_pvt">Ambulance type</label><select id="rd_pvt"><option value="bls">Basic (BLS)</option><option value="als">ICU / ALS</option></select></div></div><div class="g2" style="margin:10px 0 0"><div><label>Extras the client ticks (to test)</label><label style="font-weight:400;display:inline-block;margin-right:14px"><input type="checkbox" id="rd_pvox"> Oxygen</label><label style="font-weight:400;display:inline-block;margin-right:14px"><input type="checkbox" id="rd_pvdc"> Doctor</label><label style="font-weight:400;display:inline-block"><input type="checkbox" id="rd_pvpm"> Paramedic</label></div><div><label for="rd_pvwh">Waiting time at hospital</label><select id="rd_pvwh"><option value="0">No waiting</option><option value="1">1 hour</option><option value="2">2 hours</option><option value="3">3 hours</option><option value="4">4 hours</option></select><label style="font-weight:400;display:block;margin-top:8px"><input type="checkbox" id="rd_pvnt"> Night booking (add night extra)</label></div></div><div id="rd_pv"></div></details></div>
+<h3>Road ambulance operators</h3><p class="note2" style="margin:0 0 6px">Road operators get requests on their own partner login (vendor.html) with a phone alert, and accept from there. They receive requests only when all their documents are Verified.</p><div id="list_van"></div><div id="vanForm"></div><div style="margin-top:12px"><button id="addV">+ Add Road ambulance</button></div>
+    </section>
+
+    <div class="stick"><button class="primary" id="save">Save all changes</button><div id="msg" role="status"></div></div>
+    </div>
+
+    <div id="pane2" hidden>
+      <div class="card" style="margin-top:14px">
+        <h2 style="margin:0 0 4px;font-size:18px;color:#0a396b">Invite an operator</h2>
+        <p class="note2" style="margin:0 0 12px">Send the application link to an air operator agency or a road ambulance owner. They fill it, and the card is added to the lists automatically. It gets bookings only after you verify all its documents.</p>
+        <label for="optype">Who are you inviting?</label><select id="optype" style="margin-bottom:12px"><option value="air">Air ambulance operator (charter / helicopter)</option><option value="van">Road ambulance (van) operator</option></select>
+        <label for="oplink">Application link</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><input id="oplink" readonly style="flex:1 1 280px"><button class="sm" id="opcopy">Copy link</button></div>
+        <div class="g2"><div><label for="opph">Operator mobile number (optional)</label><input id="opph" inputmode="tel" maxlength="16" placeholder="e.g. 9876543210"></div>
+        <div><label for="opem">Operator email (optional)</label><input id="opem" type="email" maxlength="80" placeholder="e.g. operator@company.com"></div></div>
+        <div style="margin:0 0 12px"><label>Photo that will be sent</label><img id="opimg" alt="Invite photo" style="display:block;width:100%;max-width:360px;border-radius:10px;border:1px solid #cfe0f3;margin-top:4px"><a id="opdl" href="#" download style="font-size:13px">Download this photo</a></div>
+        <label for="opmsg">Message (you can edit it)</label><textarea id="opmsg" rows="5"></textarea>
+        <div class="bar2">
+          <button class="primary" id="opwa">Send on WhatsApp</button>
+          <button class="primary" id="opphoto" style="background:#0a396b;border-color:#0a396b">&#128247; Send photo + message</button>
+          <button class="primary" id="opwb" style="background:#128c7e;border-color:#128c7e">Send on WhatsApp Business</button>
+          <button class="primary" id="opmail" style="background:#c5221f;border-color:#c5221f">Send by Email</button>
+        </div>
+        <p class="note2" id="opnote" style="margin-top:10px">With a mobile number the chat opens straight to that operator; without it you choose the contact in WhatsApp. On a computer, WhatsApp and WhatsApp Business both open the same WhatsApp window; on an Android phone each opens its own app. Email opens a Gmail compose window.</p>
+        <p class="note2" id="opst" style="margin-top:8px;color:#0a396b;font-weight:600"></p>
+        <button class="sm" id="opcm" hidden>Copy message text</button>
+        <p style="margin:6px 0 0;font-size:11px;color:#8a97a8">Photo button: version 8 (photo + message go together through the share window)</p>
+        <p class="note2" style="margin-top:6px"><a href="#" id="opmail2">Open in my mail app instead</a></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+
+var ROADOK = true, key = sessionStorage.getItem('adminKey') || '', OPS = [], TYPES = {}, LOADED = 0;
+var DEF = { charter: { hourlyRate: 0, avgSpeedKmh: 600, routeFactor: 1.1, positioningPct: 100, returnPct: 100, landingFee: 0, waitingPerHour: 0, freeWaitMin: 45, groundMin: 20, minHours: 1.5 },
+            heli:    { hourlyRate: 0, avgSpeedKmh: 200, routeFactor: 1.1, positioningPct: 100, returnPct: 100, landingFee: 0, waitingPerHour: 0, freeWaitMin: 45, groundMin: 20, minHours: 1 } };
+var RF = [['hourlyRate','Hourly rate (\u20B9 per flight hour)'],['minHours','Minimum billable flight hours'],['landingFee','Landing fee per landing (\u20B9)'],['avgSpeedKmh','Average speed (km/h)'],['positioningPct','Empty leg base to pickup (% of hourly rate)'],['returnPct','Empty return leg (% of hourly rate)']];
+var RF2 = [['routeFactor','Route factor (1.1 = route 10% longer than straight line)'],['waitingPerHour','Waiting charge (\u20B9 per hour)'],['freeWaitMin','Free waiting at each stop (minutes)'],['groundMin','Ground time at pickup (minutes, for ETA only)']];
+var $ = function (s) { return document.querySelector(s); };
+
+/* ===== Auto speed: registration number -> aircraft model -> typical cruise speed (km/h, approximate) ===== */
+var SPD = { B407:240,B06:215,B206:215,B412:225,B429:250,B105:240,EC35:250,EC45:245,EC30:230,EC25:260,A109:285,A119:250,A139:290,A169:290,AS50:230,AS55:250,AS65:270,S76:270,H160:295,B505:210,
+  C525:700,C25A:740,C25B:770,C25C:800,C510:640,C550:680,C560:730,C56X:800,C680:850,LJ35:750,LJ45:780,LJ55:790,LJ60:800,H25B:780,E50P:720,E55P:830,F2TH:830,GLF4:850,CL60:850,BE40:780,PC24:740,BE20:540,BE30:550,B350:560,PC12:500,C208:340 };
+var spT = {}, spSeq = 0;
+function spHint(i, t, c) { var el = document.querySelector('.sph[data-sph="' + i + '"]'); if (el) { el.textContent = t; el.style.color = c || '#5b7690'; } }
+function autoSpeed(i) {
+  clearTimeout(spT[i]); var o = OPS[i], reg = String(o.reg || '').trim().toUpperCase();
+  if (!/^[A-Z0-9]{1,2}-?[A-Z0-9]{3,5}$/.test(reg) || reg.replace('-', '').length < 5) { spHint(i, ''); return; }
+  spT[i] = setTimeout(function () {
+    var my = ++spSeq; o._spq = my; spHint(i, 'Looking up the aircraft...');
+    fetch('https://api.adsbdb.com/v0/aircraft/' + encodeURIComponent(reg)).then(function (r) { return r.json(); }).then(function (d) {
+      if (o._spq !== my || String(o.reg || '').trim().toUpperCase() !== reg) return;
+      var a = d && d.response && d.response.aircraft;
+      if (!a) { spHint(i, 'Aircraft not found. Enter the speed by hand.', '#b3261e'); return; }
+      var code = String(a.icao_type || '').toUpperCase(), nm = [a.manufacturer, a.type].filter(Boolean).join(' '), v = SPD[code];
+      if (!v) { spHint(i, 'Found ' + nm + ', but its speed is not in the list. Enter the speed by hand.', '#9a5b00'); return; }
+      o.rates.avgSpeedKmh = v;
+      var inp = document.querySelector('.op[data-i="' + i + '"] input[data-r="avgSpeedKmh"]'); if (inp) inp.value = v;
+      spHint(i, 'Found ' + nm + '. Speed set to ' + v + ' km/h (typical). Change it if your operator differs.', '#1b7f3b');
+    }).catch(function () { if (o._spq === my) spHint(i, 'Could not look up the aircraft (network). Enter the speed by hand.', '#b3261e'); });
+  }, 700);
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function api(u, m, b){
+  var ac=new AbortController(), tm=setTimeout(function(){ac.abort();},20000);
+  return fetch(u,{method:m||'GET',signal:ac.signal,headers:{'Content-Type':'application/json','x-admin-key':key},body:b?JSON.stringify(b):undefined})
+   .then(function(r){clearTimeout(tm);return r;},function(err){clearTimeout(tm);throw new Error(err&&err.name==='AbortError'?'Server did not answer in 20 seconds ('+u+'). Check that the server is running.':'Cannot reach the server. Check that it is running.');})
+   .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error((j.error||'Something went wrong.')+' ['+r.status+' '+u+']');return j;});});
+}
+function say(t, ok){var m=$('#msg');m.textContent=t;m.className=ok?'ok':'err';var k=$('#kmsg');if(k){k.textContent=$('#app').hidden?t:'';k.style.color=ok?'#1b7a3a':'#c62828';}}
+
+/* ===== documents (inside every operator card) ===== */
+var DOCL = { van:[['rc','Vehicle RC'],['dl','Driver Licence'],['ins','Vehicle Insurance'],['fit','Fitness Certificate'],['puc','PUC Certificate']],
+  air:[['aoc','DGCA Permit (AOC/NSOP)'],['cor','Aircraft Registration Certificate'],['coa','Airworthiness Certificate'],['ins','Aircraft Insurance'],['med','Medical Team Registration (Doctor / Paramedic)']] };
+var SL = { verified:['Verified','ready'], pending:['Pending','busy'], expired:['Expired','no'], missing:['Missing','no'] };
+var VANS = [], VP = {}, NV = {};
+function ymd(){return new Date(Date.now()+19800000).toISOString().slice(0,10);}
+function dleft(d){return Math.round((new Date(d+'T00:00:00Z')-new Date(ymd()+'T00:00:00Z'))/864e5);}
+function defDocs(l){return l.map(function(r){return {key:r[0],name:r[1],state:'missing',expiry:'',ext:''};});}
+function opDocs(o){return (o.docs&&o.docs.length)?o.docs:defDocs(DOCL.air);}
+function isPdf(f){return /pdf/i.test(f.type)||/\.pdf$/i.test(f.name);}
+function store(kind,ref){ if(kind==='op'){var o=OPS[ref];return o.pend||(o.pend={});} if(kind==='van')return VP[ref]||(VP[ref]={}); return NV.pend||(NV.pend={}); }
+function docSum(docs){
+  var ok=docs.filter(function(x){return x.state==='verified';}).length, rest=docs.filter(function(x){return x.state!=='verified';});
+  if(!rest.length) return '<div class="dsum" style="color:#1b7f3b">&#10003; All '+docs.length+' documents verified.</div>';
+  return '<div class="dsum" style="color:#9a5b00">'+ok+' / '+docs.length+' verified. Left: '+rest.map(function(x){return esc(x.name)+' ('+SL[x.state][0]+')';}).join(', ')+'.</div>';
+}
+function docRows(kind,ref,docs){
+  var pd=store(kind,ref);
+  return docs.map(function(d){
+    var s=SL[d.state], p=pd[d.key]||{}, xv=p.x!==undefined?p.x:d.expiry, a='data-kind="'+kind+'" data-ref="'+esc(ref)+'" data-k="'+d.key+'"';
+    var warn=(d.state==='verified'&&d.expiry&&dleft(d.expiry)<=30)?' <small style="color:#c2410c">('+dleft(d.expiry)+' days left)</small>':'';
+    return '<div class="dr"><span class="dn">'+esc(d.name)+warn+(p.f?' <small style="color:#1b7f3b">&#10003; '+esc(p.f.name)+' chosen</small>':'')+'</span><span class="st '+s[1]+'">'+s[0]+'</span>'+
+      '<input type="file" class="df" '+a+' accept="image/*,application/pdf"><input type="date" class="dx" '+a+' value="'+esc(xv)+'" title="Expiry date">'+
+      (d.ext&&kind!=='nv'?'<button class="sm" data-dview="1" '+a+'>View</button>'+(d.state==='verified'?'<button class="sm del" data-dver="0" '+a+'>Unverify</button>':d.state==='pending'?'<button class="sm" style="border-color:#1b7f3b;color:#1b7f3b" data-dver="1" '+a+'>Verify</button>':''):'')+'</div>';
+  }).join('');
+}
+function collectJobs(){
+  var out=[], add=function(kind,ref,id,own,docs,pd){ docs.forEach(function(d){ var p=pd[d.key]; if(!p) return; var x=p.x!==undefined?p.x:d.expiry;
+    if(p.f||(p.x!==undefined&&p.x!==d.expiry)) out.push({kind:kind,ref:ref,id:id,own:own,k:d.key,name:d.name,f:p.f,x:x,has:!!d.ext}); }); };
+  OPS.forEach(function(o,i){ add('op',i,o.id,o.name||'Operator',opDocs(o),o.pend||{}); });
+  VANS.forEach(function(v){ add('van',v.id,v.id,v.name,v.docs,VP[v.id]||{}); });
+  return out;
+}
+function checkJobs(js){
+  var t=ymd();
+  for(var i=0;i<js.length;i++){ var j=js[i], lab=j.own+' - '+j.name;
+    if(j.f){ if(!j.x) return lab+': enter the expiry date.'; if(j.x<t) return lab+': expiry date is in the past.'; if(isPdf(j.f)&&j.f.size>2.4e6) return lab+': PDF must be under 2.4 MB.'; }
+    else if(j.x){ if(!j.has) return lab+': choose the file first.'; if(j.x<t) return lab+': expiry date is in the past.'; } }
+  return '';
+}
+function shrink(f){ return new Promise(function(ok,no){ var r=new FileReader(); r.onerror=no; r.onload=function(){ var im=new Image(); im.onerror=function(){no(new Error('Not a valid image.'));};
+  im.onload=function(){ var sc=Math.min(1,1400/Math.max(im.width,im.height)), c=document.createElement('canvas'); c.width=Math.round(im.width*sc); c.height=Math.round(im.height*sc);
+    var x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height); ok(c.toDataURL('image/jpeg',0.8)); }; im.src=r.result; }; r.readAsDataURL(f); }); }
+function fileData(f){ if(isPdf(f)) return new Promise(function(ok,no){var r=new FileReader();r.onload=function(){ok(r.result);};r.onerror=no;r.readAsDataURL(f);}); return shrink(f); }
+function runJobs(js,idOf){
+  var p=Promise.resolve();
+  js.forEach(function(j){ p=p.then(function(){
+    return (j.f?fileData(j.f):Promise.resolve()).then(function(data){
+      var b=j.kind==='van'||j.kind==='nv'?{id:idOf||j.id,type:'van',key:j.k,expiry:j.x}:{id:j.id,key:j.k,expiry:j.x}; if(data) b.file=data;
+      return api(j.kind==='op'?'/api/air/admin-operator-doc':'/api/admin/vendor-amb-doc','POST',b);
+    }).catch(function(e){throw new Error(j.own+' - '+j.name+': '+e.message);}); }); });
+  return p;
+}
+function viewDoc(kind,ref,k){
+  var w=window.open('','_blank'), u=kind==='op'?'/api/air/admin-operator-doc?id='+encodeURIComponent(OPS[ref].id)+'&key='+k:'/api/admin/vendor-doc?id='+encodeURIComponent(ref)+'&type=van&key='+k;
+  fetch(u,{headers:{'x-admin-key':key}}).then(function(r){if(!r.ok)throw 0;return r.blob();}).then(function(b){var o=URL.createObjectURL(b);if(w)w.location=o;else window.open(o,'_blank');}).catch(function(){if(w)w.close();say('File not found.');});
+}
+function verDoc(kind,ref,k,on){
+  if(collectJobs().length){say('Press "Save all changes" first, then Verify / Unverify.');return;}
+  if(on&&!confirm('Have you checked this document? Once all documents of this operator are verified, it can take bookings.'))return;
+  (kind==='op'?api('/api/air/admin-operator-doc','POST',{id:OPS[ref].id,key:k,verify:on}):api('/api/admin/vendor-amb-doc','POST',{id:ref,type:'van',key:k,verify:on}))
+   .then(function(){return load();}).then(function(){say(on?'Document verified.':'Document set to pending.',true);}).catch(function(e){say(e.message);});
+}
+function vanCard(v){
+  return '<div class="card op van"><div class="oph"><div><b>'+esc(v.name)+'</b> <small>(Road ambulance &middot; ID '+esc(v.id)+')</small></div><span class="st '+(v.active?'ready':'no')+'">'+(v.active?'Active':'Suspended')+'</span></div>'+
+    '<p class="note2" style="margin:0 0 4px">Phone: '+esc(v.phone)+' &middot; Location: '+esc(v.location||'-')+' &middot; Vendor Agreement: '+(v.agreement?'signed':'<b style="color:#b3261e">not signed</b>')+'</p>'+
+    '<div class="adb"><h4>Road ambulance documents</h4>'+docSum(v.docs)+docRows('van',v.id,v.docs)+'</div>'+
+    '<p class="note2">Choose a file and expiry date, then press Save all changes. Suspend or delete this operator from Vendors &amp; Tracking.</p></div>';
+}
+function drawVans(){
+  var el=$('#list_van'); if(!el) return;
+  el.innerHTML=VANS.length?VANS.map(vanCard).join(''):'<div class="card"><p class="note2" style="margin:0">No road ambulance operators yet. Press "+ Add Road ambulance" below.</p></div>';
+}
+function openNV(){
+  NV={open:true};
+  $('#vanForm').innerHTML='<div class="card op van"><div class="oph"><b>New road ambulance</b><button class="sm del" id="nvx">Cancel</button></div>'+
+    '<div class="g3"><div><label>Operator / owner name</label><input id="nv_n" maxlength="60"></div><div><label>Contact phone (10 digits)</label><input id="nv_p" maxlength="15"></div><div><label>Base location / address</label><input id="nv_l" maxlength="150"></div></div>'+
+    '<div class="g3"><div><label>Login password (min 6)</label><input id="nv_pw" type="password" autocomplete="new-password"></div><div><label>Aadhaar photo (JPG / PNG)</label><input id="nv_a" type="file" accept="image/*"></div><div><label>PAN photo (JPG / PNG)</label><input id="nv_pn" type="file" accept="image/*"></div></div>'+
+    '<div class="adb"><h4>Road ambulance documents</h4>'+docRows('nv','',defDocs(DOCL.van))+'</div>'+
+    '<label class="agr"><input type="checkbox" id="nv_ag"><span>Vendor Agreement is signed and the operator has declared that all documents are genuine and valid.</span></label>'+
+    '<button class="primary" id="nvs">Save road ambulance</button></div>';
+}
+function saveNV(){
+  var n=$('#nv_n').value.trim(), ph=$('#nv_p').value.replace(/[\s-]/g,''), lo=$('#nv_l').value.trim(), pw=$('#nv_pw').value, fa=$('#nv_a').files[0], fp=$('#nv_pn').files[0];
+  if(n.length<2){say('Enter the operator name.');return;} if(!/^(\+91)?[6-9]\d{9}$/.test(ph)){say('Enter a valid 10-digit mobile number.');return;}
+  if(lo.length<3){say('Enter the base location / address.');return;} if(pw.length<6){say('Password must be at least 6 characters.');return;}
+  if(!fa||!fp){say('Aadhaar and PAN photos are required.');return;} if(!$('#nv_ag').checked){say('Tick the box to confirm the Vendor Agreement is signed.');return;}
+  var pd=NV.pend||{}, js=[];
+  DOCL.van.forEach(function(r){var p=pd[r[0]]; if(p&&(p.f||p.x)) js.push({kind:'nv',id:'',own:n,k:r[0],name:r[1],f:p.f,x:p.x||'',has:false});});
+  var err=checkJobs(js); if(err){say(err);return;}
+  say('Saving...',true); $('#nvs').disabled=true;
+  Promise.all([shrink(fa),shrink(fp)]).then(function(im){
+    return api('/api/admin/vendors','POST',{name:n,phone:ph,location:lo,password:pw,services:['Ambulance'],ambTypes:['van'],section:'medical',agreement:true,aadhaar:im[0],pan:im[1]});
+  }).then(function(r){ return runJobs(js,r.id).then(function(){return r;}); })
+   .then(function(r){ NV={}; $('#vanForm').innerHTML=''; return load().then(function(){say('Road ambulance added. Login ID: '+r.id+'. It gets requests after all documents are verified.',true);}); })
+   .catch(function(e){ var b=$('#nvs'); if(b) b.disabled=false; say(e.message); });
+}
+
+function newOp(type){ return { id:'OP'+Math.random().toString(16).slice(2,10), docs:null, pend:{}, name:'', phone:'', note:'', reg:'', aircraft:type, active:true, rates:Object.assign({},DEF[type]), base:null, baseTxt:'', busyWith:'' }; }
+function docsOk(o){ return opDocs(o).every(function(d){return d.state==='verified';}); }
+function ready(o){ return o.active && o.base && Number(o.rates.hourlyRate) > 0 && docsOk(o); }
+function statusHtml(o){
+  var h = ready(o) ? '<span class="st ready">Ready</span>' : '<span class="st no">Not ready: '+(!o.active?'marked not available':(!(Number(o.rates.hourlyRate)>0)?'enter hourly rate':(!o.base?'pick base airport':'documents not all verified')))+'</span>';
+  if (ready(o) && o.busyWith) h += ' <span class="st busy">Busy with booking '+esc(o.busyWith)+'</span>';
+  else if (ready(o)) h += ' <span class="st ready">Free now</span>';
+  var dd=opDocs(o), ok=dd.filter(function(x){return x.state==='verified';}).length;
+  h += ' <span class="st '+(ok===dd.length?'ready':'busy')+'">Documents '+ok+'/'+dd.length+' verified</span>';
+  return h;
+}
+function rf(i, f, lab){ return '<div><label>'+lab+'</label><input type="number" min="0" step="any" data-i="'+i+'" data-r="'+f+'" value="'+esc(OPS[i].rates[f])+'"></div>'; }
+function nb(i,d){var a=OPS[i].aircraft;for(var n=i+d;n>=0&&n<OPS.length;n+=d)if(OPS[n].aircraft===a)return n;return -1;}
+function rank(i){var r=1;for(var n=0;n<i;n++)if(OPS[n].aircraft===OPS[i].aircraft)r++;return r;}
+function cardHtml(o,i){
+    return '<div class="card op '+(o.aircraft==='heli'?'heli':'')+'" data-i="'+i+'">'+
+      '<div class="oph"><div><span class="pri">'+rank(i)+'</span><b>'+esc(o.name||'New operator')+'</b> <small>('+esc(TYPES[o.aircraft]||o.aircraft)+')</small></div>'+
+      '<div class="btns"><button class="sm" data-up="'+i+'"'+(nb(i,-1)>-1?'':' disabled')+'>&#9650; Up</button><button class="sm" data-dn="'+i+'"'+(nb(i,1)>-1?'':' disabled')+'>&#9660; Down</button><button class="sm" data-dup="'+i+'" title="Same company also has the other aircraft type">+ Other aircraft</button><button class="sm del" data-del="'+i+'">Remove</button></div></div>'+
+      (o.app?'<div class="adb" style="background:#fff8e6;border-color:#f3dca0;margin-top:0"><h4 style="color:#7a5b00">New online application</h4><p class="note2" style="margin:0 0 8px">Applied on '+esc(String(o.app.at||'').slice(0,10))+' &middot; Contact: <b>'+esc(o.app.person)+'</b>'+(o.app.email?' &middot; '+esc(o.app.email):'')+'. Check the documents below, press Verify on each, then tick <b>Available for bookings</b> and Save all changes. Until then this operator gets no bookings.</p><div class="btns">'+(o.app.aadhaar?'<button class="sm" data-dview="1" data-kind="op" data-ref="'+i+'" data-k="aadhaar">View Aadhaar</button>':'')+(o.app.pan?'<button class="sm" data-dview="1" data-kind="op" data-ref="'+i+'" data-k="pan">View PAN</button>':'')+'</div></div>':'')+
+      '<div class="g3"><div><label>Operator / airline name</label><input data-i="'+i+'" data-f="name" maxlength="60" value="'+esc(o.name)+'"></div>'+
+      '<div><label>Contact phone</label><input data-i="'+i+'" data-f="phone" maxlength="15" value="'+esc(o.phone)+'"></div>'+
+      '<div><label>Aircraft type</label><select data-i="'+i+'" data-f="aircraft"><option value="charter"'+(o.aircraft==='charter'?' selected':'')+'>Charter aircraft</option><option value="heli"'+(o.aircraft==='heli'?' selected':'')+'>Helicopter</option></select></div></div>'+
+      '<div class="g2"><div><label>Aircraft registration number (for automatic live tracking)</label><input data-i="'+i+'" data-f="reg" maxlength="12" placeholder="e.g. VT-ABC" value="'+esc(o.reg)+'"><small class="acs sph" data-sph="'+i+'">Average speed fills in automatically when the aircraft is found.</small></div><div></div></div>'+
+      '<div class="g2"><div class="ac"><label>Base airport (where this operator\'s aircraft is parked)</label><input class="bs" data-i="'+i+'" autocomplete="off" placeholder="e.g. Raipur Airport" value="'+esc(o.baseTxt)+'"><div class="aclist"></div><small class="acs">'+(o.base?'Location set.':'Type and pick from the list.')+'</small></div>'+
+      '<div class="chk"><input type="checkbox" id="av'+i+'" data-i="'+i+'" data-f="active"'+(o.active?' checked':'')+'><label for="av'+i+'" style="margin:0;font-size:14px">Available for bookings</label></div></div>'+
+      '<div class="g3">'+RF.slice(0,3).map(function(x){return rf(i,x[0],x[1]);}).join('')+'</div>'+
+      '<div class="g3">'+RF.slice(3).map(function(x){return rf(i,x[0],x[1]);}).join('')+'</div>'+
+      '<details><summary>More rates (waiting, route factor)</summary><div class="g2" style="margin-top:8px">'+RF2.map(function(x){return rf(i,x[0],x[1]);}).join('')+'</div></details>'+
+      '<label>Note (private, only you see this)</label><input data-i="'+i+'" data-f="note" maxlength="200" value="'+esc(o.note)+'">'+
+      '<div class="adb"><h4>'+esc(TYPES[o.aircraft]||o.aircraft)+' documents</h4>'+docSum(opDocs(o))+docRows('op',i,opDocs(o))+'<p class="note2">Choose a file and expiry date for each document, then press Save all changes.</p></div>'+
+      '<p class="note2 stl" style="margin-top:10px">'+statusHtml(o)+'</p></div>';
+}
+function draw(){
+  var by={charter:[],heli:[]};
+  OPS.forEach(function(o,i){(by[o.aircraft]||(by[o.aircraft]=[])).push(cardHtml(o,i));});
+  [['charter','Charter'],['heli','Helicopter']].forEach(function(t){var el=$('#list_'+t[0]);if(el)el.innerHTML=by[t[0]].length?by[t[0]].join(''):'<div class="card"><p class="note2" style="margin:0">No '+t[1]+' operators yet. Press "+ Add '+t[1]+' operator" below.</p></div>';});
+  drawVans();
+}
+function drawAll(){draw();drawVans();}
+function refreshStatus(i){var c=document.querySelector('.op[data-i="'+i+'"] .stl');if(c)c.innerHTML=statusHtml(OPS[i]);}
+
+$('#app').addEventListener('input', function(e){
+  var t=e.target, i=t.dataset.i; if(i===undefined) return; var o=OPS[i];
+  if(t.dataset.r){ o.rates[t.dataset.r]=t.value===''?'':Number(t.value); }
+  else if(t.dataset.f==='name'||t.dataset.f==='phone'||t.dataset.f==='note'||t.dataset.f==='reg'){ o[t.dataset.f]=(t.dataset.f==='reg'?t.value.toUpperCase():t.value); if(t.dataset.f==='name'){var b=t.closest('.op').querySelector('.oph b');b.textContent=t.value||'New operator';} if(t.dataset.f==='reg')autoSpeed(i); }
+  else if(t.classList.contains('bs')){ o.baseTxt=t.value; o.base=null; var q=t.value.trim();
+    if(/^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(q)){var m=q.split(',');pickBase(i,q,+m[0],+m[1]);return;}
+    t.parentNode.querySelector('.acs').textContent='Type and pick from the list.';
+    clearTimeout(acT); if(q.length<2){t.parentNode.querySelector('.aclist').style.display='none';} else acT=setTimeout(function(){acSearch(t,q);},300); }
+  refreshStatus(i);
+});
+$('#app').addEventListener('change', function(e){
+  var t=e.target, i=t.dataset.i; if(i===undefined) return; var o=OPS[i];
+  if(t.dataset.f==='active'){ o.active=t.checked; refreshStatus(i); }
+  if(t.dataset.f==='aircraft'){ var old=o.aircraft; o.aircraft=t.value; // switch untouched defaults to the new type's defaults
+    ['avgSpeedKmh','minHours'].forEach(function(k){ if(Number(o.rates[k])===DEF[old][k]) o.rates[k]=DEF[o.aircraft][k]; }); draw(); }
+});
+$('#app').addEventListener('click', function(e){
+  var t=e.target.closest('button'); if(!t) return;
+  if(t.dataset.up!==undefined){var i=+t.dataset.up; var p=nb(i,-1);if(p>-1){var x=OPS[i];OPS[i]=OPS[p];OPS[p]=x;draw();}}
+  if(t.dataset.dn!==undefined){var j=+t.dataset.dn; var q=nb(j,1);if(q>-1){var y=OPS[j];OPS[j]=OPS[q];OPS[q]=y;draw();}}
+  if(t.dataset.dup!==undefined){var d=+t.dataset.dup, src=OPS[d], ty=src.aircraft==='heli'?'charter':'heli', n=newOp(ty); n.name=src.name; n.phone=src.phone; n.baseTxt=src.baseTxt; n.base=src.base?Object.assign({},src.base):null; OPS.splice(d+1,0,n); draw();}
+  if(t.dataset.del!==undefined){var k=+t.dataset.del; if(confirm('Remove '+(OPS[k].name||'this operator')+' from the list? Bookings already assigned to it keep their price.')){OPS.splice(k,1);draw();}}
+});
+$('#addC').addEventListener('click',function(){OPS.push(newOp('charter'));draw();});
+$('#addH').addEventListener('click',function(){OPS.push(newOp('heli'));draw();});
+
+$('#app').addEventListener('change', function(e){
+  var t=e.target; if(!t.dataset.kind||!t.dataset.k) return; var pd=store(t.dataset.kind,t.dataset.ref), p=pd[t.dataset.k]=pd[t.dataset.k]||{};
+  if(t.classList.contains('df')){ p.f=t.files[0]||undefined; }
+  else if(t.classList.contains('dx')){ p.x=t.value; }
+});
+$('#app').addEventListener('click', function(e){
+  var t=e.target.closest('button'); if(!t) return;
+  if(t.dataset.dview) viewDoc(t.dataset.kind,t.dataset.ref,t.dataset.k);
+  if(t.dataset.dver!==undefined&&t.dataset.dver!=='') verDoc(t.dataset.kind,t.dataset.ref,t.dataset.k,t.dataset.dver==='1');
+  if(t.id==='addV') openNV();
+  if(t.id==='nvx'){ NV={}; $('#vanForm').innerHTML=''; }
+  if(t.id==='nvs') saveNV();
+});
+
+/* place search (Photon / OpenStreetMap). Base airport searches airports only. */
+var acT=null,acSeq=0;
+function pickBase(i,label,lat,lng){ var o=OPS[i]; o.base={name:label,lat:+lat,lng:+lng}; o.baseTxt=label;
+  var box=document.querySelector('.op[data-i="'+i+'"]'); if(box){var inp=box.querySelector('.bs');inp.value=label;box.querySelector('.aclist').style.display='none';box.querySelector('.acs').textContent='Location set.';} refreshStatus(i); }
+function acSearch(inp,q){
+  var my=++acSeq,list=inp.parentNode.querySelector('.aclist'),st=inp.parentNode.querySelector('.acs');st.textContent='Searching...';
+  fetch('https://photon.komoot.io/api/?limit=8&osm_tag=aeroway:aerodrome&q='+encodeURIComponent(q)).then(function(r){return r.json();}).then(function(d){
+    if(my!==acSeq)return;var out=[];
+    (d.features||[]).forEach(function(f){var p=f.properties||{},c=f.geometry&&f.geometry.coordinates;if(!p.name||!c)return;
+      var label=[p.name,p.street,p.city||p.county,p.state,p.country].filter(function(v,i,a){return v&&a.indexOf(v)===i;}).join(', ');out.push({label:label,lat:c[1],lng:c[0]});});
+    list._items=out;list.innerHTML=out.map(function(x,i){return '<div data-j="'+i+'">'+esc(x.label)+'</div>';}).join('');
+    list.style.display=out.length?'block':'none';st.textContent=out.length?'Select from the list.':'Nothing found. Try another name or paste coordinates like 21.1804, 81.7388.';
+  }).catch(function(){if(my===acSeq)st.textContent='Search not available (network). Paste coordinates like 21.1804, 81.7388.';});
+}
+document.addEventListener('mousedown',function(e){
+  var it=e.target.closest&&e.target.closest('.aclist > div');
+  if(it){e.preventDefault();var list=it.parentNode,x=list._items[+it.dataset.j],i=list.parentNode.querySelector('.bs').dataset.i;pickBase(+i,x.label,x.lat,x.lng);}
+  else if(!(e.target.classList&&e.target.classList.contains('bs')))Array.prototype.forEach.call(document.querySelectorAll('.aclist'),function(l){l.style.display='none';});
+});
+
+
+
+/* ===== road ambulance rates (separate base and extra km here; the client sees them merged) ===== */
+var RDF = {bls_base:['types','bls','base'],bls_perKm:['types','bls','perKm'],als_base:['types','als','base'],als_perKm:['types','als','perKm'],baseKm:['baseKm'],roadFactor:['roadFactor'],ox:['addons','oxygen','amount'],pm:['addons','paramedic','amount'],dc:['addons','doctor','amount'],wait:['waitPerHour'],nightPct:['nightPct'],nightFrom:['nightFrom'],nightTo:['nightTo'],payout:['payoutPct']};
+function rdGet(d,p){var v=d;for(var i=0;i<p.length;i++){v=v&&v[p[i]];}return v;}
+function fillRD(d){ if(!d) return; Object.keys(RDF).forEach(function(k){var v=rdGet(d,RDF[k]);$('#rd_'+k).value=(v==null?'':v);}); rdPreview(); }
+function readRD(){
+  var o={types:{bls:{},als:{}},addons:{oxygen:{},paramedic:{},doctor:{}}}, bad='';
+  Object.keys(RDF).forEach(function(k){
+    var raw=$('#rd_'+k).value, n=Number(raw), p=RDF[k];
+    if(raw===''||!isFinite(n)||n<0){bad=bad||('Road ambulance: please fill "'+k.replace('_',' ')+'" with a number.');return;}
+    if(p.length===1){o[p[0]]=n;} else {o[p[0]][p[1]][p[2]]=n;}
+  });
+  return bad||o;
+}
+function rdPreview(){
+  var el=$('#rd_pv'); if(!el) return;
+  var n=function(id){return Number($('#'+id).value)||0;}, t=$('#rd_pvt').value, km=n('rd_pvkm'), baseKm=n('rd_baseKm'),
+      base=n('rd_'+t+'_base'), per=n('rd_'+t+'_perKm'), extraKm=Math.max(0,km-baseKm), extra=Math.round(extraKm*per),
+      inr=function(x){return '\u20B9'+x.toLocaleString('en-IN');}, roadBase=base+extra,
+      lines=[];   // lines the client sees besides the base ambulance line
+  if($('#rd_pvnt').checked && n('rd_nightPct')>0) lines.push(['Night charge ('+n('rd_nightPct')+'%)', Math.round(roadBase*n('rd_nightPct')/100)]);
+  var wh=n('rd_pvwh'); if(wh>0 && n('rd_wait')>0) lines.push(['Waiting at hospital ('+wh+' hour'+(wh>1?'s':'')+')', Math.round(wh*n('rd_wait'))]);
+  if($('#rd_pvox').checked && n('rd_ox')>0) lines.push(['Oxygen Cylinder', Math.round(n('rd_ox'))]);
+  if($('#rd_pvdc').checked && n('rd_dc')>0) lines.push(['Doctor with patient', Math.round(n('rd_dc'))]);
+  if($('#rd_pvpm').checked && n('rd_pm')>0) lines.push(['Paramedic with patient', Math.round(n('rd_pm'))]);
+  (CH&&CH.extras&&CH.extras.van||[]).filter(function(e){return Number(e.amount)>0&&String(e.label||'').trim()&&!/oxygen|paramedic|doctor/i.test(e.label);}).forEach(function(e){lines.push([e.label, Math.round(Number(e.amount))]);});
+  var lt=lines.reduce(function(s,x){return s+x[1];},0), svc=roadBase+lt, fee=Math.round(svc*(Number($('#fee').value)||0)/100), gst=Math.round(fee*(Number($('#gst').value)||0)/100),
+      pay=Math.round(svc*n('rd_payout')/100);
+  var row=function(a,b,bold){return '<div style="display:flex;justify-content:space-between;padding:3px 0'+(bold?';font-weight:700;border-top:1px solid #edf3f9':'')+'"><span>'+a+'</span><span>'+b+'</span></div>';};
+  var ln=lines.map(function(x){return row(esc(x[0]),inr(x[1]));}).join('');
+  el.innerHTML='<div class="g2" style="margin-bottom:0"><div class="adb"><h4>Admin view</h4>'+row('Base charge',inr(base))+row('Extra distance ('+(Math.round(extraKm*10)/10)+' km x '+inr(per)+')',inr(extra))+ln+row('Service total',inr(svc),1)+row('Platform fee',inr(fee))+row('GST on fee',inr(gst))+row('Operator gets',inr(pay))+row('Your commission + platform fee',inr(svc-pay+fee),1)+'</div>'+
+   '<div class="adb"><h4>Client sees</h4>'+row(esc($('#rd_pvt option:checked').textContent)+' ambulance',inr(roadBase))+ln+row('Service total',inr(svc),1)+row('Platform and booking fee',inr(fee))+row('GST on platform fee',inr(gst))+row('Total payable',inr(svc+fee+gst),1)+'</div></div>';
+}
+document.addEventListener('input',function(e){ var i=e.target&&e.target.id; if(i&&(i.indexOf('rd_')===0||i==='fee'||i==='gst')) rdPreview(); });
+document.addEventListener('change',function(e){ if(e.target&&/^rd_pv/.test(e.target.id||'')) rdPreview(); });
+
+/* ===== fixed charges (each ambulance type has its own box) ===== */
+var CH = null, ORDER = [];
+function drawFixed(){
+  ORDER.forEach(function(k){
+    var box = $('#fx_'+k); if(!box) return;
+    var rows = CH.extras[k].map(function(e,j){
+      return '<div class="xr"><input data-x="'+k+'" data-j="'+j+'" data-f="label" maxlength="60" placeholder="Charge name" value="'+esc(e.label)+'"><input data-x="'+k+'" data-j="'+j+'" data-f="amount" type="number" min="1" step="1" placeholder="Amount" value="'+esc(e.amount)+'"><button class="sm del" data-delx="'+k+'" data-j="'+j+'" title="Remove">&times;</button></div>';
+    }).join('');
+    box.innerHTML = (rows || '<p class="note2" style="margin:0 0 8px">No fixed charges yet.</p>') + '<button class="sm" data-addx="'+k+'"'+(CH.extras[k].length>=12?' disabled':'')+'>+ Add a charge</button>';
+  });
+}
+$('#app').addEventListener('input', function(e){
+  var t=e.target; if(!t.dataset.x) return; CH.extras[t.dataset.x][+t.dataset.j][t.dataset.f] = t.value; if(t.dataset.x==='van') rdPreview();
+});
+$('#app').addEventListener('click', function(e){
+  var t=e.target.closest('button'); if(!t) return;
+  if(t.dataset.addx){ var a=CH.extras[t.dataset.addx]; if(a.length<12){a.push({label:'',amount:''});drawFixed();} }
+  if(t.dataset.delx){ CH.extras[t.dataset.delx].splice(+t.dataset.j,1); drawFixed(); rdPreview(); }
+});
+
+function load(){
+  key = $('#key').value.trim() || key; if(!key){say('Enter the admin key.');return;} say('Loading...',true);
+  return Promise.all([api('/api/ambulance/admin-charges'), api('/api/air/admin-operators'), api('/api/admin/vendors').catch(function(){return [];}), api('/api/ambulance/admin-road').catch(function(){return null;}), api('/api/ambulance/admin-prices').catch(function(){return null;})]).then(function(r){ ROADOK = !!r[3];
+    sessionStorage.setItem('adminKey', key);
+    CH = r[0]; CH.names = CH.names || {}; CH.extras = CH.extras || {};
+    var ks = Object.keys(CH.names); ORDER = ['charter','heli'].filter(function(k){return ks.indexOf(k)>-1;}).concat(ks.filter(function(k){return k!=='charter'&&k!=='heli';}));
+    ORDER.forEach(function(k){ CH.extras[k] = (Array.isArray(CH.extras[k]) ? CH.extras[k] : []).map(function(e){ return {label:e.label, amount:e.amount}; }); var h=$('#t_'+k); if(h&&CH.names[k]) h.textContent = CH.names[k]; });
+    $('#fee').value = CH.feePct; $('#gst').value = CH.gstPct; $('#air_adv').value = CH.airAdvance || ''; var apr = ((r[4] && r[4].items) || []).filter(function(i){return i.id==='airline';})[0]; $('#air_base').value = apr ? apr.price : ''; if(r[3]) fillRD(r[3]);
+    TYPES = r[1].types || {}; LOADED = Number(r[1].now) || 0;
+    OPS = r[1].operators.map(function(o){ o.baseTxt = o.base ? o.base.name : ''; o.rates = Object.assign({}, DEF[o.aircraft], o.rates); o.note = o.note || ''; o.phone = o.phone || ''; o.reg = o.reg || ''; return o; });
+    VP = {}; VANS = (Array.isArray(r[2])?r[2]:[]).filter(function(v){return (v.ambTypes||[]).indexOf('van')>-1;}).map(function(v){ return {id:v.id,name:v.name,phone:v.phone,location:v.location,active:v.active,agreement:v.agreement,docs:(v.amb&&v.amb.van&&v.amb.van.length)?v.amb.van:defDocs(DOCL.van)}; });
+    $('#app').hidden = false; document.querySelector('.keybar').style.display = 'none'; drawFixed(); draw(); say(ROADOK ? 'Loaded.' : 'Loaded. (Road ambulance rates are not available: the server ambulance.js is an old version without /api/ambulance/admin-road. Air operators and charges work normally.)', true);
+  }).catch(function(e){document.querySelector('.keybar').style.display='flex';say(e.message + ' (If this says "Not found", the server still has the old air-tracking.js or ambulance.js. Replace them and restart the server.)');});
+}
+$('#lo').addEventListener('click',function(e){e.preventDefault();sessionStorage.removeItem('adminKey');location.href='/admin-login.html';});
+(function(){   // Invite operator tab: WhatsApp / WhatsApp Business / Email
+  var u = '', inp = $('#oplink'), msg = $('#opmsg');
+  var INV = {   // air operators apply on operator-apply.html; road ambulance owners apply as an Ambulance Partner on vendor-register.html
+    air: { img: '/og-air-ambulance.jpg', page: '/operator-apply.html?for=air', subj: 'Join the Ghar to Health air ambulance network',
+      txt: function(l){ return 'Hello! Join the Ghar to Health air ambulance network and help save critical patients. Register here:\n' + l; } },
+    van: { img: '/og-road-ambulance.jpg', page: '/vendor-register.html?for=road', subj: 'Join the Ghar to Health road ambulance network',
+      txt: function(l){ return 'Hello! Join the Ghar to Health road ambulance network and reach patients who need you first. Register here:\n' + l; } }
+  };
+  function setInv(){ var t = INV[$('#optype').value]; u = location.origin + t.page; inp.value = u; msg.value = t.txt(u); $('#opimg').src = t.img; $('#opdl').href = t.img; $('#opdl').setAttribute('download', t.img.slice(1)); $('#opst').textContent = ''; }
+  setInv(); $('#optype').addEventListener('change', setInv);
+  if (/^(localhost|127\.|192\.168\.|10\.)/.test(location.hostname)) $('#opnote').innerHTML += ' <b style="color:#b3261e">The link opens only on this computer (or your Wi-Fi) right now. Once your website is online it changes to your website address automatically.</b>';
+  function show(n){ $('#pane1').hidden = n !== 1; $('#pane2').hidden = n !== 2; $('#tb1').className = 'tab' + (n === 1 ? ' on' : ''); $('#tb2').className = 'tab' + (n === 2 ? ' on' : ''); }
+  $('#tb1').addEventListener('click', function(){ show(1); }); $('#tb2').addEventListener('click', function(){ show(2); });
+  function phone(){ var d = $('#opph').value.replace(/\D/g, ''); if (d.length === 10) d = '91' + d; else if (d.length === 11 && d[0] === '0') d = '91' + d.slice(1); return d; }
+  function need(){ if (!msg.value.trim()) { alert('Write the message first.'); return false; } var raw = $('#opph').value.replace(/\D/g, ''); if (raw && !/^(91)?[6-9]\d{9}$/.test(raw.replace(/^0/, ''))) { alert('Enter a valid 10-digit mobile number, or leave it empty.'); return false; } return true; }
+  var android = /Android/i.test(navigator.userAgent);
+  function wa(pkg){
+    if (!need()) return; var ph = phone(), t = encodeURIComponent(msg.value);
+    if (android) location.href = 'intent://send?' + (ph ? 'phone=' + ph + '&' : '') + 'text=' + t + '#Intent;scheme=whatsapp;package=' + pkg + ';end';
+    else window.open('https://wa.me/' + ph + '?text=' + t, '_blank');
+  }
+  $('#opwa').addEventListener('click', function(){ wa('com.whatsapp'); });
+  $('#opwb').addEventListener('click', function(){ wa('com.whatsapp.w4b'); });
+  function subj(){ return INV[$('#optype').value].subj; }
+  function mail(e){ var em = $('#opem').value.trim(); if (em && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { alert('The email address does not look right.'); return null; } return em; }
+  $('#opmail').addEventListener('click', function(){ if (!need()) return; var em = mail(); if (em === null) return;
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(em) + '&su=' + encodeURIComponent(subj()) + '&body=' + encodeURIComponent(msg.value), '_blank'); });
+  $('#opmail2').addEventListener('click', function(e){ e.preventDefault(); if (!need()) return; var em = mail(); if (em === null) return;
+    location.href = 'mailto:' + encodeURIComponent(em).replace('%40', '@') + '?subject=' + encodeURIComponent(subj()) + '&body=' + encodeURIComponent(msg.value); });
+
+  function toPng(blob){ return new Promise(function(ok, no){ var ou = URL.createObjectURL(blob), im = new Image();
+    im.onload = function(){ var c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; c.getContext('2d').drawImage(im, 0, 0); c.toBlob(function(p){ URL.revokeObjectURL(ou); p ? ok(p) : no(new Error('convert')); }, 'image/png'); };
+    im.onerror = function(){ no(new Error('load')); }; im.src = ou; }); }
+  $('#opphoto').addEventListener('click', async function(){
+    if (!need()) return;
+    var b = this, old = b.innerHTML, st = $('#opst'), path = INV[$('#optype').value].img, ph = phone();
+    var mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    b.disabled = true; b.textContent = 'Preparing photo...'; st.style.color = ''; st.textContent = '';
+    try {
+      var photoP = fetch(path, { cache: 'no-cache' }).then(function(r){ if (!r.ok) throw new Error('Photo not found: ' + path + ' (keep it in the public folder)'); return r.blob(); });
+      {   // share window (phone and computer): photo and message are sent together; on a computer WhatsApp sends them as two bubbles
+        var blob = await photoP, file = new File([blob], path.slice(1), { type: blob.type || 'image/jpeg' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try { await navigator.share({ files: [file], text: msg.value }); st.textContent = 'Share window opened - choose WhatsApp and the operator, then press Send. Photo and message both go.'; }
+          catch (e) { if (!e || e.name !== 'AbortError') throw e; }
+          return;
+        }
+      }
+      if (!(navigator.clipboard && window.ClipboardItem)) throw new Error('This browser cannot copy a photo. Use "Download this photo" and attach it in WhatsApp.');
+      // computer: copy the photo FIRST (this page must still be in focus), then open WhatsApp
+      var pngP = photoP.then(toPng);
+      try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': pngP, 'text/plain': new Blob([msg.value], { type: 'text/plain' }) })]); }
+      catch (e1) { await navigator.clipboard.write([new ClipboardItem({ 'image/png': pngP })]); }   // some browsers refuse photo + text together: photo only
+      var url = ph ? 'https://wa.me/' + ph : 'https://web.whatsapp.com/', wnd = window.open(url, '_blank');
+      st.innerHTML = 'Photo copied. In the WhatsApp chat click the message box and press <b>Ctrl+V</b>. The photo opens in preview. If the caption box is empty, come back here, click <b>Copy message text</b>, then click the caption box in WhatsApp and press <b>Ctrl+V</b> again. Then press Send: one message, photo + text.' + (wnd ? '' : ' <br><a href="' + url + '" target="_blank" rel="noopener">WhatsApp did not open - click here to open the chat</a>'); $('#opcm').hidden = false;
+    } catch (e) { st.style.color = '#b3261e'; st.textContent = 'Problem: ' + (e && e.message ? e.message : 'could not prepare the photo.'); }
+    finally { b.disabled = false; b.innerHTML = old; }
+  });
+  $('#opcm').addEventListener('click', function(){ var b = this; navigator.clipboard.writeText(msg.value).then(function(){ b.textContent = 'Message copied'; setTimeout(function(){ b.textContent = 'Copy message text'; }, 1800); }); });
+  $('#opcopy').addEventListener('click', function(){
+    var b = this, done = function(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy link'; }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(done).catch(function(){ inp.select(); document.execCommand('copy'); done(); });
+    else { inp.select(); document.execCommand('copy'); done(); }
+  });
+})();
+$('#load').addEventListener('click', load);
+$('#save').addEventListener('click', function(){
+  var fee = Number($('#fee').value), gst = Number($('#gst').value), n;
+  if(!($('#fee').value!=='' && fee>=0 && fee<=50)){say('Platform fee must be between 0 and 50 %.');return;}
+  if(!($('#gst').value!=='' && gst>=0 && gst<=40)){say('GST must be between 0 and 40 %.');return;}
+  var aadv = Math.round(Number($('#air_adv').value)), abase = $('#air_base').value === '' ? 0 : Math.round(Number($('#air_base').value));
+  if(!(aadv>=1 && aadv<=5000000)){say('Airline booking amount must be 1 to 50,00,000.');return;}
+  if($('#air_base').value!=='' && !(abase>=1 && abase<=5000000)){say('Airline base service charge must be 1 to 50,00,000.');return;}
+  var ex = {};
+  for (var q=0;q<ORDER.length;q++){ var k=ORDER[q]; ex[k]=[];
+    for (var j=0;j<CH.extras[k].length;j++){ var e=CH.extras[k][j], lab=String(e.label||'').trim(), raw=e.amount;
+      if(!lab && (raw===''||raw==null)) continue;   // empty row is ignored
+      var amt=Math.round(Number(raw));
+      if(!lab){say((CH.names[k]||k)+': every charge needs a name.');return;}
+      if(!(amt>=1&&amt<=5000000)){say((CH.names[k]||k)+' - '+lab+': amount must be 1 to 50,00,000.');return;}
+      ex[k].push({label:lab,amount:amt}); } }
+  for (n=0;n<OPS.length;n++){ if(!OPS[n].name.trim()){say('Operator '+(n+1)+' needs a name.');return;} if(OPS[n].baseTxt && !OPS[n].base){say(OPS[n].name+': pick the base airport from the list (or paste coordinates).');return;} }
+  var rdBody = ROADOK ? readRD() : null; if(typeof rdBody === 'string'){say(rdBody);return;}
+  var jobs = collectJobs(), jerr = checkJobs(jobs); if(jerr){say(jerr);return;}
+  say('Saving...', true);
+  var out = OPS.map(function(o){ return {id:o.id,name:o.name.trim(),phone:o.phone,note:o.note,reg:(o.reg||'').trim(),aircraft:o.aircraft,active:o.active,rates:o.rates,base:o.base,createdAt:o.createdAt}; });
+  (ROADOK ? api('/api/ambulance/admin-road','PUT',rdBody) : Promise.resolve()).then(function(){ return api('/api/ambulance/admin-charges','PUT',{feePct:fee,gstPct:gst,extras:ex,airAdvance:aadv}); })
+   .then(function(){ return abase ? api('/api/ambulance/admin-prices','PUT',{prices:{airline:abase}}) : null; })
+   .then(function(){ return api('/api/air/admin-operators','PUT',{operators:out,loadedAt:LOADED}); })
+   .then(function(){ return runJobs(jobs); })
+   .then(function(){ return load(); }).then(function(){
+    var nr = OPS.filter(function(o){return !ready(o);}).length;
+    say('Saved.' + (nr ? ' ' + nr + ' operator(s) are not ready yet and will not be offered to clients.' : ' All operators are ready.'), !nr);
+  }).catch(function(e){ var m=e.message; load().then(function(){say(m);}); });
+});
+if (key){$('#key').value = key; load();}
+/* ===== Air India MEDIF PDF ===== */
+function medifInfo(){
+  fetch('/api/medif/airindia/info').then(function(r){return r.json();}).then(function(d){
+    var b=$('#medifBadge'),cur=$('#medifCur'); if(!b)return;
+    if(!d.available){b.textContent='Not uploaded';b.className='st no';cur.textContent='No PDF uploaded yet. Clients will not see a download button.';return;}
+    b.textContent='Live';b.className='st ready';
+    cur.textContent='Current file: '+(d.originalName||'AirIndia_MEDIF.pdf')+(d.updatedAt?' | Updated: '+new Date(d.updatedAt).toLocaleString('en-IN'):'');
+  }).catch(function(){});
+}
+$('#medifView').addEventListener('click',function(){window.open('/api/medif/airindia','_blank');});
+$('#medifUp').addEventListener('click',function(){
+  var f=$('#medifFile').files[0];
+  if(!f){say('Choose the new MEDIF PDF first.');return;}
+  if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){say('Only a PDF file is allowed.');return;}
+  if(f.size>8*1024*1024){say('PDF must be smaller than 8 MB.');return;}
+  if(!confirm('Replace the Air India MEDIF that clients download with "'+f.name+'"?'))return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    say('Uploading...',true);
+    api('/api/admin/medif/airindia','POST',{data:rd.result,name:f.name,note:$('#medifNote').value})
+      .then(function(){$('#medifFile').value='';$('#medifNote').value='';medifInfo();say('MEDIF PDF updated. Clients now get the new form.',true);})
+      .catch(function(e){say(e.message);});
+  };
+  rd.onerror=function(){say('Could not read the file.');};
+  rd.readAsDataURL(f);
+});
+medifInfo();
+</script>
+</body>
+</html>

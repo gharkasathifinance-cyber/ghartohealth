@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ambulance Services | Ghar to Health</title>
+<link rel="icon" href="logo.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f7fbff;color:#12365d;line-height:1.6}
+a{text-decoration:none;color:inherit}
+.container{width:92%;max-width:1200px;margin:auto}
+.header{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e3edf6}
+.navbar{height:70px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;color:#0758ad;font-weight:800;font-size:20px}
+.logo img{height:46px}
+.back{font-size:14px;font-weight:600;color:#087cf2}
+.top{background:linear-gradient(110deg,#e8f8ff,#a8defb);padding:34px 0;text-align:center}
+.top h1{font-size:34px;color:#07213f}
+.top p{color:#496981;font-size:15px}
+.emg{display:inline-block;margin-top:12px;background:#c62828;color:#fff;padding:8px 18px;border-radius:30px;font-weight:700;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;padding:36px 0}
+.card{background:#fff;border:1px solid #d9ebf8;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(12,89,145,.07);display:flex;flex-direction:column;transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:#087cf2}
+.card img{width:100%;height:240px;object-fit:cover;display:block}
+.body{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.body h3{font-size:20px;color:#0a396b}
+.body p{font-size:13px;color:#5b7690}
+.body ul{list-style:none;font-size:13px;color:#375775;display:grid;gap:4px}
+.body li::before{content:"✓";color:#087cf2;font-weight:800;margin-right:8px}
+.btn{margin-top:auto;align-self:flex-start;padding:11px 24px;border-radius:30px;border:none;cursor:pointer;font:inherit;font-size:14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#087ff5,#0564cf)}
+dialog{border:none;border-radius:18px;width:min(440px,92vw);box-shadow:0 20px 60px rgba(7,57,110,.35)}
+dialog::backdrop{background:rgba(7,57,110,.45)}
+.modal{padding:26px}
+.modal h3{color:#0a396b}
+.modal label{display:block;font-size:12px;font-weight:700;color:#375775;margin:10px 0 4px}
+.modal input,.modal textarea{width:100%;padding:10px 12px;border:1px solid #cfe0ee;border-radius:10px;font:inherit;font-size:14px}
+.row{display:flex;gap:10px;margin-top:18px}
+.row .btn{flex:1;margin:0;text-align:center}
+.btn.o{background:#fff;color:#0875df;border:1px solid #1687ed}
+.msg{font-size:13px;margin-top:10px;min-height:18px}
+.msg.err{color:#c62828}.msg.ok{color:#1b7f3b;font-weight:600}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.top h1{font-size:26px}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container navbar">
+<a href="index.html" class="logo"><img src="logo.png" alt="">Ghar to Health</a>
+<a href="index.html" class="back">← Back to Home</a>
+</div></header>
+
+<section class="top"><div class="container">
+<h1>🚑 Ambulance Services</h1>
+<p>Road, air and helicopter patient transfer with trained medical staff.</p>
+<span class="emg">Emergency? Call 108 right away</span>
+</div></section>
+
+<main class="container"><div class="grid">
+
+<div class="card"><img src="images/amb-road.jpeg" alt="Road ambulance">
+<div class="body"><h3>Road Ambulance</h3><p>Quick local and outstation patient transport.</p>
+<ul><li>Basic &amp; ICU-equipped ambulances</li><li>Trained paramedic on board</li><li>Hospital to hospital / home transfers</li></ul>
+<button class="btn" data-t="Road Ambulance">Book Now</button></div></div>
+
+<div class="card"><img src="images/amb-air-charter.jpeg" alt="Domestic air ambulance charter aircraft">
+<div class="body"><h3>Domestic Air Ambulance (Charter Aircraft)</h3><p>Dedicated chartered aircraft for critical patients across India.</p>
+<ul><li>ICU setup with doctor &amp; nurse</li><li>Fastest city-to-city transfer</li><li>Ground ambulance at both ends</li></ul>
+<button class="btn" data-t="Domestic Air Ambulance (Charter)">Enquire Now</button></div></div>
+
+<div class="card"><img src="images/amb-commercial.jpeg" alt="Domestic commercial airline patient transfer">
+<div class="body"><h3>Commercial Airline Patient Transfer</h3><p>Stretcher or medically escorted transfer on scheduled domestic flights.</p>
+<ul><li>Stretcher &amp; oxygen support</li><li>Medical escort throughout journey</li><li>Cost-effective for stable patients</li></ul>
+<button class="btn" data-t="Commercial Airline Transfer">Enquire Now</button></div></div>
+
+<div class="card"><img src="images/amb-helicopter.jpeg" alt="Helicopter air ambulance">
+<div class="body"><h3>Helicopter Ambulance</h3><p>Rapid critical-care transfer for short distances and hard-to-reach areas.</p>
+<ul><li>Critical care equipped helicopter</li><li>Hospital helipad to helipad</li><li>Expert flight medical crew</li></ul>
+<button class="btn" data-t="Helicopter Ambulance">Enquire Now</button></div></div>
+
+</div></main>
+
+<dialog id="dlg"><form class="modal" id="f" novalidate>
+<h3 id="t">Book Ambulance</h3>
+<label>Your name</label><input id="n" required>
+<label>Mobile number</label><input id="p" type="tel" inputmode="numeric" placeholder="10-digit number" required>
+<label>Pickup &amp; drop location</label><textarea id="a" rows="3" required></textarea>
+<label>Preferred date</label><input id="d" type="date">
+<div class="msg" id="m" role="status"></div>
+<div class="row"><button type="button" class="btn o" id="x">Close</button><button type="submit" class="btn" id="s">Submit</button></div>
+</form></dialog>
+
+<script>
+(function(){
+var dlg=document.getElementById('dlg'),cur='',m=document.getElementById('m'),s=document.getElementById('s');
+document.getElementById('d').min=new Date().toISOString().slice(0,10);
+document.querySelectorAll('.btn[data-t]').forEach(function(b){b.addEventListener('click',function(){
+ cur=b.dataset.t;document.getElementById('t').textContent=cur;m.textContent='';m.className='msg';dlg.showModal()})});
+document.getElementById('x').addEventListener('click',function(){dlg.close()});
+document.getElementById('f').addEventListener('submit',function(e){
+ e.preventDefault();
+ var data={type:'medical',service:'Ambulance',name:n.value,phone:p.value,
+  address:'['+cur+'] '+a.value,date:d.value};
+ s.disabled=true;m.className='msg';m.textContent='Sending...';
+ fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+ .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+ .then(function(x){if(x.ok){m.className='msg ok';m.textContent=x.j.message+' (ID: '+x.j.id+')';document.getElementById('f').reset()}
+  else{m.className='msg err';m.textContent=x.j.error||'Something went wrong.'}})
+ .catch(function(){m.className='msg err';m.textContent='Cannot reach the server. Please try again.'})
+ .then(function(){s.disabled=false});
+});
+})();
+</script>
+</body>
+</html>

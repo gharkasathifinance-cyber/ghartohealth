@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Road Ambulance Rates - Admin</title>
+<style>
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f7fbff;color:#12365d;margin:0;padding:20px}
+.box{max-width:760px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}
+.card{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:18px;margin:14px 0}
+.card h2{font-size:16px;margin:0 0 10px;color:#0564cf}
+.row{display:grid;grid-template-columns:1fr 150px;gap:10px;align-items:center;margin:8px 0}
+.row small{display:block;color:#5b7a99}
+input{padding:9px 10px;border:1px solid #bcd6ec;border-radius:8px;font-size:15px;width:100%;box-sizing:border-box}
+button{background:linear-gradient(135deg,#087ff5,#0564cf);color:#fff;border:0;border-radius:10px;padding:12px 26px;font-size:15px;font-weight:700;cursor:pointer}
+#msg{margin-top:12px;font-weight:600}
+.ok{color:#0a7a3d}.err{color:#c0392b}
+</style></head><body><div class="box">
+<h1>Road Ambulance Rates</h1>
+<p>Yahan se rates badlo. Save karte hi website par naye rates lag jaate hain (server restart nahi chahiye).</p>
+<div class="card"><h2>Admin key</h2><div class="row"><div>Admin key daalo</div><input id="key" type="password"></div><button onclick="load()" style="padding:8px 18px">Rates load karo</button></div>
+<div id="form" style="display:none">
+<div class="card"><h2>Basic (BLS) ambulance</h2>
+<div class="row"><div>Base charge (Rs)<small>pehle X km ka fixed rate</small></div><input id="bls_base" type="number"></div>
+<div class="row"><div>Per km (Rs)<small>base km ke baad har km</small></div><input id="bls_perKm" type="number"></div></div>
+<div class="card"><h2>ICU / ALS ambulance</h2>
+<div class="row"><div>Base charge (Rs)</div><input id="als_base" type="number"></div>
+<div class="row"><div>Per km (Rs)</div><input id="als_perKm" type="number"></div></div>
+<div class="card"><h2>Distance</h2>
+<div class="row"><div>Base mein kitne km shamil<small>jaise 5</small></div><input id="baseKm" type="number"></div>
+<div class="row"><div>Road factor<small>map ki seedhi doori x is number = sadak ki doori (1.3 theek hai)</small></div><input id="roadFactor" type="number" step="0.1"></div></div>
+<div class="card"><h2>Add-ons (Rs)</h2>
+<div class="row"><div>Oxygen cylinder</div><input id="a_oxygen" type="number"></div>
+<div class="row"><div>Paramedic saath mein</div><input id="a_paramedic" type="number"></div>
+<div class="row"><div>Doctor saath mein</div><input id="a_doctor" type="number"></div>
+<div class="row"><div>Waiting charge per ghanta</div><input id="waitPerHour" type="number"></div></div>
+<div class="card"><h2>Night charge</h2>
+<div class="row"><div>Extra % (service total par)</div><input id="nightPct" type="number"></div>
+<div class="row"><div>Raat kitne baje se (24 ghanta, jaise 22)</div><input id="nightFrom" type="number"></div>
+<div class="row"><div>Subah kitne baje tak (jaise 6)</div><input id="nightTo" type="number"></div></div>
+<div class="card"><h2>Aapka commission</h2>
+<div class="row"><div>Ambulance provider ko kitna %<small>baaki aapka commission (platform fee alag se aapki hai). Customer ko nahi dikhta.</small></div><input id="payoutPct" type="number"></div></div>
+<button onclick="save()">Save rates</button><div id="msg"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id), H=()=>({'x-admin-key':$('key').value,'Content-Type':'application/json'});
+const set=(id,v)=>{$(id).value=v};
+async function load(){
+  const r=await fetch('/api/ambulance/admin-road',{headers:H()}), d=await r.json();
+  if(!r.ok){alert(d.error||'Error');return}
+  set('bls_base',d.types.bls.base);set('bls_perKm',d.types.bls.perKm);set('als_base',d.types.als.base);set('als_perKm',d.types.als.perKm);
+  set('baseKm',d.baseKm);set('roadFactor',d.roadFactor);
+  set('a_oxygen',d.addons.oxygen.amount);set('a_paramedic',d.addons.paramedic.amount);set('a_doctor',d.addons.doctor.amount);set('waitPerHour',d.waitPerHour);
+  set('nightPct',d.nightPct);set('nightFrom',d.nightFrom);set('nightTo',d.nightTo);set('payoutPct',d.payoutPct);
+  $('form').style.display='block';
+}
+async function save(){
+  const g=id=>$(id).value, body={roadFactor:g('roadFactor'),baseKm:g('baseKm'),waitPerHour:g('waitPerHour'),nightPct:g('nightPct'),nightFrom:g('nightFrom'),nightTo:g('nightTo'),payoutPct:g('payoutPct'),
+    types:{bls:{base:g('bls_base'),perKm:g('bls_perKm')},als:{base:g('als_base'),perKm:g('als_perKm')}},
+    addons:{oxygen:{amount:g('a_oxygen')},paramedic:{amount:g('a_paramedic')},doctor:{amount:g('a_doctor')}}};
+  const r=await fetch('/api/ambulance/admin-road',{method:'PUT',headers:H(),body:JSON.stringify(body)}), d=await r.json();
+  $('msg').className=r.ok?'ok':'err'; $('msg').textContent=r.ok?'Saved. Naye rates website par lag gaye.':(d.error||'Error');
+}
+</script></div></body></html>

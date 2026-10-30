@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin | Ghar to Health</title>
+<style>
+body{font-family:'Segoe UI',sans-serif;background:#f7fbff;color:#12365d;margin:0;padding:20px}
+.box{max-width:900px;margin:0 auto 18px;background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:18px}
+h1,h2{margin-bottom:10px}input,textarea{padding:9px;border:1px solid #cfe0ee;border-radius:8px;font:inherit;width:100%}
+.r{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:10px}
+button{padding:9px 16px;border:none;border-radius:8px;background:#087cf2;color:#fff;font-weight:700;cursor:pointer}button.d{background:#c62828}button.e{background:#6c8299}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:8px;border-bottom:1px solid #eef4f9;text-align:left}
+#m{font-size:13px;margin-top:8px}</style></head><body>
+
+<div class="box"><h1>Ghar to Health - Admin</h1>
+<div class="r"><input id="key" type="password" placeholder="Admin key"></div>
+<p id="m"></p></div>
+
+<div class="box"><h2>Add a service</h2>
+<div class="r">
+<input id="category" list="cats" placeholder="Category (e.g. Plumber)">
+<datalist id="cats"></datalist>
+<input id="icon" placeholder="Icon emoji (optional, e.g. 🌿)">
+<input id="name" placeholder="Service name">
+<input id="price" type="number" placeholder="Price (₹)">
+<input id="duration" placeholder="Time (e.g. 30-45 mins)">
+</div>
+<textarea id="description" rows="2" placeholder="Short description"></textarea>
+<input id="image" type="file" accept="image/*">
+<p style="margin-top:10px"><button id="add">Add service</button></p></div>
+
+<div class="box"><h2>All services</h2>
+<table><thead><tr><th>Category</th><th>Service</th><th>Price</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+
+<script>
+var $ = function(i){ return document.getElementById(i); };
+var data = [];
+
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function msg(t,bad){
+  $('m').textContent = t;
+  $('m').style.color = bad ? '#c62828' : '#1b7f3b';
+}
+
+function api(method,url,body){
+  return fetch(url,{
+    method: method,
+    headers: {'Content-Type':'application/json','x-admin-key':$('key').value},
+    body: body ? JSON.stringify(body) : undefined
+  }).then(function(r){
+    return r.json().then(function(j){
+      if(!r.ok) throw new Error(j.error || 'Error');
+      return j;
+    });
+  });
+}
+
+function load(){
+  fetch('/api/catalog').then(function(r){ return r.json(); }).then(function(d){
+    data = d;
+    $('rows').innerHTML = d.map(function(s){
+      return '<tr><td>'+esc(s.category)+'</td><td>'+esc(s.name)+'</td><td>₹'+s.price+'</td><td>'
+        +'<button class="e" data-e="'+esc(s.id)+'">Edit</button> '
+        +'<button class="d" data-d="'+esc(s.id)+'">Delete</button></td></tr>';
+    }).join('');
+    $('cats').innerHTML = [...new Set(d.map(function(s){ return s.category; }))].map(function(c){
+      return '<option value="'+esc(c)+'">';
+    }).join('');
+  });
+}
+
+$('add').onclick = function(){
+  api('POST','/api/admin/services',{
+    category: $('category').value,
+    icon: $('icon').value,
+    name: $('name').value,
+    price: $('price').value,
+    duration: $('duration').value || '30-60 mins',
+    description: $('description').value
+  }).then(function(){
+    msg('Service added.');
+    ['name','price','duration','description','icon'].forEach(function(i){ $(i).value = ''; });
+    load();
+  }).catch(function(e){
+    msg(e.message,1);
+  });
+};
+
+document.addEventListener('click',function(e){
+  var t = e.target;
+
+  if(t.dataset.d && confirm('Delete this service?')){
+    api('DELETE','/api/admin/services?id='+encodeURIComponent(t.dataset.d))
+    .then(function(){
+      msg('Deleted.');
+      load();
+    })
+    .catch(function(x){
+      msg(x.message,1);
+    });
+  }
+
+  if(t.dataset.e){
+    var s = data.find(function(x){ return x.id === t.dataset.e; });
+
+    var name = prompt('Service Name:', s.name);
+    if(name === null) return;
+
+    var category = prompt('Category:', s.category);
+    if(category === null) return;
+
+    var price = prompt('Price (₹):', s.price);
+    if(price === null) return;
+
+    var duration = prompt('Duration:', s.duration);
+    if(duration === null) return;
+
+    var description = prompt('Description:', s.description);
+    if(description === null) return;
+
+    api('PUT','/api/admin/services',{
+      id: s.id,
+      name: name,
+      category: category,
+      price: price,
+      duration: duration,
+      description: description
+    })
+    .then(function(){
+      msg('Service updated successfully.');
+      load();
+    })
+    .catch(function(x){
+      msg(x.message,1);
+    });
+  }
+});
+
+load();
+</script></body></html>

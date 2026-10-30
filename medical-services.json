@@ -1,0 +1,191 @@
+[
+  {
+    "id": "m1",
+    "category": "Doctor Consultation",
+    "name": "General Physician (Video)",
+    "description": "Fever, cold, stomach and everyday problems.",
+    "price": 299,
+    "duration": "15 min",
+    "active": true
+  },
+  {
+    "id": "m2",
+    "category": "Doctor Consultation",
+    "name": "Child Specialist (Video)",
+    "description": "Child health, growth and vaccination advice.",
+    "price": 399,
+    "duration": "15 min",
+    "active": true
+  },
+  {
+    "id": "m3",
+    "category": "Doctor Consultation",
+    "name": "Skin Specialist (Video)",
+    "description": "Acne, rashes, hair and skin problems.",
+    "price": 399,
+    "duration": "15 min",
+    "active": true
+  },
+  {
+    "id": "m4",
+    "category": "Doctor Consultation",
+    "name": "Women's Health (Video)",
+    "description": "Gynaecology and women's health consultation.",
+    "price": 499,
+    "duration": "20 min",
+    "active": true
+  },
+  {
+    "id": "m5",
+    "category": "Medicine Delivery",
+    "name": "Medicine Delivery",
+    "description": "Medicines from a licensed pharmacy. Price = medicine cost + delivery.",
+    "price": 49,
+    "duration": "Same day (delivery charge)",
+    "active": true
+  },
+  {
+    "id": "m6",
+    "category": "Lab Tests",
+    "name": "Full Body Checkup",
+    "description": "Complete blood, sugar, lipid, liver and kidney tests.",
+    "price": 999,
+    "duration": "Report in 24-48 hrs",
+    "active": true
+  },
+  {
+    "id": "m7",
+    "category": "Lab Tests",
+    "name": "Thyroid Profile",
+    "description": "T3, T4 and TSH.",
+    "price": 399,
+    "duration": "Report in 24 hrs",
+    "active": true
+  },
+  {
+    "id": "m8",
+    "category": "Lab Tests",
+    "name": "Diabetes Package",
+    "description": "HbA1c and fasting sugar.",
+    "price": 499,
+    "duration": "Report in 24 hrs",
+    "active": true
+  },
+  {
+    "id": "m9",
+    "category": "Health Check-up",
+    "name": "Basic Health Package",
+    "description": "Core tests with doctor review.",
+    "price": 1499,
+    "duration": "Fasting needed",
+    "active": true
+  },
+  {
+    "id": "m10",
+    "category": "Health Check-up",
+    "name": "Senior Citizen Package",
+    "description": "Heart, sugar, bone and vitamin tests.",
+    "price": 2499,
+    "duration": "Fasting needed",
+    "active": true
+  },
+  {
+    "id": "m11",
+    "category": "Nurse at Home",
+    "name": "Nurse Visit",
+    "description": "Injection, dressing, BP and sugar check.",
+    "price": 399,
+    "duration": "1 hr",
+    "active": true
+  },
+  {
+    "id": "m12",
+    "category": "Nurse at Home",
+    "name": "Nurse for 12 hours",
+    "description": "Patient care at home.",
+    "price": 1200,
+    "duration": "12 hrs",
+    "active": true
+  },
+  {
+    "id": "m13",
+    "category": "Physiotherapy",
+    "name": "Home Physiotherapy Session",
+    "description": "Exercise and therapy at home.",
+    "price": 599,
+    "duration": "45 min",
+    "active": true
+  },
+  {
+    "id": "m14",
+    "category": "Ambulance",
+    "name": "Ambulance Booking",
+    "description": "Basic ambulance. For emergencies call 108.",
+    "price": 799,
+    "duration": "Starting at",
+    "active": true
+  },
+  {
+    "id": "m15",
+    "category": "Scans & Imaging",
+    "name": "X-Ray",
+    "description": "Booking with a partner centre.",
+    "price": 400,
+    "duration": "Report same day",
+    "active": true
+  },
+  {
+    "id": "m16",
+    "category": "Scans & Imaging",
+    "name": "Ultrasound",
+    "description": "Booking with a partner centre.",
+    "price": 900,
+    "duration": "Report same day",
+    "active": true
+  },
+  {
+    "id": "m17",
+    "category": "Scans & Imaging",
+    "name": "MRI / CT Scan",
+    "description": "Price depends on the scan.",
+    "price": 0,
+    "duration": "On request",
+    "active": true
+  },
+  {
+    "id": "m18",
+    "category": "Dental Care",
+    "name": "Dental Check-up",
+    "description": "Check-up and advice.",
+    "price": 299,
+    "duration": "30 min",
+    "active": true
+  },
+  {
+    "id": "m19",
+    "category": "Eye Care",
+    "name": "Eye Check-up",
+    "description": "Eye test and advice.",
+    "price": 299,
+    "duration": "30 min",
+    "active": true
+  },
+  {
+    "id": "m20",
+    "category": "Mental Health",
+    "name": "Counselling Session",
+    "description": "Private session with a counsellor.",
+    "price": 799,
+    "duration": "45 min",
+    "active": true
+  },
+  {
+    "id": "m21",
+    "category": "Diet & Nutrition",
+    "name": "Diet Consultation",
+    "description": "Personal diet plan.",
+    "price": 499,
+    "duration": "30 min",
+    "active": true
+  }
+]

@@ -1,0 +1,364 @@
+// Ghar to Health - backend (no npm packages needed, Node 18+)
+// Run:  node server.js   ->  http://localhost:3000
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const PORT = process.env.PORT || 3000;
+const ADMIN_KEY = process.env.ADMIN_KEY || '1234'; // used to view bookings
+// WhatsApp alert (CallMeBot). Set these two before starting the server:
+//   WHATSAPP_PHONE = your number with country code, no + (e.g. 919876543210)
+//   CALLMEBOT_KEY  = API key that CallMeBot sends you on WhatsApp
+const WHATSAPP_PHONE = process.env.WHATSAPP_PHONE || '';
+const CALLMEBOT_KEY = process.env.CALLMEBOT_KEY || '';
+// Phone notification via ntfy.sh (free, no signup). Install the "ntfy" app and subscribe to this topic.
+// Keep the topic name secret - anyone who knows it can read your booking alerts.
+const NTFY_TOPIC = process.env.NTFY_TOPIC || 'ghar-to-health-5704a4d63507';
+const PUBLIC_DIR = path.join(__dirname, 'public');
+const UPLOAD_DIR = path.join(PUBLIC_DIR, 'uploads');
+fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+
+const DATA_FILE = path.join(__dirname, 'data', 'bookings.json');
+const SERVICES = {
+  home: ['Plumber', 'Electrician', 'Carpenter', 'AC Service', 'Cleaning', 'Sofa Cleaning', 'Pest Control', 'Appliance Repair'],
+  medical: ['Doctor Consultation', 'Medicine Delivery', 'Lab Tests', 'Health Check-up', 'Nurse at Home', 'Physiotherapy', 'Ambulance', 'Scans & Imaging', 'Dental Care', 'Eye Care', 'Mental Health', 'Diet & Nutrition']
+};
+
+const MIME = {
+  '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript',
+  '.json': 'application/json', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+  '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.webp': 'image/webp'
+};
+
+function readBookings() {
+  try { return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); } catch { return []; }
+}
+function saveBookings(list) {
+  fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
+  fs.writeFileSync(DATA_FILE, JSON.stringify(list, null, 2));
+}
+
+function send(res, status, body, headers = {}) {
+  const isObj = typeof body === 'object' && !Buffer.isBuffer(body);
+  res.writeHead(status, { 'Content-Type': isObj ? 'application/json' : 'text/plain', ...headers });
+  res.end(isObj ? JSON.stringify(body) : body);
+}
+
+function readBody(req, max = 10000) {
+  return new Promise((resolve, reject) => {
+    let data = '';
+    req.on('data', c => {
+      data += c;
+      if (data.length > max) {
+        reject(new Error('too large'));
+        req.destroy();
+      }
+    });
+    req.on('end', () => {
+      try {
+        resolve(JSON.parse(data || '{}'));
+      } catch {
+        reject(new Error('bad json'));
+      }
+    });
+    req.on('error', reject);
+  });
+}
+
+const clean = (v, max = 200) => String(v || '').replace(/[<>]/g, '').trim().slice(0, max);
+
+async function notifyPhone(b) {
+  const text = `${b.service} (${b.type})\nName: ${b.name}\nPhone: ${b.phone}\nAddress: ${b.address}\nDate: ${b.date || 'not given'}\nID: ${b.id}`;
+  try {
+    const r = await fetch('https://ntfy.sh/' + NTFY_TOPIC, {
+      method: 'POST',
+      headers: { Title: 'New booking: ' + String(b.service).replace(/[^\x20-\x7E]/g, '').slice(0, 80), Priority: 'high', Tags: 'house' },
+      body: text
+    });
+    console.log('Phone alert status:', r.status);
+  } catch (e) { console.log('Phone alert failed:', e.message); }
+}
+
+async function notifyWhatsApp(b) {
+  if (!WHATSAPP_PHONE || !CALLMEBOT_KEY) return console.log('WhatsApp alert skipped: WHATSAPP_PHONE / CALLMEBOT_KEY not set');
+  const text = `New booking ${b.id}\nService: ${b.service} (${b.type})\nName: ${b.name}\nPhone: ${b.phone}\nAddress: ${b.address}\nDate: ${b.date || 'not given'}`;
+  const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(WHATSAPP_PHONE)}&text=${encodeURIComponent(text)}&apikey=${encodeURIComponent(CALLMEBOT_KEY)}`;
+  try {
+    const r = await fetch(url);
+    console.log('WhatsApp alert status:', r.status);
+  } catch (e) { console.log('WhatsApp alert failed:', e.message); }
+}
+
+const SERVICES_FILE = path.join(__dirname, 'data', 'services.json');
+const SEED = [
+ ['Electrician','Switch Board Repair & Installation','Fix faulty switches, sockets and switchboards.',199,'30-45 mins'],
+ ['Electrician','Ceiling Fan Installation','Fan installation, blade balancing and regulator connection.',229,'45-60 mins'],
+ ['Electrician','LED Light & Spotlight Fitting','Ceiling battens, profile lights and pendant lights.',149,'30 mins'],
+ ['Electrician','MCB & Wiring Repair','MCB change, short circuit and wiring fault repair.',349,'45-60 mins'],
+ ['Plumber','Tap & Mixer Repair','Leaking tap, mixer or shower repair and replacement.',149,'30 mins'],
+ ['Plumber','Wash Basin Installation','Fitting of wash basin with pipes and taps.',399,'45-60 mins'],
+ ['Plumber','Drain Blockage Clearing','Kitchen or bathroom drain unblocking.',299,'30-45 mins'],
+ ['Plumber','Water Tank Cleaning','Overhead tank cleaning and disinfection.',699,'1-2 hrs'],
+ ['Carpenter','Door & Lock Repair','Door alignment, hinge and lock fitting.',249,'30-45 mins'],
+ ['Carpenter','Furniture Assembly','Bed, wardrobe or table assembly.',499,'1-2 hrs'],
+ ['Carpenter','Curtain Rod & Shelf Fitting','Wall drilling and fitting of rods and shelves.',199,'30 mins'],
+ ['Cleaning','Fabric Sofa Cleaning (3 Seater)','Deep shampoo and vacuum cleaning.',549,'1 hr'],
+ ['Cleaning','Bathroom Deep Cleaning','Tiles, fittings and floor deep clean.',449,'1 hr'],
+ ['Cleaning','Kitchen Deep Cleaning','Chimney, slab, cabinets and tiles cleaning.',999,'2-3 hrs'],
+ ['Cleaning','Full Home Deep Cleaning (1 BHK)','Complete floor-to-ceiling cleaning.',2499,'4-5 hrs'],
+ ['AC & Appliances','AC Service (Split)','Jet-pump cleaning, gas pressure and cooling check.',499,'45-60 mins'],
+ ['AC & Appliances','Washing Machine Repair','Inspection and repair of front or top load machines.',349,'45-60 mins'],
+ ['AC & Appliances','Refrigerator Repair','Cooling issue and compressor inspection.',399,'45-60 mins'],
+ ['AC & Appliances','Water Purifier Service','Filter check, cleaning and sanitisation.',399,'30-45 mins'],
+ ['Pest Control','Cockroach & Ant Control','Gel and spray treatment for the whole home.',599,'1 hr'],
+ ['Pest Control','Termite Control (1 BHK)','Drill-and-fill anti-termite treatment.',1999,'2-3 hrs'],
+ ['Painting','Single Wall Painting','Putty, primer and two coats on one wall.',999,'3-4 hrs'],
+];
+function writeCatalog(l) { fs.mkdirSync(path.dirname(SERVICES_FILE), { recursive: true }); fs.writeFileSync(SERVICES_FILE, JSON.stringify(l, null, 2)); }
+function readCatalog() {
+  try { return JSON.parse(fs.readFileSync(SERVICES_FILE, 'utf8')); } catch {
+    const s = SEED.map((r, i) => ({ id: 's' + (i + 1), category: r[0], name: r[1], description: r[2], price: r[3], duration: r[4] }));
+    writeCatalog(s); return s;
+  }
+}
+
+// Category ke naam se emoji apne aap chunta hai
+function autoIcon(category) {
+  const c = String(category || '').toLowerCase();
+  const rules = [
+    [/laundry|dry ?clean|\biron/, '👕'],
+    [/waterproof|leakage|seepage/, '💧'],
+    [/mattress|matress|\bbed\b/, '🛏️'],
+    [/sofa|couch|upholster/, '🛋️'],
+    [/\bcars?\b|vehicle|\bbike|automobile|car wash/, '🚗'],
+    [/carpent|wood|furniture|door/, '🔨'],
+    [/plumb|\btap|pipe|drain|\btank|\bwater/, '🚰'],
+    [/electric|wiring|\bfan\b|switch|light/, '⚡'],
+    [/\bac\b|air ?cond|\bcooler|hvac|cooling/, '❄️'],
+    [/appliance|washing|fridge|refrigerator|microwave|\btv\b|geyser/, '🧺'],
+    [/pest|termite|cockroach|insect|\bants?\b|rodent/, '🐜'],
+    [/paint|polish|putty|\bwall/, '🎨'],
+    [/garden|lawn|plant|\btree/, '🌿'],
+    [/tile|floor|marble|granite/, '🧱'],
+    [/glass|window/, '🪟'],
+    [/cctv|camera|security|\block/, '📷'],
+    [/move|shift|packer|relocat/, '🚚'],
+    [/cook|chef|kitchen|tiffin|food/, '🍳'],
+    [/salon|beauty|hair|makeup|\bspa\b|massage/, '💇'],
+    [/laptop|computer|mobile|phone|\bwifi/, '💻'],
+    [/pet\b|\bdog|puppy/, '🐶'],
+    [/tutor|teach|coaching|\bclass/, '📚'],
+    [/clean|maid|housekeep|dust|sweep|mop|sanit/, '🧹'],
+  ];
+  for (const [re, icon] of rules) if (re.test(c)) return icon;
+  return '🛠️';
+}
+
+// Home services = built-in list + any new category added from admin
+function homeServices() {
+  const extra = [...new Set(readCatalog().map(s => s.category))]
+    .filter(c => !SERVICES.home.some(h => h.toLowerCase() === c.toLowerCase()));
+  return [...SERVICES.home, ...extra];
+}
+function allowedServices(type) { return type === 'home' ? homeServices() : SERVICES.medical; }
+
+function validateBooking(b) {
+  if (b.type === 'medical') return { error: 'Please book medical services from the Medical Services page.' };
+  const type = 'home';
+  const booking = {
+    type,
+    service: clean(b.service, 60),
+    name: clean(b.name, 80),
+    phone: clean(b.phone, 15).replace(/[\s-]/g, ''),
+    address: clean(b.address, 250),
+    date: clean(b.date, 20),
+    notes: clean(b.notes, 300)
+  };
+  if (!allowedServices(type).includes(booking.service)) return { error: 'Please choose a valid service.' };
+  if (booking.name.length < 2) return { error: 'Please enter your name.' };
+  if (!/^(\+91)?[6-9]\d{9}$/.test(booking.phone)) return { error: 'Enter a valid 10-digit mobile number.' };
+  if (booking.address.length < 5) return { error: 'Please enter your address.' };
+  return { booking };
+}
+
+const AMC_PRICING_FILE = path.join(__dirname, 'data', 'amc-pricing.json');
+const AMC_QUOTES_FILE = path.join(__dirname, 'data', 'amc-quotes.json');
+
+// Alerts for medical bookings carry NO health details, only the booking ID.
+async function notifyMinimal(id) {
+  try { await fetch('https://ntfy.sh/' + NTFY_TOPIC, { method: 'POST', headers: { Title: 'New medical booking', Priority: 'high', Tags: 'hospital' }, body: 'Booking ' + id + '. Open the admin panel for details.' }); } catch (e) { console.log('Alert failed:', e.message); }
+}
+const SLOTS = ['Morning (9-12)', 'Afternoon (12-4)', 'Evening (4-8)'];
+async function handleApi(req, res, url) {
+  if (req.method === 'POST' && url.pathname === '/api/medical-bookings') {
+    let b; try { b = await readBody(req, 20000); } catch { return send(res, 400, { error: 'Invalid request.' }); }
+    const m = { service: clean(b.service, 60), item: clean(b.item, 80), name: clean(b.name, 80), phone: clean(b.phone, 15).replace(/[\s-]/g, ''),
+      age: clean(b.age, 3), address: clean(b.address, 250), date: clean(b.date, 10), slot: clean(b.slot, 30), details: clean(b.details, 400) };
+    const today = new Date(Date.now() + 19800000).toISOString().slice(0, 10);
+    if (!SERVICES.medical.includes(m.service)) return send(res, 400, { error: 'Please choose a valid service.' });
+    if (m.name.length < 2) return send(res, 400, { error: 'Please enter the patient name.' });
+    if (!/^(\+91)?[6-9]\d{9}$/.test(m.phone)) return send(res, 400, { error: 'Enter a valid 10-digit mobile number.' });
+    if (m.address.length < 5) return send(res, 400, { error: 'Please enter your address.' });
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(m.date) || m.date < today) return send(res, 400, { error: 'Please choose a valid date.' });
+    if (!SLOTS.includes(m.slot)) return send(res, 400, { error: 'Please choose a time.' });
+    if (b.consent !== true) return send(res, 400, { error: 'Please tick the consent box to continue.' });
+    const now = new Date().toISOString();
+    const saved = { id: 'MED' + Date.now().toString(36).toUpperCase(), status: 'new', createdAt: now, type: 'medical', ...m,
+      consent: { agreed: true, at: now }, history: [{ at: now, event: 'Booking created' }] };
+    const list = readBookings(); list.push(saved); saveBookings(list);
+    notifyMinimal(saved.id);
+    return send(res, 201, { message: 'Request received! We will call you to confirm the date and time.', id: saved.id });
+  }
+  if (req.method === 'GET' && url.pathname === '/api/track') {
+    const id = clean(url.searchParams.get('id'), 30).toUpperCase(), ph = clean(url.searchParams.get('phone'), 15).replace(/[\s-]/g, '').slice(-10);
+    const b = readBookings().find(x => x.id === id && String(x.phone).slice(-10) === ph);
+    if (!b) return send(res, 404, { error: 'No booking found. Check the ID and mobile number.' });
+    return send(res, 200, { id: b.id, service: b.item || b.service, status: b.status, date: b.date, slot: b.slot || '', confirmedDate: b.confirmedDate || '',
+      confirmedTime: b.confirmedTime || '', partnerName: b.partnerName || '', meetLink: b.meetLink || '', note: b.clientNote || '' });
+  }
+  if (req.method === 'POST' && url.pathname === '/api/admin/booking-update') {
+    if (req.headers['x-admin-key'] !== ADMIN_KEY) return send(res, 401, { error: 'Wrong admin key' });
+    let b; try { b = await readBody(req); } catch { return send(res, 400, { error: 'Invalid request.' }); }
+    const list = readBookings(), i = list.findIndex(x => x.id === b.id);
+    if (i < 0) return send(res, 404, { error: 'Booking not found' });
+    const link = clean(b.meetLink, 200);
+    if (link && !/^https:\/\//.test(link)) return send(res, 400, { error: 'Link must start with https://' });
+    const st = ['new', 'confirmed', 'completed', 'cancelled'].includes(b.status) ? b.status : list[i].status;
+    Object.assign(list[i], { status: st, confirmedDate: clean(b.confirmedDate, 10), confirmedTime: clean(b.confirmedTime, 12), partnerName: clean(b.partnerName, 80), meetLink: link, clientNote: clean(b.clientNote, 200) });
+    (list[i].history = list[i].history || []).push({ at: new Date().toISOString(), event: 'Updated: ' + st + ' ' + list[i].confirmedDate + ' ' + list[i].confirmedTime + (list[i].partnerName ? ' | ' + list[i].partnerName : '') });
+    saveBookings(list); return send(res, 200, { ok: true });
+  }
+  if (req.method === 'GET' && url.pathname === '/api/services') return send(res, 200, { home: homeServices(), medical: SERVICES.medical });
+
+  if (req.method === 'POST' && url.pathname === '/api/bookings') {
+    let body;
+    try { body = await readBody(req); } catch (e) { return send(res, 400, { error: 'Invalid request.' }); }
+    const { booking, error } = validateBooking(body);
+    if (error) return send(res, 400, { error });
+    const list = readBookings();
+    const saved = { id: 'GTH' + Date.now().toString(36).toUpperCase(), status: 'new', createdAt: new Date().toISOString(), ...booking };
+    list.push(saved);
+    saveBookings(list);
+    notifyPhone(saved);
+    notifyWhatsApp(saved); // runs in background, does not slow the customer
+    return send(res, 201, { message: 'Booking received! We will call you shortly.', id: saved.id });
+  }
+
+  if (req.method === 'GET' && url.pathname === '/api/bookings') {
+    if (req.headers['x-admin-key'] !== ADMIN_KEY) return send(res, 401, { error: 'Unauthorized' });
+    return send(res, 200, readBookings());
+  }
+
+  if (req.method === 'GET' && url.pathname === '/api/catalog') {
+    return send(res, 200, readCatalog().map(s => ({ ...s, icon: s.icon || autoIcon(s.category) })));
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/orders') {
+    let b; try { b = await readBody(req); } catch { return send(res, 400, { error: 'Invalid request.' }); }
+    const catalog = readCatalog();
+    const lines = (Array.isArray(b.items) ? b.items : []).slice(0, 30).map(i => {
+      const s = catalog.find(x => x.id === i.id); const q = Math.min(Math.max(parseInt(i.qty) || 0, 0), 10);
+      return s && q ? { id: s.id, name: s.name, price: s.price, qty: q } : null;
+    }).filter(Boolean);
+    const name = clean(b.name, 80), phone = clean(b.phone, 15).replace(/[\s-]/g, ''), address = clean(b.address, 250);
+    if (!lines.length) return send(res, 400, { error: 'Your cart is empty.' });
+    if (name.length < 2) return send(res, 400, { error: 'Please enter your name.' });
+    if (!/^(\+91)?[6-9]\d{9}$/.test(phone)) return send(res, 400, { error: 'Enter a valid 10-digit mobile number.' });
+    if (address.length < 5) return send(res, 400, { error: 'Please enter your address.' });
+    const subtotal = lines.reduce((a, l) => a + l.price * l.qty, 0);
+    const fee = Math.round(subtotal * 0.03 * 100) / 100;
+    const saved = { id: 'GTH' + Date.now().toString(36).toUpperCase(), status: 'new', createdAt: new Date().toISOString(), type: 'order',
+      service: lines.map(l => `${l.name} x${l.qty}`).join(', '), items: lines, subtotal, fee, total: Math.round((subtotal + fee) * 100) / 100,
+      name, phone, address, date: clean(b.date, 20), notes: '' };
+    const list = readBookings(); list.push(saved); saveBookings(list);
+    notifyPhone(saved); notifyWhatsApp(saved);
+    return send(res, 201, { message: 'Booking received! We will call you shortly.', id: saved.id, total: saved.total });
+  }
+
+  if (url.pathname === '/api/admin/services') {
+    if (req.headers['x-admin-key'] !== ADMIN_KEY) return send(res, 401, { error: 'Wrong admin key' });
+    const catalog = readCatalog();
+    if (req.method === 'DELETE') { writeCatalog(catalog.filter(s => s.id !== url.searchParams.get('id'))); return send(res, 200, { ok: true }); }
+    if (req.method === 'POST' || req.method === 'PUT') {
+      let b; try { b = await readBody(req); } catch { return send(res, 400, { error: 'Invalid request.' }); }
+      const item = { category: clean(b.category, 40), name: clean(b.name, 80), description: clean(b.description, 200), price: Number(b.price), duration: clean(b.duration, 20) };
+      if (b.icon !== undefined) item.icon = clean(b.icon, 8);
+      if (!item.category || item.name.length < 2 || !(item.price > 0 && item.price <= 100000)) return send(res, 400, { error: 'Category, name and a valid price are required.' });
+      if (req.method === 'POST') { item.id = 's' + Date.now().toString(36); catalog.push(item); }
+      else { const i = catalog.findIndex(s => s.id === b.id); if (i < 0) return send(res, 404, { error: 'Not found' }); catalog[i] = { ...catalog[i], ...item }; }
+      writeCatalog(catalog); return send(res, 200, { ok: true });
+    }
+  }
+
+  if (url.pathname === '/api/amc-pricing') {
+    if (req.method === 'GET') {
+      try { return send(res, 200, JSON.parse(fs.readFileSync(AMC_PRICING_FILE, 'utf8'))); }
+      catch { return send(res, 404, {}); }
+    }
+    if (req.method === 'PUT') {
+      if (req.headers['x-admin-key'] !== ADMIN_KEY) return send(res, 401, { error: 'Wrong admin key' });
+      let b; try { b = await readBody(req, 100000); } catch { return send(res, 400, { error: 'Invalid request.' }); }
+      if (!b || !b.config || !b.residential || !b.cafe || !b.office) return send(res, 400, { error: 'Invalid pricing data' });
+      fs.mkdirSync(path.dirname(AMC_PRICING_FILE), { recursive: true });
+      fs.writeFileSync(AMC_PRICING_FILE, JSON.stringify(b, null, 2));
+      return send(res, 200, { ok: true });
+    }
+  }
+
+  if (url.pathname === '/api/amc-quotes') {
+    let list = [];
+    try { list = JSON.parse(fs.readFileSync(AMC_QUOTES_FILE, 'utf8')); } catch {}
+    if (req.method === 'GET') {
+      if (req.headers['x-admin-key'] !== ADMIN_KEY) return send(res, 401, { error: 'Unauthorized' });
+      return send(res, 200, list);
+    }
+    if (req.method === 'POST') {
+      let b; try { b = await readBody(req); } catch { return send(res, 400, { error: 'Invalid request.' }); }
+      const c = b.customer || {};
+      const name = clean(c.name, 80), phone = clean(c.phone, 15).replace(/[\s-]/g, ''), address = clean(c.address, 250);
+      if (name.length < 2) return send(res, 400, { error: 'Please enter your name.' });
+      if (!/^(\+91)?[6-9]\d{9}$/.test(phone)) return send(res, 400, { error: 'Enter a valid 10-digit mobile number.' });
+      if (address.length < 5) return send(res, 400, { error: 'Please enter your address.' });
+      const saved = { id: 'AMC' + Date.now().toString(36).toUpperCase(), at: new Date().toISOString(), status: 'new',
+        type: clean(b.type, 20), mode: clean(b.mode, 20), plan: clean(b.plan, 80),
+        spec: b.spec && typeof b.spec === 'object' ? b.spec : undefined, total: Number(b.total) || 0,
+        customer: { name, phone, email: clean(c.email, 80), address } };
+      list.push(saved);
+      fs.mkdirSync(path.dirname(AMC_QUOTES_FILE), { recursive: true });
+      fs.writeFileSync(AMC_QUOTES_FILE, JSON.stringify(list, null, 2));
+      const alert = { id: saved.id, type: 'amc', service: 'AMC ' + saved.type + ' - ' + (saved.plan || 'Custom plan') + ' (Rs ' + saved.total + ')', name, phone, address, date: '' };
+      notifyPhone(alert); notifyWhatsApp(alert);
+      return send(res, 201, { message: 'Request received! We will call you shortly.', id: saved.id });
+    }
+  }
+
+  return send(res, 404, { error: 'Not found' });
+}
+
+function serveStatic(req, res, url) {
+  let file = decodeURIComponent(url.pathname);
+  if (file === '/') file = '/index.html';
+  const full = path.normalize(path.join(PUBLIC_DIR, file));
+  if (!full.startsWith(PUBLIC_DIR)) return send(res, 403, 'Forbidden');
+  fs.readFile(full, (err, data) => {
+    if (err) return send(res, 404, 'Not found');
+    send(res, 200, data, { 'Content-Type': MIME[path.extname(full).toLowerCase()] || 'application/octet-stream' });
+  });
+}
+
+http.createServer((req, res) => {
+  const url = new URL(req.url, 'http://localhost');
+  if (url.pathname.startsWith('/api/')) return handleApi(req, res, url).catch(() => send(res, 500, { error: 'Server error' }));
+  if (req.method !== 'GET') return send(res, 405, 'Method not allowed');
+  serveStatic(req, res, url);
+}).listen(PORT, '0.0.0.0', () => {
+  console.log(`Ghar to Health running at http://localhost:${PORT}`);
+  console.log(`Phone alert topic (subscribe in the ntfy app): ${NTFY_TOPIC}`);
+  // Show the address to type in your mobile browser (phone must be on the same Wi-Fi)
+  const nets = require('os').networkInterfaces();
+  for (const list of Object.values(nets)) {
+    for (const n of list) {
+      if (n.family === 'IPv4' && !n.internal) console.log(`Open on mobile: http://${n.address}:${PORT}`);
+    }
+  }
+});

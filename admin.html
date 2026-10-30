@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin | Ghar to Health</title>
+<style>
+body{font-family:'Segoe UI',sans-serif;background:#f7fbff;color:#12365d;margin:0;padding:20px}
+.box{max-width:900px;margin:0 auto 18px;background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:18px}
+h1,h2{margin-bottom:10px}input,textarea{padding:9px;border:1px solid #cfe0ee;border-radius:8px;font:inherit;width:100%}
+.r{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:10px}
+button{padding:9px 16px;border:none;border-radius:8px;background:#087cf2;color:#fff;font-weight:700;cursor:pointer}button.d{background:#c62828}button.e{background:#6c8299}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:8px;border-bottom:1px solid #eef4f9;text-align:left}
+#m{font-size:13px;margin-top:8px}
+dialog{border:none;border-radius:16px;width:min(560px,94vw);padding:0;max-height:92vh;overflow:auto;color:#12365d}
+dialog::backdrop{background:rgba(7,57,110,.45)}
+.eb{padding:20px}.eb h2{margin:0 0 10px}.eb h3{margin:16px 0 6px;font-size:15px}
+.eb label{display:block;font-size:12px;font-weight:700;margin:10px 0 4px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.xr{display:grid;grid-template-columns:1fr 110px 34px;gap:8px;margin-bottom:8px}
+.xr button{padding:0;background:#c62828}
+.prev{background:#f1f7fc;border:1px solid #d9ebf8;border-radius:10px;padding:10px;font-size:13px;margin:12px 0;line-height:1.7}
+.note{background:#fff8e1;border:1px solid #f3dd9a;border-radius:10px;padding:8px 10px;font-size:12px;margin-top:10px}
+.sc{margin:6px 0;font-size:13px;font-weight:400}.sc input{width:auto;margin-right:6px}
+.ab{display:flex;gap:10px;margin-top:14px}.ab button{flex:1}
+td small{color:#6c8299;font-size:11px}
+
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.tab{background:#f1f7fc;color:#375775;border:1px solid #d3e4f1;border-radius:22px;padding:8px 14px}
+.tab.on{background:#087cf2;border-color:#087cf2;color:#fff}
+.tab .n{margin-left:6px;padding:1px 8px;border-radius:10px;background:rgba(0,0,0,.1);font-size:12px}
+.tab.on .n{background:rgba(255,255,255,.3)}
+#q{margin-bottom:6px}
+.ph{display:flex;gap:12px;align-items:center;margin-top:4px}.ph img{width:84px;height:84px;object-fit:cover;border-radius:10px;border:1px solid #d9ebf8;background:#f1f7fc}
+.ph .none{width:84px;height:84px;border-radius:10px;border:1px dashed #b9d3e8;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6c8299;text-align:center}
+.ph input{width:auto}.ph button.rm{background:#c62828;padding:6px 10px;font-size:12px;margin-top:6px}
+.th{width:34px;height:34px;object-fit:cover;border-radius:6px;vertical-align:middle;margin-right:8px}</style></head><body>
+
+<div class="box"><h1>Ghar to Health - Admin</h1>
+<p style="margin:0 0 12px"><a href="admin-medical.html" style="display:inline-block;padding:9px 16px;border-radius:8px;background:#0b75e0;color:#fff;font-weight:700;text-decoration:none">🩺 Medical Services Dashboard →</a> <a href="admin-invoices.html" style="display:inline-block;padding:9px 16px;border-radius:8px;background:#0b75e0;color:#fff;font-weight:700;text-decoration:none;margin-left:8px">🧾 Invoices →</a></p>
+<div class="r"><input id="key" type="password" placeholder="Admin key"></div>
+<p id="m"></p></div>
+
+<div class="box"><div class="tabs" style="margin:0"><button type="button" class="tab on" id="tbSvc">🛠️ Services</button><button type="button" class="tab" id="tbLog" style="margin-left:auto">🔐 Customer Login Data</button></div></div>
+<div id="paneSvc"><div class="box"><h2>Add a service</h2>
+<div class="r">
+<input id="category" list="cats" placeholder="Category (e.g. Plumber)">
+<datalist id="cats"></datalist>
+<input id="sub" list="subs" placeholder="Sub-category (e.g. Sofa &amp; Carpet)">
+<datalist id="subs"></datalist>
+<input id="icon" placeholder="Icon emoji (optional, e.g. 🌿)">
+<input id="name" placeholder="Service name">
+<input id="price" type="number" placeholder="Price (₹)">
+<input id="duration" placeholder="Time (e.g. 30-45 mins)">
+</div>
+<textarea id="description" rows="2" placeholder="Short description"></textarea>
+<input id="image" type="file" accept="image/*">
+<p style="margin-top:10px"><button id="add">Add service</button></p></div>
+
+<div class="box"><h2>All services <span id="total" style="font-size:14px;color:#6c8299"></span></h2>
+<input id="q" placeholder="Search service name...">
+<div class="tabs" id="tabs"></div>
+<table><thead><tr><th>Category</th><th>Service</th><th>Price</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+
+</div>
+<div id="paneLog" style="display:none"><div class="box"><h2>Customer Login Data <span id="lgCount" style="font-size:14px;color:#6c8299"></span></h2>
+<div class="r" style="grid-template-columns:1fr auto auto auto">
+  <input id="lgQ" placeholder="Search by name, number or User ID...">
+  <select id="lgSort" style="padding:10px;border:1px solid #cfe0ee;border-radius:10px;font:inherit"><option value="when-desc">Date &amp; time: newest first (default)</option><option value="when-asc">Date &amp; time: oldest first</option><option value="name-asc">User Name: A to Z</option><option value="name-desc">User Name: Z to A</option><option value="phone-asc">User No: A to Z</option><option value="phone-desc">User No: Z to A</option><option value="userId-asc">User ID: A to Z</option><option value="userId-desc">User ID: Z to A</option></select><button type="button" id="lgRef">Refresh</button>
+  <button type="button" id="lgDl">⬇ Excel Download</button>
+</div>
+<p style="font-size:12px;color:#6c8299;margin:0 0 8px">Refreshes automatically every 30 seconds. Latest entry is shown first.</p>
+<div style="overflow:auto;max-height:65vh"><table><thead><tr><th>Login Date</th><th>Login Time</th><th>User Name</th><th>User No</th><th>User ID</th><th>Status</th><th>Action</th></tr></thead><tbody id="lgRows"></tbody></table></div>
+</div></div>
+<dialog id="ed"><div class="eb">
+<h2>✏️ Edit service</h2>
+<label>Service name</label><input id="e_name">
+<div class="g3"><div><label>Category</label><input id="e_cat" list="cats"></div><div><label>Sub-category</label><input id="e_sub" list="subs"></div><div><label>Time</label><input id="e_dur"></div></div>
+<label>Short description</label><textarea id="e_desc" rows="2"></textarea>
+<label style="color:#0a7cff">✅ What's included (har point nayi line par)</label><textarea id="e_inc" rows="5" placeholder="Problem ki jaanch&#10;Switch/socket repair ya replacement&#10;Wiring check"></textarea>
+<label>📷 Service photo</label>
+<div class="ph"><div id="e_phbox"></div><div><input id="e_photo" type="file" accept="image/*"><br><button type="button" class="rm" id="e_phrm" style="display:none">Remove photo</button></div></div>
+<h3>💰 Charges (shown to the customer in the cart)</h3>
+<div class="g3">
+<div><label>Basic price (₹)</label><input id="e_price" type="number" min="0"></div>
+<div><label>GST (%)</label><input id="e_gst" type="number" min="0" max="28" step="0.01" placeholder="e.g. 18"></div>
+<div><label>Platform fee (₹)</label><input id="e_plat" type="number" min="0" placeholder="e.g. 20"></div>
+</div>
+<label>Aur charges (jaise Visiting charge, Material charge)</label>
+<div id="e_x"></div>
+<button type="button" class="e" id="e_addx">+ Add charge</button>
+<div class="prev" id="e_prev"></div>
+<div class="note" id="e_old" style="display:none">This service currently has the old <b>3% "Convenience &amp; safety"</b> fee. It will be removed as soon as you save charges, and only the charges you set will apply.</div>
+<h3>Where should these charges apply?</h3>
+<label class="sc"><input type="radio" name="e_scope" value="one" checked>This service only</label>
+<label class="sc"><input type="radio" name="e_scope" value="category"><span id="e_catlbl">All services in this category</span></label>
+<label class="sc"><input type="radio" name="e_scope" value="all">All services on the website</label>
+<p id="e_msg" style="font-size:13px;min-height:16px;color:#c62828"></p>
+<div class="ab"><button type="button" id="e_save">Save</button><button type="button" class="e" id="e_cancel">Cancel</button></div>
+</div></dialog>
+
+<script>
+var $ = function(i){ return document.getElementById(i); };
+var data = [];
+if(sessionStorage.getItem('adminKey'))$('key').value=sessionStorage.getItem('adminKey');
+$('key').addEventListener('input',function(){ sessionStorage.setItem('adminKey',$('key').value); });
+
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function msg(t,bad){
+  $('m').textContent = t;
+  $('m').style.color = bad ? '#c62828' : '#1b7f3b';
+}
+
+function api(method,url,body){
+  return fetch(url,{
+    method: method,
+    headers: {'Content-Type':'application/json','x-admin-key':$('key').value},
+    body: body ? JSON.stringify(body) : undefined
+  }).then(function(r){
+    return r.json().then(function(j){
+      if(!r.ok) throw new Error(j.error || 'Error');
+      return j;
+    });
+  });
+}
+
+var activeCat = 'All';
+function ck(c){ return String(c||'').trim().toLowerCase(); }
+
+function render(){
+  var q = ck($('q').value);
+  var names = {}, counts = {}, order = [];
+  data.forEach(function(s){
+    var k = ck(s.category);
+    if(!(k in counts)){ counts[k] = 0; names[k] = String(s.category||'').trim(); order.push(k); }
+    counts[k]++;
+  });
+  if(activeCat !== 'All' && !(activeCat in counts)) activeCat = 'All';
+
+  $('tabs').innerHTML = '<button class="tab'+(activeCat==='All'?' on':'')+'" data-cat="All">All<span class="n">'+data.length+'</span></button>'
+    + order.map(function(k){
+      return '<button class="tab'+(activeCat===k?' on':'')+'" data-cat="'+esc(k)+'">'+esc(names[k])+'<span class="n">'+counts[k]+'</span></button>';
+    }).join('');
+
+  var list = data.filter(function(s){
+    return (activeCat==='All' || ck(s.category)===activeCat) && ck(s.name).indexOf(q) > -1;
+  });
+  $('total').textContent = '(' + list.length + ' shown)';
+  $('rows').innerHTML = list.length ? list.map(function(s){
+    return '<tr><td>'+esc(s.category)+(s.sub&&s.sub!=='General'?'<br><small>› '+esc(s.sub)+'</small>':'')+'</td><td>'+(s.image?'<img class="th" src="'+esc(s.image)+'" alt="">':'')+esc(s.name)+'</td><td>₹'+s.price+'<br><small>'+chSummary(s)+'</small></td><td>'
+      +'<button class="e" data-e="'+esc(s.id)+'">Edit</button> '
+      +'<button class="d" data-d="'+esc(s.id)+'">Delete</button></td></tr>';
+  }).join('') : '<tr><td colspan="4">No services in this category yet.</td></tr>';
+}
+
+function fillSubs(cat){
+  var c = ck(cat !== undefined ? cat : $('category').value), seen = {}, out = [];
+  data.forEach(function(s){
+    if(c && ck(s.category) !== c) return;
+    var n = String(s.sub||'').trim();
+    if(n && !seen[n]){ seen[n] = 1; out.push(n); }
+  });
+  $('subs').innerHTML = out.map(function(n){ return '<option value="'+esc(n)+'">'; }).join('');
+}
+$('category').addEventListener('input', function(){ fillSubs(); });
+$('e_cat').addEventListener('input', function(){ fillSubs($('e_cat').value); });
+function load(){
+  fetch('/api/catalog').then(function(r){ return r.json(); }).then(function(d){
+    data = d;
+    render();
+    fillSubs();
+    $('cats').innerHTML = [...new Set(d.map(function(s){ return s.category; }))].map(function(c){
+      return '<option value="'+esc(c)+'">';
+    }).join('');
+  });
+}
+$('q').addEventListener('input', render);
+function chSummary(s){
+  var c = s.charges;
+  if(!c) return 'old 3% fee';
+  var p = [];
+  if(c.gstPercent) p.push('GST '+c.gstPercent+'%');
+  if(c.platformFee) p.push('Fee ₹'+c.platformFee);
+  (c.extras||[]).forEach(function(e){ p.push(esc(e.label)+' ₹'+e.amount); });
+  return p.length ? p.join(' · ') : 'no extra charges';
+}
+
+var editing = null, editPhoto = null, removePhoto = false;
+/* photo ko browser mein chota (max 900px, JPEG) karke bhejte hain */
+function shrink(file){
+  return new Promise(function(res, rej){
+    var r = new FileReader();
+    r.onerror = function(){ rej(new Error('Could not read the photo.')); };
+    r.onload = function(){
+      var im = new Image();
+      im.onerror = function(){ rej(new Error('This image file is not valid.')); };
+      im.onload = function(){
+        var M = 900, k = Math.min(1, M / Math.max(im.width, im.height));
+        var c = document.createElement('canvas'); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+        res(c.toDataURL('image/jpeg', 0.82));
+      };
+      im.src = r.result;
+    };
+    r.readAsDataURL(file);
+  });
+}
+function uploadPhoto(id, dataUrl){ return api('POST','/api/admin/services/image',{id: id, data: dataUrl || ''}); }
+function showEditPhoto(src){
+  $('e_phbox').innerHTML = src ? '<img src="'+esc(src)+'" alt="">' : '<div class="none">No photo</div>';
+  $('e_phrm').style.display = src ? '' : 'none';
+}
+$('e_photo').addEventListener('change', function(){
+  var f = this.files[0]; if(!f) return;
+  shrink(f).then(function(d){ editPhoto = d; removePhoto = false; showEditPhoto(d); })
+  .catch(function(x){ $('e_msg').textContent = x.message; });
+});
+$('e_phrm').onclick = function(){ editPhoto = null; removePhoto = true; $('e_photo').value = ''; showEditPhoto(''); };
+function xRow(label, amount){
+  var d = document.createElement('div'); d.className = 'xr';
+  d.innerHTML = '<input class="xl" placeholder="Charge name" maxlength="40"><input class="xa" type="number" min="0" placeholder="₹"><button type="button" class="xd" title="Remove">✕</button>';
+  d.querySelector('.xl').value = label || '';
+  d.querySelector('.xa').value = amount || '';
+  $('e_x').appendChild(d);
+}
+function readCharges(){
+  var ex = [];
+  document.querySelectorAll('#e_x .xr').forEach(function(r){
+    var l = r.querySelector('.xl').value.trim(), a = Number(r.querySelector('.xa').value) || 0;
+    if(l && a > 0) ex.push({label: l, amount: a});
+  });
+  return {gstPercent: Number($('e_gst').value) || 0, platformFee: Number($('e_plat').value) || 0, extras: ex};
+}
+function inr(n){ return '₹' + (Math.round(n*100)/100).toLocaleString('en-IN'); }
+function preview(){
+  var c = readCharges(), base = Number($('e_price').value) || 0;
+  var gst = base * c.gstPercent / 100, tot = base + gst + c.platformFee;
+  var rows = ['Basic price: <b>'+inr(base)+'</b>'];
+  if(gst) rows.push('GST ('+c.gstPercent+'%): '+inr(gst));
+  if(c.platformFee) rows.push('Platform fee: '+inr(c.platformFee));
+  c.extras.forEach(function(e){ tot += e.amount; rows.push(esc(e.label)+': '+inr(e.amount)); });
+  $('e_prev').innerHTML = '<b>The customer will see this for one service:</b><br>' + rows.join('<br>') + '<br><b>Total: '+inr(tot)+'</b>';
+}
+function openEdit(s){
+  editing = s;
+  $('e_name').value = s.name || ''; $('e_cat').value = s.category || ''; $('e_sub').value = s.sub || ''; fillSubs(s.category); $('e_dur').value = s.duration || '';
+  $('e_desc').value = s.description || ''; $('e_price').value = s.price;
+  $('e_inc').value = (s.included || []).join('\n');
+  var c = s.charges || {};
+  $('e_gst').value = c.gstPercent || ''; $('e_plat').value = c.platformFee || '';
+  $('e_x').innerHTML = ''; (c.extras || []).forEach(function(e){ xRow(e.label, e.amount); });
+  $('e_old').style.display = s.charges ? 'none' : 'block';
+  $('e_catlbl').textContent = 'All services in this category (' + s.category + ' - ' + data.filter(function(x){ return ck(x.category) === ck(s.category); }).length + ')';
+  document.querySelector('input[name=e_scope][value=one]').checked = true;
+  editPhoto = null; removePhoto = false; $('e_photo').value = ''; showEditPhoto(s.image || '');
+  $('e_msg').textContent = ''; preview();
+  $('ed').showModal();
+}
+$('ed').addEventListener('input', preview);
+$('e_addx').onclick = function(){ xRow(); preview(); };
+$('e_x').addEventListener('click', function(e){
+  if(e.target.classList.contains('xd')){ e.target.parentNode.remove(); preview(); }
+});
+$('e_cancel').onclick = function(){ $('ed').close(); };
+$('e_save').onclick = function(){
+  var scope = document.querySelector('input[name=e_scope]:checked').value;
+  var ch = readCharges(), cat = $('e_cat').value.trim();
+  if(scope === 'category' && !confirm('"'+cat+'" category: the charges of ALL its services will be changed. Are you sure?')) return;
+  if(scope === 'all' && !confirm('The charges of ALL services on the website will be changed. Are you sure?')) return;
+  $('e_msg').textContent = '';
+  api('PUT','/api/admin/services',{
+    id: editing.id, name: $('e_name').value, category: cat, sub: $('e_sub').value, price: $('e_price').value,
+    duration: $('e_dur').value, description: $('e_desc').value, included: $('e_inc').value, charges: ch
+  }).then(function(){
+    if(editPhoto) return uploadPhoto(editing.id, editPhoto);
+    if(removePhoto) return uploadPhoto(editing.id, '');
+  }).then(function(){
+    if(scope === 'one') return;
+    return api('POST','/api/admin/services/charges',{scope: scope, category: cat, charges: ch});
+  }).then(function(){
+    $('ed').close(); msg('Service updated successfully.'); load();
+  }).catch(function(x){ $('e_msg').textContent = x.message; });
+};
+
+$('add').onclick = function(){
+  api('POST','/api/admin/services',{
+    category: $('category').value,
+    icon: $('icon').value,
+    sub: $('sub').value,
+    name: $('name').value,
+    price: $('price').value,
+    duration: $('duration').value || '30-60 mins',
+    description: $('description').value
+  }).then(function(r){
+    var f = $('image').files[0];
+    if(!f) return;
+    return shrink(f).then(function(d){ return uploadPhoto(r.id, d); });
+  }).then(function(){
+    activeCat = ck($('category').value) || 'All';
+    msg('Service added.');
+    ['name','price','duration','description','icon','sub','image'].forEach(function(i){ $(i).value = ''; });
+    load();
+  }).catch(function(e){
+    msg(e.message,1);
+  });
+};
+
+document.addEventListener('click',function(e){
+  var t = e.target;
+
+  if(t.dataset.cat){
+    activeCat = t.dataset.cat;
+    render();
+    if(activeCat !== 'All'){
+      var m = data.find(function(x){ return ck(x.category) === activeCat; });
+      if(m) $('category').value = m.category;
+    }
+  }
+
+  if(t.dataset.d && confirm('Delete this service?')){
+    api('DELETE','/api/admin/services?id='+encodeURIComponent(t.dataset.d))
+    .then(function(){
+      msg('Deleted.');
+      load();
+    })
+    .catch(function(x){
+      msg(x.message,1);
+    });
+  }
+
+  if(t.dataset.e){
+    var s = data.find(function(x){ return x.id === t.dataset.e; });
+    if(s) openEdit(s);
+  }
+});
+
+load();
+
+/* ===== Customer Login Data tab ===== */
+var lgRows=[],lgTimer=null;
+function lgShow(on){
+  $('paneSvc').style.display=on?'none':'';
+  $('paneLog').style.display=on?'':'none';
+  $('tbSvc').className='tab'+(on?'':' on');
+  $('tbLog').className='tab'+(on?' on':'');
+}
+function lgLoad(){
+  if(!$('key').value){$('lgRows').innerHTML='<tr><td colspan="5">Enter the admin key above, then reopen this tab.</td></tr>';return}
+  fetch('/api/admin/logs',{headers:{'x-admin-key':$('key').value}}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j})})
+  .then(function(j){lgRows=j.rows||[];return fetch('/api/admin/users',{headers:{'x-admin-key':$('key').value}}).then(function(r){return r.ok?r.json():{users:[]}})})
+  .then(function(u){lgUsers={};(u.users||[]).forEach(function(x){lgUsers[x.userId]=x});lgRender()})
+  .catch(function(e){$('lgRows').innerHTML='<tr><td colspan="5" style="color:#c62828">'+esc(e.message)+'</td></tr>'});
+}
+var SORTS={'when-desc':['when',-1],'when-asc':['when',1],'name-asc':['name',1],'name-desc':['name',-1],'phone-asc':['phone',1],'phone-desc':['phone',-1],'userId-asc':['userId',1],'userId-desc':['userId',-1]};
+function lgKey(r,by){
+  if(by==='when') return r.date.slice(6,10)+r.date.slice(3,5)+r.date.slice(0,2)+' '+r.time;   // yyyymmdd hh:mm:ss, so text sort = date sort
+  return String(r[by]||'').toLowerCase();
+}
+var lgUsers={};
+function lgRowHtml(r){
+  var u=lgUsers[r.userId]||{}, bl=!!u.blocked;
+  return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.time)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.phone)+'</td><td>'+esc(r.userId)+'</td>'+
+    '<td><span style="color:'+(bl?'#c62828':'#1b7f3b')+';font-weight:700">'+(bl?'Blocked':'Active')+'</span></td>'+
+    '<td><button type="button" class="blk" data-uid="'+esc(r.userId)+'" data-b="'+(bl?'0':'1')+'" style="padding:6px 12px;border:0;border-radius:8px;cursor:pointer;color:#fff;font:inherit;font-weight:700;background:'+(bl?'#1b7f3b':'#c62828')+'">'+(bl?'Unblock':'Block')+'</button></td></tr>';
+}
+function lgRender(){
+  var q=$('lgQ').value.trim().toLowerCase();
+  var s=SORTS[$('lgSort').value]||SORTS['when-desc'];
+  var rows=lgRows.filter(function(r){return !q||[r.name,r.phone,r.userId].some(function(v){return String(v).toLowerCase().indexOf(q)>-1})});
+  rows=rows.slice().sort(function(a,b){var ka=lgKey(a,s[0]),kb=lgKey(b,s[0]);return (ka<kb?-1:ka>kb?1:0)*s[1]});
+  $('lgCount').textContent='('+rows.length+' / '+lgRows.length+')';
+  $('lgRows').innerHTML=rows.length?rows.map(lgRowHtml).join(''):'<tr><td colspan="7">No logins yet</td></tr>';
+}
+$('lgRows').addEventListener('click',function(e){
+  var b=e.target.closest('.blk'); if(!b) return;
+  var uid=b.getAttribute('data-uid'), on=b.getAttribute('data-b')==='1';
+  if(on && !confirm('Block '+uid+'? This user will not be able to log in or book.')) return;
+  fetch('/api/admin/users/block',{method:'POST',headers:{'Content-Type':'application/json','x-admin-key':$('key').value},body:JSON.stringify({userId:uid,blocked:on})})
+  .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Failed');return j})})
+  .then(function(j){lgUsers[uid]=Object.assign({},lgUsers[uid]||{},{userId:uid,blocked:!!j.blocked});lgRender();lgLoad()}).catch(function(x){$('lgRows').innerHTML='<tr><td colspan="7" style="color:#c62828">Block failed: '+esc(x.message)+'</td></tr>'});
+});
+function lgDownload(){
+  fetch('/api/admin/logs/download',{headers:{'x-admin-key':$('key').value}}).then(function(r){if(!r.ok)throw new Error('Download failed. Please check the admin key.');return r.blob()})
+  .then(function(b){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Login Log.xlsx';document.body.appendChild(a);a.click();a.remove()})
+  .catch(function(e){msg(e.message,1)});
+}
+$('tbSvc').onclick=function(){lgShow(false);clearInterval(lgTimer)};
+$('tbLog').onclick=function(){lgShow(true);lgLoad();clearInterval(lgTimer);lgTimer=setInterval(lgLoad,30000)};
+$('lgQ').addEventListener('input',lgRender);
+$('lgSort').addEventListener('change',lgRender);
+$('lgRef').onclick=lgLoad;
+$('lgDl').onclick=lgDownload;
+</script></body></html>

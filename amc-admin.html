@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMC Prices | Ghar to Health Admin</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f7fbff;color:#12365d}
+[hidden]{display:none!important}
+.top{background:#062f60;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.top h1{font-size:18px}.top a{color:#cfe4f8;font-size:13px}
+.w{max-width:960px;margin:auto;padding:18px 18px 80px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{padding:9px 18px;border:1px solid #cfe0ee;background:#fff;border-radius:22px;font-weight:700;font-size:13px;color:#375775;cursor:pointer}
+.tabs button.on{background:#087cf2;border-color:#087cf2;color:#fff}
+.card{background:#fff;border:1px solid #d9ebf8;border-radius:16px;padding:18px;margin-bottom:16px}
+.card h2{font-size:16px;margin-bottom:4px}.card p{font-size:12px;color:#6c8299;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:14px}th{font-size:11px;text-align:left;color:#6c8299;padding:6px 8px}
+td{padding:6px 8px;border-top:1px solid #eef3f8}
+.in{display:flex;align-items:center;gap:6px;max-width:180px}.in span{color:#6c8299;font-size:12px;white-space:nowrap}
+input{width:100%;padding:8px 10px;border:1px solid #cfe0ee;border-radius:8px;font:inherit;font-size:14px}
+input.ch{border-color:#f5a623;background:#fffaf0}
+.y{color:#1b7f3b;font-weight:600}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #d9ebf8;padding:12px 20px;display:flex;gap:14px;align-items:center;justify-content:flex-end}
+button.s{padding:11px 28px;border:none;border-radius:24px;background:#087cf2;color:#fff;font-weight:700;cursor:pointer}button.s:disabled{opacity:.5;cursor:default}
+#m{font-size:13px;font-weight:600;margin-right:auto}.ok{color:#1b7f3b}.er{color:#c62828}
+.sc{overflow-x:auto}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}
+.chips button{padding:6px 12px;border:1px solid #cfe0ee;background:#fff;border-radius:18px;font-size:12px;font-weight:700;color:#375775;cursor:pointer}
+.chips button.on{background:#12365d;border-color:#12365d;color:#fff}
+#qs{margin-bottom:12px}
+details.rq{border:1px solid #d9ebf8;border-radius:12px;margin-bottom:10px;background:#fff;overflow:hidden}
+details.rq summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:1.1fr 1.4fr auto auto;gap:6px 12px;align-items:center;font-size:13px}
+details.rq summary::-webkit-details-marker{display:none}
+details.rq[open] summary{background:#f3f9ff;border-bottom:1px solid #d9ebf8}
+.rq .id{font-weight:800;font-size:13px}.rq .dt{color:#6c8299;font-size:11px;display:block;font-weight:400}
+.rq .nm b{display:block}.rq .nm span{color:#6c8299;font-size:12px}
+.rq .tot{font-weight:800;color:#087cf2}
+.pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;color:#fff}
+.rb{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rb h4{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#087cf2;margin-bottom:6px}
+.rb .kv{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dashed #e3edf6;font-size:13px}
+.rb .kv span{color:#6c8299}.rb .kv b{text-align:right}
+.rb a{color:#087cf2;font-weight:700;text-decoration:none}
+.rb ul{margin:4px 0 0 18px;font-size:13px}
+.trk{grid-column:1/-1;background:#f7fbff;border:1px solid #e3edf6;border-radius:10px;padding:12px}
+.trk .r1{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+select,textarea{padding:8px 10px;border:1px solid #cfe0ee;border-radius:8px;font:inherit;font-size:14px;background:#fff}
+textarea{width:100%;min-height:64px;resize:vertical}
+.trk button{padding:8px 18px;border:none;border-radius:20px;background:#087cf2;color:#fff;font-weight:700;cursor:pointer;font-size:13px}
+.trk button.del{background:#fff;color:#c62828;border:1px solid #e5b9b9}
+.trk .mm{font-size:12px;font-weight:600}
+@media(max-width:640px){details.rq summary{grid-template-columns:1fr auto}.rb{grid-template-columns:1fr}}
+</style></head><body>
+<div class="top"><h1>AMC Prices</h1><a href="amc.html?type=residential" target="_blank">View live page</a><a href="/admin-login.html" id="lo" onclick="sessionStorage.removeItem('adminKey')">Logout</a></div>
+<div class="w">
+<div class="tabs" id="tabs"></div>
+<div id="v">Loading…</div>
+</div>
+<div class="bar"><span id="m"></span><button class="s" id="save" disabled>Save changes</button></div>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},D,tab=(location.hash==='#requests'?'requests':'residential'),dirty=false,
+NAMES={residential:'Residential',cafe:'Café & Restaurant',office:'Office & Commercial',settings:'GST & Discount',requests:'Requests'};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function inr(n){return '₹'+Math.round(n).toLocaleString('en-IN')}
+function adminKey(){var k=sessionStorage.getItem('adminKey');if(!k){k=prompt('Enter admin key');if(k)sessionStorage.setItem('adminKey',k)}return k||''}
+fetch('/api/amc-pricing').then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return fetch('amc-pricing.json').then(function(r){return r.json()})})
+.then(function(d){D=d;tabs();show()}).catch(function(){$('#v').textContent='Could not load pricing data. Check that amc-pricing.json is in the public folder.'});
+function tabs(){$('#tabs').innerHTML=Object.keys(NAMES).map(function(k){return '<button data-k="'+k+'" class="'+(k===tab?'on':'')+'">'+NAMES[k]+'</button>'}).join('')}
+$('#tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;tab=b.dataset.k;tabs();show()});
+function cell(path,val,pre,suf){return '<div class="in">'+(pre?'<span>'+pre+'</span>':'')+'<input type="number" step="any" min="0" data-p="'+path+'" value="'+val+'" data-o="'+val+'">'+(suf?'<span>'+suf+'</span>':'')+'</div>'}
+function table(head,rows){return '<div class="sc"><table><tr>'+head.map(function(h){return '<th>'+h+'</th>'}).join('')+'</tr>'+rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>'}).join('')+'</tr>'}).join('')+'</table></div>'}
+function show(){
+ var v=$('#v');
+ $('.bar').hidden=(tab==='requests');
+ if(tab==='requests'){return reqs()}
+ if(tab==='settings'){var c=D.config;
+  v.innerHTML='<div class="card"><h2>GST and discount</h2><p>Applies to all AMC types.</p>'+table(['Setting','Value'],[['GST',cell('config.gstPct',c.gstPct,'','%')],['Advance (annual) payment discount',cell('config.advanceDiscountPct',c.advanceDiscountPct,'','%')]])+'</div>';return}
+ var T=D[tab],adv=D.config.advanceDiscountPct;
+ v.innerHTML=
+ '<div class="card"><h2>Ready plans</h2><p>Monthly fee shown on the plan cards. Yearly price updates as you type.</p>'+
+ table(['Plan','Monthly price','Yearly price (after discount)'],T.plans.map(function(p,i){return [esc(p.name),cell(tab+'.plans.'+i+'.monthly',p.monthly,'₹','/month'),'<span class="y" data-y="'+tab+'.plans.'+i+'.monthly">'+inr(p.monthly*12*(1-adv/100))+'</span>']}))+'</div>'+
+ '<div class="card"><h2>Services (used in Build Your Plan)</h2><p>Base price for one visit. Final price also depends on area, floors and property type.</p>'+
+ table(['Service','Price per visit'],T.categories.map(function(c,i){return [esc(c.name),cell(tab+'.categories.'+i+'.perVisit',c.perVisit,'₹','/visit')]}))+'</div>'+
+ '<div class="card"><h2>Emergency response</h2><p>Yearly add-on. Charged in proportion to the contract duration.</p>'+
+ table(['Option','Price per year'],T.emergency.map(function(e,i){return [esc(e.name),cell(tab+'.emergency.'+i+'.price',e.price,'₹','/year')]}))+'</div>'+
+ '<div class="card"><h2>Property type pricing</h2><p>1 = standard price, 1.2 = 20% higher, 0.9 = 10% lower.</p>'+
+ table(['Property type','Multiplier'],T.propertyTypes.map(function(p,i){return [esc(p.name),cell(tab+'.propertyTypes.'+i+'.mult',p.mult,'×','')]}))+'</div>'}
+$('#v').addEventListener('input',function(e){var t=e.target;if(!t.dataset.p)return;
+ var path=t.dataset.p.split('.'),o=D;for(var i=0;i<path.length-1;i++)o=o[path[i]];
+ var n=parseFloat(t.value);n=isNaN(n)?0:n;o[path[path.length-1]]=n;
+ t.classList.toggle('ch',t.value!==t.dataset.o);
+ var y=document.querySelector('[data-y="'+t.dataset.p+'"]');if(y)y.textContent=inr(n*12*(1-D.config.advanceDiscountPct/100));
+ dirty=true;$('#save').disabled=false;$('#m').textContent='';});
+$('#save').addEventListener('click',function(){var b=this,m=$('#m');b.disabled=true;m.className='';m.textContent='Saving...';
+ fetch('/api/amc-pricing',{method:'PUT',headers:{'Content-Type':'application/json','x-admin-key':adminKey()},body:JSON.stringify(D)})
+ .then(function(r){if(r.status===401||r.status===403){m.className='er';sessionStorage.removeItem('adminKey');m.textContent='Wrong admin key. Press Save to try again.';b.disabled=false;return}
+  if(!r.ok)throw 0;m.className='ok';m.textContent='Saved. New prices are live on the website.';dirty=false;
+  document.querySelectorAll('input.ch').forEach(function(i){i.dataset.o=i.value;i.classList.remove('ch')})})
+ .catch(function(){m.className='er';m.textContent='Could not save. Please try again.';b.disabled=false})});
+window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue=''}});
+var QS=[],qf='all',qq='',
+ST={new:'New',called:'Called',confirmed:'Confirmed',active:'Active (AMC running)',closed:'Closed',cancelled:'Cancelled'},
+STC={new:'#f5a623',called:'#087cf2',confirmed:'#7b3fe4',active:'#1b7f3b',closed:'#6c8299',cancelled:'#c62828'};
+function by(arr,id){return (arr||[]).filter(function(x){return x.id===id})[0]}
+function kv(a,b){return '<div class="kv"><span>'+a+'</span><b>'+b+'</b></div>'}
+function pill(st){st=st||'new';return '<span class="pill" data-pl style="background:'+(STC[st]||'#6c8299')+'">'+esc(ST[st]||st)+'</span>'}
+function reqs(){var v=$('#v');v.innerHTML='<div class="card">Loading…</div>';
+ fetch('/api/amc-quotes',{headers:{'x-admin-key':adminKey()}}).then(function(r){if(r.status===401)sessionStorage.removeItem('adminKey');if(!r.ok)throw 0;return r.json()}).then(function(q){
+  QS=q.slice().reverse();
+  v.innerHTML='<div class="card"><h2>AMC requests and tracking</h2><p>Newest first. Open a request to see full details, call the customer and update its status.</p>'+
+   '<div class="chips" id="qc"></div><input id="qs" type="search" placeholder="Search by name, phone or ID"><div id="ql"></div></div>';
+  chips();list()})
+ .catch(function(){v.innerHTML='<div class="card">Could not load requests. Check the admin key and open this tab again.</div>'})}
+function chips(){var c={all:QS.length};QS.forEach(function(x){var k=x.status||'new';c[k]=(c[k]||0)+1});
+ $('#qc').innerHTML=['all'].concat(Object.keys(ST)).map(function(k){return '<button data-f="'+k+'" class="'+(k===qf?'on':'')+'">'+(k==='all'?'All':ST[k].replace(/ \(.*/,''))+' ('+(c[k]||0)+')</button>'}).join('')}
+function body(x){var T=D[x.type]||{},c=x.customer||{},sp=x.spec||{},ph=String(c.phone||'').replace(/\D/g,'').slice(-10),h='';
+ h+='<div><h4>Customer</h4>'+kv('Name',esc(c.name||'-'))+kv('Phone','<a href="tel:+91'+ph+'">'+esc(c.phone||'-')+'</a> &nbsp; <a href="https://wa.me/91'+ph+'" target="_blank" rel="noopener">WhatsApp</a>')+
+  kv('Email',c.email?'<a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a>':'-')+kv('Address',esc(c.address||'-'))+'</div>';
+ h+='<div><h4>Plan</h4>'+kv('Category',esc(T.label||x.type||'-'))+kv('Request type',x.mode==='trial'?'1-month trial':'Custom annual plan');
+ if(x.mode==='trial'||!sp.months){h+=kv('Plan',esc(x.plan||'-'))}
+ else{var pt=by(T.propertyTypes,sp.property),sl=by(T.emergency,sp.sla),fr=(D.config&&D.config.frequencies)||{};
+  h+=kv('Property',esc((pt&&pt.name)||sp.property||'-'))+kv('Area',esc(sp.area)+' sq.ft')+kv('Floors',esc(sp.floors))+(T.outlets?kv('Outlets',esc(sp.outlets)):'')+
+   kv('Duration',esc(sp.months)+' months')+kv('Emergency',esc((sl&&sl.name)||sp.sla||'-'))+kv('Advance payment',sp.upfront?'Yes':'No');
+  var sv=Object.keys(sp.services||{}).map(function(id){var cat=by(T.categories,id);return '<li>'+esc((cat&&cat.name)||id)+' - '+esc((fr[sp.services[id]]&&fr[sp.services[id]].name)||sp.services[id])+'</li>'}).join('');
+  if(sv)h+='<div style="margin-top:6px;font-size:12px;color:#6c8299">Services</div><ul>'+sv+'</ul>'}
+ h+=kv('Total (incl. GST)','<b style="color:#087cf2">'+inr(x.total)+'</b>')+'</div>';
+ h+='<div class="trk"><h4>Tracking</h4><div class="r1"><label style="font-size:13px;font-weight:700">Status</label><select data-st>'+
+  Object.keys(ST).map(function(k){return '<option value="'+k+'"'+((x.status||'new')===k?' selected':'')+'>'+ST[k]+'</option>'}).join('')+'</select>'+
+  '<span style="font-size:11px;color:#6c8299">'+(x.updatedAt?'Last updated '+esc(new Date(x.updatedAt).toLocaleString('en-IN')):'')+'</span></div>'+
+  '<textarea data-nt placeholder="Notes (call outcome, site visit date, payment received...)">'+esc(x.notes||'')+'</textarea>'+
+  '<div class="r1" style="margin:8px 0 0"><button data-sv>Save status &amp; notes</button><button class="del" data-del>Delete</button><span class="mm" data-mm></span></div></div>';
+ return h}
+function list(){var t=qq.toLowerCase(),rows=QS.filter(function(x){var c=x.customer||{};
+  return (qf==='all'||(x.status||'new')===qf)&&(!t||(x.id+' '+c.name+' '+c.phone).toLowerCase().indexOf(t)>-1)});
+ $('#ql').innerHTML=rows.length?rows.map(function(x){var c=x.customer||{},T=D[x.type]||{};
+  return '<details class="rq" data-id="'+esc(x.id)+'"><summary><span class="id">'+esc(x.id)+'<span class="dt">'+esc(new Date(x.at).toLocaleString('en-IN'))+'</span></span>'+
+   '<span class="nm"><b>'+esc(c.name||'-')+'</b><span>'+esc(c.phone||'')+' · '+esc(T.label||x.type||'')+' · '+esc(x.mode==='trial'?'Trial':'Custom')+'</span></span>'+
+   '<span class="tot">'+inr(x.total)+'</span>'+pill(x.status)+'</summary><div class="rb">'+body(x)+'</div></details>'}).join(''):'<p>No requests found.</p>'}
+$('#v').addEventListener('click',function(e){var t=e.target,b=t.closest('button');if(!b)return;
+ if(b.dataset.f){qf=b.dataset.f;chips();list();return}
+ var d=b.closest('details.rq');if(!d)return;var x=by(QS,d.dataset.id),mm=d.querySelector('[data-mm]');if(!x)return;
+ if(b.hasAttribute('data-sv')){var st=d.querySelector('[data-st]').value,nt=d.querySelector('[data-nt]').value;b.disabled=true;mm.className='mm';mm.textContent='Saving...';
+  fetch('/api/amc-quotes',{method:'PUT',headers:{'Content-Type':'application/json','x-admin-key':adminKey()},body:JSON.stringify({id:x.id,status:st,notes:nt})})
+  .then(function(r){if(r.status===401){sessionStorage.removeItem('adminKey');throw 1}if(!r.ok)throw 0;return r.json()})
+  .then(function(j){x.status=st;x.notes=nt;x.updatedAt=j.updatedAt;mm.className='mm ok';mm.textContent='Saved.';
+   var p=d.querySelector('[data-pl]');p.textContent=ST[st];p.style.background=STC[st];chips()})
+  .catch(function(er){mm.className='mm er';mm.textContent=er===1?'Wrong admin key. Try again.':'Could not save. Please try again.'})
+  .then(function(){b.disabled=false})}
+ if(b.hasAttribute('data-del')){if(!confirm('Delete request '+x.id+' permanently?'))return;
+  fetch('/api/amc-quotes?id='+encodeURIComponent(x.id),{method:'DELETE',headers:{'x-admin-key':adminKey()}})
+  .then(function(r){if(!r.ok)throw 0;QS=QS.filter(function(y){return y.id!==x.id});chips();list()})
+  .catch(function(){mm.className='mm er';mm.textContent='Could not delete.'})}});
+$('#v').addEventListener('input',function(e){if(e.target.id==='qs'){qq=e.target.value;list()}});
+})();
+</script></body></html>

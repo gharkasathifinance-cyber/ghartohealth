@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Airline Transfers: Final Price | Ghar to Health</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f7fbff;color:#12365d;line-height:1.5}
+header{background:#fff;border-bottom:1px solid #e3edf6}.wrap{width:94%;max-width:900px;margin:auto}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;flex-wrap:wrap}header a{color:#375775;font-weight:600;font-size:14px;text-decoration:none;margin-left:14px}.brand{font-weight:800;font-size:18px;color:#0758ad;margin-left:0!important}
+h1{font-size:22px;margin:18px 0 4px;color:#0a396b}.sub{color:#5b7690;font-size:13px}
+.bar{display:flex;gap:10px;align-items:center;margin:14px 0;flex-wrap:wrap}select,input,textarea{font:inherit;padding:8px 10px;border:1.5px solid #cfe0ee;border-radius:10px;background:#fff;color:#12365d}
+.card{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:14px 16px;margin-bottom:14px}
+.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.top b{font-size:16px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:#e6f1ff;color:#0a4fa8}.tag.g{background:#e3f6e8;color:#1b7f3b}.tag.r{background:#f3e5e5;color:#c62828}.tag.o{background:#fff2d6;color:#8a5a00}
+.meta{font-size:13px;color:#375775;margin-top:4px}.est{font-size:12.5px;color:#7a4a00;background:#fff6e5;border:1px solid #f0d9a8;border-radius:10px;padding:6px 10px;margin-top:8px}
+h4{font-size:13px;margin:12px 0 4px;color:#375775}
+.r{display:grid;grid-template-columns:1fr 130px 34px;gap:8px;margin-bottom:6px}.r input{width:100%}
+.x{border:0;background:#f3e5e5;color:#c62828;border-radius:8px;font-weight:800;cursor:pointer}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}textarea{width:100%;min-height:78px;resize:vertical}
+.sum{background:#eef7ff;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:14px}.sum div{display:flex;justify-content:space-between;padding:2px 0}.sum .t{font-weight:800;border-top:2px solid #cfe0ee;margin-top:4px;padding-top:6px}.sum .b{font-weight:800;font-size:16px;color:#0a396b}.sum .p{color:#1b7f3b}
+button.b{font:700 14px 'Segoe UI',sans-serif;border:0;border-radius:24px;padding:10px 20px;cursor:pointer;background:#087cf2;color:#fff}button.b.o{background:#fff;color:#375775;border:1.5px solid #cfe0ee}button.b:disabled{opacity:.6}
+.acts{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center}.msg{font-size:13px;font-weight:600}.msg.err{color:#c62828}.msg.ok{color:#1b7f3b}
+@media(max-width:600px){.two{grid-template-columns:1fr}.r{grid-template-columns:1fr 100px 34px}}
+</style></head><body>
+<header><div class="wrap"><a class="brand" href="index.html">Airline Transfers Admin</a><nav><a href="admin-medical.html">Medical Admin</a><a href="admin-charges.html">Charges</a><a href="#" id="lo">Logout</a></nav></div></header>
+<main class="wrap">
+<h1>Commercial airline: final price</h1>
+<p class="sub">After the airline approves, enter the real prices here and press <b>Approve and send to client</b>. The client sees a pop-up with the full breakup, and the booking amount they already paid is deducted automatically.</p>
+<div class="bar"><select id="flt"><option value="todo">Waiting for price</option><option value="appr">Approved, client to pay</option><option value="all">All bookings</option></select><button class="b o" id="rf" type="button">Refresh</button><span class="msg err" id="top"></span></div>
+<div id="out"></div>
+</main>
+<script>
+var $=function(i){return document.getElementById(i)},K=sessionStorage.getItem('adminKey');if(!K)location.replace('admin-login.html');
+var CFG={feePct:5,gstPct:18,advance:5000},DATA=[];
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function inr(n){return '\u20B9'+Math.round(Number(n)||0).toLocaleString('en-IN')}
+function api(method,path,body){return fetch(path,{method:method,headers:{'Content-Type':'application/json','x-admin-key':K},body:body?JSON.stringify(body):undefined}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok){var e=new Error(j.error||'Something went wrong');e.status=r.status;throw e}return j})})}
+$('lo').onclick=function(e){e.preventDefault();sessionStorage.removeItem('adminKey');location.href='admin-login.html'};
+var LATE={ticketed:1,pickup:1,flown:1,landed:1,handed:1,refused:1};
+function rowHtml(l,a){return '<div class="r"><input class="l" maxlength="60" placeholder="Item name" value="'+esc(l)+'"><input class="a" type="number" min="0" step="1" placeholder="Amount" value="'+esc(a)+'"><button type="button" class="x" data-act="del" title="Remove">\u00d7</button></div>'}
+function card(b){
+ var st=b.stage||'received',tag=b.cancelled?'<span class="tag r">Cancelled</span>':st==='refused'?'<span class="tag r">Airline refused</span>':b.final?(b.balancePaid?'<span class="tag g">Balance paid</span>':'<span class="tag o">Approved, client to pay</span>'):'<span class="tag">'+esc(st.replace('_',' '))+'</span>';
+ var h='<div class="card" data-card="'+esc(b.id)+'"><div class="top"><div><b>'+esc(b.id)+'</b> '+tag+'</div><div class="meta">'+esc(b.name)+' | '+esc(b.phone)+'</div></div>'+
+  '<div class="meta">'+esc(b.pickup)+' to '+esc(b.drop)+' | Travel '+esc(b.date||'-')+' '+esc(b.slot||'')+' | Booking amount paid: <b>'+inr(b.paidAdvance)+'</b></div>';
+ if(b.cancelled||LATE[st]||b.balancePaid){
+  if(b.final)h+='<div class="sum"><div><span>Final price</span><span>'+inr(b.final.total)+'</span></div><div class="p"><span>Booking amount paid</span><span>- '+inr(b.paidAdvance)+'</span></div></div>';
+  return h+'</div>'}
+ var items=b.final?b.final.items:(b.estItems&&b.estItems.length?b.estItems:[{label:'Air India ticket fare',amount:''},{label:'Medical escort (doctor or paramedic)',amount:''},{label:'Oxygen support',amount:''}]);
+ if(b.estTotal&&!b.final)h+='<div class="est">Our estimate at booking (internal, client never saw it): '+inr(b.estTotal)+'. Replace the amounts below with the real airline and service prices.</div>';
+ h+='<h4>Price items (GST exempt)</h4><div class="rows">'+items.map(function(i){return rowHtml(i.label,i.amount)}).join('')+'</div><button type="button" class="b o" data-act="add" style="padding:6px 14px;font-size:13px">+ Add item</button>'+
+  '<div class="two"><div><h4>Included (one per line)</h4><textarea class="inc" placeholder="Air India stretcher ticket&#10;Doctor or paramedic escort">'+esc(b.final?(b.final.included||[]).join('\n'):'')+'</textarea></div><div><h4>Not included (one per line)</h4><textarea class="exc" placeholder="Medicines&#10;Hospital charges">'+esc(b.final?(b.final.notIncluded||[]).join('\n'):'')+'</textarea></div></div>'+
+  '<h4>Note for client (optional)</h4><input class="nt" style="width:100%" maxlength="300" placeholder="e.g. Fare valid till 6 PM today" value="'+esc(b.final?b.final.note:'')+'">'+
+  '<div class="sum"></div><div class="acts"><button type="button" class="b" data-act="ok">'+(b.final?'Update price and notify client':'Approve and send to client')+'</button><span class="msg"></span></div></div>';
+ return h}
+function calc(el,b){var st=0;[].forEach.call(el.querySelectorAll('.r'),function(r){st+=Math.max(0,Math.round(Number(r.querySelector('.a').value)||0))});
+ var fee=Math.round(st*CFG.feePct/100),gst=Math.round(fee*CFG.gstPct/100),tot=st+fee+gst,bal=tot-b.paidAdvance;
+ el.querySelector('.sum').innerHTML='<div><span>Service total (GST exempt)</span><span>'+inr(st)+'</span></div><div><span>Platform and booking fee ('+CFG.feePct+'%)</span><span>'+inr(fee)+'</span></div><div><span>GST ('+CFG.gstPct+'% on fee)</span><span>'+inr(gst)+'</span></div><div class="t"><span>Total amount</span><span>'+inr(tot)+'</span></div><div class="p"><span>Booking amount already paid</span><span>- '+inr(b.paidAdvance)+'</span></div><div class="b"><span>Balance client will pay</span><span>'+inr(bal)+'</span></div>';return{tot:tot,bal:bal}}
+function find(id){return DATA.filter(function(x){return x.id===id})[0]}
+function render(){var f=$('flt').value,l=DATA.filter(function(b){var late=b.cancelled||LATE[b.stage||'']||b.balancePaid;return f==='all'||(f==='todo'?(!b.final&&!late):(!!b.final&&!late))});
+ $('out').innerHTML=l.map(card).join('')||'<p class="sub">No bookings in this list.</p>';
+ [].forEach.call(document.querySelectorAll('[data-card]'),function(el){if(el.querySelector('.sum'))calc(el,find(el.getAttribute('data-card')))})}
+function load(){$('top').textContent='';return api('GET','/api/ambulance/air-list').then(function(j){CFG={feePct:j.feePct,gstPct:j.gstPct,advance:j.advance};DATA=j.items||[];render()}).catch(function(e){if(e.status===401){sessionStorage.removeItem('adminKey');location.replace('admin-login.html');return}$('top').textContent=e.message})}
+$('flt').onchange=render;$('rf').onclick=load;
+$('out').addEventListener('input',function(e){var el=e.target.closest('[data-card]');if(el&&el.querySelector('.sum'))calc(el,find(el.getAttribute('data-card')))});
+$('out').addEventListener('click',function(e){var bt=e.target.closest('[data-act]');if(!bt)return;var el=bt.closest('[data-card]'),b=find(el.getAttribute('data-card')),act=bt.getAttribute('data-act');
+ if(act==='add'){el.querySelector('.rows').insertAdjacentHTML('beforeend',rowHtml('',''));return}
+ if(act==='del'){bt.closest('.r').remove();calc(el,b);return}
+ if(act==='ok'){var items=[].map.call(el.querySelectorAll('.r'),function(r){return{label:r.querySelector('.l').value.trim(),amount:Number(r.querySelector('.a').value)}}).filter(function(i){return i.label&&i.amount>0}),m=el.querySelector('.msg'),c=calc(el,b);
+  m.className='msg err';if(!items.length){m.textContent='Add at least one item with an amount.';return}
+  if(c.bal<=0){m.textContent='Total must be more than the booking amount already paid ('+inr(b.paidAdvance)+').';return}
+  if(!confirm('Send final price '+inr(c.tot)+' to the client? They will pay a balance of '+inr(c.bal)+' (booking amount '+inr(b.paidAdvance)+' is deducted).'))return;
+  bt.disabled=true;m.className='msg';m.textContent='Sending...';
+  api('POST','/api/ambulance/air-approve',{id:b.id,items:items,included:el.querySelector('.inc').value,notIncluded:el.querySelector('.exc').value,note:el.querySelector('.nt').value}).then(function(){return load()}).then(function(){$('top').className='msg ok';$('top').textContent='Sent to client: '+b.id+'. The pop-up opens on their tracking page.'}).catch(function(x){bt.disabled=false;m.className='msg err';m.textContent=x.message})}});
+load();
+</script></body></html>

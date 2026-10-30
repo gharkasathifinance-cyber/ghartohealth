@@ -1,0 +1,95 @@
+{
+"config":{
+"durations":[4,6,12],
+"advanceDiscountPct":15,
+"gstPct":18,
+"frequencies":{
+"monthly":{"name":"Monthly (12 visits/yr)","visits":12},
+"quarterly":{"name":"Quarterly (4 visits/yr)","visits":4},
+"halfyearly":{"name":"Half-yearly (2 visits/yr)","visits":2},
+"yearly":{"name":"Yearly (1 visit/yr)","visits":1}
+}},
+"residential":{
+"label":"Residential AMC","short":"HOME",
+"intro":"Preventive maintenance for homes, apartments and villas. Pick a ready plan or build your own.",
+"areaBase":1000,"defaultArea":1200,"outlets":false,
+"propertyTypes":[
+{"id":"apartment","name":"Apartment","mult":1},
+{"id":"flat","name":"Flat","mult":1},
+{"id":"house","name":"Independent House","mult":1.2},
+{"id":"duplex","name":"Duplex","mult":1.35},
+{"id":"villa","name":"Villa","mult":1.5},
+{"id":"bungalow","name":"Bungalow","mult":1.6}],
+"categories":[
+{"id":"plumbing","name":"Plumbing","desc":"Taps, pipelines, leakages, drainage and washroom fittings.","perVisit":1200},
+{"id":"electrical","name":"Electrical","desc":"Switches, wiring, MCB/DB panels, lighting and earthing.","perVisit":1200},
+{"id":"carpentry","name":"Carpentry","desc":"Doors, windows, locks, hinges and furniture adjustments.","perVisit":1300},
+{"id":"ac","name":"AC & Appliances","desc":"AC jet-wash, gas check, RO, geyser and washing machine.","perVisit":2200},
+{"id":"pest","name":"Pest Control","desc":"Odourless herbal treatment for ants, cockroaches and more.","perVisit":1800},
+{"id":"cleaning","name":"Deep Cleaning","desc":"Whole-house sanitisation, sofa and carpet shampooing.","perVisit":3500},
+{"id":"tank","name":"Water Tank Cleaning","desc":"Machine cleaning of overhead and underground tanks.","perVisit":1800},
+{"id":"garden","name":"Garden Maintenance","desc":"Lawn trimming, pruning and plant care.","perVisit":1500}],
+"emergency":[
+{"id":"std","name":"Standard (8-hour response)","price":0},
+{"id":"4hr","name":"Priority (4-hour response)","price":4999},
+{"id":"2hr","name":"VIP (2-hour response)","price":8999}],
+"plans":[
+{"name":"Basic Care","desc":"Essential preventive checkups for plumbing and electrical.","monthly":999,"sla":"std","preset":{"plumbing":"quarterly","electrical":"quarterly"},"features":["Quarterly electrical inspection","Quarterly plumbing and leak inspection","Free minor labour on 12 callouts","Standard 8-hour response"]},
+{"name":"Smart Care","desc":"All-in-one home maintenance with appliances and pest control.","monthly":3499,"badge":"Most popular","sla":"4hr","preset":{"plumbing":"quarterly","electrical":"quarterly","carpentry":"quarterly","ac":"halfyearly","pest":"quarterly"},"features":["Plumbing, electrical and carpentry visits","2 AC jet-wash services a year","Quarterly herbal pest control","4-hour emergency response"]},
+{"name":"Premium Villa Care","desc":"White-glove care for villas, duplexes and large homes.","monthly":6999,"badge":"VIP","sla":"2hr","preset":{"plumbing":"quarterly","electrical":"quarterly","carpentry":"quarterly","ac":"halfyearly","pest":"quarterly","tank":"halfyearly","garden":"monthly","cleaning":"halfyearly"},"features":["Everything in Smart Care","Water tank cleaning twice a year","Monthly garden upkeep","2-hour VIP emergency dispatch"]}]
+},
+"cafe":{
+"label":"Café & Restaurant AMC","short":"FOOD BUSINESS",
+"intro":"Keep kitchens, refrigeration and safety systems running so service never stops.",
+"areaBase":800,"defaultArea":900,"outlets":true,
+"propertyTypes":[
+{"id":"cafe","name":"Café","mult":1},
+{"id":"restaurant","name":"Restaurant","mult":1.3},
+{"id":"cloud","name":"Cloud Kitchen","mult":1.1},
+{"id":"bakery","name":"Bakery","mult":0.9},
+{"id":"foodcourt","name":"Food Court Outlet","mult":1.2}],
+"categories":[
+{"id":"kitchen","name":"Kitchen Equipment","desc":"Ovens, grills, fryers, mixers and coffee machines.","perVisit":2500},
+{"id":"refrig","name":"Refrigeration","desc":"Walk-in chillers, freezers and display fridges.","perVisit":2500},
+{"id":"safety","name":"Electrical & Gas Safety","desc":"Wiring, load check, gas line and leak inspection.","perVisit":1800},
+{"id":"plumbing","name":"Plumbing & Grease Trap","desc":"Drains, sinks, grease trap and water lines.","perVisit":1800},
+{"id":"pest","name":"Pest Control","desc":"Food-safe treatment as per hygiene norms.","perVisit":2200},
+{"id":"hood","name":"Hood & Deep Cleaning","desc":"Chimney, duct degreasing and kitchen deep clean.","perVisit":4000},
+{"id":"hvac","name":"AC & Ventilation","desc":"AC service, exhaust fans and airflow check.","perVisit":2200}],
+"emergency":[
+{"id":"std","name":"Standard (8-hour response)","price":0},
+{"id":"4hr","name":"Priority (4-hour response)","price":7999},
+{"id":"2hr","name":"VIP (2-hour response)","price":12999}],
+"plans":[
+{"name":"Starter Kitchen Care","desc":"Core equipment and safety checks for small cafés.","monthly":2499,"sla":"std","preset":{"kitchen":"quarterly","safety":"quarterly"},"features":["Quarterly equipment servicing","Quarterly electrical and gas safety","Free minor labour on 12 callouts","Standard 8-hour response"]},
+{"name":"Pro Kitchen Care","desc":"Complete upkeep for busy restaurants.","monthly":5499,"badge":"Most popular","sla":"4hr","preset":{"kitchen":"quarterly","refrig":"quarterly","safety":"quarterly","plumbing":"quarterly","pest":"quarterly","hood":"halfyearly"},"features":["Kitchen and refrigeration servicing","Quarterly pest control","Half-yearly hood degreasing","4-hour emergency response"]},
+{"name":"Multi-Outlet Elite","desc":"Round-the-year protection for chains and large kitchens.","monthly":9999,"badge":"Best for chains","sla":"2hr","preset":{"kitchen":"monthly","refrig":"quarterly","safety":"quarterly","plumbing":"quarterly","pest":"monthly","hood":"quarterly","hvac":"quarterly"},"features":["Monthly equipment and pest visits","Quarterly hood deep clean","All categories covered","2-hour VIP emergency dispatch"]}]
+},
+"office":{
+"label":"Office & Commercial AMC","short":"COMMERCIAL",
+"intro":"Scheduled maintenance for offices, showrooms and commercial spaces with minimum downtime.",
+"areaBase":1000,"defaultArea":1500,"outlets":true,
+"propertyTypes":[
+{"id":"office","name":"Office","mult":1},
+{"id":"cowork","name":"Co-working Space","mult":1.3},
+{"id":"showroom","name":"Showroom","mult":1.15},
+{"id":"clinic","name":"Clinic","mult":1.2},
+{"id":"warehouse","name":"Warehouse","mult":0.9}],
+"categories":[
+{"id":"electrical","name":"Electrical & UPS","desc":"Panels, wiring, lighting, UPS and earthing.","perVisit":2000},
+{"id":"hvac","name":"AC & HVAC","desc":"Split, cassette and ducted AC servicing.","perVisit":3200},
+{"id":"plumbing","name":"Plumbing & Washrooms","desc":"Pipelines, leakages, fittings and drainage.","perVisit":1500},
+{"id":"cleaning","name":"Deep Cleaning","desc":"Floor, glass and workstation sanitisation.","perVisit":1800},
+{"id":"pest","name":"Pest Control","desc":"Safe treatment for offices and pantries.","perVisit":1800},
+{"id":"fire","name":"Fire Safety Check","desc":"Extinguishers, alarms and exit inspection.","perVisit":2500},
+{"id":"it","name":"CCTV & Networking","desc":"Camera, cabling and access point checks.","perVisit":2200}],
+"emergency":[
+{"id":"std","name":"Standard (8-hour response)","price":0},
+{"id":"4hr","name":"Priority (4-hour response)","price":9999},
+{"id":"2hr","name":"VIP (2-hour response)","price":15999}],
+"plans":[
+{"name":"Essential Office Care","desc":"Basic electrical and plumbing upkeep.","monthly":1999,"sla":"std","preset":{"electrical":"quarterly","plumbing":"quarterly"},"features":["Quarterly electrical check","Quarterly plumbing check","Free minor labour on 12 callouts","Standard 8-hour response"]},
+{"name":"Business Care","desc":"Complete upkeep for growing offices.","monthly":4999,"badge":"Most popular","sla":"4hr","preset":{"electrical":"quarterly","hvac":"quarterly","plumbing":"quarterly","pest":"quarterly","fire":"halfyearly","cleaning":"halfyearly"},"features":["Electrical, AC and plumbing visits","Quarterly pest control","Half-yearly fire safety audit","4-hour emergency response"]},
+{"name":"Enterprise Care","desc":"Full-coverage maintenance for large and multi-site offices.","monthly":11999,"badge":"Enterprise","sla":"2hr","preset":{"electrical":"monthly","hvac":"quarterly","plumbing":"quarterly","pest":"monthly","fire":"quarterly","it":"quarterly","cleaning":"monthly"},"features":["Monthly electrical, pest and cleaning","Quarterly AC, fire and IT checks","Dedicated account manager","2-hour VIP emergency dispatch"]}]
+}
+}

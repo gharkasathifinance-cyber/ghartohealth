@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Partners | Admin</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f3f8fb;color:#12344d}
+header{background:#0e6e8c;color:#fff;padding:14px 18px;font-weight:700;font-size:18px}
+.wrap{max-width:1000px;margin:0 auto;padding:14px}
+.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+#map{height:420px;border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid #e3edf3}
+.pin{font-size:26px;line-height:26px}
+</style>
+</head>
+<body>
+<header>Ghar to Health &middot; Live Partners (on a trip now)</header>
+<div class="wrap">
+  <div class="card"><div id="map"></div></div>
+  <div class="card"><table><thead><tr><th>Booking</th><th>Service</th><th>Partner</th><th>Status</th><th>Last update</th></tr></thead><tbody id="rows"></tbody></table></div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+var KEY=sessionStorage.getItem('adminKey');
+if(!KEY){KEY=prompt('Admin key');if(KEY)sessionStorage.setItem('adminKey',KEY)}
+var map=L.map('map').setView([23.2599,77.4126],11),markers={},fitted=false;
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function ic(e){return L.divIcon({html:'<div class="pin">'+e+'</div>',className:'',iconSize:[26,26],iconAnchor:[13,24]})}
+function ago(t){var s=Math.round((Date.now()-t)/1000);return s<60?s+' sec ago':Math.round(s/60)+' min ago'}
+function load(){
+  fetch('/api/admin/live',{headers:{'x-admin-key':KEY}}).then(function(r){
+    if(!r.ok){sessionStorage.removeItem('adminKey');document.getElementById('rows').innerHTML='<tr><td colspan=5>Wrong admin key. Reload and enter it again.</td></tr>';return null}
+    return r.json()}).then(function(d){
+    if(!d)return;var l=d.live||[],seen={},pts=[];
+    document.getElementById('rows').innerHTML=l.length?l.map(function(x){
+      return'<tr><td>'+esc(x.id)+'</td><td>'+esc(x.service)+'</td><td>'+esc(x.vendorName)+'</td><td>'+(x.state==='arrived'?'Arrived':'On the way')+'</td><td>'+ago(x.at)+'</td></tr>'}).join(''):'<tr><td colspan=5>No partner is on a trip right now.</td></tr>';
+    l.forEach(function(x){
+      if(x.lat==null)return;seen[x.id]=1;pts.push([x.lat,x.lng]);
+      if(markers[x.id])markers[x.id].setLatLng([x.lat,x.lng]);
+      else markers[x.id]=L.marker([x.lat,x.lng],{icon:ic('🛵')}).addTo(map).bindPopup(esc(x.vendorName)+' - '+esc(x.service));
+    });
+    Object.keys(markers).forEach(function(id){if(!seen[id]){map.removeLayer(markers[id]);delete markers[id]}});
+    if(pts.length&&!fitted){map.fitBounds(pts,{padding:[50,50],maxZoom:15});fitted=true}
+  }).catch(function(){});
+}
+load();setInterval(load,8000);
+</script>
+</body>
+</html>

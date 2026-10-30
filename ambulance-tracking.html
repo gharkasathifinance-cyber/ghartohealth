@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ambulance Tracking | Ghar to Health</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="vendor/leaflet.css" onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'">
+<link rel="stylesheet" href="vendor/maplibre-gl.css" onerror="this.onerror=null;this.href='https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css'">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f7fbff;color:#12365d;line-height:1.6}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit}
+.container{width:92%;max-width:1200px;margin:auto}
+:focus-visible{outline:3px solid #087cf2;outline-offset:2px}
+/* header (same as home page) */
+.header{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid #e3edf6}
+.navbar{height:78px;display:flex;align-items:center;justify-content:space-between;gap:25px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-img{height:50px;width:auto;display:block}
+.logo-text h2{color:#0758ad;font-size:20px;line-height:1.1}
+.logo-text span{display:block;font-size:10px;color:#6c8299;letter-spacing:.5px;font-weight:600}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:14px;font-weight:600;color:#375775;padding-bottom:4px;border-bottom:2px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:#087cf2;border-color:#087cf2}
+.nav-right{display:flex;align-items:center;gap:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:30px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:.25s}
+.btn-primary{color:#fff;background:linear-gradient(135deg,#087ff5,#0564cf);box-shadow:0 10px 22px rgba(8,124,242,.2)}
+.btn-primary:hover{transform:translateY(-2px)}
+@media(max-width:1000px){.nav-links{display:none}}
+
+/* page */
+.top{background:linear-gradient(110deg,#e8f8ff,#a8defb);padding:30px 0;text-align:center}
+.top h1{font-size:32px;color:#07213f}
+.top p{color:#496981;font-size:15px}
+main{max-width:900px;margin:0 auto;padding:6px 14px 60px}
+.card{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:14px 16px;margin-top:12px}
+label{display:block;font-size:12.5px;font-weight:600;color:#375775;margin-bottom:3px}
+input{width:100%;padding:10px;border:1.5px solid #cfe0ee;border-radius:10px;font:inherit}
+.frm{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+#err{color:#b3261e;font-weight:600;min-height:20px;margin-top:8px}
+#bid{text-transform:uppercase}
+#mine{margin-bottom:12px}
+.chip{display:inline-block;margin:0 6px 6px 0;padding:7px 14px;border-radius:20px;border:1.5px solid #cfe0ee;background:#eef7ff;color:#0a396b;font:600 14px 'Segoe UI',Tahoma,sans-serif;cursor:pointer;letter-spacing:.3px}
+.chip small{font-weight:400;color:#5b7690;margin-left:6px}
+.chip.on{border-color:#087cf2;background:#e1f0ff}
+.state{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.state b{font-size:18px;color:#0a396b}
+.note{color:#5b7690;font-size:13px;margin:4px 0 0}
+.tag{display:inline-block;padding:2px 10px;border-radius:12px;background:#e6f1ff;color:#0a4fa8;font-size:12.5px;font-weight:600;margin-left:6px}
+.tag.demo{background:#fff2d6;color:#8a5a00}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.eta{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:12px 16px}
+.eta small{display:block;color:#5b7690;font-size:13px}
+.eta b{font-size:26px;color:#0a4fa8}
+.km b{font-size:20px}
+#map{height:380px;border-radius:14px;border:1px solid #d9ebf8;margin-top:12px}
+.vic{position:absolute;filter:drop-shadow(0 3px 4px rgba(0,0,0,.38))}.vic svg{display:block;width:100%;height:100%;overflow:visible}
+.vic .vlb{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:3px;background:#0a4fa8;color:#fff;font:700 11px/1 'Segoe UI',Arial,sans-serif;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.vic .rot{animation:gthspin .45s linear infinite;transform-box:view-box;transform-origin:32px 26px}@keyframes gthspin{to{transform:rotate(360deg)}}
+.mlg{background:#fff;padding:6px 10px;border-radius:8px;font:600 11px/1.6 'Segoe UI',Arial,sans-serif;color:#33475b;box-shadow:0 1px 6px rgba(0,0,0,.25)}.mlg i{display:inline-block;width:24px;vertical-align:middle;margin-right:6px}
+.money{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:600;color:#0a396b}
+.money span small{display:block;font-weight:400;color:#5b7690;font-size:12px}
+/* timeline */
+.tl-route{background:#eef7ff;border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.tl-cities{display:flex;justify-content:space-between;gap:10px;font-weight:700;color:#0a396b}
+.tl-cities small{display:block;font-weight:400;color:#5b7690;font-size:12px}
+.tl-cities span:last-child{text-align:right}
+.tl-bar{position:relative;height:8px;border-radius:8px;background:#d3e6f5;margin:12px 0 8px}
+.tl-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:#087cf2;transition:width .8s}
+.tl-bar b{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#087cf2;border:3px solid #fff;transition:left .8s}
+.tl-meta{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#5b7690}
+.tl-meta b{color:#0a396b}
+ol.tl{list-style:none}
+.tl li{position:relative;display:grid;grid-template-columns:26px 1fr auto;gap:0 12px;padding-bottom:20px}
+.tl li:last-child{padding-bottom:0}
+.tl li::before{content:"";position:absolute;left:12px;top:26px;bottom:-2px;width:2px;background:#d3e6f5}
+.tl li:last-child::before{display:none}
+.tl li.done::before{background:#1b7f3b}
+.tl .dot{width:26px;height:26px;border-radius:50%;border:2px solid #cfe0ee;background:#fff;display:grid;place-items:center;z-index:1}
+.tl li.done .dot{background:#1b7f3b;border-color:#1b7f3b}
+.tl li.done .dot::after{content:"\2713";color:#fff;font-size:13px;font-weight:700}
+.tl li.now .dot{border-color:#087cf2;box-shadow:0 0 0 5px #e1f0ff}
+.tl li.now .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:#087cf2;animation:tlp 1.4s ease-in-out infinite}
+@keyframes tlp{50%{transform:scale(.55);opacity:.6}}
+.tl .tt{font-weight:600;color:#0a396b}
+.tl li.todo .tt{color:#7a8ea3;font-weight:500}
+.tl .dd{font-size:13px;color:#5b7690;margin-top:1px}
+.tl .tm{font-size:12px;color:#5b7690;padding-top:3px;white-space:nowrap}
+.tl-live{margin-top:8px;background:#eef7ff;border-radius:10px;padding:8px 11px;font-size:13px}
+.tl-live .rw{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tl-live .tl-bar{height:6px;margin:8px 0 2px}
+@media(prefers-reduced-motion:reduce){.tl li.now .dot::after{animation:none}.tl-bar i,.tl-bar b{transition:none}}
+@media(max-width:560px){.frm{grid-template-columns:1fr}.eta b{font-size:22px}.km b{font-size:17px}#map{height:300px}.top h1{font-size:26px}.grid3{gap:8px}.grid3 .eta{padding:10px}}
+
+/* final price pop-up (commercial airline) */
+.fm{position:fixed;inset:0;background:rgba(7,33,63,.6);display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;z-index:2000}.fm.on{display:flex}
+.fb{background:#fff;border-radius:18px;max-width:480px;width:100%;padding:20px;margin:auto;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.fb h2{font-size:20px;color:#0a396b;margin:2px 0}.fb .ok{color:#1b7f3b;font-weight:700;font-size:13px}.fb .rt{color:#5b7690;font-size:13px}
+.fb table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}.fb td{padding:6px 0;border-bottom:1px solid #eef3f8}.fb td:last-child{text-align:right;white-space:nowrap;font-weight:600;padding-left:10px}
+.fb tr.sub td{border-top:2px solid #d3e6f5;font-weight:700}.fb tr.paid td{color:#1b7f3b}.fb tr.bal td{font-size:18px;font-weight:800;color:#0a396b;border-bottom:0}
+.fb h4{font-size:13px;margin:12px 0 4px;color:#375775}.fb ul{list-style:none}.fb li{font-size:13px;padding:2px 0 2px 20px;position:relative}
+.fb .inc li::before{content:"\2713";position:absolute;left:2px;color:#1b7f3b;font-weight:700}.fb .exc li::before{content:"\2715";position:absolute;left:2px;color:#c62828;font-weight:700}
+.fb .nt{background:#fff6e5;border:1px solid #f0d9a8;border-radius:10px;padding:8px 10px;font-size:13px;margin-top:10px}
+.fb .acts{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.fb .acts a,.fb .acts button{flex:1;min-width:140px;text-align:center}
+.btn-o{background:#fff;border:1.5px solid #cfe0ee;color:#375775}
+.money[hidden],#live[hidden],#tl[hidden]{display:none}
+.swbar{display:flex;gap:8px;justify-content:flex-end;margin:0 0 12px}
+.sup{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:#fff6e5;border-color:#f0d9a8}
+.sup[hidden],#net[hidden]{display:none}
+.sup span{font-weight:700;color:#7a4a00;font-size:14px}
+.sup .btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-wa{color:#fff;background:#1f9d55}
+#net{background:#fff6e5;border-color:#f0d9a8;color:#7a4a00;font-weight:600;font-size:13px}
+.swbar .btn{padding:8px 16px;font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="header">
+<div class="container navbar">
+<a href="index.html" class="logo">
+<img class="logo-img" src="logo.png" alt="Ghar to Health">
+<div class="logo-text"><h2>Ghar to Health</h2><span>Healthy Homes. Happier Lives.</span></div>
+</a>
+<nav class="nav-links">
+<a href="index.html">Home</a><a href="index.html#services">Services</a><a href="index.html#amc">AMC</a><a href="ambulance-tracking.html" class="active">Ambulance Tracking</a><a href="index.html#why">About Us</a><a href="#">Blog</a><a href="index.html#contact">Contact</a>
+</nav>
+<div class="nav-right">
+<a href="ambulance.html" class="btn btn-primary">🚑 Book Ambulance</a>
+</div>
+</div>
+</header>
+
+<section class="top"><div class="container">
+<h1>Ambulance Tracking</h1>
+<p>See where your ambulance is, how far it has to go and when it will arrive.</p>
+</div></section>
+
+<main>
+  <div class="card sup" id="sup" hidden><span>Need help with your ambulance? Talk to our support team.<br><a id="supNum" href="#" style="font-size:18px;color:#0a396b;font-weight:800;letter-spacing:.3px"></a><small style="display:block;font-weight:500;color:#7a4a00">Available 24x7</small></span><div class="btns"><a class="btn btn-primary" id="supCall" href="#">&#128222; Call support</a><a class="btn btn-wa" id="supWa" href="#" target="_blank" rel="noopener">WhatsApp</a></div></div>
+  <div class="card" id="login">
+    <div id="mine" hidden><div class="note" style="margin:0 0 8px">Your recent bookings on this phone. Tap your Booking ID, then enter your mobile number.</div><div id="chips"></div></div>
+    <div class="frm">
+      <div><label for="bid">Booking ID</label><input id="bid" autocomplete="off" placeholder="AMB..."></div>
+      <div><label for="ph">Mobile number</label><input id="ph" inputmode="numeric" maxlength="14" placeholder="10-digit mobile"></div>
+      <button class="btn btn-primary" id="go" type="button">Track</button>
+    </div>
+    <div id="err" role="alert"></div>
+  </div>
+
+  <div id="app" hidden>
+    <div class="card" id="net" role="status" hidden>Connection problem. Showing the last known position. Retrying...</div>
+    <div class="swbar"><button class="btn btn-o" id="sw" type="button">&#8644; Track another booking</button><button class="btn btn-o" id="lo" type="button">Logout</button></div>
+    <div class="card state">
+      <div><b id="stx"></b><div class="note" id="meta"></div></div>
+      <div><span id="ac" class="tag"></span><span id="dm" class="tag demo" hidden>Demo flight</span></div>
+    </div>
+    <div id="live" hidden>
+      <div class="grid2">
+        <div class="eta"><small id="l1"></small><b id="e1">-</b></div>
+        <div class="eta"><small id="l2"></small><b id="e2">-</b></div>
+      </div>
+      <div class="grid3">
+        <div class="eta km"><small id="lk1"></small><b id="k1">-</b></div>
+        <div class="eta km"><small id="lk2"></small><b id="k2">-</b></div>
+        <div class="eta km"><small id="lk3"></small><b id="k3">-</b></div>
+      </div>
+      <div id="map"></div>
+    </div>
+    <div class="card" id="tl" hidden></div>
+    <div class="card money" id="money" hidden></div>
+    <div id="pay" hidden style="margin-top:12px"><button class="btn btn-primary" id="payBtn" type="button" style="width:100%">View final price and pay balance</button></div>
+  </div>
+</main>
+
+<div class="fm" id="fm" role="dialog" aria-modal="true" aria-label="Final price"><div class="fb" id="fb"></div></div>
+<script src="vendor/leaflet.js"></script>
+<script>window.L||document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>')</script>
+<script src="vendor/maplibre-gl.js"></script>
+<script>window.maplibregl||document.write('<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"><\/script>')</script>
+<script src="vendor/leaflet-maplibre-gl.js"></script>
+<script>(window.L&&L.maplibreGL)||document.write('<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js"><\/script>')</script>
+<script>
+/* ---- SETTINGS: put your real support number here (digits only, with country code, e.g. 919876543210) ---- */
+var SUPPORT_PHONE = '917879370132';
+var LIVE_MS = 10000;      // live tracking refresh: every 10 seconds
+var FETCH_TIMEOUT = 15000;
+if (location.protocol === 'http:' && !/^(localhost|127\.|\[::1\])/.test(location.hostname)) location.replace('https:' + location.href.substring(5));   // never track over plain http
+var $ = function (s) { return document.querySelector(s); }, ID = '', PH = '', KIND = '', timer = null, map = null, M = {}, fitted = false, firstDone = false, busy = false, fails = 0;
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function inr(n){return (n<0?'-':'') + '\u20B9' + Math.abs(Math.round(n)).toLocaleString('en-IN');}
+function hm(m){ if (m == null) return '-'; if (m <= 0) return 'Arrived'; var h = Math.floor(m/60), x = m % 60; return h ? h + ' h ' + x + ' min' : x + ' min'; }
+function clock(t){ return t ? new Date(t).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) : ''; }
+function ago(t){ var s = Math.max(0, Math.round((Date.now()-t)/1000)); return s < 60 ? s + ' sec ago' : s < 3600 ? Math.round(s/60) + ' min ago' : Math.round(s/3600) + ' h ago'; }
+function hav(a, b) { var R = 6371, r = Math.PI / 180, dl = (b.lat - a.lat) * r, dn = (b.lng - a.lng) * r, x = Math.sin(dl/2) * Math.sin(dl/2) + Math.cos(a.lat*r) * Math.cos(b.lat*r) * Math.sin(dn/2) * Math.sin(dn/2); return 2 * R * Math.asin(Math.sqrt(x)); }
+function pctOf(total, left) { return total > 0 ? Math.round(Math.max(0, Math.min(100, (1 - left / total) * 100))) : 0; }
+function post(url, body) {
+  var ac = window.AbortController ? new AbortController() : null, tm = ac ? setTimeout(function () { ac.abort(); }, FETCH_TIMEOUT) : 0;
+  var o = body ? {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)} : {}; if (ac) o.signal = ac.signal;
+  return fetch(url, o)
+    .then(function (r) { return r.json().then(function (j) { if (!r.ok) { var e = new Error(j.error || 'Something went wrong.'); e.status = r.status; throw e; } return j; }, function () { var e = new Error('Server did not reply properly. Please try again.'); e.status = r.status; throw e; }); })
+    .catch(function (e) { if (e && e.name === 'AbortError') e = new Error('The server is taking too long. Please try again.'); throw e; })
+    .then(function (j) { clearTimeout(tm); return j; }, function (e) { clearTimeout(tm); throw e; });
+}
+
+(function () { if (!/^\d{10,15}$/.test(SUPPORT_PHONE)) return; var n = SUPPORT_PHONE, shown = /^91\d{10}$/.test(n) ? '+91 ' + n.slice(2, 7) + ' ' + n.slice(7) : '+' + n; $('#supNum').textContent = shown; $('#supNum').href = 'tel:+' + n; $('#supCall').href = 'tel:+' + n; $('#supWa').href = 'https://wa.me/' + SUPPORT_PHONE + '?text=' + encodeURIComponent('Hello, I need help with my ambulance booking.'); $('#sup').hidden = false; })();
+function supportNote() { var id = ID ? ' Booking ' + ID : ''; var w = $('#supWa'); if (w && SUPPORT_PHONE) w.href = 'https://wa.me/' + SUPPORT_PHONE + '?text=' + encodeURIComponent('Hello, I need help with my ambulance booking.' + id); }
+
+/* ---------- shared pieces ---------- */
+function liveBlock(a, b, p) { return '<div class="tl-live"><div class="rw"><span>' + a + '</span><span>' + b + '</span></div><div class="tl-bar"><i style="width:' + p + '%"></i></div></div>'; }
+function stepList(steps, cur) {
+  return '<ol class="tl">' + steps.map(function (s, i) {
+    var c = i < cur ? 'done' : i === cur ? 'now' : 'todo';
+    return '<li class="' + c + '"><span class="dot"></span><div><div class="tt">' + s.t + '</div><div class="dd">' + s.dd + '</div>' + (s.live || '') + '</div><div class="tm">' + (i <= cur && s.tm ? clock(s.tm) : '') + '</div></li>';
+  }).join('') + '</ol>';
+}
+function routeCard(from, to, kmText, pct, rightText) {
+  return '<div class="tl-route"><div class="tl-cities"><span>' + esc(from) + '<small>Pickup</small></span><span>' + esc(to) + '<small>Destination</small></span></div>' +
+    (pct == null ? '' : '<div class="tl-bar"><i style="width:' + pct + '%"></i><b style="left:' + pct + '%"></b></div>') +
+    '<div class="tl-meta"><span>' + kmText + '</span><span>' + (rightText || '') + '</span></div></div>';
+}
+function show(live, tl, money) { $('#live').hidden = !live; $('#tl').hidden = !tl; $('#money').hidden = !money; }
+function labels(a) { ['l1','l2','lk1','lk2','lk3'].forEach(function (id, i) { $('#' + id).textContent = a[i]; }); }
+function pin(color) { return {radius:8, color:color, fillColor:color, fillOpacity:.8}; }
+/* ---- vehicle icons: helicopter / jet / road ambulance (drawn as SVG, no image files) ---- */
+var SVG = {
+  heli: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">' +
+    '<line x1="20" y1="14" x2="20" y2="42" stroke="#0a4fa8" stroke-width="1.8" stroke-linecap="round"/><line x1="44" y1="14" x2="44" y2="42" stroke="#0a4fa8" stroke-width="1.8" stroke-linecap="round"/>' +
+    '<rect x="29.5" y="38" width="5" height="19" rx="2.5" fill="#e6eef6" stroke="#0a4fa8" stroke-width="1.3"/><rect x="25" y="51" width="14" height="3.4" rx="1.7" fill="#e6eef6" stroke="#0a4fa8" stroke-width="1.1"/>' +
+    '<rect x="30.8" y="55" width="2.4" height="8" rx="1.2" fill="#d62828"/>' +
+    '<ellipse cx="32" cy="26" rx="11.5" ry="15.5" fill="#fff" stroke="#0a4fa8" stroke-width="1.7"/>' +
+    '<path d="M23.5 17.5 Q32 7 40.5 17.5 Q32 22 23.5 17.5Z" fill="#7fc4f5" stroke="#0a4fa8" stroke-width="1.1"/>' +
+    '<rect x="30" y="28" width="4" height="12" rx="1" fill="#d62828"/><rect x="26" y="32" width="12" height="4" rx="1" fill="#d62828"/>' +
+    '<g class="{ROT}"><circle cx="32" cy="26" r="26" fill="#0a4fa8" fill-opacity=".07"/><line x1="6" y1="26" x2="58" y2="26" stroke="#0a4fa8" stroke-opacity=".6" stroke-width="2.4" stroke-linecap="round"/><line x1="32" y1="0" x2="32" y2="52" stroke="#0a4fa8" stroke-opacity=".6" stroke-width="2.4" stroke-linecap="round"/></g>' +
+    '<circle cx="32" cy="26" r="3.4" fill="#0a4fa8"/></svg>',
+  charter: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+    '<g stroke="#fff" stroke-width="2.2" stroke-linejoin="round">' +
+    '<rect x="22" y="50" width="8" height="16" rx="4" fill="#5b6b7d"/><rect x="70" y="50" width="8" height="16" rx="4" fill="#5b6b7d"/>' +
+    '<path d="M44 36 L5 62 L5 69 L44 57Z" fill="#1565c0"/><path d="M56 36 L95 62 L95 69 L56 57Z" fill="#1565c0"/>' +
+    '<path d="M45 82 L27 92 L27 97 L46 91Z" fill="#1565c0"/><path d="M55 82 L73 92 L73 97 L54 91Z" fill="#1565c0"/>' +
+    '<path d="M50 3 C54.5 3 56.5 10 56.5 18 L56.5 70 C56.5 80 54 90 50 97 C46 90 43.5 80 43.5 70 L43.5 18 C43.5 10 45.5 3 50 3Z" fill="#fff"/></g>' +
+    '<path d="M46.4 14 Q50 8 53.6 14 L52.6 19 L47.4 19Z" fill="#0d3b7a"/>' +
+    '<rect x="48" y="30" width="4" height="20" rx="1" fill="#d62828"/><rect x="42" y="37" width="16" height="6" rx="1" fill="#d62828"/>' +
+    '<rect x="43.6" y="58" width="12.8" height="2" fill="#1565c0"/></svg>',
+  van: '<svg viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">' +
+    '<rect x="3" y="8" width="38" height="22" rx="4" fill="#fff" stroke="#0a4fa8" stroke-width="1.6"/>' +
+    '<path d="M41 14 L52 14 Q56 14 58 20 L61 26 Q62 30 58 30 L41 30Z" fill="#fff" stroke="#0a4fa8" stroke-width="1.6" stroke-linejoin="round"/>' +
+    '<path d="M44 16.6 L51.4 16.6 Q53.6 16.6 55 21 L44 21Z" fill="#7fc4f5"/>' +
+    '<rect x="3" y="25.6" width="38" height="2.6" fill="#087cf2"/>' +
+    '<rect x="19.5" y="11.5" width="5" height="13" rx="1" fill="#d62828"/><rect x="14.5" y="15.5" width="15" height="5" rx="1" fill="#d62828"/>' +
+    '<rect x="24" y="4.6" width="9" height="3.6" rx="1.6" fill="#d62828"/><rect x="31" y="4.6" width="4" height="3.6" rx="1.6" fill="#087cf2"/>' +
+    '<circle cx="15" cy="31" r="5.2" fill="#223"/><circle cx="15" cy="31" r="2" fill="#aab"/><circle cx="50" cy="31" r="5.2" fill="#223"/><circle cx="50" cy="31" r="2" fill="#aab"/></svg>'
+};
+function vIcon(kind, o) {   // kind: 'heli' | 'charter' | 'van'. o: {angle, spin, flip, label}
+  o = o || {}; var van = kind === 'van', w = kind === 'charter' ? 52 : 64, h = van ? 40 : w, svg = SVG[kind].replace('{ROT}', o.spin ? 'rot' : '');
+  var inner = van ? '<div style="width:100%;height:100%;transform:scaleX(' + (o.flip ? -1 : 1) + ')">' + svg + '</div>' : '<div style="width:100%;height:100%;transform:rotate(' + (o.angle || 0) + 'deg)">' + svg + '</div>';
+  return L.divIcon({className:'', iconSize:[0,0], html:'<div class="vic" style="width:' + w + 'px;height:' + h + 'px;left:-' + (w/2) + 'px;top:-' + (h/2) + 'px">' + inner + (o.label ? '<span class="vlb">' + esc(o.label) + '</span>' : '') + '</div>'});
+}
+function bearing(a, b) { var r = Math.PI / 180, y = Math.sin((b.lng - a.lng) * r) * Math.cos(b.lat * r), x = Math.cos(a.lat * r) * Math.sin(b.lat * r) - Math.sin(a.lat * r) * Math.cos(b.lat * r) * Math.cos((b.lng - a.lng) * r); return (Math.atan2(y, x) / r + 360) % 360; }
+function glide(mk, to, ms, onStep) {   /* move the marker smoothly to its new place instead of jumping */
+  var f = mk.getLatLng();
+  if (mk.__raf) cancelAnimationFrame(mk.__raf);
+  if (!f || !ms || Math.abs(f.lat - to[0]) + Math.abs(f.lng - to[1]) > 20) { mk.setLatLng(to); if (onStep) onStep(to); return; }   /* first point or a big jump: no gliding */
+  var t0 = null;
+  (function step(t) {
+    if (t0 === null) t0 = t;
+    if (mk._map === null) return;
+    var k = Math.min(1, (t - t0) / ms), cur = [f.lat + (to[0] - f.lat) * k, f.lng + (to[1] - f.lng) * k];
+    mk.setLatLng(cur); if (onStep) onStep(cur);
+    if (k < 1) mk.__raf = requestAnimationFrame(step); else mk.__raf = 0;
+  })(performance.now());
+}
+function trailAng(trail, ll) {   // bearing of the real movement (recent path to current position), null if it has not moved
+  var me = {lat: ll[0], lng: ll[1]};
+  for (var i = trail.length - 1, n = 0; i >= 0 && n < 25; i--, n++) { var q = trail[i]; if (Math.abs(q[0] - ll[0]) + Math.abs(q[1] - ll[1]) > 0.002) return bearing({lat: q[0], lng: q[1]}, me); }
+  return null;
+}
+function heading(trail, ll, tgt, prev) {   // direction the aircraft is flying: from its recent path, else towards where it is going
+  var me = {lat: ll[0], lng: ll[1]};
+  for (var i = trail.length - 1, n = 0; i >= 0 && n < 25; i--, n++) { var q = trail[i]; if (Math.abs(q[0] - ll[0]) + Math.abs(q[1] - ll[1]) > 0.002) return bearing({lat: q[0], lng: q[1]}, me); }
+  if (tgt && hav(me, tgt) > 0.3) return bearing(me, tgt);
+  return prev || 0;
+}
+function tgtLine(from, to) {   // dashed orange line from the vehicle to the place it is heading to
+  if (!M.tl) M.tl = L.polyline([], {color:'#f57c00', weight:3.5, dashArray:'9 8', opacity:.95}).addTo(map);
+  M.tl.setLatLngs(to && hav(from, to) > 0.3 ? [[from.lat, from.lng], [to.lat, to.lng]] : []);
+}
+function flightStatus(d) {   /* Flying / Landed / No signal, worked out from the live numbers */
+  var p = d.position || {}, kmh = +p.speedKmh || 0, m = +p.alt || 0, now = Date.now();
+  var key = [p.lat, p.lng, kmh, m].join('|'); if (M.sk !== key) { M.sk = key; M.st = now; }   /* when the numbers last changed on this screen */
+  var sig = p.at > 0 ? p.at : 0, gap = sig ? now - sig : 0, same = now - (M.st || now);
+  var ground = p.source === 'ground' || /^(ground|done)$/.test((d.state && d.state.code) || '') || (kmh <= 30 && m <= 150);
+  if (ground) return {t:'Landed', c:'#5d7592', sub: sig ? 'Updated ' + ago(sig) : ''};
+  if ((sig && gap > 60000) || same > 60000) return {t:'No signal', c:'#e65100', warn:true, sub: 'Last signal ' + ago(sig || M.st) + '. Speed and height are from then (old data).'};
+  return {t:'Flying', c:'#1b7f3b', sub: sig ? 'Updated ' + ago(sig) : ''};
+}
+function statusRows(d) {
+  var f = flightStatus(d);
+  return '<tr><td style="color:#5d7592;padding:2px 12px 2px 0;white-space:nowrap">Status</td><td style="font-weight:800;color:' + f.c + '">&#9679; ' + f.t + '</td></tr>' +
+    (f.sub ? '<tr><td colspan="2" style="padding:1px 0 0;font-size:12px;' + (f.warn ? 'color:#e65100;font-weight:600' : 'color:#5d7592') + '">' + esc(f.sub) + '</td></tr>' : '');
+}
+function infoHtml(d) {   // what the client sees when the aircraft on the map is tapped
+  var p = d.position || {}, kmh = Math.round(p.speedKmh || 0), kt = Math.round(kmh / 1.852), m = Math.round(p.alt || 0), ft = Math.round(m / 0.3048), a = d.aircraft || {};
+  function row(k, v) { return '<tr><td style="color:#5d7592;padding:2px 12px 2px 0;white-space:nowrap">' + k + '</td><td style="font-weight:700">' + esc(v) + '</td></tr>'; }
+  var type = [d.aircraftType, a.model].filter(Boolean).join(' \u00b7 ');
+  return '<div style="font:13px/1.45 \'Segoe UI\',Arial,sans-serif;min-width:210px"><div style="font-weight:800;font-size:15px;color:#0a4fa8;margin-bottom:4px">' + esc(d.tail || 'Aircraft') + (a.callsign ? ' <span style="font-weight:600;color:#5d7592;font-size:12px">(' + esc(a.callsign) + ')</span>' : '') + '</div><table style="border-collapse:collapse">' +
+    (d.operatorName ? row('Operator', d.operatorName) : '') + row('Type', type) +
+    row('Speed', kmh > 0 ? kmh.toLocaleString() + ' km/h (' + kt + ' kt)' : 'Stopped / on ground') + row('Height', m > 0 ? m.toLocaleString() + ' m (' + ft.toLocaleString() + ' ft)' : 'On ground') + statusRows(d) + '</table></div>';
+}
+function addLegend() {
+  var c = L.control({position:'bottomleft'}); c.onAdd = function () { var d = L.DomUtil.create('div', 'mlg');
+    d.innerHTML = '<div><i style="border-top:3px dashed #f57c00"></i>Vehicle to next stop</div><div><i style="border-top:2.5px dashed #087cf2"></i>Pickup to destination</div><div><i style="border-top:4px solid #0a4fa8"></i>Path travelled</div><div style="color:#0a4fa8">Tap the aircraft for its details</div>'; return d; }; c.addTo(map);
+}
+/* MAP: free OpenFreeMap (no key, no payment, commercial use allowed) with all place names in English.
+   If it cannot load, the map falls back to Esri tiles, then to OpenStreetMap, so it is never blank.
+   Optional: paste a MapTiler key below to use MapTiler instead (only needed if you ever want a paid, guaranteed service). */
+var MAP_KEY = '';
+var OFM_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
+function enStyle(st) {   /* make every place-name label English (name:en, else the Latin-script name) */
+  (st.layers || []).forEach(function (ly) {
+    var tf = ly.layout && ly.layout['text-field'];
+    if (tf != null && JSON.stringify(tf).indexOf('name') >= 0) ly.layout['text-field'] = ['coalesce', ['get', 'name:en'], ['get', 'name:latin'], ['get', 'name']];
+  });
+  return st;
+}
+function mapTiles() {
+  var P = [];
+  if (MAP_KEY) P.push(['https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=' + encodeURIComponent(MAP_KEY), {maxZoom:19, attribution:'&copy; MapTiler &copy; OpenStreetMap contributors'}]);
+  P.push(['https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {maxZoom:19, attribution:'Tiles &copy; Esri, HERE, Garmin, OpenStreetMap contributors'}]);
+  P.push(['https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:18, attribution:'&copy; OpenStreetMap'}]);
+  function raster(n) {
+    var tl = L.tileLayer(P[n][0], P[n][1]).addTo(map), er = 0;
+    tl.on('tileerror', function () { if (++er === 4 && map && n + 1 < P.length) { map.removeLayer(tl); raster(n + 1); } });
+  }
+  if (MAP_KEY || !(window.maplibregl && L.maplibreGL) || typeof fetch !== 'function') { raster(0); return; }
+  var m0 = map;
+  fetch(OFM_STYLE).then(function (r) { if (!r.ok) throw new Error('style'); return r.json(); }).then(function (st) {
+    if (map !== m0) return;   /* map was reset while the style was loading */
+    var gl;
+    try { gl = L.maplibreGL({style: enStyle(st), attribution: '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; <a href="https://openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(map); }
+    catch (e) { raster(0); return; }
+    var mm = gl.getMaplibreMap && gl.getMaplibreMap(), errs = 0, loaded = false;
+    if (mm) { mm.on('load', function () { loaded = true; }); mm.on('error', function () { if (!loaded && ++errs >= 6 && map === m0) { loaded = true; map.removeLayer(gl); raster(0); } }); }
+  }).catch(function () { if (map === m0) raster(0); });
+}
+function mapInit() {
+  if (typeof L === 'undefined') { $('#map').innerHTML = '<p class="note" style="padding:20px">Map could not load. Check your internet connection.</p>'; return false; }
+  if (!map) { map = L.map('map'); mapTiles(); }
+  return true;
+}
+function fitOnce(pts) { if (!fitted && pts.length) { map.fitBounds(pts, {padding:[40,40], maxZoom:15}); fitted = true; setTimeout(function () { map.invalidateSize(); }, 200); } }
+
+/* ---------- 1) Charter aircraft + Helicopter (live GPS from the aircraft) ---------- */
+var STAGE_NOW = {planned:1, to_pickup:2, at_pickup:3, to_dest:4, flying:4, at_dest:5, returning:6, ground:7, done:8};
+function legOf(d, type) { for (var i = 0; i < d.legs.length; i++) if (d.legs[i].type === type) return d.legs[i]; return null; }
+function legLeft(d, l) { if (!l) return 0; var f = l.plannedKm / Math.max(hav(l.from, l.to), 1); return Math.max(0, Math.min(l.plannedKm, hav(d.position, l.to) * f)); }
+function drawAir(d) {
+  show(true, true, true); labels(['Aircraft reaches pickup in', 'Patient reaches destination in', 'Aircraft to pickup', 'Pickup to destination', 'Return to base']);
+  $('#stx').textContent = d.state.text; $('#ac').textContent = d.aircraftType + ' | ' + d.tail; $('#dm').hidden = !d.demo;
+  var p = d.position, waiting = d.auto && !d.final && (!d.seen || Date.now() - d.seen > 180000) && p.source !== 'demo' && p.source !== 'gps',
+      src = waiting ? 'Waiting for the aircraft signal. The map shows its last known place.' : p.source === 'gps' ? 'Live position, updated ' + ago(p.at) : p.source === 'demo' ? 'Demo position' : p.source === 'ground' ? 'Aircraft on the ground' : 'Last known position';
+  $('#meta').textContent = src + (p.source === 'gps' && p.speedKmh ? ' | ' + p.speedKmh + ' km/h' : '') + ' | Booking ' + d.id;
+  $('#e1').textContent = hm(d.eta.toPickupMin); $('#e2').textContent = hm(d.eta.toDestMin);
+  var pos = legOf(d, 'positioning'), pat = legOf(d, 'patient'), ret = legOf(d, 'return');
+  $('#k1').textContent = pos ? pos.plannedKm + ' km' : '-'; $('#k2').textContent = pat ? pat.plannedKm + ' km' : '-'; $('#k3').textContent = ret ? ret.plannedKm + ' km' : '-';
+  $('#money').innerHTML = '<span><small>Amount paid</small>' + inr(d.paid) + '</span>';
+
+  var cur = STAGE_NOW[d.state.code]; if (cur == null) cur = 1;
+  var posLeft = legLeft(d, pos), patLeft = legLeft(d, pat), retLeft = legLeft(d, ret), patKm = pat ? pat.plannedKm : 0, patPct = cur >= 5 ? 100 : cur === 4 ? pctOf(patKm, patLeft) : 0;
+  var route = pat ? routeCard(d.places.pickup.name, d.places.drop.name, '<b>' + patKm + ' km</b> pickup to destination', patPct, cur >= 5 ? 'Reached' : cur === 4 ? '<b>' + Math.round(patLeft) + ' km</b> left' : 'Not started') : '';
+  $('#tl').innerHTML = route + stepList([
+    {t:'Booked', dd:'Your air ambulance is confirmed.'},
+    {t:'Aircraft ready at base', dd:'Crew and medical team are getting the aircraft ready.'},
+    {t:'Aircraft on the way to pickup', dd:'Flying to ' + esc(d.places.pickup.name), tm: pos && pos.takeoff, live: cur === 2 ? liveBlock(Math.round(posLeft) + ' km to pickup', 'Arrives in ' + hm(d.eta.toPickupMin), pctOf(pos && pos.plannedKm, posLeft)) : ''},
+    {t:'Landed at pickup', dd:'Patient is boarding with the medical team.', tm: pos && pos.landed},
+    {t:'Flying to destination', dd:'Patient is on board.', tm: pat && pat.takeoff, live: cur === 4 ? liveBlock(Math.round(patKm - patLeft) + ' km covered', Math.round(patLeft) + ' km left | ' + hm(d.eta.toDestMin), patPct) : ''},
+    {t:'Landed at destination', dd:'Patient is handed over to the ground ambulance.', tm: pat && pat.landed},
+    {t:'Aircraft returning to base', dd:'Patient delivered.', tm: ret && ret.takeoff, live: cur === 6 ? liveBlock(Math.round(retLeft) + ' km to base', '', pctOf(ret && ret.plannedKm, retLeft)) : ''},
+    {t:'Mission completed', dd: d.final ? 'Final bill is ready.' : 'Final bill is being prepared.', tm: ret && ret.landed}
+  ], cur);
+  if (mapInit()) {
+    var pl = d.places, ll = [d.position.lat, d.position.lng], me = {lat: ll[0], lng: ll[1]}, kind = KIND === 'charter' ? 'charter' : 'heli';
+    var tgt = cur <= 3 ? pl.pickup : cur === 4 ? pl.drop : cur === 6 ? pl.base : null, spin = p.source === 'demo' || p.speedKmh > 0 || /^(to_pickup|to_dest|returning|flying)$/.test(d.state.code);   // rotor turns whenever a leg is in the air
+    if (!M.init) {
+      M.init = 1; addLegend();
+      [['base','Base','#7a8ea3'],['pickup','Pickup','#1b7f3b'],['drop','Destination','#b3261e']].forEach(function (a) { L.circleMarker([pl[a[0]].lat, pl[a[0]].lng], pin(a[2])).addTo(map).bindTooltip(esc(a[1] + ': ' + pl[a[0]].name)); });
+      if (pat) L.polyline([[pat.from.lat, pat.from.lng], [pat.to.lat, pat.to.lng]], {color:'#087cf2', weight:2.5, dashArray:'6 8', opacity:.85}).addTo(map);
+      M.trail = L.polyline([], {color:'#0a4fa8', weight:4}).addTo(map); M.veh = L.marker(ll, {icon: vIcon(kind, {}), zIndexOffset: 1000}).addTo(map); M.veh.bindPopup('', {offset: [0, -30], maxWidth: 300});
+    }
+    var mvA = trailAng(d.trail, ll); M.ang = mvA != null ? mvA : (p.source === 'gps' && p.heading != null) ? p.heading : heading(d.trail, ll, tgt, M.ang);
+    var ik = kind + Math.round(M.ang / 5) + (spin ? 1 : 0) + d.tail;
+    if (M.ik !== ik) { M.ik = ik; M.veh.setIcon(vIcon(kind, {angle: M.ang, spin: spin, label: d.tail})); }
+    M.veh.setPopupContent(infoHtml(d));
+    M.d = d; M.tgt = tgt;
+    M.step = function (cur) { if (!M.trail) return; M.trail.setLatLngs(M.d.trail.length ? M.d.trail.concat([cur]) : []); tgtLine({lat: cur[0], lng: cur[1]}, M.tgt); };
+    var pk = ll[0] + ',' + ll[1], now = Date.now();
+    if (M.pk !== pk) {   /* new position: glide there for as long as the real gap between two updates, so the plane keeps moving slowly and smoothly */
+      var ms = M.pk != null ? Math.max(1000, Math.min(LIVE_MS + 2000, now - M.pt)) : 0; M.pk = pk; M.pt = now;
+      glide(M.veh, ll, ms, M.step);
+    } else if (!M.veh.__raf) { M.step(ll); }   /* same position: just refresh the lines */
+    fitOnce([pl.base, pl.pickup, pl.drop].map(function (x) { return [x.lat, x.lng]; }).concat([ll]));
+  }
+  return d.final;
+}
+function pendingAir() {   // aircraft booking is confirmed but the flight has not been started yet
+  show(false, false, false); $('#money').innerHTML = ''; $('#tl').innerHTML = ''; $('#ac').textContent = KIND === 'heli' ? 'Helicopter Ambulance' : 'Charter Aircraft (Jet)'; $('#dm').hidden = true;
+  $('#stx').textContent = 'Booking confirmed. We are getting your aircraft ready.'; $('#meta').textContent = 'Live tracking and distances appear here as soon as the aircraft is assigned and starts. | Booking ' + ID;
+}
+function loadAir() {
+  return post('/api/air/track', {id:ID, phone:PH}).then(drawAir, function (e) { if (e.status === 404) { pendingAir(); return false; } throw e; });
+}
+
+/* ---------- 2) Road ambulance (van): live GPS from the driver's phone ---------- */
+var VAN_KMH = 35, ROAD = 1.3;   // city speed and road/straight-line factor used for the estimate
+function drawVan(d) {
+  var tr = d.trip || {}, st = tr.state || '', t = d.track, hasXY = !!(t && t.lat != null && t.lng != null), pu = d.pickupLL, dr = d.dropLL;
+  var cur = st === 'reached' ? 6 : st === 'to_hospital' ? 4 : st === 'arrived' ? 3 : st === 'on_the_way' ? 2 : d.partnerName ? 2 : 1;
+  var toPu = hasXY && pu ? hav(t, pu) * ROAD : null, toDr = hasXY && dr ? hav(t, dr) * ROAD : null, total = pu && dr ? hav(pu, dr) * ROAD : null;
+  var etaPu = toPu != null ? Math.round(toPu / VAN_KMH * 60) : null, etaDr = toDr != null ? Math.round(toDr / VAN_KMH * 60) : null;
+  show(true, true, false); labels(['Ambulance reaches patient in', 'Patient reaches hospital in', 'Ambulance to patient', 'Patient to hospital', 'Left to hospital']);
+  $('#ac').textContent = 'Road Ambulance' + (d.partnerName ? ' | ' + d.partnerName : ''); $('#dm').hidden = true;
+  var STX = {1:'We are assigning an ambulance driver.', 2: st ? 'Ambulance is on its way to the patient.' : 'Driver confirmed. Ambulance will leave soon.', 3:'Ambulance has reached the patient.', 4:'Patient is on board. Going to the hospital.', 6:'Patient reached the hospital.'};
+  $('#stx').textContent = STX[cur];
+  var stale = st && t && t.stale && cur !== 3 && cur !== 6;
+  $('#meta').textContent = (cur === 6 ? 'Trip completed' : stale ? 'Waiting for the ambulance location. The map shows the last known place.' : hasXY && (cur === 2 || cur === 4) ? 'Live position, updated ' + ago(t.at) : 'Estimates use about ' + VAN_KMH + ' km/h') + ' | Booking ' + d.id;
+  $('#e1').textContent = cur <= 2 ? (cur === 2 && st ? hm(etaPu) : '-') : cur === 3 ? 'Arrived' : 'Done';
+  $('#e2').textContent = cur === 6 ? 'Arrived' : cur === 4 ? hm(etaDr) : '-';
+  $('#k1').textContent = cur === 2 && toPu != null ? Math.round(toPu) + ' km' : cur >= 3 ? 'Done' : '-';
+  $('#k2').textContent = total != null ? '~' + Math.round(total) + ' km' : '-';
+  $('#k3').textContent = cur === 6 ? '0 km' : cur === 4 && toDr != null ? Math.round(toDr) + ' km' : '-';
+  var rc = (pu && dr) ? routeCard(d.pickup, d.drop, '<b>~' + Math.round(total) + ' km</b> patient to hospital', cur >= 6 ? 100 : cur === 4 && toDr != null ? pctOf(total, toDr) : 0, cur >= 6 ? 'Reached' : cur === 4 && toDr != null ? '<b>' + Math.round(toDr) + ' km</b> left' : 'Not started') : '';
+  $('#tl').innerHTML = rc + stepList([
+    {t:'Booked', dd:'Your ambulance request is confirmed.', tm: d.createdAt ? Date.parse(d.createdAt) : 0},
+    {t:'Driver confirmed', dd: d.partnerName ? esc(d.partnerName) + ' has accepted your booking.' : 'We are finding the nearest driver.'},
+    {t:'On the way to patient', dd: st ? 'Ambulance has left for ' + esc(d.pickup || 'the pickup point') : 'Driver will start soon.', tm: tr.startAt,
+      live: cur === 2 && st && toPu != null ? liveBlock(Math.round(toPu) + ' km to patient', 'About ' + hm(etaPu), pctOf(Math.max(toPu, hav(t, pu) * ROAD), toPu)) : ''},
+    {t:'Reached patient', dd:'Patient is being placed in the ambulance.', tm: tr.arrivedAt},
+    {t:'On the way to hospital', dd:'Patient is on board with the crew.', tm: tr.pickedAt,
+      live: cur === 4 && toDr != null && total != null ? liveBlock(Math.round(Math.max(0, total - toDr)) + ' km covered', Math.round(toDr) + ' km left | About ' + hm(etaDr), pctOf(total, toDr)) : ''},
+    {t:'Reached hospital', dd: esc(d.drop || 'Destination'), tm: tr.reachedAt}
+  ], cur);
+  if (pu && dr && mapInit()) {
+    if (!M.init) { M.init = 1; addLegend();
+      L.circleMarker([pu.lat, pu.lng], pin('#1b7f3b')).addTo(map).bindTooltip(esc('Patient: ' + d.pickup));
+      L.circleMarker([dr.lat, dr.lng], pin('#b3261e')).addTo(map).bindTooltip(esc('Hospital: ' + d.drop));
+      L.polyline([[pu.lat,pu.lng],[dr.lat,dr.lng]], {color:'#087cf2', weight:2, dashArray:'6 8', opacity:.6}).addTo(map);
+      M.veh = L.marker([pu.lat, pu.lng], {icon: vIcon('van', {}), zIndexOffset: 1000}); }
+    if (hasXY) { var vll = [t.lat, t.lng]; if (M.last && vll[1] !== M.last[1]) M.flip = vll[1] < M.last[1]; M.last = vll;
+      M.veh.setLatLng(vll); var vk = 'van' + (M.flip ? 1 : 0); if (M.ik !== vk) { M.ik = vk; M.veh.setIcon(vIcon('van', {flip: M.flip})); }
+      if (!map.hasLayer(M.veh)) M.veh.addTo(map); tgtLine({lat: t.lat, lng: t.lng}, cur <= 2 ? pu : cur === 4 ? dr : null); }
+    fitOnce([[pu.lat, pu.lng], [dr.lat, dr.lng]].concat(hasXY ? [[t.lat, t.lng]] : []));
+  } else if (!(pu && dr)) { $('#map').hidden = true; }
+  return cur === 6;
+}
+function loadVan() {
+  return post('/api/live?id=' + encodeURIComponent(ID) + '&phone=' + encodeURIComponent(PH)).then(function (d) {
+    if (!d.tracking) { show(false, false, false); $('#stx').textContent = 'Live tracking is not available for this booking.'; return false; }
+    return drawVan(d);
+  });
+}
+
+/* ---------- 3) Domestic commercial airline transfer: our team updates every step ---------- */
+var AIR_STAGE = {received:0, docs_ok:1, airline_pending:2, approved:3, ticketed:4, pickup:5, flown:6, landed:7, handed:9};
+var AIR_TEXT = ['Request received. Our team is checking it.', 'Documents are verified. We are applying to the airline.', 'Waiting for the airline medical approval.', 'Airline has approved. Please pay the balance to get the ticket.', 'Ticket confirmed. Our team will pick up the patient.', 'Patient picked up. On the way to the airport.', 'Flight has departed with the patient.', 'Flight has landed. Ground ambulance is taking the patient to the hospital.', '', 'Patient handed over at the hospital.'];
+function drawAirline(d) {
+  show(false, true, true); $('#ac').textContent = 'Commercial Airline Transfer' + (d.flightNo ? ' | ' + d.airline + ' ' + d.flightNo : ''); $('#dm').hidden = true;
+  $('#pay').hidden = !d.canPay; if (d.canPay) maybeFinal(d); else closeFinal();
+  if (d.cancelled || d.stage === 'refused') {
+    $('#tl').hidden = true; $('#stx').textContent = d.stage === 'refused' ? 'The airline could not approve this transfer.' : 'This booking was cancelled.';
+    $('#meta').textContent = (d.refund ? 'Refund due ' + inr(d.refund) + '. ' : '') + 'Booking ' + d.id; return true;
+  }
+  var cur = AIR_STAGE[d.stage]; if (cur == null) cur = 0;
+  var T = d.times || {}, from = d.airportPickup || d.pickup, to = d.airportDrop || d.drop, km = d.pickupLL && d.dropLL ? Math.round(hav(d.pickupLL, d.dropLL)) : 0;
+  $('#stx').textContent = AIR_TEXT[cur] || AIR_TEXT[9]; $('#meta').textContent = (d.date ? 'Travel date ' + d.date + (d.slot ? ', ' + d.slot : '') + ' | ' : '') + 'Booking ' + d.id;
+  var fl = d.flightNo ? esc(d.airline) + ' ' + esc(d.flightNo) + (d.depTime ? ' | Departs ' + esc(d.depTime) : '') : 'Flight details will be shared after the ticket is confirmed.', tm = function (k) { return T[k] ? Date.parse(T[k]) : 0; };
+  $('#tl').innerHTML = routeCard(from, to, km ? '<b>about ' + km + ' km</b> by air' : 'Flight transfer', null, '') + stepList([
+    {t:'Request received', dd:'Your transfer request and booking amount are received.', tm: tm('received')},
+    {t:'Documents verified', dd:'Medical reports and ID are checked by our team.', tm: tm('docs_ok')},
+    {t:'Airline approval', dd:'We are getting the airline medical approval for the patient.', tm: tm('airline_pending')},
+    {t:'Approved', dd: d.paid ? 'Airline approved. Balance is paid.' : d.final ? 'Airline approved. Pay the balance ' + inr(d.balance) + ' to get the ticket.' : 'After the airline approves, the final price will be shown here.', tm: tm('approved')},
+    {t:'Ticket confirmed', dd: fl, tm: tm('ticketed')},
+    {t:'Patient picked up', dd: d.escort ? 'Medical escort: ' + esc(d.escort) : 'Ground ambulance takes the patient to the airport.', tm: tm('pickup')},
+    {t:'Flight departed', dd: fl + (from ? ' from ' + esc(from) : ''), tm: tm('flown')},
+    {t:'Landed', dd: 'At ' + esc(to || 'destination airport') + (d.dropAmb ? '. Ground ambulance: ' + esc(d.dropAmb) : ''), tm: tm('landed')},
+    {t:'Handed over at hospital', dd: d.handoverBy ? 'Received by ' + esc(d.handoverBy) : esc(d.drop || 'Hospital'), tm: tm('handed')}
+  ], cur);
+  $('#money').innerHTML = d.final ? '<span><small>Final price</small>' + inr(d.total) + '</span><span><small>Booking amount paid</small>' + inr(d.fee) + '</span><span><small>' + (d.paid ? 'Balance paid' : 'Balance due') + '</small>' + inr(d.balance) + '</span>' : '<span><small>Booking amount paid</small>' + inr(d.fee) + '</span><span><small>Final price</small>After airline approval</span>';
+  return cur === 9;
+}
+/* ---------- final price pop-up: opens by itself as soon as the admin approves ---------- */
+var FIN = null, fmSeen = {};
+function maybeFinal(d) { FIN = d; var k = d.id + '|' + (d.final && d.final.total); if (fmSeen[k]) return; fmSeen[k] = 1; openFinal(d); }
+function closeFinal() { $('#fm').classList.remove('on'); }
+function lis(a) { return (a || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join(''); }
+function openFinal(d) {
+  var f = d.final; if (!f) return;
+  var rows = f.items.map(function (i) { return '<tr><td>' + esc(i.label) + '</td><td>' + inr(i.amount) + '</td></tr>'; }).join('');
+  rows += '<tr class="sub"><td>Service total <small>(GST exempt)</small></td><td>' + inr(f.serviceTotal) + '</td></tr>';
+  if (f.fee) rows += '<tr><td>Platform and booking fee (' + f.feePct + '%)</td><td>' + inr(f.fee) + '</td></tr>';
+  if (f.gst) rows += '<tr><td>GST (' + f.gstPct + '% on platform fee)</td><td>' + inr(f.gst) + '</td></tr>';
+  rows += '<tr class="sub"><td>Total amount</td><td>' + inr(f.total) + '</td></tr><tr class="paid"><td>Booking amount already paid</td><td>- ' + inr(d.fee) + '</td></tr><tr class="bal"><td>Balance to pay</td><td>' + inr(d.balance) + '</td></tr>';
+  var from = d.airportPickup || d.pickup, to = d.airportDrop || d.drop;
+  $('#fb').innerHTML = '<div class="ok">\u2713 Airline approved</div><h2>Your final price is ready</h2><div class="rt">' + esc(from) + ' to ' + esc(to) + ' | Booking ' + esc(d.id) + '</div>' +
+    '<table>' + rows + '</table>' +
+    (f.included && f.included.length ? '<h4>Included</h4><ul class="inc">' + lis(f.included) + '</ul>' : '') +
+    (f.notIncluded && f.notIncluded.length ? '<h4>Not included</h4><ul class="exc">' + lis(f.notIncluded) + '</ul>' : '') +
+    (f.note ? '<div class="nt">' + esc(f.note) + '</div>' : '') +
+    '<div class="nt" style="background:#eef7ff;border-color:#d9ebf8">Pay the balance to get your ticket confirmed. Airline fares can change, so please pay soon.</div>' +
+    '<div class="acts"><a class="btn btn-primary" href="pay-balance.html?id=' + encodeURIComponent(d.id) + '">Pay balance ' + inr(d.balance) + '</a><button class="btn btn-o" id="fmX" type="button">Close</button></div>';
+  $('#fmX').onclick = closeFinal; $('#fm').classList.add('on');
+}
+$('#payBtn').addEventListener('click', function () { if (FIN) openFinal(FIN); });
+$('#fm').addEventListener('click', function (e) { if (e.target === this) closeFinal(); });
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFinal(); });
+function loadAirline() { return post('/api/ambulance/air-status', {id:ID, phone:PH}).then(drawAirline); }
+
+/* ---------- booking IDs remembered on this phone ---------- */
+var KEEP = 'gthAmbIds';
+function savedIds() { try { return JSON.parse(localStorage.getItem(KEEP) || '[]').filter(function (x) { return x && x.id; }); } catch (e) { return []; } }
+function saveId(id) {
+  try { var l = savedIds().filter(function (x) { return x.id !== id; }); l.unshift({id:id, t:Date.now()}); localStorage.setItem(KEEP, JSON.stringify(l.slice(0, 5))); } catch (e) {}
+}
+function renderChips() {
+  var l = savedIds(), cur = $('#bid').value.trim().toUpperCase();
+  $('#mine').hidden = !l.length;
+  $('#chips').innerHTML = l.map(function (x) { return '<button type="button" class="chip' + (x.id === cur ? ' on' : '') + '" data-id="' + esc(x.id) + '">' + esc(x.id) + '</button>'; }).join('');
+}
+$('#chips').addEventListener('click', function (e) {
+  var b = e.target.closest && e.target.closest('.chip'); if (!b) return;
+  $('#bid').value = b.getAttribute('data-id'); renderChips(); $('#ph').focus(); tryAuto();
+});
+var lastAuto = '';
+function tryAuto() {   // booking ID filled and the 10th digit typed: start without pressing Track
+  var id = $('#bid').value.trim().toUpperCase(), ph = $('#ph').value.replace(/\D/g, '').slice(-10);
+  if (id.length >= 6 && ph.length === 10 && id + ph !== lastAuto) { lastAuto = id + ph; start(); }
+}
+$('#ph').addEventListener('input', tryAuto);
+$('#bid').addEventListener('input', function () { this.value = this.value.toUpperCase(); renderChips(); lastAuto = ''; });
+
+/* ---------- start / refresh ---------- */
+function refresh() {
+  var f = KIND === 'van' ? loadVan : KIND === 'airline' ? loadAirline : loadAir;
+  return f().then(function (finished) {
+    if (!ID) return;   // user logged out / switched while this request was running
+    fails = 0; $('#net').hidden = true;
+    $('#login').hidden = true; $('#app').hidden = false; $('#err').textContent = '';
+    if (finished) { clearInterval(timer); timer = null; }
+  }).catch(function (e) {
+    if (!ID) return;
+    if (firstDone) { if (++fails >= 2) $('#net').hidden = false; return; }   // a short network problem while tracking: keep the last picture, warn after 2 misses
+    $('#login').hidden = false; $('#app').hidden = true; $('#err').textContent = e.message; clearInterval(timer); timer = null;
+  });
+}
+function tick() {   // one refresh at a time; nothing is requested while the tab is hidden
+  if (busy || document.hidden || !ID) return;
+  busy = true; refresh().then(function () { busy = false; }, function () { busy = false; });
+}
+document.addEventListener('visibilitychange', function () { if (!document.hidden && timer) tick(); });   // back on the tab: update at once
+function start() {
+  ID = $('#bid').value.trim().toUpperCase(); PH = $('#ph').value.replace(/\D/g, '').slice(-10);
+  if (!ID || PH.length !== 10) { $('#err').textContent = 'Enter your booking ID and 10-digit mobile number.'; return; }
+  sessionStorage.setItem('airId', ID); sessionStorage.setItem('airPh', PH); supportNote(); fails = 0; $('#net').hidden = true;
+  $('#go').disabled = true; $('#go').textContent = 'Checking...'; $('#err').textContent = '';
+  clearInterval(timer); timer = null; firstDone = false; map && map.remove(); map = null; M = {}; fitted = false; $('#map').hidden = false;
+  post('/api/ambulance/kind', {id:ID, phone:PH}).then(function (k) {
+    KIND = k.kind; saveId(ID); renderChips(); return refresh();
+  }).then(function () { firstDone = true; if (!$('#app').hidden && !timer && KIND) timer = setInterval(tick, LIVE_MS); })
+  .catch(function (e) { $('#err').textContent = e.message; })
+  .then(function () { $('#go').disabled = false; $('#go').textContent = 'Track'; });
+}
+/* ---------- switch booking / logout ---------- */
+function resetView(clearAll) {
+  ID = ''; PH = ''; clearInterval(timer); timer = null; firstDone = false; lastAuto = ''; busy = false; fails = 0; $('#net').hidden = true;
+  if (map) { map.remove(); map = null; } M = {}; fitted = false;
+  try { closeFinal(); } catch (e) {}
+  sessionStorage.removeItem('airId'); sessionStorage.removeItem('airPh');
+  if (clearAll) { try { localStorage.removeItem(KEEP); } catch (e) {} $('#ph').value = ''; }
+  $('#bid').value = ''; $('#err').textContent = '';
+  $('#money').innerHTML = ''; $('#tl').innerHTML = ''; $('#stx').textContent = ''; $('#meta').textContent = '';
+  $('#app').hidden = true; $('#login').hidden = false;
+  if (history.replaceState) history.replaceState(null, '', location.pathname);
+  renderChips();
+}
+$('#sw').addEventListener('click', function () { resetView(false); });   // keeps the mobile number: tap a Booking ID chip and it opens
+$('#lo').addEventListener('click', function () { resetView(true); });    // forgets the mobile number and the saved booking IDs on this phone
+$('#go').addEventListener('click', start);
+$('#ph').addEventListener('keydown', function (e) { if (e.key === 'Enter') start(); });
+$('#bid').value = (new URLSearchParams(location.search).get('id') || sessionStorage.getItem('airId') || '').toUpperCase();
+$('#ph').value = sessionStorage.getItem('airPh') || '';
+renderChips();
+if ($('#bid').value && $('#ph').value) start();
+</script>
+<script src="protect.js"></script>
+</body>
+</html>

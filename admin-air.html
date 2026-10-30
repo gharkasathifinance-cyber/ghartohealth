@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Air ambulance tracking - Admin</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eef5fb;color:#0a2a4d;font:15px/1.5 "Segoe UI",system-ui,Arial,sans-serif}
+  main{max-width:980px;margin:0 auto;padding:20px 14px 60px}
+  h1{font-size:24px;margin:6px 0 4px;color:#0a4fa8}
+  p.sub{margin:0 0 16px;color:#5b7690}
+  .card{background:#fff;border:1px solid #d9ebf8;border-radius:14px;padding:16px;margin-top:14px}
+  .card h2{font-size:17px;margin:0 0 10px;color:#0a396b}
+  label{display:block;font-size:12.5px;font-weight:600;color:#375775;margin-bottom:3px}
+  input,select{width:100%;padding:9px 10px;border:1.5px solid #cfe0ee;border-radius:10px;font:inherit;color:#12365d;background:#fff}
+  .g{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  button{font:600 14px "Segoe UI",Arial,sans-serif;border-radius:24px;padding:9px 18px;cursor:pointer;border:1.5px solid #087cf2;background:#fff;color:#087cf2}
+  button.primary{background:#087cf2;color:#fff}
+  button.warn{border-color:#b3261e;color:#b3261e}
+  button:disabled{opacity:.5;cursor:default}
+  .bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:7px 6px;text-align:left;border-bottom:1px solid #e6f0f8;vertical-align:top}
+  th{color:#375775;font-size:12.5px}.r{text-align:right;white-space:nowrap}
+  .tot td{font-weight:700;border-top:2px solid #cfe0ee}
+  #msg{margin-top:12px;font-weight:600;min-height:22px}.ok{color:#1b7f3b}.err{color:#b3261e}
+  .note{color:#5b7690;font-size:13px;margin:6px 0 0}
+  .big{font-size:18px;font-weight:700;color:#0a396b}
+  code{background:#eef7ff;padding:2px 6px;border-radius:6px;word-break:break-all}
+  .hd{background:#fff;border-bottom:1px solid #d9ebf8}
+  .hdin{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .bn{font-weight:800;font-size:18px;color:#0a4fa8}
+  .hd nav{display:flex;gap:18px;flex-wrap:wrap}.hd nav a{color:#0a396b;font-weight:600;text-decoration:none;font-size:14.5px}
+  .keybar{display:flex;gap:8px;align-items:flex-end;max-width:520px}.keybar div{flex:1}
+  .scroll{overflow-x:auto}
+  .emb body{background:#fff}.emb .hd,.emb h1,.emb p.sub,.emb #missionsCard{display:none}.emb main{padding:4px 2px 14px;max-width:none}.emb .card{margin-top:10px}
+  @media(max-width:640px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="hd"><div class="hdin"><span class="bn">Air Ambulance Tracking</span><nav><a href="/admin-charges.html">Air Operators &amp; Charges</a><a href="/admin-medical.html">Medical Admin</a><a href="#" id="lo">Logout</a></nav></div></header>
+<main>
+  <h1>Air ambulance tracking and billing</h1>
+  <p class="sub">Set the rate card once. Start a mission for a booking, press Take-off and Landed, and the bill is built from the flight log.</p>
+
+  <div class="card keybar"><div><label for="key">Admin key</label><input id="key" type="password" autocomplete="off" placeholder="Same ADMIN_KEY as in server.js"></div><button class="primary" id="load">Load</button></div>
+
+  <div id="app" hidden>
+    <div class="card" id="rateCard"><h2>Rate card</h2><div id="rates"></div>
+      <div class="bar"><button class="primary" id="saveRates">Save rate card</button></div>
+      <p class="note">Hourly rate 0 means not set yet, so bills show only the extra charges. Medical team, ground ambulance and similar charges still come from the Air Ambulance Charges page.</p>
+      <p class="note"><b>Operators:</b> once you list operators of a type on the <a href="/admin-charges.html#operators">Air Operators &amp; Charges</a> page, each operator's own rates and base airport are used and this rate card is used only for a type that has no operator listed.</p></div>
+
+    <div class="card" id="missionsCard"><h2>Helicopter and charter bookings</h2><div class="bar"><button id="autoAll">Auto-assign all pending</button></div><div class="scroll"><table><thead><tr><th>Booking</th><th>Patient</th><th>Type</th><th>Date</th><th>Operator</th><th>Tracking</th><th></th></tr></thead><tbody id="ms"></tbody></table></div></div>
+
+    <div id="mission"></div>
+    <div id="msg" role="status"></div>
+  </div>
+</main>
+<script>
+var key = sessionStorage.getItem('adminKey') || '', RT = null, POLL = null, CURID = '', MS = [], OPS = [];
+var Q = new URLSearchParams(location.search), EMBED = Q.get('embed') === '1', OPEN = (Q.get('open') || '').toUpperCase();
+if (EMBED) document.documentElement.classList.add('emb');
+var $ = function (s) { return document.querySelector(s); };
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function inr(n){return (n<0?'-':'') + '\u20B9' + Math.abs(Math.round(n)).toLocaleString('en-IN');}
+function say(t, ok){var m=$('#msg');m.textContent=t;m.className=ok?'ok':'err';var q=$('#mt_msg');if(q){q.textContent=t;q.style.color=ok?'#1b7f3b':'#b3261e';}}
+function api(u, m, b){
+  return fetch(u,{method:m||'GET',headers:{'Content-Type':'application/json','x-admin-key':key},body:b?JSON.stringify(b):undefined})
+   .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Something went wrong.');return j;});});
+}
+var LAB = {hourlyRate:'Hourly rate (Rs per flight hour)', avgSpeedKmh:'Average speed (km/h)', routeFactor:'Route factor (1.1 = route 10% longer than straight line)',
+  positioningPct:'Empty leg to pickup, % of hourly rate', returnPct:'Empty return leg, % of hourly rate', landingFee:'Landing fee (Rs per landing)',
+  waitingPerHour:'Waiting charge (Rs per hour)', freeWaitMin:'Free waiting at each stop (minutes)', groundMin:'Ground time at pickup for ETA (minutes)',
+  minHours:'Minimum billable hours', useExtras:'Add Ambulance-charges extras (1 = yes, 0 = no)'};
+
+var MAIN = ['hourlyRate', 'minHours', 'positioningPct', 'returnPct'];
+var HINT = {hourlyRate:'Operator ek ghante ki udaan ka kitna leta hai (yehi sabse zaroori hai)', minHours:'Operator kam se kam kitne ghante ka charge leta hai',
+  positioningPct:'Khaali aircraft pickup tak aaye uska charge. 100 = poora rate', returnPct:'Patient chhodne ke baad khaali wapsi ka charge. 100 = poora rate'};
+function field(t, k, d) {
+  return '<div><label>' + esc(LAB[k] || k) + '</label>' + (HINT[k] ? '<div class="note" style="margin:0 0 4px">' + esc(HINT[k]) + '</div>' : '') +
+    '<input type="number" step="any" data-t="' + t + '" data-k="' + k + '" value="' + esc(d.rates[t][k]) + '"></div>';
+}
+function drawRates(d) {
+  RT = d;
+  $('#rates').innerHTML = '<div class="two">' + Object.keys(d.types).map(function (t) {
+    var rest = Object.keys(d.limits).filter(function (k) { return MAIN.indexOf(k) < 0; });
+    return '<div><h2 style="font-size:15px">' + esc(d.types[t]) + '</h2><div class="g" style="grid-template-columns:1fr">' + MAIN.map(function (k) { return field(t, k, d); }).join('') + '</div>' +
+      '<details style="margin-top:12px"><summary><b>Advanced (jaise hain waise rehne do)</b></summary><p class="note">Speed sirf estimate aur ETA ke liye hai. Final bill hamesha asli take-off aur landing ke time se banta hai.</p><div class="g" style="grid-template-columns:1fr;margin-top:8px">' +
+      rest.map(function (k) { return field(t, k, d); }).join('') + '</div></details></div>';
+  }).join('') + '</div>';
+}
+function opReady(o) { return o.active && o.base && o.rates && o.rates.hourlyRate > 0; }
+function opCell(m) {   // only operators added on the Air Ambulance Charges page, of the same aircraft type as the booking
+  var info = m.operator ? '<br><small>' + esc(m.operator.phone || '') + (m.operator.base ? ' | Base: ' + esc(m.operator.base.name) : '') + (m.operator.reg ? ' | ' + esc(m.operator.reg) : '') + '</small>' : '';
+  if (m.started || m.final) return m.operator ? esc(m.operator.name) + info : '-';
+  var opts = OPS.filter(function (o) { return o.aircraft === m.aircraft; }).map(function (o) {
+    var busy = o.busyWith && o.busyWith.indexOf(m.id) !== 0, off = busy || !opReady(o);
+    return '<option value="' + esc(o.id) + '"' + (o.id === m.operatorId ? ' selected' : '') + (off && o.id !== m.operatorId ? ' disabled' : '') + '>' + esc(o.name) + (o.reg ? ' (' + esc(o.reg) + ')' : '') + (busy ? ' - busy' : !opReady(o) ? ' - not ready' : '') + '</option>';
+  }).join('');
+  return '<select data-assign="' + esc(m.id) + '">' + (m.operatorId ? '' : '<option value="">Not assigned - choose</option>') + '<option value="auto">Auto (first free operator)</option>' + opts + '</select>' + info;
+}
+function drawMissions(items) {
+  MS = items;
+  $('#ms').innerHTML = items.length ? items.map(function (m) {
+    return '<tr><td>' + esc(m.id) + '</td><td>' + esc(m.name) + '<br><small>' + esc(m.phone) + '</small></td><td>' + (m.aircraft === 'heli' ? 'Helicopter' : 'Charter') + '</td><td>' + esc(m.date) + '</td>' +
+      '<td>' + opCell(m) + '</td>' +
+      '<td>' + (m.final ? 'Finished' : m.started ? 'Live | ' + esc(m.tail) : 'Not started') + '</td><td class="r"><button data-open="' + esc(m.id) + '">' + (m.started ? 'Open' : 'Start') + '</button></td></tr>';
+  }).join('') : '<tr><td colspan="7">No helicopter or charter bookings yet.</td></tr>';
+}
+function loadAll() {
+  key = $('#key').value.trim() || key; if (!key) { say('Enter the admin key.'); return; }
+  Promise.all([api('/api/air/admin-rates'), api('/api/air/admin-missions'), api('/api/air/admin-operators')]).then(function (r) {
+    OPS = r[2].operators || [];
+    sessionStorage.setItem('adminKey', key); $('#app').hidden = false; document.querySelector('.keybar').style.display = 'none';
+    drawRates(r[0]); drawMissions(r[1].items); say('Loaded.', true);
+    if (EMBED && !window.__embDone) { window.__embDone = true; var rc = $('#rateCard'), dt = document.createElement('details'); dt.innerHTML = '<summary style="cursor:pointer;font-weight:700;margin:14px 0 4px">Rate card (price per flight hour)</summary>'; dt.appendChild(rc); $('#mission').after(dt); if (OPEN) openMission(OPEN); }
+  }).catch(function (e) { document.querySelector('.keybar').style.display = 'flex'; say(e.message); });
+}
+
+/* ===== Airport name -> search all airports worldwide, pick one, base latitude/longitude auto ===== */
+var AIRPORTS = [
+  ['Swami Vivekananda Airport, Raipur, India', 21.1804, 81.7388], ['Bilaspur Airport, Chhattisgarh, India', 21.9884, 82.1111],
+  ['Dr. Babasaheb Ambedkar Airport, Nagpur, India', 21.0922, 79.0472], ['Raja Bhoj Airport, Bhopal, India', 23.2875, 77.3374],
+  ['Indira Gandhi International Airport, Delhi, India', 28.5562, 77.1000], ['Chhatrapati Shivaji Maharaj Airport, Mumbai, India', 19.0896, 72.8679]
+];
+var airT = null, airSeq = 0;
+function airBox() { return $('#s_blist'); }
+function airStat(t) { var s = $('#s_bstat'); if (s) s.textContent = t; }
+function airPick(name, lat, lng) {
+  $('#s_bn').value = name; $('#s_bla').value = (+lat).toFixed(6); $('#s_blo').value = (+lng).toFixed(6);
+  airBox().style.display = 'none'; airStat('Coordinates filled automatically.');
+}
+function airShow(items) {
+  var box = airBox(); if (!box) return;
+  if (!items.length) { box.style.display = 'none'; return; }
+  box.innerHTML = items.map(function (x, k) { return '<div data-k="' + k + '" style="padding:8px 10px;cursor:pointer;border-bottom:1px solid #eef3f8;font-size:13.5px">' + esc(x.label) + '</div>'; }).join('');
+  box._items = items; box.style.display = 'block';
+}
+function airSearch(q) {
+  var my = ++airSeq, ql = q.toLowerCase();
+  var local = AIRPORTS.filter(function (a) { return a[0].toLowerCase().indexOf(ql) > -1; }).map(function (a) { return { label: a[0], name: a[0], lat: a[1], lng: a[2] }; });
+  airShow(local); airStat('Searching airports...');
+  fetch('https://photon.komoot.io/api/?limit=10&osm_tag=aeroway:aerodrome&q=' + encodeURIComponent(q))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (my !== airSeq) return;
+      var seen = {}, out = local.slice();
+      out.forEach(function (x) { seen[x.label.toLowerCase()] = 1; });
+      (d.features || []).forEach(function (f) {
+        var p = f.properties || {}, c = f.geometry && f.geometry.coordinates; if (!p.name || !c) return;
+        var label = [p.name, p.city || p.county, p.state, p.country].filter(function (v, i, a) { return v && a.indexOf(v) === i; }).join(', ');
+        if (seen[label.toLowerCase()]) return; seen[label.toLowerCase()] = 1;
+        out.push({ label: label, name: p.name, lat: c[1], lng: c[0] });
+      });
+      airShow(out);
+      airStat(out.length ? 'Select your airport from the list.' : 'No airport found. Try the city name or enter coordinates manually.');
+    })
+    .catch(function () { if (my === airSeq) airStat(local.length ? 'Offline: showing saved airports only.' : 'Could not search (network). Enter coordinates manually.'); });
+}
+document.addEventListener('input', function (e) {
+  if (!e.target || e.target.id !== 's_bn') return;
+  clearTimeout(airT); var q = e.target.value.trim();
+  $('#s_bla').value = ''; $('#s_blo').value = '';
+  if (q.length < 2) { airBox().style.display = 'none'; airStat(''); return; }
+  airT = setTimeout(function () { airSearch(q); }, 300);
+});
+document.addEventListener('mousedown', function (e) {
+  var box = airBox(); if (!box) return;
+  var it = e.target.closest && e.target.closest('#s_blist > div');
+  if (it && box._items) { e.preventDefault(); var x = box._items[+it.getAttribute('data-k')]; airPick(x.label, x.lat, x.lng); }
+  else if (e.target.id !== 's_bn') box.style.display = 'none';
+});
+
+function startForm(m) {
+  var p = m.pickupLL || {}, d = m.dropLL || {}, ob = (m.operator && m.operator.base) || {};
+  $('#mission').innerHTML = '<div class="card"><h2>Start tracking: ' + esc(m.id) + '</h2>' +
+    '<p class="note">Pickup: ' + esc(m.pickup) + ' | Drop: ' + esc(m.drop) + '. ' + (m.pickupLL && m.dropLL ? 'Coordinates were found from the booking map links.' : 'Enter the missing coordinates (right-click a place in Google Maps and copy the numbers).') + '</p>' +
+    (m.operator ? '<p class="note"><b>Assigned operator:</b> ' + esc(m.operator.name) + (m.operator.phone ? ' (' + esc(m.operator.phone) + ')' : '') + '. Base airport is filled from this operator.</p>' : '<p class="note" style="color:#b00020"><b>No operator is assigned to this booking.</b> Enter the base airport by hand.</p>') +
+    '<div class="g"><div><label>Aircraft registration (e.g. VT-ABC): the aircraft is tracked automatically from this number</label><input id="s_tail" maxlength="12" value="' + esc((m.operator && m.operator.reg) || '') + '"></div>' +
+    '<div style="position:relative"><label>Airport Name</label><input id="s_bn" autocomplete="off" placeholder="Type city or airport, e.g. Raipur" value="' + esc(ob.name || '') + '"><div id="s_blist" style="display:none;position:absolute;left:0;right:0;top:100%;z-index:50;background:#fff;border:1.5px solid #cfe0ee;border-radius:10px;max-height:240px;overflow:auto;box-shadow:0 6px 18px rgba(0,0,0,.15)"></div><small id="s_bstat" style="display:block;color:#5b7690;margin-top:3px"></small></div><div><label>Base latitude (auto)</label><input id="s_bla" type="number" step="any" value="' + esc(ob.lat || '') + '"></div><div><label>Base longitude (auto)</label><input id="s_blo" type="number" step="any" value="' + esc(ob.lng || '') + '"></div>' +
+    '<div><label>Pickup latitude</label><input id="s_pla" type="number" step="any" value="' + esc(p.lat || '') + '"></div><div><label>Pickup longitude</label><input id="s_plo" type="number" step="any" value="' + esc(p.lng || '') + '"></div>' +
+    '<div><label>Drop latitude</label><input id="s_dla" type="number" step="any" value="' + esc(d.lat || '') + '"></div><div><label>Drop longitude</label><input id="s_dlo" type="number" step="any" value="' + esc(d.lng || '') + '"></div>' +
+    '<div><label>Return leg to base is billed</label><select id="s_ret"><option value="1">Yes</option><option value="0">No</option></select></div>' +
+    '<div><label>Mode</label><select id="s_demo"><option value="0">Real flight</option><option value="60">Demo (60x faster)</option><option value="300">Demo (300x faster)</option><option value="900">Demo (900x faster)</option></select></div></div>' +
+    '<div class="bar"><button class="primary" id="doStart" data-id="' + esc(m.id) + '" data-pn="' + esc(m.pickup) + '" data-dn="' + esc(m.drop) + '">Start tracking</button></div>' +
+    '<p class="note">Demo mode moves the aircraft by itself so you can test the whole flow. Use Real flight for a live mission.</p></div>';
+}
+function doStart(btn) {
+  var v = function (i) { return $('#' + i).value; };
+  api('/api/air/admin-start', 'POST', { id: btn.dataset.id, tail: v('s_tail'), base: { name: v('s_bn'), lat: v('s_bla'), lng: v('s_blo') },
+    pickup: { name: btn.dataset.pn, lat: v('s_pla'), lng: v('s_plo') }, drop: { name: btn.dataset.dn, lat: v('s_dla'), lng: v('s_dlo') },
+    includeReturn: v('s_ret') === '1', demoSpeed: Number(v('s_demo')) })
+   .then(function () { say('Tracking started.', true); MS.forEach(function (m) { if (m.id === btn.dataset.id) m.started = true; }); $('#mission').innerHTML = ''; refreshList(); openMission(btn.dataset.id); }).catch(function (e) { say(e.message); });
+}
+function refreshList() { Promise.all([api('/api/air/admin-operators'), api('/api/air/admin-missions')]).then(function (r) { OPS = r[0].operators || []; drawMissions(r[1].items); }).catch(function () {}); }
+
+function openMission(id) {
+  CURID = id; clearInterval(POLL);
+  var m = MS.filter(function (x) { return x.id === id; })[0];
+  if (m && !m.started) { startForm(m); return; }
+  pull(); POLL = setInterval(pull, 5000);
+}
+function pull() {
+  api('/api/air/admin-detail?id=' + encodeURIComponent(CURID)).then(drawMission).catch(function (e) { say(e.message); });
+}
+function min(m) { return m == null ? '-' : m <= 0 ? 'Arrived' : m + ' min'; }
+function clock(t) { return t ? new Date(t).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : '-'; }
+function drawMission(d) {
+  if (Array.prototype.some.call(document.querySelectorAll('#mission input'), function (i) { return i.value; })) return; // do not wipe what is being typed
+  var link = location.origin + '/air-track.html?id=' + d.id, b = d.bill, e = d.estimate, busy = d.final ? ' disabled' : '';
+  var flying = d.legs.some(function (l) { return l.state === 'flying'; });
+  $('#mission').innerHTML = '<div class="card"><h2>Mission ' + esc(d.id) + ' | ' + esc(d.tail) + ' | ' + esc(d.name) + ' (' + esc(d.phone) + ')' + (d.demo ? ' | DEMO' : '') + '</h2>' +
+    '<div class="big">' + esc(d.state.text) + '</div>' +
+    (d.operator ? '<p class="note"><b>Operator:</b> ' + esc(d.operator.name) + (d.operator.phone ? ' (' + esc(d.operator.phone) + ')' : '') + (d.operator.base ? ' | Base: ' + esc(d.operator.base.name) : '') + '</p>' : '') +
+    '<p class="note">To pickup: ' + min(d.eta.toPickupMin) + ' | To destination: ' + min(d.eta.toDestMin) + ' | Position: ' + d.position.lat.toFixed(4) + ', ' + d.position.lng.toFixed(4) + ' (' + esc(d.position.source) + ')</p>' +
+    (d.auto ? '<p class="note"><b>Automatic tracking is ON</b> for ' + esc(d.tail) + '. ' + (d.seen && Date.now() - d.seen < 180000 ? 'Aircraft signal received ' + Math.round((Date.now() - d.seen) / 1000) + ' sec ago.' : 'No aircraft signal yet (transponder off or out of range).') + '</p>' : '') +
+    '<div class="card" style="margin:8px 0"><label>Aircraft registration (used for automatic live tracking)</label><div class="bar" style="margin-top:4px"><input id="mt_tail" maxlength="12" value="' + esc(d.tail) + '"' + busy + '><button id="ev_tail"' + busy + '>Change registration</button></div><p class="note" id="mt_msg" style="font-weight:700;margin:6px 0 0"></p>' + (d.demo ? '<p class="note">This mission runs in DEMO mode, so the position is simulated. For real tracking, start a new mission with the demo speed left empty.</p>' : '') + '</div>' +
+    '<p class="note">Customer tracking link: <code>' + esc(link) + '</code> (customer also needs the booking mobile number)</p>' +
+    '<div class="bar"><button class="primary" id="ev_takeoff"' + (busy || flying ? ' disabled' : '') + '>Take-off</button><button id="ev_land"' + (busy || !flying ? ' disabled' : '') + '>Landed</button>' +
+    '<button class="warn" id="ev_finalize"' + (busy || flying ? ' disabled' : '') + '>Complete mission</button></div>' +
+    '<div class="scroll" style="margin-top:12px"><table><thead><tr><th>Leg</th><th>Status</th><th>Take-off</th><th>Landed</th></tr></thead><tbody>' +
+    d.legs.map(function (l) { return '<tr><td>' + esc(l.type) + '<br><small>' + esc(l.from.name) + ' to ' + esc(l.to.name) + '</small></td><td>' + l.state + '</td><td>' + (l.demo && l.takeoff ? 'demo' : clock(l.takeoff)) + '</td><td>' + (l.demo && l.landed ? 'demo' : clock(l.landed)) + '</td></tr>'; }).join('') +
+    '</tbody></table></div></div>' +
+    (d.final ? '' : '<div class="card"><h2>Position and extra legs</h2><div class="g"><div><label>Latitude</label><input id="mp_la" type="number" step="any"></div><div><label>Longitude</label><input id="mp_lo" type="number" step="any"></div><div><label>Speed (km/h)</label><input id="mp_sp" type="number" step="any"></div></div>' +
+    '<div class="bar"><button id="ev_position">Send position</button></div><p class="note">Use this only if the aircraft has no GPS feed. With a GPS feed the position updates by itself.</p>' +
+    '<details style="margin-top:10px"><summary><b>Add an extra stop (refuelling or diversion)</b></summary><div class="g" style="margin-top:8px"><div><label>From name</label><input id="al_fn"></div><div><label>From latitude</label><input id="al_fa" type="number" step="any"></div><div><label>From longitude</label><input id="al_fo" type="number" step="any"></div>' +
+    '<div><label>To name</label><input id="al_tn"></div><div><label>To latitude</label><input id="al_ta" type="number" step="any"></div><div><label>To longitude</label><input id="al_to" type="number" step="any"></div></div><div class="bar"><button id="ev_addleg">Add leg</button></div></details></div>' +
+    '<details class="card"><summary><b>Backup: GPS feed from a phone or tracker</b></summary><p class="note">In the free Traccar Client app on the pilot or coordinator phone set Server URL to <code>' + esc(location.origin + '/api/air/feed') + '</code> and Device identifier to <code>' + esc(d.feedKey) + '</code>. A GPS tracker that can call a web link can use <code>' + esc(location.origin + '/api/air/feed?key=' + d.feedKey + '&lat=LAT&lng=LNG&speedKmh=SPEED') + '</code>. Test it once before a real mission.</p></details>');
+}
+function event(ev, extra) {
+  var b = Object.assign({ id: CURID, event: ev }, extra || {});
+  return api('/api/air/admin-event', 'POST', b).then(function () { say('Done.', true); document.querySelectorAll('#mission input').forEach(function (i) { i.value = ''; }); pull(); refreshList(); }).catch(function (e) { say(e.message); });
+}
+$('#mission').addEventListener('click', function (e) {
+  var id = e.target.id; if (e.target.tagName !== 'BUTTON') return; var v = function (i) { return $('#' + i).value; };
+  if (id === 'doStart') doStart(e.target);
+  if (id === 'ev_tail') { var tl = v('mt_tail').trim(); if (tl.length < 3) { say('Enter the aircraft registration (for example VT-ABC).'); return; } event('tail', { tail: tl }); }
+  if (id === 'ev_takeoff') event('takeoff');
+  if (id === 'ev_land') event('land');
+  if (id === 'ev_finalize' && confirm('Complete this mission? The operator becomes free for the next booking. This cannot be undone.')) event('finalize');
+  if (id === 'ev_position') event('position', { lat: v('mp_la'), lng: v('mp_lo'), speedKmh: v('mp_sp') });
+  if (id === 'ev_addleg') event('add-leg', { from: { name: v('al_fn'), lat: v('al_fa'), lng: v('al_fo') }, to: { name: v('al_tn'), lat: v('al_ta'), lng: v('al_to') } });
+});
+$('#ms').addEventListener('click', function (e) { if (e.target.dataset.open) openMission(e.target.dataset.open); });
+$('#ms').addEventListener('change', function (e) {
+  var sel = e.target; if (!sel.dataset || !sel.dataset.assign || !sel.value) return;
+  api('/api/air/admin-assign', 'POST', { id: sel.dataset.assign, operatorId: sel.value }).then(function () { say('Operator saved.', true); refreshList(); }).catch(function (x) { say(x.message); refreshList(); });
+});
+$('#autoAll').addEventListener('click', function () {
+  api('/api/air/admin-auto-assign', 'POST', {}).then(function (r) { say(r.assigned + ' booking(s) assigned' + (r.waiting ? ', ' + r.waiting + ' waiting for a free operator.' : '.'), true); refreshList(); }).catch(function (x) { say(x.message); });
+});
+$('#saveRates').addEventListener('click', function () {
+  var out = {}; document.querySelectorAll('#rates input').forEach(function (i) { (out[i.dataset.t] = out[i.dataset.t] || {})[i.dataset.k] = Number(i.value); });
+  say('Saving...', true); api('/api/air/admin-rates', 'PUT', { rates: out }).then(function () { say('Rate card saved. New bills use these rates.', true); }).catch(function (e) { say(e.message); });
+});
+$('#lo').addEventListener('click', function (e) { e.preventDefault(); sessionStorage.removeItem('adminKey'); location.href = '/admin-login.html'; });
+$('#load').addEventListener('click', loadAll);
+if (EMBED) setInterval(function () { try { parent.postMessage({ airH: document.querySelector('main').offsetHeight + 24, id: OPEN }, location.origin); } catch (e) {} }, 600);
+if (key) { $('#key').value = key; loadAll(); }
+</script>
+</body>
+</html>

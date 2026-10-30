@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Policies | Ghar to Health</title><link rel="stylesheet" href="gth-pages.css"></head><body>
+<header><div class="wrap"><a class="brand" href="index.html">⌂ Ghar to Health</a><nav><a href="#terms">Terms</a><a href="#privacy">Privacy</a><a href="#refund">Refunds</a><a href="#grievance">Contact</a></nav></div></header>
+<main class="wrap legal">
+<!-- TEMPLATE ONLY: fill the [brackets] below and have a lawyer review before going live. -->
+<h1>Policies</h1><p class="sub">Last updated: [date]</p>
+<h2 id="terms">Terms &amp; Conditions</h2>
+<p><b>We are a platform.</b> Ghar to Health connects you with independent service partners (doctors, labs, pharmacies, nurses, technicians and others). The service itself is provided by the partner, who is responsible for their own licence, quality and advice.</p>
+<ul><li>We do not give medical advice, diagnosis or treatment. Information on this site is not a substitute for a doctor.</li><li>For emergencies, call 108 immediately. Do not use online booking for emergencies.</li><li>Booking is a request. It is confirmed only when our team confirms the date and time with you.</li><li>Prescription medicines are supplied only against a valid prescription.</li><li>Prices shown are starting prices. Final price is confirmed before service.</li><li>You must give correct details. We may cancel a booking with wrong or incomplete details.</li><li>Disputes are subject to the courts of [city], India.</li></ul>
+<h2 id="privacy">Privacy Policy</h2>
+<p>We collect the details you enter (name, mobile number, age, address, health details you share, preferred date and time) only to arrange your service.</p>
+<ul><li>We share them only with the partner who serves you and our team members who need them.</li><li>We do not sell your data. Alerts to our team do not contain your health details.</li><li>We keep records only as long as needed for service, safety and legal reasons.</li><li>You can ask us to correct or delete your data, or withdraw consent, by writing to the contact below.</li></ul>
+<h2 id="refund">Cancellation &amp; Refund Policy</h2>
+<ul><li>Cancel for free before the partner is assigned or [X] hours before the visit.</li><li>Late cancellation or no-show may attract a visit charge of ₹[amount].</li><li>If we or the partner cancel, you get a full refund within [X] working days.</li><li>Medicines once delivered cannot be returned, except wrong or damaged items.</li></ul>
+<h2 id="disclaimer">Disclaimer</h2>
+<p>Results of any treatment, test or service vary by person. Ghar to Health does not guarantee any medical outcome.</p>
+<h2 id="grievance">Contact &amp; Grievance Officer</h2>
+<p>Company: [Registered company name], [address]<br>Grievance Officer: [Name]<br>Email: [email] · Phone: [phone]<br>We will acknowledge complaints within 48 hours and try to resolve them within [15] days.</p>
+</main></body></html>

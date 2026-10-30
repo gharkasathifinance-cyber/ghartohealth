@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Invoices - Ghar to Health Admin</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,"Segoe UI",system-ui,Arial,sans-serif;background:#f5f9ff;color:#0f2f57}
+main{max-width:1170px;margin:0 auto;padding:34px 20px 90px}
+.card{background:#fff;border:1px solid #e1ebf6;border-radius:24px;padding:24px 22px;margin-bottom:22px}
+h1{font-size:40px;margin:30px 0 8px;color:#0f2f57}
+h2{font-size:28px;margin:0 0 14px;color:#0f2f57}
+.n{color:#5d7592;font-weight:500;font-size:14px}
+.top{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.btn,button{background:#0a7cff;color:#fff;border:0;border-radius:14px;padding:12px 20px;font:700 15px inherit;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block;box-shadow:0 6px 16px #0a7cff33}
+.btn.out{background:#fff;color:#0a7cff;border:1.5px solid #0a7cff;box-shadow:none}
+details{margin:8px 0}details details{margin-left:20px}
+summary{cursor:pointer;font-weight:700;font-size:17px;padding:10px 12px;border-radius:12px;background:#f1f7ff}
+summary:hover{background:#e6f1ff}
+table{width:100%;border-collapse:collapse;margin:8px 0 6px;font-size:14.5px}
+td,th{padding:10px 8px;border-bottom:1px solid #e8eff7;text-align:left}
+th{color:#5d7592;font-weight:600}
+td button{padding:7px 14px;font-size:13px;box-shadow:none}
+input{padding:14px 16px;border:1px solid #d5e2ef;border-radius:14px;font:inherit;flex:1;min-width:170px;background:#fff}
+input:focus{outline:2px solid #0a7cff55}
+.gen{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+#msg{color:#c62828;font-size:14px;margin-top:8px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+button.zip{float:right;margin-left:12px;padding:6px 14px;font-size:13px;box-shadow:none;border-radius:12px;background:#fff;color:#0a7cff;border:1.5px solid #0a7cff}
+button.zip:hover{background:#eaf3ff}button.zip:disabled{opacity:.6;cursor:wait}
+details details details{margin-left:20px}
+td button.del{background:#fff;color:#c62828;border:1.5px solid #c62828}
+td button.del:hover{background:#fdecec}
+dialog{border:none;border-radius:18px;padding:0;width:min(400px,92vw);box-shadow:0 20px 60px #07397059}
+dialog::backdrop{background:#07397073}
+dialog form{padding:24px}
+dialog h3{margin:0 0 6px;font-size:20px;color:#0f2f57}
+dialog p{margin:0 0 14px;font-size:14px;color:#5d7592}
+dialog input{width:100%;flex:none}
+/* show / hide password */
+.pw{position:relative;flex:1 1 220px;min-width:170px}
+.pw input{width:100%;padding-right:52px}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;box-shadow:none;color:#5d7592;padding:9px;border-radius:10px;line-height:0;display:flex;align-items:center;justify-content:center}
+.eye:hover{background:#eef4fb;color:#0a7cff}
+.eye svg{width:22px;height:22px}
+#dErr{color:#c62828;font-size:13px;min-height:18px;margin-top:8px}
+.drow{display:flex;gap:10px;margin-top:14px}
+.drow button{flex:1;box-shadow:none}
+.drow .cancel{background:#fff;color:#0a7cff;border:1.5px solid #0a7cff}
+.drow .danger{background:#c62828}
+</style></head><body>
+<main>
+ <h1>Ghar to Health - Invoices</h1>
+ <div class="top"><a class="btn out" href="/admin.html">&larr; Back to Admin</a></div>
+ <div class="card"><h2>All Invoices <span class="n" id="count"></span></h2><div id="tree">Loading...</div><div id="msg"></div></div>
+ <div class="card"><h2>Generate invoice</h2>
+  <p class="n">Orders get their invoice automatically. For other bookings (Ambulance, Medical, or UPI/cash received) enter the booking ID and the amount received. The invoice goes into the right folder by itself.</p>
+  <div class="gen"><input id="bid" placeholder="Booking ID (e.g. GTH1A2B3)"><input id="amt" type="number" placeholder="Amount (&#8377;)"><input id="pay" placeholder="Payment mode (UPI / Cash / Bank)"><button onclick="gen()">Generate</button></div>
+ </div>
+</main>
+<dialog id="delDlg"><form id="delForm" method="dialog" novalidate>
+ <h3>Delete invoice</h3>
+ <p id="dText"></p>
+ <div class="pw"><input id="dKey" type="password" placeholder="Admin key / password" autocomplete="off"><button type="button" class="eye" aria-label="Show password" aria-pressed="false"></button></div>
+ <div id="dErr" role="alert"></div>
+ <div class="drow"><button type="button" class="cancel" id="dCancel">Cancel</button><button type="submit" class="danger" id="dGo">Delete</button></div>
+</form></dialog>
+<script>
+// adminKey: reuse the key saved by the other admin pages, otherwise ask once
+let adminKey = localStorage.getItem('adminKey') || sessionStorage.getItem('adminKey') || '';
+const H = { 'x-admin-key': adminKey };
+const msg = t => document.getElementById('msg').textContent = t || '';
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sumOf = l => l.reduce((a, i) => a + Number(i.total || 0), 0);
+const stat = l => `<span class="n">${l.length} invoices | &#8377;${sumOf(l).toFixed(2)}</span>`;
+const xb = (y, m, c) => `<button type="button" class="zip" onclick="exportZip(event,'${y}','${m}','${c}')">&#11015; Export ZIP</button>`;
+const rowsTbl = l => l.length ? `<table><tr><th>Invoice</th><th>Customer</th><th>Date</th><th>Total</th><th></th></tr>` +
+  l.slice().reverse().map(i => `<tr><td>${esc(i.no)}<br><span class="n">${esc(i.bookingId)}</span></td><td>${esc(i.name)}<br><span class="n">${esc(i.phone)}</span></td><td>${esc(i.date)}</td><td>&#8377;${Number(i.total).toFixed(2)}</td><td><div class="acts"><button onclick="openPdf('${esc(i.no)}')">View / Print</button><button class="del" onclick="askDelete('${esc(i.no)}')">Delete</button></div></td></tr>`).join('') + '</table>'
+  : '<p class="n" style="margin:6px 12px">No invoices yet.</p>';
+const folder = (title, l, y, m, c) => `<details><summary>📁 ${title} ${stat(l)}${xb(y, m, c)}</summary>${rowsTbl(l)}</details>`;
+async function exportZip(ev, y, m, c) {
+  ev.preventDefault(); ev.stopPropagation(); msg('');
+  const btn = ev.currentTarget, label = btn.innerHTML; btn.innerHTML = 'Preparing...'; btn.disabled = true;
+  try {
+    const q = new URLSearchParams({ year: y }); if (m) q.set('month', m); if (c) q.set('cat', c);
+    const r = await fetch('/api/admin/invoices/export?' + q, { headers: H });
+    if (!r.ok) { let d = {}; try { d = await r.json(); } catch (x) {} msg(d.error || 'Export failed'); return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(await r.blob());
+    a.download = ['GharToHealth', y, m, c].filter(Boolean).join('-') + '.zip';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  } catch (x) { msg('Cannot reach the server.'); }
+  finally { btn.innerHTML = label; btn.disabled = false; }
+}
+async function load() {
+  let r;
+  try { r = await fetch('/api/admin/invoices', { headers: H }); }
+  catch (e) { document.getElementById('count').textContent = ''; return askKey('Cannot reach the server (' + e.message + '). Check that it is running, then try again.'); }
+  if (!r.ok) {
+    document.getElementById('count').textContent = '';
+    if (r.status === 401) return askKey(adminKey ? 'The saved admin key is wrong or has changed. Enter the current admin key.' : 'Enter the admin key.');
+    let why = ''; try { why = (await r.json()).error || ''; } catch (e) {}
+    return askKey('Could not load invoices. Server replied: HTTP ' + r.status + (why ? ' - ' + why : '') + '. Enter the key to try again.');
+  }
+  const tree = await r.json(), years = Object.keys(tree).sort().reverse();
+  let total = 0, h = '';
+  years.forEach((y, yi) => {
+    const months = Object.keys(tree[y]).sort().reverse();
+    let ycount = 0; let inner = '';
+    months.forEach((m, mi) => {
+      const list = tree[y][m]; ycount += list.length; total += list.length;
+      const amb = list.filter(i => i.cat === 'ambulance');
+      const med = list.filter(i => i.cat === 'medical');
+      const home = list.filter(i => i.cat !== 'ambulance' && i.cat !== 'medical');
+      inner += `<details ${yi === 0 && mi === 0 ? 'open' : ''}><summary>📁 ${esc(m.replace(/^\d+-/, ''))} ${stat(list)}${xb(y, m, '')}</summary>`
+        + folder('Home Maintenance Services', home, y, m, 'home')
+        + folder('Medical Services', med, y, m, 'medical')
+        + folder('Ambulance Service', amb, y, m, 'ambulance')
+        + '</details>';
+    });
+    h += `<details ${yi === 0 ? 'open' : ''}><summary>📁 ${esc(y.replace('-', ' '))} <span class="n">${ycount} invoices</span>${xb(y, '', '')}</summary>${inner}</details>`;
+  });
+  document.getElementById('tree').innerHTML = h || '<span class="n">No invoices yet. The first one will create the year and month folder automatically.</span>';
+  document.getElementById('count').textContent = total ? '(' + total + ' total)' : '';
+}
+const EYE_ON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 19C5 19 1 12 1 12a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.1 9.1 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>';
+function setEye(btn, show) {
+  const inp = btn.parentNode.querySelector('input');
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show ? EYE_OFF : EYE_ON;
+  btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+}
+document.querySelectorAll('.eye').forEach(b => { b.innerHTML = EYE_ON; });
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('.eye'); if (!b) return;
+  const inp = b.parentNode.querySelector('input');
+  setEye(b, inp.type === 'password'); inp.focus();
+});
+function askKey(text) {
+  msg('');
+  document.getElementById('tree').innerHTML = '<form id="keyForm" class="gen" onsubmit="return false"><span class="n" style="flex:1 1 100%">' + esc(text) + '</span><div class="pw"><input id="keyIn" type="password" placeholder="Admin key" autocomplete="off"><button type="button" class="eye" aria-label="Show password" aria-pressed="false">' + EYE_ON + '</button></div><button type="submit" id="keyGo">Unlock</button></form>';
+  const f = document.getElementById('keyForm'), i = document.getElementById('keyIn');
+  f.onsubmit = e => {
+    e.preventDefault();
+    const k = i.value.trim(); if (!k) return;
+    adminKey = k; H['x-admin-key'] = k;
+    try { localStorage.setItem('adminKey', k); sessionStorage.setItem('adminKey', k); } catch (x) {}
+    load();
+  };
+  i.focus();
+}
+async function openPdf(no) {
+  const r = await fetch('/api/admin/invoices/file?no=' + encodeURIComponent(no), { headers: H });
+  if (!r.ok) return msg('Could not open invoice.');
+  window.open(URL.createObjectURL(await r.blob()), '_blank');
+}
+async function gen() {
+  msg('');
+  const r = await fetch('/api/admin/invoices/generate', { method: 'POST', headers: { ...H, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ bookingId: bid.value.trim().toUpperCase(), amount: amt.value, payment: pay.value }) });
+  const d = await r.json(); if (!r.ok) return msg(d.error || 'Failed');
+  bid.value = amt.value = pay.value = ''; load();
+}
+let delNo = '';
+const dlg = document.getElementById('delDlg'), dKey = document.getElementById('dKey'), dErr = document.getElementById('dErr'), dGo = document.getElementById('dGo');
+function askDelete(no) {
+  delNo = no; dKey.value = ''; setEye(dKey.parentNode.querySelector('.eye'), false); dErr.textContent = ''; dGo.disabled = false;
+  document.getElementById('dText').textContent = 'Invoice ' + no + ' will be deleted permanently. This cannot be undone. Enter the admin key to confirm.';
+  dlg.showModal(); dKey.focus();
+}
+document.getElementById('dCancel').onclick = () => dlg.close();
+document.getElementById('delForm').onsubmit = async e => {
+  e.preventDefault();
+  const key = dKey.value.trim();
+  if (!key) { dErr.textContent = 'Please enter the admin key.'; return; }
+  dGo.disabled = true; dErr.textContent = 'Deleting...';
+  try {
+    const r = await fetch('/api/admin/invoices?no=' + encodeURIComponent(delNo), { method: 'DELETE', headers: { 'x-admin-key': key } });
+    let d = {}; try { d = await r.json(); } catch (x) {}
+    if (r.status === 401) { dErr.textContent = 'Wrong admin key. Invoice was not deleted.'; dKey.select(); }
+    else if (!r.ok) { dErr.textContent = d.error || 'Could not delete the invoice.'; }
+    else { dlg.close(); msg(''); load(); return; }
+  } catch (x) { dErr.textContent = 'Cannot reach the server.'; }
+  dGo.disabled = false;
+};
+load();
+</script></body></html>

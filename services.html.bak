@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Services | Ghar to Health</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f7fbff;color:#12365d}
+button{font-family:inherit;cursor:pointer}
+.wrap{width:94%;max-width:1200px;margin:auto}
+.top{background:#fff;border-bottom:1px solid #e3edf6;position:sticky;top:0;z-index:5}
+.bar{display:flex;align-items:center;gap:14px;padding:12px 0}
+.bar a.logo{font-weight:800;color:#0758ad;font-size:18px;text-decoration:none;white-space:nowrap}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px}
+.chip{border:1px solid #d3e4f1;background:#f1f7fc;border-radius:22px;padding:8px 16px;font-size:13px;font-weight:700;color:#375775;white-space:nowrap}
+.chip.on{background:#087cf2;border-color:#087cf2;color:#fff}
+h1{font-size:28px;margin:22px 0 4px;color:#0a396b}
+.sub{font-size:14px;color:#5b7690;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start;padding-bottom:40px}
+.card{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #e1edf6;border-radius:14px;padding:14px;margin-bottom:12px}
+.ico{font-size:30px;width:64px;height:64px;border-radius:12px;background:#e8f3ff;display:flex;align-items:center;justify-content:center;flex:none}
+.info{flex:1}.info h3{font-size:16px}.info p{font-size:13px;color:#5b7690;margin:2px 0}.info small{font-size:12px;color:#6c8299}
+.price{text-align:right;flex:none}.price small{display:block;font-size:11px;color:#6c8299}.price b{font-size:20px;display:block;margin-bottom:6px}
+.add{border:1px solid #087cf2;background:#fff;color:#087cf2;border-radius:10px;padding:7px 20px;font-weight:700}
+.add:hover{background:#edf6ff}
+.cart{background:#fff;border:1px solid #d9ebf8;border-radius:16px;padding:18px;position:sticky;top:70px}
+.cart h2{font-size:17px;margin-bottom:12px}
+.line{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eef4f9;font-size:13px}
+.qty{display:flex;align-items:center;gap:8px;border:1px solid #d3e4f1;border-radius:8px;padding:2px 6px}
+.qty button{border:none;background:none;font-size:16px;color:#087cf2;font-weight:700}
+.row{display:flex;justify-content:space-between;font-size:13px;color:#375775;margin-top:8px}
+.tot{font-size:17px;font-weight:800;color:#0a396b}
+.go{width:100%;margin-top:14px;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#087ff5,#0564cf);color:#fff;font-weight:700;font-size:15px}
+.go:disabled{opacity:.5;cursor:not-allowed}
+.empty{font-size:13px;color:#6c8299;padding:10px 0}
+dialog{border:none;border-radius:16px;width:min(420px,92vw);padding:0;max-height:92vh;overflow:auto}dialog::backdrop{background:rgba(7,57,110,.45)}
+form{padding:22px}form label{display:block;font-size:12px;font-weight:700;margin:10px 0 4px}
+form input,form textarea{width:100%;padding:10px;border:1px solid #cfe0ee;border-radius:10px;font:inherit}
+.msg{font-size:13px;margin-top:10px;min-height:18px}.err{color:#c62828}.ok{color:#1b7f3b;font-weight:600}
+/* payment */
+.pay{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.po{display:flex;align-items:center;gap:6px;border:1px solid #d3e4f1;border-radius:10px;padding:8px 12px;font-size:13px;margin:0;cursor:pointer}
+.po input{width:auto}
+.payinfo{background:#f1f7fc;border:1px solid #d9ebf8;border-radius:10px;padding:12px;font-size:13px;color:#375775;line-height:1.7;margin-top:6px}
+.payinfo b{color:#0a396b}
+.upibtn{display:inline-block;margin-top:8px;padding:9px 16px;border-radius:10px;background:#087cf2;color:#fff;font-weight:700;text-decoration:none}
+.cp{border:1px solid #087cf2;background:#fff;color:#087cf2;border-radius:8px;padding:2px 10px;font-size:12px;font-weight:700;margin-left:6px}
+.qr{display:block;width:150px;height:150px;object-fit:contain;margin:8px 0}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.cart{position:static}}
+</style></head><body>
+<div class="top"><div class="wrap bar"><a class="logo" href="/">⌂ Ghar to Health</a><div class="chips" id="chips"></div></div></div>
+<div class="wrap">
+<h1 id="title">Our Services</h1><p class="sub">Verified professionals, fair prices, at your doorstep.</p>
+<div class="grid"><div id="list"><p class="empty">Loading services...</p></div>
+<aside class="cart"><h2>🛍️ Your Booking</h2><div id="lines"></div><div id="sum"></div>
+<button class="go" id="go" disabled>Proceed to Book →</button></aside></div></div>
+<dialog id="dlg"><form id="f" novalidate><h3>Confirm your booking</h3>
+<label>Your name</label><input name="name" required autocomplete="name">
+<label>Mobile number</label><input name="phone" type="tel" inputmode="numeric" placeholder="10-digit number" required>
+<label>Address</label><textarea name="address" rows="2" required></textarea>
+<label>Preferred date</label><input name="date" type="date">
+
+<label>Payment method</label>
+<div class="pay">
+<label class="po"><input type="radio" name="payment_method" value="UPI" checked> 📱 UPI</label>
+<label class="po"><input type="radio" name="payment_method" value="Bank Transfer"> 🏦 Bank Transfer</label>
+<label class="po"><input type="radio" name="payment_method" value="Cash"> 💵 Cash</label>
+</div>
+<div class="payinfo" id="payInfo"></div>
+<div id="txnBox"><label id="txnLabel" for="txn">Transaction reference (UTR)</label><input id="txn" name="txn_id" placeholder="Optional - enter after paying"></div>
+
+<div class="msg" id="msg" role="status"></div>
+<div style="display:flex;gap:10px;margin-top:14px"><button type="button" class="add" id="close" style="flex:1">Close</button><button class="go" style="flex:1;margin:0" id="send">Confirm</button></div></form></dialog>
+<script>
+/* ===== PAYMENT SETTINGS: yahan apni details bharo ===== */
+var PAY={
+  upiId:'sy4453805@oksbi',            /* apna UPI ID */
+  upiName:'Shubham Yadav',        /* UPI par dikhne wala naam */
+  bank:{
+    name:'Ghar to Health',         /* account holder ka naam */
+    bankName:'state bank of india',          /* bank ka naam */
+    acc:'44213436889',              /* account number */
+    ifsc:'SBIN0009511'             /* IFSC code */
+  }
+};
+
+var all=[],cat='All',cart={},done=false;
+try{cart=JSON.parse(localStorage.getItem('gth_cart')||'{}')}catch(e){}
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function inr(n){return '₹'+(Math.round(n*100)/100).toLocaleString('en-IN')}
+function save(){try{localStorage.setItem('gth_cart',JSON.stringify(cart))}catch(e){}}
+
+/* ===== AUTO ICON FROM SERVICE NAME =====
+   Order important hai: upar wale keyword pehle check hote hain.
+   Naya keyword jodna ho to bas ek line add karo, jaise ['gas','🔥'], */
+var ICONS=[
+  ['tyre','🛞'],['tire','🛞'],['wheel','🛞'],['alignment','🛞'],
+  ['polish','✨'],['wax','✨'],['interior','💺'],['seat','💺'],
+  ['engine','🔧'],['battery','🔋'],['inverter','🔋'],
+  ['washing machine','🧺'],['wash','🚿'],
+  ['sofa','🛋️'],['carpet','🧶'],['curtain','🪟'],['window','🪟'],['glass','🪟'],
+  ['pest','🐜'],['termite','🐜'],['cockroach','🪳'],['rat','🐀'],
+  ['plumb','🚰'],['pipe','🚰'],['tap','🚰'],['leak','💧'],['tank','💧'],
+  ['waterproof','☔'],['water','💧'],
+  ['electric','⚡'],['wiring','⚡'],['switch','⚡'],['light','💡'],['fan','🌀'],
+  ['carpent','🔨'],['furniture','🪑'],['door','🚪'],['lock','🔒'],['wood','🪵'],
+  ['paint','🎨'],['wall','🧱'],['tile','🧱'],
+  ['ac','❄️'],['cooler','❄️'],['fridge','🧊'],['refrigerator','🧊'],
+  ['microwave','🍳'],['chimney','🍳'],['kitchen','🍳'],['geyser','♨️'],['tv','📺'],
+  ['bathroom','🚿'],['toilet','🚽'],
+  ['doctor','🧑‍⚕️'],['consult','🧑‍⚕️'],['medicine','💊'],['lab','🧪'],['test','🧪'],['check','💙'],
+  ['clean','🧽'],['car','🚗'],['bike','🏍️']
+];
+function autoIcon(name){
+  var words=String(name||'').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  var joined=words.join(' ');
+  for(var i=0;i<ICONS.length;i++){
+    var k=ICONS[i][0],hit;
+    if(k.indexOf(' ')>-1) hit=joined.indexOf(k)>-1;
+    else if(k.length<=3) hit=words.some(function(w){return w===k||w===k+'s'});
+    else hit=words.some(function(w){return w.indexOf(k)===0});
+    if(hit) return ICONS[i][1];
+  }
+  return '';
+}
+function svcIcon(s){return autoIcon(s.name)||s.icon||'🛠️'}
+
+function ic(c){
+  var s=all.find(function(x){return x.category===c&&x.icon});
+  return s?s.icon:'🛠️';
+}
+
+function chips(){
+  var cs=['All'];
+  all.forEach(function(s){if(cs.indexOf(s.category)<0)cs.push(s.category)});
+  $('chips').innerHTML=cs.map(function(c){
+    return '<button class="chip'+(c===cat?' on':'')+'" data-c="'+esc(c)+'">'+(c==='All'?'🏠':ic(c))+' '+esc(c)+'</button>';
+  }).join('');
+}
+
+function list(){
+  var v=all.filter(function(s){
+    return cat==='All'||String(s.category).trim().toLowerCase()===String(cat).trim().toLowerCase();
+  });
+  $('title').textContent=cat==='All'?'Our Services':cat+' Services';
+  $('list').innerHTML=v.length?v.map(function(s){
+    return '<div class="card"><div class="ico">'+esc(svcIcon(s))+'</div><div class="info"><h3>'+esc(s.name)+'</h3><p>'+esc(s.description)+'</p><small>⏱ '+esc(s.duration)+' · '+esc(s.category)+'</small></div><div class="price"><small>Starting at</small><b>'+inr(s.price)+'</b><button class="add" data-id="'+esc(s.id)+'">Add +</button></div></div>';
+  }).join(''):'<p class="empty">No services here yet.</p>';
+}
+
+function draw(){
+  var ids=Object.keys(cart).filter(function(id){return all.some(function(s){return s.id===id})}),sub=0,n=0;
+  $('lines').innerHTML=ids.length?ids.map(function(id){
+    var s=all.find(function(x){return x.id===id});sub+=s.price*cart[id];n+=cart[id];
+    return '<div class="line"><div><b>'+esc(s.name)+'</b><br>'+inr(s.price)+'</div><div class="qty"><button data-m="'+esc(id)+'">−</button>'+cart[id]+'<button data-p="'+esc(id)+'">+</button></div></div>';
+  }).join(''):'<p class="empty">Your cart is empty. Add a service to begin.</p>';
+  var fee=Math.round(sub*3)/100;
+  $('sum').innerHTML=ids.length?'<div class="row"><span>Service subtotal</span><span>'+inr(sub)+'</span></div><div class="row"><span>Convenience & safety</span><span>'+inr(fee)+'</span></div><div class="row tot"><span>Total Pay</span><span>'+inr(sub+fee)+'</span></div>':'';
+  $('go').disabled=!ids.length;$('go').textContent='Proceed to Book ('+n+') →';
+}
+
+function change(id,d){cart[id]=Math.min(10,(cart[id]||0)+d);if(cart[id]<=0)delete cart[id];save();draw()}
+
+/* ===== PAYMENT SECTION ===== */
+function totals(){
+  var sub=0;
+  Object.keys(cart).forEach(function(id){
+    var s=all.find(function(x){return x.id===id});
+    if(s)sub+=s.price*cart[id];
+  });
+  var fee=Math.round(sub*3)/100;
+  return{sub:sub,fee:fee,total:Math.round((sub+fee)*100)/100};
+}
+function upiLink(amount){
+  return 'upi://pay?pa='+encodeURIComponent(PAY.upiId)+'&pn='+encodeURIComponent(PAY.upiName)+'&am='+Number(amount).toFixed(2)+'&cu=INR&tn='+encodeURIComponent('Ghar to Health booking');
+}
+function isMobile(){return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)}
+function renderPay(){
+  var m=document.querySelector('input[name="payment_method"]:checked').value;
+  var t=totals().total,h='';
+  if(m==='UPI'){
+    h='<b>Pay '+inr(t)+' to this UPI ID:</b><br>'+esc(PAY.upiId)+' <button type="button" class="cp" data-copy="'+esc(PAY.upiId)+'">Copy</button><br>'
+     +'<img class="qr" src="upi-qr.png" alt="UPI QR code" onerror="this.style.display=\'none\'">'
+     +'<small>Tap "Proceed to Pay" to save your booking and open your UPI app (GPay / PhonePe / Paytm).</small>';
+  }else if(m==='Bank Transfer'){
+    h='<b>Transfer '+inr(t)+' to:</b><br>'
+     +'Account name: '+esc(PAY.bank.name)+'<br>'
+     +'Bank: '+esc(PAY.bank.bankName)+'<br>'
+     +'Account no: '+esc(PAY.bank.acc)+' <button type="button" class="cp" data-copy="'+esc(PAY.bank.acc)+'">Copy</button><br>'
+     +'IFSC: '+esc(PAY.bank.ifsc)+'<br>'
+     +'<small>After transferring, enter the transaction reference (UTR) below.</small>';
+  }else{
+    h='<b>Cash payment</b><br>Please pay <b>'+inr(t)+'</b> in cash to our professional after the service is completed.';
+  }
+  $('payInfo').innerHTML=h;
+  /* UPI me UTR box nahi: payment booking save hone ke baad UPI app me hota hai */
+  $('txnBox').style.display=(m==='Bank Transfer')?'block':'none';
+  $('txn').disabled=(m!=='Bank Transfer');
+  $('txnLabel').textContent='Bank transfer reference / UTR';
+  $('send').textContent=(m==='UPI'&&t>0)?'Proceed to Pay '+inr(t)+' →':'Confirm';
+}
+
+document.addEventListener('click',function(e){var t=e.target;
+  if(t.dataset.c){cat=t.dataset.c;chips();list()}
+  if(t.dataset.id)change(t.dataset.id,1);
+  if(t.dataset.p)change(t.dataset.p,1);
+  if(t.dataset.m)change(t.dataset.m,-1);
+  if(t.dataset.copy){
+    if(navigator.clipboard)navigator.clipboard.writeText(t.dataset.copy);
+    t.textContent='Copied ✓';
+  }
+});
+document.addEventListener('change',function(e){
+  if(e.target.name==='payment_method')renderPay();
+});
+
+$('go').onclick=function(){done=false;$('send').disabled=false;$('msg').textContent='';renderPay();$('dlg').showModal()};
+$('close').onclick=function(){$('dlg').close()};
+
+$('f').onsubmit=function(e){
+  e.preventDefault();
+  var d={};new FormData($('f')).forEach(function(v,k){d[k]=v});
+  d.items=Object.keys(cart).map(function(id){return{id:id,qty:cart[id]}});
+  var amount=totals().total; /* cart clear hone se pehle amount yaad rakho */
+  $('send').disabled=true;$('msg').className='msg';$('msg').textContent='Sending...';
+  fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+  .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+  .then(function(x){
+    if(x.ok){
+      done=true;
+      var base=x.j.message+' ID: '+x.j.id+' · Total '+inr(x.j.total)+' · Payment: '+(d.payment_method||'');
+      var upi=(d.payment_method==='UPI');
+      var link=upiLink(x.j.total||amount);
+      cart={};save();draw();$('f').reset();
+      $('msg').className='msg ok';
+      if(upi){
+        if(isMobile()){
+          $('msg').innerHTML=esc(base)+'<br>Opening your UPI app... <a class="upibtn" href="'+esc(link)+'">📱 Tap here if the app does not open</a>';
+          window.location.href=link; /* seedha UPI app par */
+        }else{
+          $('msg').innerHTML=esc(base)+'<br>Please pay <b>'+esc(inr(x.j.total||amount))+'</b> from your phone\'s UPI app to this UPI ID: <b>'+esc(PAY.upiId)+'</b> (or scan the QR code above).';
+        }
+      }else{
+        $('msg').textContent=base;
+      }
+    }
+    else{$('msg').className='msg err';$('msg').textContent=x.j.error||'Something went wrong.'}
+  })
+  .catch(function(){$('msg').className='msg err';$('msg').textContent='Cannot reach the server.'})
+  .then(function(){$('send').disabled=done});
+};
+
+fetch('/api/catalog').then(function(r){return r.json()}).then(function(d){
+  all=d;
+  var q=new URLSearchParams(location.search).get('cat');
+  if(q)cat=q;
+  chips();list();draw();
+}).catch(function(){
+  $('list').innerHTML='<p class="empty">Could not load services. Open this page through the server (localhost:3000/services.html).</p>';
+});
+</script></body></html>

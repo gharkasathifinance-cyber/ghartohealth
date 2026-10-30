@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMC Plans | Ghar to Health</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f7fbff;color:#12365d;line-height:1.5}
+[hidden]{display:none!important}
+a{text-decoration:none;color:inherit}button,select,input{font-family:inherit}
+:focus-visible{outline:3px solid #087cf2;outline-offset:2px}
+.wrap{width:92%;max-width:1200px;margin:auto}
+.hd{background:#fff;border-bottom:1px solid #e3edf6;position:sticky;top:0;z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;flex-wrap:wrap;padding:8px 0}
+.logo{display:flex;align-items:center;gap:10px;color:#0758ad;font-size:18px}
+.logo i{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#087cf2,#075bc1);color:#fff;display:flex;align-items:center;justify-content:center;font-style:normal}
+.logo small{font-size:11px;color:#6c8299;font-weight:600}
+#types{display:flex;gap:6px;flex-wrap:wrap}
+#types a{padding:7px 16px;border-radius:20px;font-size:13px;font-weight:700;color:#375775;background:#eef7ff}
+#types a.on{background:#087cf2;color:#fff}
+h1{font-size:32px;color:#0a396b;margin:30px 0 4px}
+.sub{color:#5b7690;max-width:620px}
+.tabs{display:flex;gap:8px;margin:22px 0}
+.tabs button{padding:10px 22px;border-radius:30px;border:1px solid #cfe0ee;background:#fff;font-weight:700;font-size:14px;color:#375775;cursor:pointer}
+.tabs button.on{background:#087cf2;border-color:#087cf2;color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 20px;border-radius:30px;font-weight:700;font-size:14px;border:1px solid #1687ed;cursor:pointer;background:linear-gradient(135deg,#087ff5,#0564cf);color:#fff;width:100%}
+.btn.ghost{background:#fff;color:#0875df}
+.btn:disabled{opacity:.6;cursor:wait}
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:26px;padding-bottom:50px}
+.plan{position:relative;display:flex;flex-direction:column;gap:12px;background:#fff;border:1px solid #d9ebf8;border-radius:20px;padding:26px 22px;box-shadow:0 10px 30px rgba(12,89,145,.05)}
+.plan.hot{border:2px solid #087cf2}
+.bd{position:absolute;top:-13px;left:20px;background:#087cf2;color:#fff;font-size:11px;font-weight:800;padding:3px 12px;border-radius:12px}
+.plan small{color:#6c8299;font-weight:700;font-size:11px}
+.plan h3{font-size:22px;color:#0a396b;line-height:1.2}
+.plan > p{font-size:13px;color:#5b7690}
+.pr{background:#eef7ff;border-radius:14px;padding:14px 16px}
+.pr b{font-size:30px;color:#0a396b}.pr em{display:block;font-style:normal;font-size:12px;color:#1b7f3b;font-weight:600}
+.plan ul{list-style:none;display:grid;gap:7px;font-size:13px;color:#375775;flex:1}
+.plan li::before,.cat li::before{content:"✓";color:#087cf2;font-weight:800;margin-right:8px}
+.plan .btn{margin-top:2px}
+/* builder */
+.grid{display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:start;padding-bottom:50px}
+.card{background:#fff;border:1px solid #d9ebf8;border-radius:18px;padding:22px;margin-bottom:18px}
+.card h3{font-size:15px;color:#0a396b;margin-bottom:14px}
+.chips,.seg{display:flex;gap:8px;flex-wrap:wrap}
+.chips button,.seg button{padding:10px 16px;border-radius:12px;border:1px solid #cfe0ee;background:#fff;font-weight:600;font-size:13px;color:#12365d;cursor:pointer}
+.chips button.on,.seg button.on{border-color:#087cf2;background:#eaf4ff;color:#0564cf}
+.f3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.f3 label,.lbl{font-size:12px;font-weight:700;color:#375775;display:block}
+input[type=number],input[type=text],input[type=tel],input[type=email],select,textarea{width:100%;padding:10px 12px;border:1px solid #cfe0ee;border-radius:10px;font-size:14px;color:#12365d;background:#fff;margin-top:4px}
+.cat{display:grid;grid-template-columns:auto 1fr 200px;gap:12px;align-items:center;border:1px solid #e1edf6;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.cat.on{border-color:#087cf2;background:#f4faff}
+.cat b{font-size:14px}.cat small{display:block;color:#6c8299;font-size:12px}
+.cat input[type=checkbox]{width:18px;height:18px;accent-color:#087cf2}
+.cat select{margin:0}
+.sum{position:sticky;top:84px;background:#062f60;color:#cfe4f8;border-radius:20px;padding:24px}
+.sum h3{color:#fff;font-size:20px;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:5px 0}
+.row b{color:#fff}.g{color:#4be3a1}
+.box{background:#04223f;border-radius:14px;padding:12px 14px;margin:12px 0}
+.tot{font-size:34px;color:#fff;font-weight:800;line-height:1.1}
+.up{display:flex;gap:8px;align-items:center;font-size:13px;margin:10px 0;color:#fff}
+.sum .btn{background:#087cf2;border-color:#087cf2;margin-top:12px}
+.note{font-size:11px;color:#8fb1d4;margin-top:10px}
+.msg{font-size:13px;margin-top:10px;min-height:18px}.msg.err{color:#c62828}.msg.ok{color:#1b7f3b;font-weight:600}
+
+/* quotation dialog (new blue design) */
+dialog{border:none;border-radius:24px;width:min(520px,94vw);max-height:92vh;overflow:auto;padding:0;box-shadow:0 24px 60px rgba(7,57,110,.4)}
+dialog::backdrop{background:rgba(7,57,110,.5)}
+.q{padding:0}
+.qh{background:linear-gradient(135deg,#0a7cff,#0561d8);color:#fff;padding:22px 24px 20px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.qdate{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600}
+.qtop small{color:#cfe6ff;font-size:12px}
+.qh h3{color:#fff;font-size:20px;font-weight:800;margin:0}
+.ql{color:#cfe6ff;font-size:13px;margin-top:10px}
+.qamt{font-size:44px;font-weight:800;line-height:1.1;letter-spacing:-.02em;margin:2px 0 12px}
+.qsave{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#0a7a55;font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px}
+.qchips{display:flex;flex-wrap:wrap;gap:8px;padding:16px 24px 2px}
+.qchip{background:#f4f9ff;border:1px solid #d6e6f5;padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:600;color:#12365d}
+.qb{padding:6px 24px 0}
+#qR .row{padding:11px 0;font-size:14px;color:#566b82;border-bottom:1px dashed #d6e6f5}
+#qR .row b{color:#12365d;text-align:right;overflow-wrap:anywhere}
+#qR .row.fin{border-bottom:0;margin-top:6px;padding:13px 14px;background:#f4f9ff;border-radius:12px;color:#12365d;font-weight:700}
+#qR .row.fin b{color:#0a7cff;font-size:18px}
+.qform{padding:16px 24px 18px;margin-top:12px;border-top:1px solid #e3edf6}
+.qform h4{font-size:17px;color:#0a396b;margin-bottom:2px}
+.qform p{font-size:13px;color:#566b82;margin-bottom:4px}
+.qform .lbl{margin-top:10px}
+.qform input{border-radius:12px;padding:12px 14px;background:#f4f9ff;border:1.5px solid #d6e6f5}
+.qform input:focus{border-color:#0a7cff;background:#fff}
+.q .two{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.q .two .btn{flex:1 1 120px;width:auto}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:6px 14px;flex-wrap:wrap;background:#f4f9ff;border-top:1px solid #e3edf6;padding:14px 24px;font-size:13px;font-weight:600;color:#12365d}.qfoot span{color:#566b82;font-weight:500}.qfoot a{color:#0a7cff;font-weight:700}
+@media(max-width:960px){.plans,.grid{grid-template-columns:1fr}.sum{position:static}.cat{grid-template-columns:auto 1fr}.cat select{grid-column:1/-1}.f3{grid-template-columns:1fr}h1{font-size:26px}}
+/* payment form */
+.qform input[type=date]{width:100%;margin-top:4px;font-size:14px}
+.pm{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.pm label{position:relative;display:block;cursor:pointer}
+.qform .pm input{position:absolute;opacity:0;width:1px;height:1px;padding:0;margin:0;border:0}
+.pm span{display:block;text-align:center;padding:11px 6px;border:1.5px solid #d6e6f5;border-radius:12px;background:#f4f9ff;font-weight:700;font-size:13px;color:#12365d}
+.pm input:checked+span{border-color:#0a7cff;background:#eaf4ff;color:#0564cf}
+.pm input:focus-visible+span{outline:3px solid #087cf2;outline-offset:2px}
+.btn.loc{width:auto;margin-top:6px;padding:9px 16px;font-size:13px}
+.locn{font-size:12px;color:#1b7f3b;font-weight:600;margin-left:8px}
+.done{margin-top:12px;background:#f4f9ff;border:1px solid #d6e6f5;border-radius:14px;padding:14px;font-size:13px;color:#12365d}
+.done p{margin:0 0 8px}.done .btn{margin-top:6px;text-decoration:none}
+.done label{display:block;font-size:12px;font-weight:700;color:#375775;margin-top:8px}
+.done input{width:100%;padding:9px 12px;border:1px solid #cfe0ee;border-radius:10px;font-size:14px;background:#fff;margin-top:3px}
+
+.pinfo{margin-top:12px;background:#f1f6fd;border:1px solid #d6e6f5;border-radius:14px;padding:16px;font-size:14px;color:#375775;line-height:1.7}
+.pinfo .pt{font-weight:800;color:#0b3b6f;margin:0 0 6px;font-size:15px}
+.pinfo .pl{display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;margin:2px 0}
+.pinfo .pl b{font-weight:500;color:#375775}
+.pinfo .pn{font-size:12px;color:#566b82;margin:8px 0 0;line-height:1.5}
+.pinfo .cpy{border:1.5px solid #0a7cff;background:#fff;color:#0a7cff;border-radius:999px;padding:3px 14px;font-size:13px;font-weight:700;cursor:pointer}
+.pinfo .cpy.ok{background:#0a7cff;color:#fff}
+.pinfo label{display:block;font-size:14px;font-weight:700;color:#12365d;margin-top:14px}
+.pinfo input{width:100%;padding:12px 14px;border:1px solid #cfe0ee;border-radius:12px;font-size:15px;background:#fff;margin-top:6px}
+
+/* ===== No text selection / no Google "Touch to Search" popup on mobile ===== */
+html,body{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+img,svg{-webkit-user-drag:none}
+a,button{touch-action:manipulation}
+input,textarea,select,[contenteditable="true"]{-webkit-user-select:text;-moz-user-select:text;user-select:text;-webkit-touch-callout:default}
+</style>
+</head>
+<body>
+<header class="hd"><div class="wrap nav">
+<a class="logo" href="index.html"><i>⌂</i><b>Ghar to Health</b><small>AMC Plans</small></a>
+<nav id="types" aria-label="AMC type"></nav>
+</div></header>
+
+<main class="wrap">
+<h1 id="ttl">AMC Plans</h1>
+<p class="sub" id="intro"></p>
+<div class="tabs" role="tablist">
+<button class="on" data-t="plans">Explore Plans</button>
+<button data-t="build">Build Your Plan</button>
+</div>
+
+<section id="plans" class="plans" aria-live="polite">Loading plans…</section>
+
+<section id="build" hidden>
+<div class="grid">
+<div>
+<div class="card"><h3>Step 1: Property type and size</h3>
+<div class="chips" id="props"></div>
+<div class="f3">
+<label>Built-up area (sq.ft)<input type="number" id="area" min="100" max="100000"></label>
+<label>Floors<input type="number" id="floors" min="1" max="30"></label>
+<label id="outL">Outlets / branches<input type="number" id="outlets" min="1" max="50"></label>
+</div></div>
+<div class="card"><h3>Step 2: Contract duration</h3><div class="seg" id="months"></div></div>
+<div class="card"><h3>Step 3: Services and visit frequency</h3><div id="cats"></div></div>
+<div class="card"><h3>Step 4: Emergency response</h3><select id="sla" aria-label="Emergency response"></select></div>
+</div>
+
+<aside class="sum" aria-live="polite">
+<h3>Live plan valuation</h3>
+<div class="row"><span>Total visits</span><b id="sV"></b></div>
+<div class="row"><span>Contract duration</span><b id="sM"></b></div>
+<div class="row"><span>Emergency response</span><b id="sS" class="pq-g"></b></div>
+<div class="row"><span>Services selected</span><b id="sC"></b></div>
+<div class="box">
+<div class="row"><span>Service total</span><b id="sB"></b></div>
+<div class="row g"><span>Emergency support</span><b id="sE"></b></div>
+<div class="row g"><span id="sDl">Advance payment discount</span><b id="sD"></b></div>
+<div class="row"><span id="sGl">GST</span><b id="sG"></b></div>
+</div>
+<label class="up"><input type="checkbox" id="upfront" checked> Pay full amount upfront and save</label>
+<div style="font-size:12px">Total contract value (incl. GST)</div>
+<div class="tot" id="sT"></div>
+<div style="font-size:12px" id="sP"></div>
+<button class="btn" id="gen">Continue to payment</button>
+<p class="note">Prices include GST. Our team will call you to confirm your booking.</p>
+</aside>
+</div>
+</section>
+</main>
+
+<dialog id="qd"><form class="q" id="qf" method="dialog" novalidate>
+<div class="qh">
+<div class="qtop"><span class="qdate">📅 <span id="qDate"></span></span></div>
+<h3 id="qT">Confirm &amp; pay</h3>
+<div class="ql">Total payable (incl. GST)</div>
+<div class="qamt" id="qAmt"></div>
+<span class="qsave" id="qSave" hidden>✓ <span id="qSaveT"></span></span>
+</div>
+<div class="qchips" id="qChips"></div>
+<div class="qb"><div id="qR"></div></div>
+<div class="qform">
+<h4>Your details</h4>
+<p>Fill these in and pay to confirm your AMC booking.</p>
+<label class="lbl">Your name<input type="text" name="name" autocomplete="name" placeholder="e.g. Rahul Sharma" required></label>
+<label class="lbl">Mobile number<input type="tel" name="phone" inputmode="numeric" placeholder="10-digit number" autocomplete="tel" required></label>
+<label class="lbl">Email (optional)<input type="email" name="email" autocomplete="email" placeholder="you@example.com"></label>
+<label class="lbl">Property address<input type="text" name="address" autocomplete="street-address" placeholder="Shop / building, area, city" required></label>
+<div class="lbl">Location (optional)<br><button type="button" class="btn ghost loc" id="qLoc">📍 Use my current location</button><span class="locn" id="qLocT"></span></div>
+<label class="lbl">Preferred start date<input type="date" name="date" id="qDt" required></label>
+<div class="lbl">Payment method</div>
+<div class="pm">
+<label><input type="radio" name="method" value="upi" checked><span>UPI</span></label>
+<label><input type="radio" name="method" value="bank"><span>Bank Transfer</span></label>
+<label><input type="radio" name="method" value="cash"><span>Cash</span></label>
+</div>
+<div class="pinfo" id="qUpi" hidden></div>
+<div class="pinfo" id="qBank" hidden></div>
+<div class="msg" id="qM" role="status"></div>
+<div class="done" id="qDone" hidden></div>
+<div class="two">
+<button type="button" class="btn ghost" id="qX">Close</button>
+<button type="submit" class="btn" id="qS">Proceed to Pay</button>
+</div></div>
+<div class="qfoot"><span>Ghar to Health</span><a href="mailto:ghartohealth@gmail.com">✉ ghartohealth@gmail.com</a></div>
+</form></dialog>
+
+<script src="login.js"></script>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})},
+inr=function(n){return '₹'+Math.round(n).toLocaleString('en-IN')},
+P,C,T,S,type,qs=new URLSearchParams(location.search);
+
+fetch('/api/amc-pricing').then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return fetch('amc-pricing.json').then(function(r){return r.json()})})
+.then(init).catch(function(){$('#plans').textContent='Unable to load plans. Please refresh the page.'});
+
+function init(d){
+ P=d;C=P.config;
+ var keys=Object.keys(P).filter(function(k){return P[k].categories});
+ type=keys.indexOf(qs.get('type'))>-1?qs.get('type'):keys[0];T=P[type];
+ $('#types').innerHTML=keys.map(function(k){return '<a href="?type='+k+'" class="'+(k===type?'on':'')+'">'+esc(P[k].label)+'</a>'}).join('');
+ $('#ttl').textContent=T.label;$('#intro').textContent=T.intro;document.title=T.label+' Plans | Ghar to Health';
+ S={prop:T.propertyTypes[0].id,area:T.defaultArea,floors:1,outlets:1,months:12,sel:{},sla:T.emergency[0].id,upfront:true};
+ var mid=T.plans[1]||T.plans[0];S.sel=Object.assign({},mid.preset);S.sla=mid.sla||S.sla;
+ $('#outL').style.display=T.outlets?'':'none';
+ renderPlans();renderBuilder();calc(true);
+}
+
+function renderPlans(){
+ $('#plans').innerHTML=T.plans.map(function(p,i){
+  var yr=p.monthly*12*(1-C.advanceDiscountPct/100);
+  return '<article class="plan'+(p.badge?' hot':'')+'">'+(p.badge?'<span class="bd">'+esc(p.badge)+'</span>':'')+
+  '<small>'+esc(T.short)+' PLAN</small><h3>'+esc(p.name)+'</h3><p>'+esc(p.desc)+'</p>'+
+  '<div class="pr"><b>'+inr(p.monthly)+'</b> /month<em>'+inr(yr)+'/year (save '+C.advanceDiscountPct+'% on annual pay)</em></div>'+
+  '<ul>'+p.features.map(function(f){return '<li>'+esc(f)+'</li>'}).join('')+'</ul>'+
+  '<button class="btn ghost" data-trial="'+i+'">Start 1-month trial ('+inr(p.monthly)+')</button>'+
+  '<button class="btn" data-cust="'+i+'">Customize annual plan</button></article>'}).join('');
+}
+
+function renderBuilder(){
+ $('#props').innerHTML=T.propertyTypes.map(function(p){return '<button data-p="'+p.id+'" class="'+(p.id===S.prop?'on':'')+'">'+esc(p.name)+'</button>'}).join('');
+ $('#months').innerHTML=C.durations.map(function(m){return '<button data-m="'+m+'" class="'+(m===S.months?'on':'')+'">'+m+' months</button>'}).join('');
+ $('#area').value=S.area;$('#floors').value=S.floors;$('#outlets').value=S.outlets;$('#upfront').checked=S.upfront;
+ $('#sla').innerHTML=T.emergency.map(function(e){return '<option value="'+e.id+'"'+(e.id===S.sla?' selected':'')+'>'+esc(e.name)+(e.price?' (+'+inr(e.price)+'/yr)':'')+'</option>'}).join('');
+ renderCats();
+}
+function renderCats(){
+ $('#cats').innerHTML=T.categories.map(function(c){
+  var on=!!S.sel[c.id];
+  return '<div class="cat'+(on?' on':'')+'"><input type="checkbox" data-c="'+c.id+'" aria-label="'+esc(c.name)+'"'+(on?' checked':'')+'>'+
+  '<div><b>'+esc(c.name)+'</b><small>'+esc(c.desc)+'</small></div>'+
+  '<select data-f="'+c.id+'" aria-label="Frequency for '+esc(c.name)+'"'+(on?'':' disabled')+'>'+
+  Object.keys(C.frequencies).map(function(k){return '<option value="'+k+'"'+(S.sel[c.id]===k?' selected':'')+'>'+esc(C.frequencies[k].name)+'</option>'}).join('')+'</select></div>'}).join('');
+}
+
+function calc(paint){
+ var pm=T.propertyTypes.filter(function(x){return x.id===S.prop})[0].mult,
+ af=Math.max(.7,Math.min(3,.4+.6*S.area/T.areaBase)),ff=1+.05*(S.floors-1),of=T.outlets?S.outlets:1,
+ visits=0,n=0,base=0;
+ T.categories.forEach(function(c){var f=S.sel[c.id];if(!f)return;
+  var v=Math.max(1,Math.round(C.frequencies[f].visits*S.months/12));visits+=v*of;n++;base+=v*c.perVisit*pm*af*ff*of});
+ var sla=T.emergency.filter(function(e){return e.id===S.sla})[0],
+ em=n?sla.price*S.months/12:0,disc=S.upfront?base*C.advanceDiscountPct/100:0,
+ taxable=base+em-disc,gst=taxable*C.gstPct/100,total=taxable+gst,
+ r={visits:visits,n:n,base:base,em:em,disc:disc,gst:gst,total:total,sla:sla.name};
+ if(paint){
+  $('#sV').textContent=visits+' visits';$('#sM').textContent=S.months+' months';$('#sS').textContent=sla.name.replace(/ \(.*/,'');
+  $('#sC').textContent=n+(n===1?' category':' categories');$('#sB').textContent=inr(base);$('#sE').textContent='+'+inr(em);
+  $('#sD').textContent='-'+inr(disc);$('#sDl').textContent='Advance payment discount ('+C.advanceDiscountPct+'%)';
+  $('#sG').textContent=inr(gst);$('#sGl').textContent='GST ('+C.gstPct+'%)';$('#sT').textContent=inr(total);
+  $('#sP').textContent='≈ '+inr(total/S.months)+'/month';$('#gen').disabled=!n;
+ }
+ return r;
+}
+
+/* events */
+document.querySelector('.tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+ document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b)});
+ $('#plans').hidden=b.dataset.t!=='plans';$('#build').hidden=b.dataset.t!=='build'});
+function showBuild(){document.querySelector('[data-t=build]').click();window.scrollTo({top:0,behavior:'smooth'})}
+$('#plans').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+ if(b.dataset.cust!==undefined){var p=T.plans[b.dataset.cust];S.sel=Object.assign({},p.preset);S.sla=p.sla||T.emergency[0].id;S.months=12;renderBuilder();calc(true);showBuild()}
+ if(b.dataset.trial!==undefined){var p2=T.plans[b.dataset.trial],amt=p2.monthly*(1+C.gstPct/100);
+  openQ(p2.name+' – 1-month trial',[['Plan',p2.name],['Duration','1 month'],['Monthly fee',inr(p2.monthly)],['GST ('+C.gstPct+'%)',inr(p2.monthly*C.gstPct/100)],['Total',inr(amt)]],{mode:'trial',plan:p2.name,total:Math.round(amt)},{chips:[p2.name,'1 month'],details:[['Plan',p2.name],['Duration','1 month (trial)'],['Monthly fee',inr(p2.monthly)],['Emergency response',(T.emergency.filter(function(e){return e.id===(p2.sla||T.emergency[0].id)})[0]||T.emergency[0]).name]],scope:p2.features.map(function(f){return{name:f}})})}});
+$('#props').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.prop=b.dataset.p;
+ document.querySelectorAll('#props button').forEach(function(x){x.classList.toggle('on',x===b)});calc(true)});
+$('#months').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.months=+b.dataset.m;
+ document.querySelectorAll('#months button').forEach(function(x){x.classList.toggle('on',x===b)});calc(true)});
+$('#cats').addEventListener('change',function(e){var t=e.target;
+ if(t.dataset.c){if(t.checked)S.sel[t.dataset.c]=S.sel[t.dataset.c]||'quarterly';else delete S.sel[t.dataset.c];renderCats()}
+ else if(t.dataset.f)S.sel[t.dataset.f]=t.value;calc(true)});
+function num(id,key,min,max){$(id).addEventListener('input',function(){var v=parseFloat(this.value);S[key]=isNaN(v)?min:Math.max(min,Math.min(max,v));calc(true)})}
+num('#area','area',100,100000);num('#floors','floors',1,30);num('#outlets','outlets',1,50);
+$('#sla').addEventListener('change',function(){S.sla=this.value;calc(true)});
+$('#upfront').addEventListener('change',function(){S.upfront=this.checked;calc(true)});
+
+/* ===== PAYMENT SETTINGS =====
+   TODO: replace the demo values with your real UPI ID and bank details before going live. */
+var PAY={name:'Ghar to Health',upi:'sy4453805@oksbi',
+ bank:{name:'Ghar to Health',bank:'State Bank of India',acc:'44213436889',ifsc:'SBIN0009511'}};
+var payload,loc=null;
+$('#gen').addEventListener('click',function(){
+ var r=calc(),pt=T.propertyTypes.filter(function(x){return x.id===S.prop})[0].name;
+ var rows=[['Emergency response',r.sla],['Service total',inr(r.base)],['Emergency support',r.em>0?'+'+inr(r.em):'Included']];
+ if(r.disc>0)rows.push(['Advance discount','-'+inr(r.disc)]);
+ rows.push(['GST ('+C.gstPct+'%)',inr(r.gst)],['Total (incl. GST)',inr(r.total)]);
+ openQ('Your custom AMC plan',rows,{mode:'custom',spec:{property:S.prop,area:S.area,floors:S.floors,outlets:S.outlets,months:S.months,services:S.sel,sla:S.sla,upfront:S.upfront},total:Math.round(r.total)},
+  {save:r.disc,chips:[pt+', '+S.area+' sq.ft',S.months+' months',r.n+(r.n===1?' category, ':' categories, ')+r.visits+' visits']})});
+var Q={};
+function openQ(title,rows,pl,meta){payload=pl;payload.type=type;meta=meta||{};Q={title:title,rows:rows,pl:pl,meta:meta};loc=null;
+ var d=fmtNow(new Date());
+ $('#qDate').textContent=d;$('#qT').textContent=title;$('#qAmt').textContent=inr(pl.total);
+ if(meta.save>0){$('#qSave').hidden=false;$('#qSaveT').textContent='You save '+inr(meta.save)+' with advance payment'}else{$('#qSave').hidden=true}
+ $('#qChips').innerHTML=(meta.chips||[]).map(function(c){return '<span class="qchip">'+esc(c)+'</span>'}).join('');
+ var all=[['Date',d]].concat(rows);
+ $('#qR').innerHTML=all.map(function(r,i){return '<div class="row'+(i===all.length-1?' fin':'')+'"><span>'+esc(r[0])+'</span><b'+(i===0?' id="qDrow"':'')+'>'+esc(r[1])+'</b></div>'}).join('');
+ $('#qM').textContent='';$('#qM').className='msg';
+ $('#qf').reset();lock(false);$('#qBank').innerHTML=bankHTML();$('#qUpi').innerHTML=upiHTML();$('#qDone').hidden=true;$('#qDone').innerHTML='';$('#qLocT').textContent='';
+ $('#qDt').min=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'});
+ $('#qS').hidden=false;$('#qS').disabled=false;syncM();
+ $('#qd').showModal();
+ /* real date/time from the server (falls back to the device clock if the server cannot be reached) */
+ fetch('/api/time',{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){
+  var dt=new Date(j&&j.now);if(isNaN(dt.getTime()))return;var t=fmtNow(dt);$('#qDate').textContent=t;$('#qDrow').textContent=t}).catch(function(){})}
+function fmtNow(dt){return dt.toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Asia/Kolkata'})}
+function lock(on){$('#qf').querySelectorAll('.qform input,#qLoc').forEach(function(i){i.disabled=on})}
+$('#qX').addEventListener('click',function(){$('#qd').close()});
+$('#qLoc').addEventListener('click',function(){
+ var t=$('#qLocT');
+ if(!navigator.geolocation){t.style.color='#c62828';t.textContent='Location is not available on this device.';return}
+ t.style.color='';t.textContent='Getting location...';
+ navigator.geolocation.getCurrentPosition(function(p){loc={lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6)};t.textContent='✓ Location added'},
+  function(){loc=null;t.style.color='#c62828';t.textContent='Could not get location. You can skip this.'},{enableHighAccuracy:true,timeout:10000})});
+function cpb(v){return '<button type="button" class="cpy" data-v="'+esc(v)+'">Copy</button>'}
+function upiHTML(){
+ return '<p class="pt">Pay '+inr(Q.pl.total)+' to this UPI ID:</p>'+
+  '<div class="pl"><span>'+esc(PAY.upi)+'</span>'+cpb(PAY.upi)+'</div>'+
+  '<p class="pn">Tap "Proceed to Pay" to save your booking and open your UPI app (GPay / PhonePe / Paytm).</p>'}
+function bankHTML(){var B=PAY.bank;
+ return '<p class="pt">Transfer '+inr(Q.pl.total)+' to:</p>'+
+  '<div class="pl">Account name: '+esc(B.name)+'</div>'+
+  '<div class="pl">Bank: '+esc(B.bank)+'</div>'+
+  '<div class="pl"><span>Account no: '+esc(B.acc)+'</span>'+cpb(B.acc)+'</div>'+
+  '<div class="pl">IFSC: '+esc(B.ifsc)+'</div>'+
+  '<p class="pn">After transferring, enter the transaction reference (UTR) below.</p>'+
+  '<label>Bank transfer reference / UTR<input type="text" name="utr" maxlength="30" autocomplete="off" placeholder="Required - enter after paying" required></label>'}
+document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.cpy');if(!t)return;
+ var v=t.getAttribute('data-v'),done=function(){t.textContent='Copied';t.classList.add('ok');setTimeout(function(){t.textContent='Copy';t.classList.remove('ok')},1500)};
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(v).then(done,function(){fb()})}else fb();
+ function fb(){var i=document.createElement('input');i.value=v;document.body.appendChild(i);i.select();try{document.execCommand('copy')}catch(x){}document.body.removeChild(i);done()}});
+function syncM(){var m=($('#qf').querySelector('input[name=method]:checked')||{}).value||'upi';
+ $('#qBank').hidden=m!=='bank';$('#qUpi').hidden=m!=='upi'||!!$('#qS').hidden;
+ $('#qS').textContent=m==='bank'?'Submit payment details':m==='cash'?'Confirm booking ('+inr(Q.pl.total)+')':'Proceed to Pay '+inr(Q.pl.total)+' \u2192'}
+document.querySelector('.pm').addEventListener('change',syncM);
+function cp(label,val){return '<label>'+esc(label)+'<input type="text" readonly value="'+esc(val)+'"></label>'}
+function showDone(id,method,amt){
+ var el=$('#qDone'),h='';
+ if(method==='upi'){
+  var link='upi://pay?pa='+encodeURIComponent(PAY.upi)+'&pn='+encodeURIComponent(PAY.name)+'&am='+amt.toFixed(2)+'&cu=INR&tn='+encodeURIComponent('AMC '+id);
+  h='<p><b>Booking '+esc(id)+' saved.</b> Pay '+inr(amt)+' in your UPI app (Google Pay, PhonePe, Paytm...). Our team confirms once the payment is received.</p>'+
+   '<a class="btn" href="'+esc(link)+'">Open UPI app to pay '+inr(amt)+'</a>'+cp('UPI ID (if the app does not open)',PAY.upi)+cp('Reference / note',id);
+  el.innerHTML=h;el.hidden=false;
+  setTimeout(function(){location.href=link},300);
+ }else if(method==='bank'){
+  $('#qBank').hidden=true;
+  el.innerHTML='<p><b>Booking '+esc(id)+' saved.</b> We have received your transfer details for '+inr(amt)+'. Our team will verify the payment and call you to confirm.</p>';el.hidden=false;
+ }else{
+  el.innerHTML='<p><b>Booking '+esc(id)+' saved.</b> Please pay '+inr(amt)+' in cash to our executive at the first visit. Our team will call you shortly to confirm.</p>';el.hidden=false;
+ }}
+$('#qf').addEventListener('submit',function(e){e.preventDefault();if(window.GHTLogin&&!window.__ghtOk){var selfF=this;GHTLogin.require(function(){window.__ghtOk=true;selfF.requestSubmit()});return}
+ var f=this,m=$('#qM'),d={};new FormData(f).forEach(function(v,k){d[k]=v});
+ var ph=String(d.phone||'').replace(/\D/g,'').slice(-10);
+ if(!String(d.name||'').trim()||ph.length!==10||!String(d.address||'').trim()){m.className='msg err';m.textContent='Please enter your name, a 10-digit mobile number and the property address.';return}
+ if(!d.date){m.className='msg err';m.textContent='Please choose a preferred start date.';return}
+ var method=d.method||'upi',b=$('#qS'),utr=String(d.utr||'').replace(/[^A-Za-z0-9]/g,'');
+ if(method==='bank'&&utr.length<6){m.className='msg err';m.textContent='Please transfer the amount, then enter the transaction / UTR number.';return}
+ 
+ b.disabled=true;m.className='msg';m.textContent='Saving your booking...';
+ fetch('/api/amc-quotes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({},payload,{customer:{name:d.name,phone:ph,email:d.email||'',address:d.address},preferredDate:d.date,method:method,utr:utr,location:loc}))})
+ .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+ .then(function(x){
+  if(!x.ok){m.className='msg err';m.textContent=x.j.error||'Something went wrong.';return}
+  var amt=Number(x.j.total)||payload.total;
+  $('#qAmt').textContent=inr(amt);
+  m.className='msg ok';m.textContent='Booking received (ID: '+x.j.id+').';
+  lock(true);$('#qS').hidden=true;$('#qUpi').hidden=true;showDone(x.j.id,method,amt);if(x.j.invoiceNo){$('#qDone').insertAdjacentHTML('beforeend','<p><a class="btn ghost" target="_blank" href="/api/invoice?id='+encodeURIComponent(x.j.id)+'&phone='+encodeURIComponent(ph)+'">View / Print Invoice</a></p>')}})
+ .catch(function(){m.className='msg err';m.textContent='Cannot reach the server. Please try again.'})
+ .then(function(){if(!b.hidden)b.disabled=false})});
+})();
+</script>
+<script>
+/* Block text selection (and Chrome's Touch-to-Search panel) everywhere except form fields */
+(function(){
+  function isField(t){return t&&t.closest&&t.closest('input,textarea,select,[contenteditable="true"]')}
+  document.addEventListener('selectstart',function(e){if(!isField(e.target))e.preventDefault()});
+  document.addEventListener('contextmenu',function(e){if(!isField(e.target))e.preventDefault()});
+  document.addEventListener('dragstart',function(e){if(!isField(e.target))e.preventDefault()});
+  document.addEventListener('selectionchange',function(){
+    var a=document.activeElement;
+    if(a&&/^(INPUT|TEXTAREA)$/.test(a.tagName))return;
+    var s=window.getSelection&&window.getSelection();
+    if(s&&!s.isCollapsed)s.removeAllRanges();
+  });
+})();
+</script>
+
+</body>
+</html>

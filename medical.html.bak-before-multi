@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Services | Ghar to Health</title>
+<link rel="icon" href="logo.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f7fbff;color:#12365d;line-height:1.5;padding-bottom:90px}
+[hidden]{display:none!important}
+a{text-decoration:none;color:inherit}button,select,input,textarea{font-family:inherit}
+:focus-visible{outline:3px solid #087cf2;outline-offset:2px}
+.wrap{width:92%;max-width:1100px;margin:auto}
+.hd{background:#fff;border-bottom:1px solid #e3edf6;position:sticky;top:0;z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:66px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;color:#0758ad;font-size:18px}
+.logo img{height:42px;width:auto;display:block}
+.back{font-size:13px;font-weight:700;color:#0875df}
+.top{background:linear-gradient(110deg,#e8f8ff,#cceeff 55%,#a8defb);padding:34px 0 30px;border-radius:0 0 30px 30px}
+.top h1{font-size:34px;color:#07213f;line-height:1.15}
+.top h1 span{color:#087cf2}
+.top p{color:#496981;max-width:560px;margin-top:6px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 20px}
+.tabs button{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:30px;border:1px solid #cfe0ee;background:#fff;font-weight:700;font-size:14px;color:#375775;cursor:pointer}
+.tabs button.on{background:#087cf2;border-color:#087cf2;color:#fff}
+.lead{color:#5b7690;margin-bottom:16px;max-width:680px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.item{position:relative;text-align:left;background:#fff;border:1.5px solid #d9ebf8;border-radius:16px;padding:16px;cursor:pointer;transition:.2s;font-size:inherit;color:inherit}
+.item:hover{border-color:#087cf2}
+.pic{display:block;width:100%;height:160px;object-fit:cover;border-radius:10px;margin-bottom:10px;background:#eaf4fd}
+.item.on{border-color:#087cf2;background:#f1f8ff;box-shadow:0 0 0 3px rgba(8,124,242,.15)}
+.item b{display:block;font-size:15px;color:#0a396b;padding-right:26px}
+.item small{display:block;color:#6c8299;font-size:12.5px;margin-top:3px}
+.item .pr{display:block;margin-top:10px;font-weight:800;color:#087cf2;font-size:16px}
+.item ul{list-style:none;margin-top:8px;display:grid;gap:3px;font-size:12.5px;color:#375775}
+.item li::before{content:"✓";color:#087cf2;font-weight:800;margin-right:6px}
+.item .tick{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;border:1.5px solid #bcd4e8;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:800;background:#fff}
+.item.on .tick{background:#087cf2;border-color:#087cf2}
+.box{background:#fff;border:1px solid #d9ebf8;border-radius:16px;padding:18px;margin-top:16px}
+.box h3{font-size:15px;color:#0a396b;margin-bottom:10px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.how div{background:#eaf4ff;border-radius:14px;padding:14px;font-size:13px;color:#375775}
+.how b{display:block;color:#0a396b;margin-bottom:2px}
+label{display:block;font-size:12px;font-weight:700;color:#375775;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid #cfe0ee;border-radius:12px;font-size:14px;color:#12365d;background:#fff}
+textarea{resize:vertical}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #d9ebf8;box-shadow:0 -8px 24px rgba(12,89,145,.1);z-index:60;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px))}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.bar small{display:block;color:#6c8299;font-size:12px}
+.bar b{font-size:18px;color:#0a396b}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:30px;font-weight:700;font-size:14px;border:none;cursor:pointer;background:linear-gradient(135deg,#087ff5,#0564cf);color:#fff;box-shadow:0 10px 22px rgba(8,124,242,.2)}
+.btn.ghost{background:#fff;color:#0875df;border:1px solid #1687ed;box-shadow:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+dialog{border:none;border-radius:20px;padding:0;width:min(440px,94vw);max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(7,57,110,.35)}
+dialog::backdrop{background:rgba(7,57,110,.45)}
+.modal{padding:24px}
+.modal h3{color:#0a396b;font-size:22px}
+.modal .sum{background:#eef7ff;border-radius:12px;padding:10px 12px;margin:10px 0 2px;font-size:13px;color:#375775}
+.modal .row{display:flex;gap:10px;margin-top:16px}.modal .row .btn{flex:1}
+.msg{font-size:13px;margin-top:10px;min-height:18px}.msg.err{color:#c62828}.msg.ok{color:#1b7f3b;font-weight:600}
+.note{font-size:12px;color:#6c8299;margin-top:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;font-weight:500;color:#375775;margin-top:12px}
+.chk input{width:auto;margin-top:3px}
+.bar[hidden]{display:none}
+@media(max-width:860px){.grid,.how{grid-template-columns:1fr 1fr}.top h1{font-size:28px}}
+@media(max-width:560px){.grid,.how{grid-template-columns:1fr}.tabs button{padding:9px 14px;font-size:13px}}
+.gwrap{position:relative}.gdrop{position:absolute;z-index:60;background:#fff;border:1px solid #cfe0ee;border-radius:12px;box-shadow:0 8px 24px rgba(10,57,107,.18);overflow:hidden}.gdrop:empty{display:none}
+.gi{padding:10px 12px;font-size:14px;color:#12365d;cursor:pointer;border-bottom:1px solid #eef4f9}.gi:hover{background:#eef7ff}.gpw{padding:4px 12px;font-size:10px;color:#7a8da0;text-align:right}
+.gloc{display:block;margin-top:6px;padding:7px 12px;border:1px solid #087cf2;border-radius:20px;background:#fff;color:#087cf2;font:600 13px 'Segoe UI',sans-serif;cursor:pointer}.gloc[hidden]{display:none}.gloc:disabled{opacity:.6}
+.val{background:#0a2c55;color:#fff;border-radius:16px;padding:20px;margin-top:16px;max-width:540px}
+.val h3{color:#fff;font-size:20px;margin-bottom:10px}
+.vbox{background:#071f3d;border-radius:12px;padding:10px 14px;margin:10px 0}
+.vr{display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-size:14px;color:#cfe3f7}
+.vr b{color:#fff;text-align:right}
+.vr.s{border-top:1px solid #1e4a7c;margin-top:6px;padding-top:9px}
+.vr em{font-style:normal;color:#6fe3a8;font-size:12px}
+.vt small{display:block;color:#9bbbdc;font-size:13px}.vt strong{font-size:34px;font-weight:800}
+.vn{font-size:12.5px;color:#9bbbdc;margin-top:8px}
+.vbtn{width:100%;margin-top:14px;padding:14px;border:0;border-radius:30px;background:#0a84ff;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
+</style>
+</head>
+<body>
+<header class="hd"><div class="wrap nav">
+<a class="logo" href="index.html"><img src="logo.png" alt="Ghar to Health"><b>Ghar to Health</b></a>
+<a class="back" href="index.html">← Back to home</a>
+</div></header>
+
+<section class="top"><div class="wrap">
+<h1>Medical Services, <span>from home.</span></h1>
+<p>Consult a doctor, order medicines, book lab tests and health check-ups without leaving your house.</p>
+</div></section>
+
+<main class="wrap">
+<div class="tabs" id="tabs" role="tablist"></div>
+<div id="panel"></div>
+<p class="note">Prices shown are indicative. The final amount is confirmed by our team when they call you.</p>
+</main>
+
+<div class="bar"><div class="wrap">
+<div><small id="bSub">Nothing selected</small><b id="bTot"></b></div>
+<button class="btn" id="bBtn" disabled>Book now</button>
+</div></div>
+
+<dialog id="dlg"><form class="modal" id="frm" method="dialog" novalidate>
+<h3 id="mT">Confirm booking</h3>
+<div class="sum" id="mS"></div>
+<label for="fN">Patient name</label><input id="fN" name="name" autocomplete="name" required>
+<div class="two"><div><label for="fP">Mobile number</label><input id="fP" name="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel" required></div>
+<div><label for="fG">Age (optional)</label><input id="fG" name="age" type="number" min="0" max="120"></div></div>
+<label for="fA">Address</label><textarea id="fA" name="address" rows="2" required autocomplete="off"></textarea><button type="button" class="gloc" data-g="fA" id="fAloc" hidden>📍 Use my current location</button>
+<div class="two"><div><label for="fD">Preferred date</label><input id="fD" name="date" type="date" required></div>
+<div><label for="fS">Time slot</label><select id="fS" name="slot"><option value="Morning (9-12)">Morning (9-12)</option><option value="Afternoon (12-4)">Afternoon (12-4)</option><option value="Evening (4-8)">Evening (4-8)</option></select></div></div>
+<label for="fT">Anything we should know? (optional)</label><textarea id="fT" rows="2" maxlength="200"></textarea>
+<div id="idBox" hidden><label for="fI">Aadhaar card photo (compulsory)</label><input id="fI" type="file" accept="image/*"><p class="note" style="margin-top:4px">Used only to verify the patient or attendant. Seen only by our team.</p></div>
+<div id="airBox" hidden><p class="note" style="margin:10px 0 0"><b>Flight transfer details</b> (needed by the airline)</p>
+<label for="aW">Patient weight (kg)</label><input id="aW" type="number" min="1" max="250">
+<label for="aDx">Medical condition / diagnosis</label><textarea id="aDx" rows="2" maxlength="200"></textarea>
+<label for="aSt">Patient can</label><select id="aSt"><option value="stretcher">Only lie down (stretcher)</option><option value="sit">Sit in a seat</option></select>
+<label for="aOx">Needs oxygen?</label><select id="aOx"><option value="no">No</option><option value="yes">Yes</option></select>
+<label for="aIn">Any infection or pregnancy?</label><select id="aIn"><option value="no">No</option><option value="yes">Yes</option></select>
+<label for="aAn">Attendant travelling with patient</label><input id="aAn" maxlength="80" placeholder="Name"><input id="aAp" type="tel" inputmode="numeric" placeholder="Attendant mobile (10 digits)" style="margin-top:6px">
+<label for="aDh">Drop hospital name (and city)</label><input id="aDh" maxlength="120">
+<label for="aFit">Doctor's fitness-to-fly certificate (photo, compulsory)</label><input id="aFit" type="file" accept="image/*">
+<label for="aRep">Medical reports / discharge summary (photo, compulsory)</label><input id="aRep" type="file" accept="image/*">
+<label for="aBed">Drop hospital bed confirmation (photo, optional)</label><input id="aBed" type="file" accept="image/*">
+<p class="note" style="margin-top:6px">Today you pay only a small approval fee. Our team gets the airline's approval, then you pay the balance and we handle pickup, flight and hospital drop. If the airline does not approve, you get a full refund. If you cancel yourself, the approval fee is not refunded (see the refund table on the payment page).</p></div>
+<label class="chk"><input type="checkbox" id="fC"><span>I agree to share these details with Ghar to Health and its partner for this service, and I accept the <a href="legal.html#privacy" target="_blank" style="color:#087cf2;font-weight:700">Privacy Policy</a>.</span></label>
+<p class="note" style="margin-top:8px">In an emergency, call 108 right away.</p>
+<div class="msg" id="mM" role="status"></div>
+<div class="row"><button type="button" class="btn ghost" id="mX">Close</button><button type="submit" class="btn" id="mB">Confirm booking</button></div>
+</form></dialog>
+
+<script>
+(function(){
+/* ====== EDIT HERE: your services, tests, packages and prices (in rupees) ====== */
+var DATA={
+ doctor:{label:'Doctor Consultation',icon:'🧑‍⚕️',mode:'single',
+  lead:'Talk to a registered doctor by video or phone, or ask for a home visit. Choose a speciality to begin.',
+  how:['Pick a speciality','Our team calls you and fixes a time','Consult the doctor and get a prescription'],
+  items:[
+   {id:'gp',name:'General Physician',sub:'Fever, cold, stomach pain, general health',price:299},
+   {id:'skin',name:'Skin Specialist',sub:'Rashes, acne, hair fall, allergies',price:499},
+   {id:'child',name:'Child Specialist',sub:'Children\'s health, growth, vaccination advice',price:499},
+   {id:'women',name:'Women\'s Health',sub:'Periods, pregnancy care, general women\'s health',price:599},
+   {id:'diab',name:'Diabetes & Thyroid',sub:'Sugar control, thyroid, weight',price:499},
+   {id:'heart',name:'Heart Specialist',sub:'BP, chest pain, heart check',price:699}
+  ],
+  extra:{label:'How would you like to consult?',opts:['Video call','Phone call','Doctor visit at home']}},
+ medicine:{label:'Medicine Delivery',icon:'💊',mode:'none',
+  lead:'Share your medicines and our team will arrange delivery at your door through a licensed pharmacy.',
+  how:['Tell us what you need','We confirm availability and price on call','Medicines reach your home'],
+  items:[],
+  form:true,
+  features:['Regular monthly medicines (BP, sugar, thyroid)','Prescription medicines (keep the prescription ready)','Health devices: thermometer, BP monitor, sugar strips','Priority delivery for senior citizens']},
+ lab:{label:'Lab Tests',icon:'🧪',mode:'multi',
+  lead:'Choose one or more tests. A trained person comes home to collect the sample and the report is sent to you.',
+  how:['Select your tests','Sample collected at your home','Report sent to you'],
+  items:[
+   {id:'cbc',name:'CBC (Complete Blood Count)',sub:'Blood health, infection, anaemia',price:300},
+   {id:'fbs',name:'Blood Sugar (Fasting)',sub:'Diabetes screening',price:100},
+   {id:'hba1c',name:'HbA1c',sub:'3-month average sugar',price:450},
+   {id:'tsh',name:'Thyroid (TSH)',sub:'Thyroid function',price:350},
+   {id:'lipid',name:'Lipid Profile',sub:'Cholesterol and heart risk',price:600},
+   {id:'lft',name:'Liver Function (LFT)',sub:'Liver health',price:600},
+   {id:'kft',name:'Kidney Function (KFT)',sub:'Kidney health',price:600},
+   {id:'vitd',name:'Vitamin D',sub:'Bone and immunity',price:1000},
+   {id:'b12',name:'Vitamin B12',sub:'Nerves and energy',price:800}
+  ]},
+ checkup:{label:'Health Check-up',icon:'💙',mode:'single',
+  lead:'Complete packages for you and your family. Pick the one that fits.',
+  how:['Choose a package','Sample collected at home','Report with doctor advice on call'],
+  items:[
+   {id:'basic',name:'Basic Health Check',sub:'12 tests',price:999,inc:['CBC','Blood sugar','Lipid profile','Urine routine']},
+   {id:'full',name:'Full Body Check-up',sub:'60+ tests',price:1999,inc:['CBC, sugar, HbA1c','Lipid, liver, kidney','Thyroid, Vitamin D & B12']},
+   {id:'senior',name:'Senior Citizen',sub:'Ages 60+',price:2499,inc:['Heart and sugar checks','Liver, kidney, thyroid','Bone health, Vitamin D']},
+   {id:'diab',name:'Diabetes Care',sub:'Sugar and complications',price:1299,inc:['Fasting sugar, HbA1c','Kidney function','Lipid profile']},
+   {id:'women',name:'Women\'s Health',sub:'Women-focused tests',price:1799,inc:['CBC, thyroid, iron','Vitamin D & B12','Sugar and lipid profile']},
+   {id:'heart',name:'Heart Care',sub:'Heart risk screening',price:2299,inc:['Lipid profile','Blood sugar, HbA1c','Kidney and liver function']}
+  ]}
+ ,nurse:{label:'Nurse at Home',icon:'👩‍⚕️',mode:'multi',
+  lead:'A trained nurse visits your home for injections, dressings, vitals checks and patient care.',
+  how:['Choose the care you need','Our team confirms a time on call','Nurse visits your home'],
+  items:[
+   {id:'inj',name:'Injection / IV Drip',sub:'As prescribed by your doctor',price:299},
+   {id:'dress',name:'Wound Dressing',sub:'Cleaning and dressing of wounds',price:349},
+   {id:'vitals',name:'BP, Sugar & Vitals Check',sub:'Home visit with readings noted',price:249},
+   {id:'shift',name:'Patient Care (per day shift)',sub:'Elderly and bed-ridden care, 8 hours',price:1200}
+  ]}
+ ,physio:{label:'Physiotherapy',icon:'🦴',mode:'single',
+  lead:'Physiotherapy sessions at home for pain relief, recovery and movement.',
+  how:['Choose a session type','Our team fixes a time on call','Physiotherapist visits your home'],
+  items:[
+   {id:'one',name:'Single Home Session',sub:'Assessment and treatment, about 45 mins',price:599},
+   {id:'back',name:'Back & Neck Pain Plan',sub:'5 sessions',price:2799},
+   {id:'post',name:'Post-Surgery Rehab',sub:'10 sessions',price:5499},
+   {id:'sport',name:'Sports Injury Recovery',sub:'5 sessions',price:2999}
+  ]}
+ ,ambulance:{label:'Ambulance',icon:'🚑',mode:'single',keep:true,route:true,pay:true,
+  lead:'Choose the type of ambulance you need. The total price is shown below. Pay it online to confirm your booking and our team will call you. In an emergency, please call 108 first.',
+  how:['Choose the ambulance type and enter pickup and drop','Pay the total amount online to confirm','Ambulance arrives with a trained medical team'],
+  items:[
+   {id:'charter',img:'charter',name:'Domestic Air Ambulance (Charter Aircraft, India)',sub:'Private chartered aircraft with a medical team, for long-distance transfers',price:0},
+   {id:'airline',img:'airline',name:'Domestic Commercial Airline Transfer',sub:'Stretcher and lying-down transfer on a scheduled airline, for stable patients',price:0},
+   {id:'heli',img:'heli',name:'Helicopter Ambulance',sub:'Fast air transfer for shorter distances and hard-to-reach places',price:0},
+   {id:'van',img:'van',name:'Road Ambulance (Van)',sub:'Normal ambulance van for city and intercity patient transfer',price:0}
+  ]}
+ ,scans:{label:'Scans & Imaging',icon:'🩻',mode:'multi',
+  lead:'Book X-ray, ultrasound, ECG and other scans through our partner centres.',
+  how:['Select your scans','Our team books the slot for you','Visit the centre, get the report'],
+  items:[
+   {id:'xray',name:'X-Ray',sub:'Chest, bones and joints',price:500},
+   {id:'ecg',name:'ECG',sub:'Heart rhythm test',price:300},
+   {id:'usg',name:'Ultrasound (USG)',sub:'Abdomen and pelvis',price:1000},
+   {id:'ct',name:'CT Scan',sub:'Detailed body imaging',price:3500},
+   {id:'mri',name:'MRI Scan',sub:'Brain, spine and joints',price:6000}
+  ]}
+ ,dental:{label:'Dental Care',icon:'🦷',mode:'single',
+  lead:'Dental check-ups and treatment with our partner dentists.',
+  how:['Choose a treatment','Our team books your appointment','Visit the dentist'],
+  items:[
+   {id:'cons',name:'Dental Consultation',sub:'Check-up and advice',price:299},
+   {id:'clean',name:'Teeth Cleaning',sub:'Scaling and polishing',price:799},
+   {id:'fill',name:'Tooth Filling',sub:'Per tooth',price:1200},
+   {id:'rct',name:'Root Canal',sub:'Per tooth',price:3500}
+  ]}
+ ,eye:{label:'Eye Care',icon:'👁️',mode:'single',
+  lead:'Eye tests and consultation with our partner eye specialists.',
+  how:['Choose a service','Our team books your appointment','Visit the clinic'],
+  items:[
+   {id:'test',name:'Eye Check-up & Vision Test',sub:'Power check and eye health',price:299},
+   {id:'cat',name:'Cataract Consultation',sub:'Specialist opinion',price:499},
+   {id:'kid',name:'Child Eye Check-up',sub:'For children',price:399}
+  ]}
+ ,mental:{label:'Mental Health',icon:'🧠',mode:'single',
+  lead:'Private, confidential sessions with counsellors and psychiatrists.',
+  how:['Choose a session','Our team fixes a time on call','Talk with the expert'],
+  items:[
+   {id:'couns',name:'Counselling Session',sub:'Stress, anxiety, low mood',price:799},
+   {id:'psy',name:'Psychiatrist Consultation',sub:'Medical assessment',price:999},
+   {id:'fam',name:'Couple / Family Counselling',sub:'Joint session',price:999}
+  ],
+  extra:{label:'How would you like to consult?',opts:['Video call','Phone call']}}
+ ,diet:{label:'Diet & Nutrition',icon:'🥗',mode:'single',
+  lead:'Personal diet plans from qualified dietitians.',
+  how:['Choose a plan','Our team fixes a time on call','Get your diet plan'],
+  items:[
+   {id:'cons',name:'Diet Consultation',sub:'One-time session',price:499},
+   {id:'wl',name:'Weight Management Plan',sub:'1 month with follow-ups',price:1999},
+   {id:'dia',name:'Diabetes Diet Plan',sub:'Sugar-friendly meal plan',price:999},
+   {id:'preg',name:'Pregnancy Nutrition',sub:'Plan for mother and baby',price:999}
+  ]}
+};
+/* ====== end of editable part ====== */
+
+var $=function(s){return document.querySelector(s)},
+esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})},
+inr=function(n){return '\u20B9'+Number(n).toLocaleString('en-IN')},
+priceTxt=function(n){return n>0?inr(n):'On request'},
+keys=Object.keys(DATA),LBL={},COMING_SOON=[],sel={},route={from:'',to:''},key='doctor',mode='';
+keys.forEach(function(k){LBL[DATA[k].label.toLowerCase()]=k});
+
+var qp=new URLSearchParams(location.search),q=(qp.get('cat')||qp.get('s')||'').toLowerCase(),
+soonReq=COMING_SOON.indexOf(q)>-1;
+if(DATA[q])key=q;else if(LBL[q])key=LBL[q];
+
+/* Load the live service list and prices from the server (admin panel); built-in data above is the fallback */
+Promise.all([
+ fetch('/api/services').then(function(r){return r.json()}).catch(function(){return null}),
+ fetch('/api/medical-catalog').then(function(r){return r.json()}).catch(function(){return[]})
+]).then(function(r){
+ var names=r[0]&&r[0].medical,valid=names?names.map(function(n){return String(n).toLowerCase()}):null,live={};
+ (r[1]||[]).forEach(function(s){
+  var c=String(s.category||'').trim(),lc=c.toLowerCase();if(!c)return;
+  var k=LBL[lc];
+  if(!k){k='x'+lc.replace(/[^a-z0-9]/g,'');
+   if(!DATA[k]){DATA[k]={label:c,icon:'\uD83D\uDC99',mode:'single',lead:'Book this service and our team will call you to confirm.',how:['Choose an option','Our team confirms on call','Service is provided'],items:[]};keys.push(k);LBL[lc]=k}}
+  (live[k]=live[k]||[]).push({id:'c'+s.id,name:s.name,sub:s.description||s.duration||'',price:Number(s.price)||0});
+ });
+ Object.keys(live).forEach(function(k){if(!DATA[k].keep)DATA[k].items=live[k]});
+ if(valid)keys=keys.filter(function(k){return valid.indexOf(DATA[k].label.toLowerCase())>-1});
+ keys=keys.filter(function(k){return COMING_SOON.indexOf(DATA[k].label.toLowerCase())<0});
+ if(keys.indexOf(key)<0)key=keys[0];
+ render();
+});
+
+function tabs(){$('#tabs').innerHTML=keys.map(function(k){return '<button data-k="'+k+'" class="'+(k===key&&!soonReq?'on':'')+'" role="tab">'+DATA[k].icon+' '+esc(DATA[k].label)+'</button>'}).join('')}
+function valHtml(){
+ var p=picked()[0];if(!p||!AMB)return'';
+ var o=AMB.items.filter(function(x){return x.id===p.id})[0];if(!o||!o.quote)return'';var q=o.quote;
+ return'<div class="val"><h3>Live booking valuation</h3><div class="vr"><span>Service</span><b>'+esc(p.name)+'</b></div><div class="vbox">'+
+ q.items.map(function(i){return'<div class="vr"><span>'+esc(i.label)+'</span><b>'+inr(i.amount)+'</b></div>'}).join('')+
+ '<div class="vr s"><span>Service total <em>(GST exempt)</em></span><b>'+inr(q.serviceTotal)+'</b></div>'+
+ '<div class="vr"><span>Platform and booking fee ('+q.feePct+'%)</span><b>'+inr(q.fee)+'</b></div>'+
+ '<div class="vr"><span>GST ('+q.gstPct+'% on platform fee)</span><b>'+inr(q.gst)+'</b></div></div>'+
+ '<div class="vt"><small>Total payable</small><strong>'+inr(q.total)+'</strong></div>'+
+ '<button type="button" class="vbtn" id="vBook">Book now</button>'+
+ '<p class="vn">If a technical error occurs, the payment will be refunded to your bank account within 4 days.</p></div>'}
+function panel(){
+ if(soonReq){$('#panel').innerHTML='<div class="box"><h3>\uD83D\uDE91 Ambulance \u2014 Coming Soon</h3><p class="lead" style="margin:0">This service is not open yet. For an emergency, please call <b>108</b> right away.</p></div>';return}
+ var d=DATA[key],h='<p class="lead">'+esc(d.lead)+'</p>';
+ if(d.items.length){
+  h+='<div class="grid">'+d.items.map(function(it){
+   var on=!!sel[it.id];
+   return '<button type="button" class="item'+(on?' on':'')+'" data-i="'+esc(it.id)+'" aria-pressed="'+on+'">'+
+   '<span class="tick">'+(on?'\u2713':'')+'</span>'+(it.img?'<img class="pic" src="ambulance/'+it.img+'.jpg" alt="'+esc(it.name)+'" onerror="this.onerror=null;this.style.display=\'none\'">':'')+'<b>'+esc(it.name)+'</b><small>'+esc(it.sub||'')+'</small>'+
+   (it.inc?'<ul>'+it.inc.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>':'')+
+   '<span class="pr">'+(it.pl||'')+priceTxt(it.price)+'</span></button>'}).join('')+'</div>';
+ }
+ if(d.extra){h+='<div class="box"><h3>'+esc(d.extra.label)+'</h3><select id="xMode">'+d.extra.opts.map(function(o){return '<option'+(o===mode?' selected':'')+'>'+esc(o)+'</option>'}).join('')+'</select></div>'}
+ if(d.route){h+='<div class="box"><h3>Pickup &amp; drop</h3><div class="two"><div><label for="aFrom">Pickup location (search and select)</label><input id="aFrom" maxlength="80" value="'+esc(route.from)+'" placeholder="Search pickup location" autocomplete="off">'+gBtn('aFrom')+'</div><div><label for="aTo">Drop location (search and select)</label><input id="aTo" maxlength="80" value="'+esc(route.to)+'" placeholder="Search drop location" autocomplete="off"></div></div><p class="msg err" id="aErr"></p></div>'}
+ if(d.pay)h+=valHtml();
+ if(d.form){
+  h+='<div class="box"><h3>What do you need?</h3><ul style="list-style:none;display:grid;gap:5px;font-size:13.5px;color:#375775;margin-bottom:12px">'+d.features.map(function(f){return '<li>\u2713 '+esc(f)+'</li>'}).join('')+'</ul>'+
+  '<label for="mList">Medicine names or details</label><textarea id="mList" rows="4" maxlength="250" placeholder="e.g. BP tablets for 1 month, or: I will share my prescription on the call"></textarea></div>';
+ }
+ h+='<div class="how">'+d.how.map(function(x,i){return '<div><b>Step '+(i+1)+'</b>'+esc(x)+'</div>'}).join('')+'</div>';
+ $('#panel').innerHTML=h;
+}
+function picked(){return DATA[key].items.filter(function(i){return sel[i.id]})}
+function noPick(){var d=DATA[key];return d.mode==='none'&&!d.items.length}
+function bar(){
+ var bb=document.querySelector('.bar');bb.hidden=soonReq;if(soonReq)return;
+ var p=picked(),t=p.reduce(function(a,i){return a+i.price},0),b=$('#bBtn');
+ if(noPick()){$('#bSub').textContent='Our team will confirm the price on call';$('#bTot').textContent='';b.disabled=false;b.textContent='Order medicines';return}
+ b.textContent='Book now';b.disabled=!p.length;
+ $('#bSub').textContent=p.length?(p.length===1?p[0].name:p.length+' selected'):'Nothing selected';
+ $('#bTot').textContent=p.length&&t>0?inr(t):'';
+}
+function render(){tabs();panel();bar()}
+
+$('#tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;soonReq=false;key=b.dataset.k;sel={};mode='';render()});
+$('#panel').addEventListener('click',function(e){if(e.target.id==='vBook'){$('#bBtn').click();return}var b=e.target.closest('.item');if(!b)return;
+ var id=b.dataset.i,m=DATA[key].mode;
+ if(m==='single'){var was=sel[id];sel={};if(!was)sel[id]=1}else{if(sel[id])delete sel[id];else sel[id]=1}
+ panel();bar()});
+$('#panel').addEventListener('change',function(e){if(e.target.id==='xMode')mode=e.target.value});
+$('#panel').addEventListener('input',function(e){if(e.target.id==='aFrom')route.from=e.target.value;if(e.target.id==='aTo')route.to=e.target.value});
+
+var dlg=$('#dlg'),frm=$('#frm'),msg=$('#mM'),sb=$('#mB'),itemTxt='',detTxt='';
+$('#fD').min=new Date().toISOString().slice(0,10);
+$('#fP').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'')});
+$('#bBtn').addEventListener('click',function(){
+ var d=DATA[key],p=picked(),t=p.reduce(function(a,i){return a+i.price},0),parts=[],sm='';
+ if(noPick()){
+  var l=(($('#mList')||{}).value||'').trim();itemTxt='Medicine order';parts.push('Medicines: '+(l||'to be shared on call'));sm=d.label+(l?': '+l.slice(0,100):'');
+ }else{
+  var names=p.map(function(i){return i.name});
+  itemTxt=p.length===1?p[0].name:p.length+' selected';
+  parts.push('Selected: '+names.join(', ')+(t>0?' (Total '+inr(t)+')':''));
+  if(d.pay&&!(t>0)){var e2=$('#aErr');if(e2)e2.textContent='Online payment is not available right now. Please try again later.';return}
+  if(d.route){var rf=route.from.trim(),rt=route.to.trim();if(!rf||!rt){var er=$('#aErr');if(er){er.textContent='Please enter both pickup and drop locations.';er.scrollIntoView({block:'center'})}return}if(LOC_ON&&!gFail&&((!route.fromLL&&!gNo.aFrom)||(!route.toLL&&!gNo.aTo))){var er2=$('#aErr');if(er2){er2.textContent='Please choose pickup and drop from the suggestion list, or tap "Use my current location" for pickup.';er2.scrollIntoView({block:'center'})}return}parts.push('Pickup: '+rf+' | Drop: '+rt)}
+  if(d.extra){mode=($('#xMode')||{}).value||d.extra.opts[0];parts.push('Mode: '+mode)}
+  sm=d.label+': '+names.join(', ')+(t>0?' | '+inr(t):'')+(mode&&d.extra?' | '+mode:'')+(d.route?' | '+route.from.trim()+' \u2192 '+route.to.trim():'');
+ }
+ detTxt=parts.join(' | ');$('#mS').textContent=sm;$('#mT').textContent='Book '+d.label;$('#idBox').hidden=!d.pay;$('#airBox').hidden=!(d.pay&&p[0]&&p[0].id==='airline');var pn=(p[0]&&p[0].id==='airline'&&AMB)?((AMB.items.filter(function(x){return x.id==='airline'})[0]||{}).payNow||t):t;$('#mB').textContent=d.pay?'Pay \u20B9'+pn.toLocaleString('en-IN')+' & Book':'Confirm booking';
+ msg.textContent=(d.pay&&AMB&&!AMB.live)?'Demo mode: no real money is charged.':'';msg.className='msg';dlg.showModal()});
+$('#mX').addEventListener('click',function(){dlg.close()});
+function post(u,b){return fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Something went wrong.');return j})})}
+function say(t,c){msg.className='msg '+(c||'');msg.textContent=t}
+function shrink(f){return new Promise(function(ok,no){var r=new FileReader();r.onload=function(){var m=new Image();m.onload=function(){var z=Math.min(1,1400/Math.max(m.width,m.height)),c=document.createElement('canvas');c.width=m.width*z;c.height=m.height*z;c.getContext('2d').drawImage(m,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.75))};m.onerror=no;m.src=r.result};r.onerror=no;r.readAsDataURL(f)})}
+function paid(j){if(j.invoice){try{var iv=JSON.stringify(j.invoice);sessionStorage.setItem('gth_invoice',iv);localStorage.setItem('gth_invoice',iv)}catch(e){}location.href='ambulance-invoice.html';return}
+msg.className='msg ok';msg.textContent=j.message+' Booking ID: '+j.id+'. ';var a=document.createElement('a');a.href='track.html';a.textContent='Track your booking';a.style.color='#087cf2';msg.appendChild(a);frm.reset();sb.disabled=false}
+function payFlow(){
+ var f=$('#fI').files[0],pk=picked()[0];
+ if(!$('#fC').checked)return say('Please tick the consent box to continue.','err');
+ if(!f)return say('Please upload your Aadhaar card photo.','err');
+ var isA=pk.id==='airline',air=null;
+ if(isA){var ap=$('#aAp').value.replace(/\D/g,'').slice(-10);
+  if(!(+$('#aW').value>0)||$('#aDx').value.trim().length<3||$('#aAn').value.trim().length<2||ap.length!==10||$('#aDh').value.trim().length<2)return say('Please fill all flight transfer details.','err');
+  if(!$('#aFit').files[0]||!$('#aRep').files[0])return say('Please upload the fitness certificate and medical reports.','err');
+  air={weight:+$('#aW').value,dx:$('#aDx').value.trim(),mode:$('#aSt').value,oxygen:$('#aOx').value,infection:$('#aIn').value,attendant:$('#aAn').value.trim(),attendantPhone:ap,dropHospital:$('#aDh').value.trim()}}
+ sb.disabled=true;say('Please wait...');
+ Promise.all([shrink(f)].concat(isA?[shrink($('#aFit').files[0]),shrink($('#aRep').files[0]),$('#aBed').files[0]?shrink($('#aBed').files[0]):Promise.resolve('')]:[])).then(function(im){var img=im[0];return post('/api/ambulance/start',{air:isA?Object.assign({},air,{docs:{fit:im[1],rep:im[2],bed:im[3]}}):null,option:pk.id,name:$('#fN').value.trim(),phone:$('#fP').value,age:$('#fG').value,address:$('#fA').value.trim(),date:$('#fD').value,slot:$('#fS').value,pickup:route.from.trim(),drop:route.to.trim(),pickupLL:route.fromLL||null,dropLL:route.toLL||null,addressLL:gAddrLL||null,note:$('#fT').value.trim(),consent:true,idProof:img})}).then(function(s){
+  if(s.demo)return post('/api/ambulance/confirm',{id:s.id}).then(paid);
+  return new Promise(function(ok){var sc=document.createElement('script');sc.src='https://checkout.razorpay.com/v1/checkout.js';
+   sc.onload=function(){new Razorpay({key:s.keyId,amount:s.amount*100,currency:'INR',order_id:s.orderId,name:'Ghar to Health',description:'Ambulance booking',prefill:{name:$('#fN').value,contact:$('#fP').value},theme:{color:'#087cf2'},
+    handler:function(r){ok(post('/api/ambulance/confirm',{id:s.id,razorpay_payment_id:r.razorpay_payment_id,razorpay_order_id:r.razorpay_order_id,razorpay_signature:r.razorpay_signature}).then(paid))},
+    modal:{ondismiss:function(){say('Payment cancelled. Your ambulance is not booked yet.','err');sb.disabled=false}}}).open()};
+   sc.onerror=function(){say('Cannot open the payment page. Please try again.','err');sb.disabled=false};document.head.appendChild(sc)})
+ }).catch(function(x){say(x&&x.message?x.message:'Something went wrong. Please try again.','err');sb.disabled=false})}
+frm.addEventListener('submit',function(e){
+ e.preventDefault();if(DATA[key].pay){payFlow();return}
+ var extra=$('#fT').value.trim();
+ var data={service:DATA[key].label,item:itemTxt,name:$('#fN').value.trim(),phone:$('#fP').value,age:$('#fG').value,
+  address:$('#fA').value.trim(),date:$('#fD').value,slot:$('#fS').value,details:(detTxt+(extra?' | Note: '+extra:'')).slice(0,400),consent:$('#fC').checked};
+ if(!data.consent){msg.className='msg err';msg.textContent='Please tick the consent box to continue.';return}
+ sb.disabled=true;msg.className='msg';msg.textContent='Sending...';
+ fetch('/api/medical-bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+ .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+ .then(function(x){
+  if(x.ok){msg.className='msg ok';msg.textContent=x.j.message+' Booking ID: '+x.j.id+'. ';
+   var a=document.createElement('a');a.href='track.html';a.textContent='Track your booking';a.style.color='#087cf2';msg.appendChild(a);frm.reset()}
+  else{msg.className='msg err';msg.textContent=x.j.error||'Something went wrong.'}})
+ .catch(function(){msg.className='msg err';msg.textContent='Cannot reach the server. Please try again.'})
+ .then(function(){sb.disabled=false});
+});
+
+/* ===== Free location search (OpenStreetMap / Photon): suggestions + current location. No API key needed ===== */
+var LOC_ON=true,gAddrLL=null,gTimer=null,gFail=false,gNo={},gSeq={};
+function gBtn(id){return '<button type="button" class="gloc" data-g="'+id+'">📍 Use my current location</button>'}
+function gLabel(p){var a=[p.name,[p.street,p.housenumber].filter(Boolean).join(' '),p.district||p.locality,p.city,p.state,p.postcode],o=[];
+ a.forEach(function(x){if(x&&o.indexOf(x)<0)o.push(x)});return o.join(', ')}
+function gBox(inp){var p=inp.parentNode;p.classList.add('gwrap');var b=p.querySelector('.gdrop[data-for="'+inp.id+'"]');
+ if(!b){b=document.createElement('div');b.className='gdrop';b.setAttribute('data-for',inp.id);p.appendChild(b)}
+ b.style.top=(inp.offsetTop+inp.offsetHeight+2)+'px';b.style.left=inp.offsetLeft+'px';b.style.width=inp.offsetWidth+'px';return b}
+function gApply(id,text,ll){var inp=document.getElementById(id);if(!inp)return;inp.value=text;gNo[id]=false;
+ if(id==='aFrom'){route.from=text;route.fromLL=ll}else if(id==='aTo'){route.to=text;route.toLL=ll}else if(id==='fA'){gAddrLL=ll}
+ var b=inp.parentNode.querySelector('.gdrop[data-for="'+id+'"]');if(b)b.innerHTML='';var er=$('#aErr');if(er)er.textContent=''}
+function gSuggest(inp){clearTimeout(gTimer);var v=inp.value.trim(),b=gBox(inp),id=inp.id;gSeq[id]=(gSeq[id]||0)+1;var my=gSeq[id];
+ if(v.length<3){b.innerHTML='';return}
+ gTimer=setTimeout(function(){
+  fetch('https://photon.komoot.io/api/?lang=en&limit=10&lat=22.5&lon=79&q='+encodeURIComponent(v)).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
+   if(my!==gSeq[id])return;gFail=false;
+   var list=(j.features||[]).filter(function(f){return f.properties&&f.properties.countrycode==='IN'&&f.geometry&&f.geometry.coordinates}).slice(0,5)
+    .map(function(f){return{t:gLabel(f.properties),ll:{lat:f.geometry.coordinates[1],lng:f.geometry.coordinates[0]}}}).filter(function(x){return x.t});
+   b._list=list;gNo[id]=!list.length;
+   b.innerHTML=list.length?list.map(function(s,i){return '<div class="gi" data-i="'+i+'">'+esc(s.t)+'</div>'}).join('')+'<div class="gpw">© OpenStreetMap contributors</div>':'<div class="gpw">No match found. You can type the place manually.</div>'
+  }).catch(function(){gFail=true})},500)}
+document.addEventListener('input',function(e){var id=e.target.id;
+ if(id==='aFrom'){route.fromLL=null;gSuggest(e.target)}else if(id==='aTo'){route.toLL=null;gSuggest(e.target)}else if(id==='fA'){gAddrLL=null;gSuggest(e.target)}});
+document.addEventListener('mousedown',function(e){var it=e.target.closest&&e.target.closest('.gi');
+ if(!it){document.querySelectorAll('.gdrop').forEach(function(x){x.innerHTML=''});return}
+ e.preventDefault();var box=it.parentNode,s=box._list&&box._list[+it.dataset.i];if(s)gApply(box.getAttribute('data-for'),s.t,s.ll)});
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.gloc');if(!b)return;e.preventDefault();gHere(b)});
+function gHere(btn){var id=btn.dataset.g,old=btn.textContent;
+ if(!navigator.geolocation){alert('Your browser does not support location. Please type the place and choose it from the list.');return}
+ btn.disabled=true;btn.textContent='Finding your location...';var done=function(){btn.disabled=false;btn.textContent=old};
+ navigator.geolocation.getCurrentPosition(function(p){var ll={lat:p.coords.latitude,lng:p.coords.longitude},fb=ll.lat.toFixed(5)+', '+ll.lng.toFixed(5);
+  fetch('https://photon.komoot.io/reverse?lang=en&lat='+ll.lat+'&lon='+ll.lng).then(function(r){return r.json()}).then(function(j){
+   var f=j.features&&j.features[0];gApply(id,(f&&f.properties&&gLabel(f.properties))||fb,ll)}).catch(function(){gApply(id,fb,ll)}).then(done)},
+ function(){done();alert('Could not get your location. Please allow location access in the browser (needs https), or type the place and choose it from the list.')},
+ {enableHighAccuracy:true,timeout:15000,maximumAge:0})}
+(function(){var fAb=document.getElementById('fAloc');if(fAb)fAb.hidden=false})();
+var AMB=null;fetch('/api/ambulance/options').then(function(r){return r.json()}).then(function(o){AMB=o;o.items.forEach(function(x){var it=DATA.ambulance.items.filter(function(i){return i.id===x.id})[0];if(it){it.price=x.advance;it.pl='Total '}});render()}).catch(function(){});
+render();
+})();
+</script>
+<script src="protect.js"></script>
+</body>
+</html>

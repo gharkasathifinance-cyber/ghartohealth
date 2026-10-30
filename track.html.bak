@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Track Booking | Ghar to Health</title><link rel="stylesheet" href="gth-pages.css"></head><body>
+<header><div class="wrap"><a class="brand" href="index.html">⌂ Ghar to Health</a><nav><a href="index.html">Home</a><a href="medical.html">Medical Services</a></nav></div></header>
+<main class="wrap" style="max-width:520px"><h1>Track Booking</h1><p class="sub">Enter your booking ID and the mobile number you booked with.</p>
+<form class="card" id="f"><label for="i">Booking ID</label><input id="i" placeholder="MEDXXXXXX"><label for="p">Mobile number</label><input id="p" type="tel" inputmode="numeric">
+<div class="row"><button class="btn p" type="submit">Check status</button></div><div class="msg" id="m" role="status"></div></form>
+<div class="card" id="r" style="margin-top:14px" hidden></div>
+<div class="note">Ghar to Health is a platform; services are given by independent licensed partners. Emergency? Call 108.</div></main>
+<script>
+var $=function(i){return document.getElementById(i)};
+var ST={new:'Received. Our team will call you soon.',confirmed:'Confirmed',completed:'Completed',cancelled:'Cancelled'};
+$('i').value=new URLSearchParams(location.search).get('id')||'';
+$('f').onsubmit=function(e){e.preventDefault();$('r').hidden=true;$('m').className='msg';$('m').textContent='Checking...';
+ fetch('/api/track?id='+encodeURIComponent($('i').value)+'&phone='+encodeURIComponent($('p').value)).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})}).then(function(x){
+  if(!x.ok){$('m').className='msg err';$('m').textContent=x.j.error;return}
+  $('m').textContent='';var j=x.j,r=$('r');r.innerHTML='';
+  function row(k,v){if(!v)return;var p=document.createElement('p'),b=document.createElement('b');b.textContent=k+': ';p.appendChild(b);p.appendChild(document.createTextNode(v));r.appendChild(p)}
+  row('Service',j.service);row('Status',ST[j.status]||j.status);row('You asked for',j.date+', '+j.slot);
+  if(j.confirmedDate)row('Confirmed for',j.confirmedDate+(j.confirmedTime?', '+j.confirmedTime:''));
+  row('Doctor / Partner',j.partnerName);row('Note',j.note);
+  if(j.meetLink&&/^https:\/\//.test(j.meetLink)){var a=document.createElement('a');a.href=j.meetLink;a.textContent='Open video call link';a.target='_blank';a.rel='noopener';a.style.color='#087cf2';r.appendChild(a)}
+  r.hidden=false}).catch(function(){$('m').className='msg err';$('m').textContent='Cannot reach the server.'})};
+</script></body></html>
