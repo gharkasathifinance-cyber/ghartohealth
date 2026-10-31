@@ -1,8 +1,3 @@
-const express = require('express');
-const app = express();
-
-// Yeh line add karni hai:
-app.use(express.static(__dirname));
 // Ghar to Health - backend (no npm packages needed, Node 18+)
 // Run:  node server.js   ->  http://localhost:3000
 const http = require('http');
@@ -28,7 +23,10 @@ let GOOGLE_MAPS_KEY = (process.env.GOOGLE_MAPS_KEY || '').trim();
 if (!GOOGLE_MAPS_KEY) { try { GOOGLE_MAPS_KEY = fs.readFileSync(path.join(__dirname, 'google-key.txt'), 'utf8').trim(); } catch {} }
 const hospHits = new Map();   // ip -> [timestamps]  (rate limit)
 const hospCache = new Map();  // query -> { t, items }
-const PUBLIC_DIR = __dirname;
+// Website files: use the "public" folder if it has index.html, otherwise the folder next to server.js
+const PUBLIC_DIR = fs.existsSync(path.join(__dirname, 'public', 'index.html')) ? path.join(__dirname, 'public') : __dirname;
+// Files that must never be served to the browser (bookings, keys, server code)
+const BLOCKED = /^\/(data|node_modules|\.git)(\/|$)|^\/(server\.js|google-key\.txt|notify\.js|auth\.js|logs\.js|vendors\.js|tracking\.js|ambulance\.js|air-tracking\.js|invoice-store\.js|package(-lock)?\.json|\.env)$/i;
 const UPLOAD_DIR = path.join(PUBLIC_DIR, 'uploads');
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 // Airline MEDIF forms (admin can replace them from Ambulance Charges). Add more airlines here later, e.g. indigo: 'IndiGo'
@@ -114,6 +112,21 @@ async function notifyWhatsApp(b) {
 }
 
 const SERVICES_FILE = path.join(__dirname, 'data', 'services.json');
+// If data/services.json is missing (e.g. Render wiped the disk), copy the services.json that was uploaded next to server.js
+(function seedServicesFile() {
+  try {
+    if (fs.existsSync(SERVICES_FILE)) return;
+    const candidates = [path.join(__dirname, 'services.json'), path.join(process.cwd(), 'services.json'), path.join(__dirname, '..', 'services.json'), path.join(__dirname, 'public', 'services.json')];
+    for (const c of candidates) {
+      if (fs.existsSync(c) && JSON.parse(fs.readFileSync(c, 'utf8')).length) {
+        fs.mkdirSync(path.dirname(SERVICES_FILE), { recursive: true });
+        fs.copyFileSync(c, SERVICES_FILE);
+        console.log('Services loaded from ' + c);
+        return;
+      }
+    }
+  } catch (e) { console.log('services.json seed failed:', e.message); }
+})();
 const SEED = [
  ['Electrician','Switch Board Repair & Installation','Fix faulty switches, sockets and switchboards.',199,'30-45 mins'],
  ['Electrician','Ceiling Fan Installation','Fan installation, blade balancing and regulator connection.',229,'45-60 mins'],
@@ -780,6 +793,7 @@ function serveStatic(req, res, url) {
   if (file === '/') file = '/index.html';
   const full = path.normalize(path.join(PUBLIC_DIR, file));
   if (!full.startsWith(PUBLIC_DIR)) return send(res, 403, 'Forbidden');
+  if (BLOCKED.test(file) || (PUBLIC_DIR === __dirname && /^\/data\//i.test(file))) return send(res, 404, 'Not found');
   const ogKind = url.searchParams.get('for');
   if (OG[ogKind] && /^(vendor-register|operator-apply)\.html$/.test(path.basename(full).toLowerCase())) {
     return fs.readFile(full, (err, data) => {
@@ -821,6 +835,7 @@ http.createServer((req, res) => {
   serveStatic(req, res, url);
 }).listen(PORT, '0.0.0.0', () => {
   console.log(`Ghar to Health running at http://localhost:${PORT}`);
+  console.log('Website folder: ' + PUBLIC_DIR + '  (index.html ' + (fs.existsSync(path.join(PUBLIC_DIR, 'index.html')) ? 'FOUND' : 'NOT FOUND - put index.html in this folder') + ')');
   console.log('Hospital search: ' + (GOOGLE_MAPS_KEY ? 'Google (key found)' : 'FREE mode (no Google key) - works without any setup'));
   console.log(`Phone alert topic (subscribe in the ntfy app): ${NTFY_TOPIC}`);
   // Show the address to type in your mobile browser (phone must be on the same Wi-Fi)
