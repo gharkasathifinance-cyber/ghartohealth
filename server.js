@@ -318,6 +318,19 @@ async function notifyOperatorApplication(id, name, type) {
   catch (e) { console.log('Operator application alert failed:', e.message); }
 }
 const MED_FILE = path.join(__dirname, 'data', 'medical-services.json');
+(function seedMedicalFile() {
+  try {
+    if (fs.existsSync(MED_FILE)) return;
+    for (const c of [path.join(__dirname, 'medical-services.json'), path.join(process.cwd(), 'medical-services.json'), path.join(__dirname, '..', 'medical-services.json'), path.join(__dirname, 'public', 'medical-services.json')]) {
+      if (fs.existsSync(c) && JSON.parse(fs.readFileSync(c, 'utf8')).length) {
+        fs.mkdirSync(path.dirname(MED_FILE), { recursive: true });
+        fs.copyFileSync(c, MED_FILE);
+        console.log('Medical services loaded from ' + c);
+        return;
+      }
+    }
+  } catch (e) { console.log('medical-services.json seed failed:', e.message); }
+})();
 function readMedical() { try { return JSON.parse(fs.readFileSync(MED_FILE, 'utf8')); } catch { return []; } }
 function writeMedical(l) { fs.mkdirSync(path.dirname(MED_FILE), { recursive: true }); fs.writeFileSync(MED_FILE, JSON.stringify(l, null, 2)); }
 function medicalCategories() { const c = [...new Set(readMedical().filter(s => s.active !== false).map(s => s.category))]; return c.length ? c : SERVICES.medical; }

@@ -405,7 +405,7 @@ Promise.all([
   var k=LBL[lc];
   if(!k){k='x'+lc.replace(/[^a-z0-9]/g,'');
    if(!DATA[k]){DATA[k]={label:c,icon:'\uD83D\uDC99',mode:'single',lead:'Book this service and our team will call you to confirm.',how:['Choose an option','Our team confirms on call','Service is provided'],items:[]};keys.push(k);LBL[lc]=k}}
-  (live[k]=live[k]||[]).push({id:'c'+s.id,name:s.name,sub:s.description||s.duration||'',price:Number(s.price)||0});
+  (live[k]=live[k]||[]).push({id:'c'+s.id,name:s.name,sub:s.description||s.duration||'',price:Number(s.price)||0,inc:Array.isArray(s.inc)?s.inc:undefined});
  });
  Object.keys(live).forEach(function(k){if(!DATA[k].keep)DATA[k].items=live[k]});
  if(valid)keys=keys.filter(function(k){return valid.indexOf(DATA[k].label.toLowerCase())>-1});

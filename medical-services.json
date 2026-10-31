@@ -1,191 +1,510 @@
 [
   {
-    "id": "m1",
+    "id": "mdoctor1",
     "category": "Doctor Consultation",
-    "name": "General Physician (Video)",
-    "description": "Fever, cold, stomach and everyday problems.",
+    "name": "General Physician",
+    "description": "Fever, cold, stomach pain, general health",
     "price": 299,
-    "duration": "15 min",
+    "duration": "",
     "active": true
   },
   {
-    "id": "m2",
-    "category": "Doctor Consultation",
-    "name": "Child Specialist (Video)",
-    "description": "Child health, growth and vaccination advice.",
-    "price": 399,
-    "duration": "15 min",
-    "active": true
-  },
-  {
-    "id": "m3",
-    "category": "Doctor Consultation",
-    "name": "Skin Specialist (Video)",
-    "description": "Acne, rashes, hair and skin problems.",
-    "price": 399,
-    "duration": "15 min",
-    "active": true
-  },
-  {
-    "id": "m4",
-    "category": "Doctor Consultation",
-    "name": "Women's Health (Video)",
-    "description": "Gynaecology and women's health consultation.",
-    "price": 499,
-    "duration": "20 min",
-    "active": true
-  },
-  {
-    "id": "m5",
+    "id": "mmedicine1",
     "category": "Medicine Delivery",
     "name": "Medicine Delivery",
-    "description": "Medicines from a licensed pharmacy. Price = medicine cost + delivery.",
-    "price": 49,
-    "duration": "Same day (delivery charge)",
+    "description": "Our team confirms availability and price on call",
+    "price": 0,
+    "duration": "",
     "active": true
   },
   {
-    "id": "m6",
-    "category": "Lab Tests",
-    "name": "Full Body Checkup",
-    "description": "Complete blood, sugar, lipid, liver and kidney tests.",
-    "price": 999,
-    "duration": "Report in 24-48 hrs",
-    "active": true
-  },
-  {
-    "id": "m7",
-    "category": "Lab Tests",
-    "name": "Thyroid Profile",
-    "description": "T3, T4 and TSH.",
-    "price": 399,
-    "duration": "Report in 24 hrs",
-    "active": true
-  },
-  {
-    "id": "m8",
-    "category": "Lab Tests",
-    "name": "Diabetes Package",
-    "description": "HbA1c and fasting sugar.",
+    "id": "mdoctor2",
+    "category": "Doctor Consultation",
+    "name": "Skin Specialist",
+    "description": "Rashes, acne, hair fall, allergies",
     "price": 499,
-    "duration": "Report in 24 hrs",
+    "duration": "",
     "active": true
   },
   {
-    "id": "m9",
-    "category": "Health Check-up",
-    "name": "Basic Health Package",
-    "description": "Core tests with doctor review.",
-    "price": 1499,
-    "duration": "Fasting needed",
+    "id": "mdoctor3",
+    "category": "Doctor Consultation",
+    "name": "Child Specialist",
+    "description": "Children's health, growth, vaccination advice",
+    "price": 499,
+    "duration": "",
     "active": true
   },
   {
-    "id": "m10",
-    "category": "Health Check-up",
-    "name": "Senior Citizen Package",
-    "description": "Heart, sugar, bone and vitamin tests.",
-    "price": 2499,
-    "duration": "Fasting needed",
-    "active": true
-  },
-  {
-    "id": "m11",
-    "category": "Nurse at Home",
-    "name": "Nurse Visit",
-    "description": "Injection, dressing, BP and sugar check.",
-    "price": 399,
-    "duration": "1 hr",
-    "active": true
-  },
-  {
-    "id": "m12",
-    "category": "Nurse at Home",
-    "name": "Nurse for 12 hours",
-    "description": "Patient care at home.",
-    "price": 1200,
-    "duration": "12 hrs",
-    "active": true
-  },
-  {
-    "id": "m13",
-    "category": "Physiotherapy",
-    "name": "Home Physiotherapy Session",
-    "description": "Exercise and therapy at home.",
+    "id": "mdoctor4",
+    "category": "Doctor Consultation",
+    "name": "Women's Health",
+    "description": "Periods, pregnancy care, general women's health",
     "price": 599,
-    "duration": "45 min",
+    "duration": "",
     "active": true
   },
   {
-    "id": "m14",
+    "id": "mdoctor5",
+    "category": "Doctor Consultation",
+    "name": "Diabetes & Thyroid",
+    "description": "Sugar control, thyroid, weight",
+    "price": 499,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mdoctor6",
+    "category": "Doctor Consultation",
+    "name": "Heart Specialist",
+    "description": "BP, chest pain, heart check",
+    "price": 699,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab1",
+    "category": "Lab Tests",
+    "name": "CBC (Complete Blood Count)",
+    "description": "Blood health, infection, anaemia",
+    "price": 300,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab2",
+    "category": "Lab Tests",
+    "name": "Blood Sugar (Fasting)",
+    "description": "Diabetes screening",
+    "price": 100,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab3",
+    "category": "Lab Tests",
+    "name": "HbA1c",
+    "description": "3-month average sugar",
+    "price": 450,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab4",
+    "category": "Lab Tests",
+    "name": "Thyroid (TSH)",
+    "description": "Thyroid function",
+    "price": 350,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab5",
+    "category": "Lab Tests",
+    "name": "Lipid Profile",
+    "description": "Cholesterol and heart risk",
+    "price": 600,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab6",
+    "category": "Lab Tests",
+    "name": "Liver Function (LFT)",
+    "description": "Liver health",
+    "price": 600,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab7",
+    "category": "Lab Tests",
+    "name": "Kidney Function (KFT)",
+    "description": "Kidney health",
+    "price": 600,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab8",
+    "category": "Lab Tests",
+    "name": "Vitamin D",
+    "description": "Bone and immunity",
+    "price": 1000,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mlab9",
+    "category": "Lab Tests",
+    "name": "Vitamin B12",
+    "description": "Nerves and energy",
+    "price": 800,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mcheckup1",
+    "category": "Health Check-up",
+    "name": "Basic Health Check",
+    "description": "12 tests",
+    "price": 999,
+    "duration": "",
+    "active": true,
+    "inc": [
+      "CBC",
+      "Blood sugar",
+      "Lipid profile",
+      "Urine routine"
+    ]
+  },
+  {
+    "id": "mcheckup2",
+    "category": "Health Check-up",
+    "name": "Full Body Check-up",
+    "description": "60+ tests",
+    "price": 1999,
+    "duration": "",
+    "active": true,
+    "inc": [
+      "CBC, sugar, HbA1c",
+      "Lipid, liver, kidney",
+      "Thyroid, Vitamin D & B12"
+    ]
+  },
+  {
+    "id": "mcheckup3",
+    "category": "Health Check-up",
+    "name": "Senior Citizen",
+    "description": "Ages 60+",
+    "price": 2499,
+    "duration": "",
+    "active": true,
+    "inc": [
+      "Heart and sugar checks",
+      "Liver, kidney, thyroid",
+      "Bone health, Vitamin D"
+    ]
+  },
+  {
+    "id": "mcheckup4",
+    "category": "Health Check-up",
+    "name": "Diabetes Care",
+    "description": "Sugar and complications",
+    "price": 1299,
+    "duration": "",
+    "active": true,
+    "inc": [
+      "Fasting sugar, HbA1c",
+      "Kidney function",
+      "Lipid profile"
+    ]
+  },
+  {
+    "id": "mcheckup5",
+    "category": "Health Check-up",
+    "name": "Women's Health",
+    "description": "Women-focused tests",
+    "price": 1799,
+    "duration": "",
+    "active": true,
+    "inc": [
+      "CBC, thyroid, iron",
+      "Vitamin D & B12",
+      "Sugar and lipid profile"
+    ]
+  },
+  {
+    "id": "mcheckup6",
+    "category": "Health Check-up",
+    "name": "Heart Care",
+    "description": "Heart risk screening",
+    "price": 2299,
+    "duration": "",
+    "active": true,
+    "inc": [
+      "Lipid profile",
+      "Blood sugar, HbA1c",
+      "Kidney and liver function"
+    ]
+  },
+  {
+    "id": "mnurse1",
+    "category": "Nurse at Home",
+    "name": "Injection / IV Drip",
+    "description": "As prescribed by your doctor",
+    "price": 299,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mnurse2",
+    "category": "Nurse at Home",
+    "name": "Wound Dressing",
+    "description": "Cleaning and dressing of wounds",
+    "price": 349,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mnurse3",
+    "category": "Nurse at Home",
+    "name": "BP, Sugar & Vitals Check",
+    "description": "Home visit with readings noted",
+    "price": 249,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mnurse4",
+    "category": "Nurse at Home",
+    "name": "Patient Care (per day shift)",
+    "description": "Elderly and bed-ridden care, 8 hours",
+    "price": 1200,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mphysio1",
+    "category": "Physiotherapy",
+    "name": "Single Home Session",
+    "description": "Assessment and treatment, about 45 mins",
+    "price": 599,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mphysio2",
+    "category": "Physiotherapy",
+    "name": "Back & Neck Pain Plan",
+    "description": "5 sessions",
+    "price": 2799,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mphysio3",
+    "category": "Physiotherapy",
+    "name": "Post-Surgery Rehab",
+    "description": "10 sessions",
+    "price": 5499,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mphysio4",
+    "category": "Physiotherapy",
+    "name": "Sports Injury Recovery",
+    "description": "5 sessions",
+    "price": 2999,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mambulance1",
     "category": "Ambulance",
-    "name": "Ambulance Booking",
-    "description": "Basic ambulance. For emergencies call 108.",
-    "price": 799,
-    "duration": "Starting at",
+    "name": "Domestic Air Ambulance (Charter Aircraft, India)",
+    "description": "Private chartered aircraft with a medical team, for long-distance transfers",
+    "price": 0,
+    "duration": "",
     "active": true
   },
   {
-    "id": "m15",
+    "id": "mambulance2",
+    "category": "Ambulance",
+    "name": "Domestic Commercial Airline Transfer",
+    "description": "Stretcher and lying-down transfer on a scheduled airline, for stable patients",
+    "price": 0,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mambulance3",
+    "category": "Ambulance",
+    "name": "Helicopter Ambulance",
+    "description": "Fast air transfer for shorter distances and hard-to-reach places",
+    "price": 0,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mambulance4",
+    "category": "Ambulance",
+    "name": "Road Ambulance (Van)",
+    "description": "Normal ambulance van for city and intercity patient transfer",
+    "price": 0,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mscans1",
     "category": "Scans & Imaging",
     "name": "X-Ray",
-    "description": "Booking with a partner centre.",
-    "price": 400,
-    "duration": "Report same day",
+    "description": "Chest, bones and joints",
+    "price": 500,
+    "duration": "",
     "active": true
   },
   {
-    "id": "m16",
+    "id": "mscans2",
     "category": "Scans & Imaging",
-    "name": "Ultrasound",
-    "description": "Booking with a partner centre.",
-    "price": 900,
-    "duration": "Report same day",
+    "name": "ECG",
+    "description": "Heart rhythm test",
+    "price": 300,
+    "duration": "",
     "active": true
   },
   {
-    "id": "m17",
+    "id": "mscans3",
     "category": "Scans & Imaging",
-    "name": "MRI / CT Scan",
-    "description": "Price depends on the scan.",
-    "price": 0,
-    "duration": "On request",
+    "name": "Ultrasound (USG)",
+    "description": "Abdomen and pelvis",
+    "price": 1000,
+    "duration": "",
     "active": true
   },
   {
-    "id": "m18",
+    "id": "mscans4",
+    "category": "Scans & Imaging",
+    "name": "CT Scan",
+    "description": "Detailed body imaging",
+    "price": 3500,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mscans5",
+    "category": "Scans & Imaging",
+    "name": "MRI Scan",
+    "description": "Brain, spine and joints",
+    "price": 6000,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mdental1",
     "category": "Dental Care",
-    "name": "Dental Check-up",
-    "description": "Check-up and advice.",
+    "name": "Dental Consultation",
+    "description": "Check-up and advice",
     "price": 299,
-    "duration": "30 min",
+    "duration": "",
     "active": true
   },
   {
-    "id": "m19",
+    "id": "mdental2",
+    "category": "Dental Care",
+    "name": "Teeth Cleaning",
+    "description": "Scaling and polishing",
+    "price": 799,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mdental3",
+    "category": "Dental Care",
+    "name": "Tooth Filling",
+    "description": "Per tooth",
+    "price": 1200,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mdental4",
+    "category": "Dental Care",
+    "name": "Root Canal",
+    "description": "Per tooth",
+    "price": 3500,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "meye1",
     "category": "Eye Care",
-    "name": "Eye Check-up",
-    "description": "Eye test and advice.",
+    "name": "Eye Check-up & Vision Test",
+    "description": "Power check and eye health",
     "price": 299,
-    "duration": "30 min",
+    "duration": "",
     "active": true
   },
   {
-    "id": "m20",
+    "id": "meye2",
+    "category": "Eye Care",
+    "name": "Cataract Consultation",
+    "description": "Specialist opinion",
+    "price": 499,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "meye3",
+    "category": "Eye Care",
+    "name": "Child Eye Check-up",
+    "description": "For children",
+    "price": 399,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mmental1",
     "category": "Mental Health",
     "name": "Counselling Session",
-    "description": "Private session with a counsellor.",
+    "description": "Stress, anxiety, low mood",
     "price": 799,
-    "duration": "45 min",
+    "duration": "",
     "active": true
   },
   {
-    "id": "m21",
+    "id": "mmental2",
+    "category": "Mental Health",
+    "name": "Psychiatrist Consultation",
+    "description": "Medical assessment",
+    "price": 999,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mmental3",
+    "category": "Mental Health",
+    "name": "Couple / Family Counselling",
+    "description": "Joint session",
+    "price": 999,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mdiet1",
     "category": "Diet & Nutrition",
     "name": "Diet Consultation",
-    "description": "Personal diet plan.",
+    "description": "One-time session",
     "price": 499,
-    "duration": "30 min",
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mdiet2",
+    "category": "Diet & Nutrition",
+    "name": "Weight Management Plan",
+    "description": "1 month with follow-ups",
+    "price": 1999,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mdiet3",
+    "category": "Diet & Nutrition",
+    "name": "Diabetes Diet Plan",
+    "description": "Sugar-friendly meal plan",
+    "price": 999,
+    "duration": "",
+    "active": true
+  },
+  {
+    "id": "mdiet4",
+    "category": "Diet & Nutrition",
+    "name": "Pregnancy Nutrition",
+    "description": "Plan for mother and baby",
+    "price": 999,
+    "duration": "",
     "active": true
   }
 ]
