@@ -792,6 +792,15 @@ function serveStatic(req, res, url) {
   let file = decodeURIComponent(url.pathname);
   if (file === '/') file = '/index.html';
   let full = path.normalize(path.join(PUBLIC_DIR, file));
+  // Ambulance card photos: the page asks for /ambulance/van.jpg etc.; the real files are amb-road.jpeg etc.
+  const AMB_PICS = { charter: 'amb-air-charter.jpeg', airline: 'amb-commercial.jpeg', heli: 'amb-helicopter.jpeg', van: 'amb-road.jpeg' };
+  const ambM = /^\/ambulance\/(charter|airline|heli|van)\.jpe?g$/i.exec(file);
+  if (ambM && !fs.existsSync(full)) {
+    const nm = AMB_PICS[ambM[1].toLowerCase()];
+    for (const dir of [PUBLIC_DIR, path.join(PUBLIC_DIR, 'ambulance_pack', 'images'), path.join(PUBLIC_DIR, 'images')]) {
+      const alt = path.join(dir, nm); if (fs.existsSync(alt)) { full = alt; break; }
+    }
+  }
   // Photo not found at its folder path (e.g. /ambulance_pack/images/van.png)? Use the same file name from the main folder.
   if (/\.(png|jpe?g|svg|webp|ico)$/i.test(file) && !fs.existsSync(full)) {
     const base = path.basename(file);
