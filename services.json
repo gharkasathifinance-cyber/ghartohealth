@@ -1,0 +1,5316 @@
+[
+  {
+    "id": "s1",
+    "category": "Electrician",
+    "name": "Switch Board Repair",
+    "description": "Professional installation of a single switchbox. Through Cleaning after the service",
+    "price": 300,
+    "duration": "30-45 mins",
+    "imageCredit": {
+      "by": "U.S. Embassy Ghana",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/76102799@N07/52234175485"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket",
+    "overview": "Professional installation of a single switchbox. Through Cleaning after the service",
+    "included": [
+      "Professional installation of a single switchbox"
+    ]
+  },
+  {
+    "id": "s2",
+    "category": "Electrician",
+    "name": "Ceiling Fan Installation",
+    "description": "Fan installation, blade balancing and regulator connection.",
+    "price": 300,
+    "duration": "45-60 mins",
+    "imageCredit": {
+      "by": "U.S. Embassy Ghana",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/76102799@N07/52234175485"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "id": "s3",
+    "category": "Electrician",
+    "name": "LED Light & Spotlight Fitting",
+    "description": "Ceiling battens, profile lights and pendant lights.",
+    "price": 149,
+    "duration": "30 mins",
+    "imageCredit": {
+      "by": "U.S. Embassy Ghana",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/76102799@N07/52234175485"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "id": "s4",
+    "category": "Electrician",
+    "name": "MCB & Wiring Repair",
+    "description": "MCB change, short circuit and wiring fault repair.",
+    "price": 349,
+    "duration": "45-60 mins",
+    "imageCredit": {
+      "by": "U.S. Embassy Ghana",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/76102799@N07/52234175485"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "id": "s9",
+    "category": "Carpenter",
+    "name": "Door & Lock Repair",
+    "description": "Door alignment, hinge and lock fitting.",
+    "price": 249,
+    "duration": "30-45 mins",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "id": "s10",
+    "category": "Carpenter",
+    "name": "Furniture Assembly",
+    "description": "Bed, wardrobe or table assembly.",
+    "price": 499,
+    "duration": "1-2 hrs",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Furniture"
+  },
+  {
+    "id": "s11",
+    "category": "Carpenter",
+    "name": "Curtain Rod & Shelf Fitting",
+    "description": "Wall drilling and fitting of rods and shelves.",
+    "price": 199,
+    "duration": "30 mins",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "id": "s16",
+    "category": "Home Appliance",
+    "name": "AC Service (Split)",
+    "description": "Jet-pump cleaning, gas pressure and cooling check.",
+    "price": 499,
+    "duration": "45-60 mins",
+    "imageCredit": {
+      "by": "dullhunk",
+      "license": "BY 2.0",
+      "url": "https://www.flickr.com/photos/14829735@N00/51542942738"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "AC"
+  },
+  {
+    "id": "s20",
+    "category": "Pest Control",
+    "name": "Cockroach & Ant Control",
+    "description": "Gel and spray treatment for the whole home.",
+    "price": 599,
+    "duration": "1 hr",
+    "imageCredit": {
+      "by": "saudekjan",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/156515782@N02/51870582007"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "id": "s21",
+    "category": "Pest Control",
+    "name": "Termite Control (1 BHK)",
+    "description": "Drill-and-fill anti-termite treatment.",
+    "price": 1999,
+    "duration": "2-3 hrs",
+    "imageCredit": {
+      "by": "saudekjan",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/156515782@N02/51870582007"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Termite Control"
+  },
+  {
+    "id": "s22",
+    "category": "Painting",
+    "name": "Single Wall Painting",
+    "description": "Putty, primer and two coats on one wall.",
+    "price": 999,
+    "duration": "3-4 hrs",
+    "imageCredit": {
+      "by": "archer10 (Dennis)",
+      "license": "BY-SA 2.0",
+      "url": "https://www.flickr.com/photos/22490717@N02/15369663201"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "light fitting",
+    "description": "dkfi",
+    "price": 200,
+    "duration": "20",
+    "id": "smuoh1q7e",
+    "imageCredit": {
+      "by": "U.S. Embassy Ghana",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/76102799@N07/52234175485"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Door accessories setup",
+    "description": "",
+    "price": 99,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwx9vtl",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Lock replacement",
+    "description": "Quick and secure replacement of damaged or faulty locks.",
+    "price": 404,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxddlc",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Lock repair",
+    "description": "Quick and reliable repair of damaged or faulty locks.",
+    "price": 189,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxfwfm",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Lock installation",
+    "description": "Professional installation of new locks for improved security.",
+    "price": 509,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxgvpz",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Sliding door repair",
+    "description": "Smooth and reliable repair of damaged or stuck sliding doors.",
+    "price": 344,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxhms2",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Hinge installation (up to 4)",
+    "description": "Proper installation of up to 4 door hinges for smooth and secure movement.",
+    "price": 254,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxisms",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Door closer setup",
+    "description": "Professional setup of door closers for smooth and controlled closing.",
+    "price": 290,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxnlqd",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Mesh grill door install",
+    "description": "Secure installation of mesh grill doors for ventilation and added protection.",
+    "price": 400,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxoifp",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Curtain rod install",
+    "description": "Secure installation of curtain rods for a neat and proper fit.",
+    "price": 160,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxp8oq",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Window hinge fitting",
+    "description": "Proper fitting of window hinges for smooth and secure operation.",
+    "price": 200,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxq47k",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Curtain blinds repair",
+    "description": "Quick repair of damaged or faulty curtain blinds for smooth operation.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxqtv6",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Shower curtain rod install",
+    "description": "Secure installation of shower curtain rods for a neat and stable setup.",
+    "price": 180,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxtut2",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Motorized blinds install",
+    "description": "Professional installation of motorized blinds for smooth and convenient operation.",
+    "price": 270,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxusuy",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Non-motorized blinds install",
+    "description": "Neat and secure installation of manual blinds for easy operation.",
+    "price": 205,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxvj5p",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Bed frame support restoration",
+    "description": "Repair and reinforcement of damaged bed frame supports for better stability.",
+    "price": 400,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxwez7",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Bed leg stabilization",
+    "description": "Secure adjustment and reinforcement of loose or unstable bed legs.",
+    "price": 250,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxxaqs",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Bathroom holder/hanger install",
+    "description": "Secure installation of bathroom holders and hangers for convenient use.",
+    "price": 110,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxy7cp",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Wall decor mounting",
+    "description": "Secure mounting of wall décor for a neat and stable finish.",
+    "price": 60,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwxz9kj",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Bathroom mirror setup",
+    "description": "Secure and proper installation of bathroom mirrors for a clean finish.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwy05lr",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Glass shelf mounting",
+    "description": "Secure mounting of glass shelves for safe and stable storage.",
+    "price": 115,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwy0yg7",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Wooden shelf setup",
+    "description": "Neat and secure installation of wooden shelves for convenient storage.",
+    "price": 230,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwy1w13",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Corner guard & safety lock",
+    "description": "Installation of corner guards and safety locks for added protection at home.",
+    "price": 370,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwy6eo7",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Bed fence install",
+    "description": "Secure installation of bed fences for added safety and support.",
+    "price": 380,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwy78e1",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Safety gate install",
+    "description": "Installation of safety gates for doors, stairs, and other areas to improve home safety.",
+    "price": 850,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwy9m6i",
+    "imageCredit": {
+      "by": "Flickr",
+      "license": "PDM 1.0",
+      "url": "https://www.flickr.com/photos/66956608@N06/53771495480"
+    },
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Cupboard channel repair",
+    "description": "Repair of damaged or stuck cupboard channels for smooth opening and closing.",
+    "price": 140,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyadxk",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Cupboard hinge install",
+    "description": "Fitting of new hinges to improve cupboard door movement and alignment.",
+    "price": 170,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyb8tx",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Cupboard lock repair",
+    "description": "Fixing faulty cupboard locks to restore proper locking and easy access.",
+    "price": 180,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyc5wf",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Cupboard lock replacement",
+    "description": "Replacement of worn-out or damaged cupboard locks with suitable new ones.",
+    "price": 115,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyczby",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Cupboard lock install",
+    "description": "Installation of new locks on cupboards for convenient and reliable access control.",
+    "price": 320,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwydv1o",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Carpenter consultation",
+    "description": "Get expert guidance for carpentry repairs, installations, and custom home projec",
+    "price": 60,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyfbbc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Door maintenance & repair",
+    "description": "Routine upkeep and repairs to keep doors functional, aligned, and easy to use.",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyg20d",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Professional door installation",
+    "description": "Expert fitting of new doors with proper alignment and finishing.",
+    "price": 870,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwygvak",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Latch installation",
+    "description": "Fitting of door latches for convenient closing and added security.",
+    "price": 230,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyi17t",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Window grill installation",
+    "description": "Fitting of window grills to provide added protection and security.",
+    "price": 229,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyivsa",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Dual-bracket curtain rod",
+    "description": "Installation of dual-bracket rods for supporting layered or heavier curtains.",
+    "price": 149,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyk481",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Head board restoration",
+    "description": "Repair and refresh of damaged headboards to improve their appearance and condition.",
+    "price": 230,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwymenl",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Drilling & mounting",
+    "description": "Drilling & mounting",
+    "price": 60,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyn567",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Cupboard channel replacement",
+    "description": "Replacement of worn or damaged channels to restore smooth cupboard movement.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyo0s8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Glass shelf (shelving)",
+    "description": "Installation of glass shelving for neat and practical storage.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyoorv",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Custom wooden shelf",
+    "description": "Made-to-fit wooden shelving designed to suit your space and storage needs.",
+    "price": 320,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwypjyx",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Tailored storage shelf",
+    "description": "Custom-fitted shelving designed to make the best use of your available space.",
+    "price": 210,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyqdji",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Curtain & Shelf"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Peep hole installation",
+    "description": "Installation of door peepholes for convenient viewing of visitors before opening the door.",
+    "price": 130,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyrh7b",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Wooden door installation",
+    "description": "Fitting of wooden doors with proper alignment and finishing for a neat setup.",
+    "price": 670,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwysm2s",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Major wooden repair",
+    "description": "Restoration of heavily damaged wooden doors, furniture, and fixtures.",
+    "price": 255,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyu3jo",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Minor wooden repair",
+    "description": "Quick fixes for small cracks, loose parts, and other minor wooden damage.",
+    "price": 150,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyv2fh",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Door hinge install (with dismantle)",
+    "description": "Removal of existing hinges followed by fitting of new door hinges.",
+    "price": 420,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyvtg0",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Overhead door closer install",
+    "description": "Fitting of overhead door closers for controlled and automatic door closing.",
+    "price": 240,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwywo4k",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Window AC frame installation",
+    "description": "Fitting of a sturdy support frame for safe and stable window AC placement.",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyxjws",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Window closing (post AC removal)",
+    "description": "Sealing and closing the window opening after removing a window AC unit.",
+    "price": 179,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyy7k7",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Drawer channel replacement",
+    "description": "Replacement of damaged drawer channels to restore easy and smooth drawer movement.",
+    "price": 200,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwyz6fw",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Cupboard handle install/replacement",
+    "description": "Fitting or replacing cupboard handles for convenient opening and a refreshed look.",
+    "price": 70,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwz03vr",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Plastic buffer install (up to 4)",
+    "description": "Fitting up to 4 plastic buffers to reduce impact and prevent surface damage.",
+    "price": 99,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwz0p9e",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Chair wheels fitting",
+    "description": "Installing replacement wheels to improve chair mobility and movement.",
+    "price": 115,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwz1jg3",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Ceiling-mounted hanger install",
+    "description": "Fitting ceiling hangers for safely suspending suitable household items.",
+    "price": 510,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwz2eqb",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Carpenter",
+    "name": "Wall/door hanger install",
+    "description": "Mounting hangers on walls or doors for convenient hanging and storage.",
+    "price": 179,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwz3dfz",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Door & Lock"
+  },
+  {
+    "category": "Electrician",
+    "name": "Switch box install",
+    "description": "Fitting a new switch box for safe and organized electrical connections.",
+    "price": 280,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzmgdi",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket"
+  },
+  {
+    "category": "Electrician",
+    "name": "Switch board install",
+    "description": "Fitting new switch boards for convenient and organized electrical control.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwznt69",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket"
+  },
+  {
+    "category": "Electrician",
+    "name": "Switch board/box repair",
+    "description": "Fixing damaged or faulty switch boards and boxes to restore proper operation.",
+    "price": 200,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzojn4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket"
+  },
+  {
+    "category": "Electrician",
+    "name": "Smart switch install",
+    "description": "Setup of smart switches for convenient control of lights and electrical devices.",
+    "price": 150,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzpjoy",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket"
+  },
+  {
+    "category": "Electrician",
+    "name": "Smart appliances install",
+    "description": "Setup of compatible smart appliances for convenient and connected home control.",
+    "price": 230,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzq86n",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Switch socket replacement",
+    "description": "Replacing worn or damaged switches and sockets for reliable everyday use.",
+    "price": 130,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzqzmm",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket"
+  },
+  {
+    "category": "Electrician",
+    "name": "WiFi smart switch install",
+    "description": "Setup of WiFi-enabled switches for remote and convenient device control.",
+    "price": 229,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzrsfc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket"
+  },
+  {
+    "category": "Electrician",
+    "name": "Bulb/tube holder install",
+    "description": "Fitting bulb and tube holders for secure and functional lighting connections.",
+    "price": 110,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzski9",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "CFL to LED replacement",
+    "description": "Replacing old CFL lights with energy-efficient LED lighting for improved illumination.",
+    "price": 130,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwztceu",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "category": "Electrician",
+    "name": "Decorative lights install",
+    "description": "Fitting decorative lighting to enhance the look and ambience of your space.",
+    "price": 149,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzu36q",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "category": "Electrician",
+    "name": "Decorative lantern install",
+    "description": "Installing decorative lanterns to add stylish lighting and ambience to your space.",
+    "price": 120,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzuxf7",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Wall/ceiling light install",
+    "description": "Fitting wall or ceiling lights for effective and well-positioned illumination.",
+    "price": 139,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzvld4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "category": "Electrician",
+    "name": "Chandelier install",
+    "description": "Professional fitting of chandeliers with proper mounting and electrical connections.",
+    "price": 650,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzwf5e",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "New external wiring",
+    "description": "Installation of new external wiring for safe and reliable power connections.",
+    "price": 150,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzxjx5",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Electrician",
+    "name": "New internal wiring",
+    "description": "Installation of new internal wiring for dependable electrical connections throughout your space.",
+    "price": 220,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smuwzyu7e",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Electrician",
+    "name": "Doorbell install",
+    "description": "Fitting a new doorbell with proper wiring and placement for reliable operation.",
+    "price": 80,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0086w",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Doorbell replacement",
+    "description": "Replacing a faulty or outdated doorbell with a new, functional unit.",
+    "price": 99,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux017rv",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Single pole MCB",
+    "description": "Installation of a single-pole MCB for circuit protection and safer electrical use.",
+    "price": 149,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux01w0t",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Electrician",
+    "name": "Double pole MCB",
+    "description": "Installation of a double-pole MCB for reliable circuit protection and electrical safety",
+    "price": 194,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux02s33",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Electrician",
+    "name": "Submeter install",
+    "description": "Fitting a submeter to track electricity usage for a specific area or unit.",
+    "price": 260,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux03k70",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "MCB/fuse replacement",
+    "description": "Replacing faulty MCBs or fuses to restore proper circuit protection and power supply.",
+    "price": 130,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux049sn",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Electrician",
+    "name": "3-phase changeover switch",
+    "description": "Installation of a changeover switch for managing power supply between electrical sources.",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux04yl4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket"
+  },
+  {
+    "category": "Electrician",
+    "name": "Inverter install",
+    "description": "Setup of an inverter with proper connections for reliable backup power during outages.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux06459",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Stabilizer install",
+    "description": "Fitting a voltage stabilizer to help protect appliances from voltage fluctuations.",
+    "price": 150,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0729g",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Inverter fuse replacement",
+    "description": "Replacing a blown or faulty inverter fuse to restore backup power operation.",
+    "price": 129,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux07unp",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Inverter servicing",
+    "description": "Inspection and servicing of the inverter to maintain reliable backup power performanc",
+    "price": 200,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux08whh",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Inverter repair",
+    "description": "Diagnosis and repair of inverter issues to restore dependable backup power.",
+    "price": 250,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux09u13",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Electrician visit",
+    "description": "On-site assistance for electrical checks, minor repairs, and installation needs.",
+    "price": 80,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0ase6",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "AC switch install",
+    "description": "Fitting a dedicated AC switch for convenient and reliable power control.",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0bk5g",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Switch & Socket"
+  },
+  {
+    "category": "Electrician",
+    "name": "Decorative lights uninstall",
+    "description": "Careful removal of decorative lights without damaging the fixture or mounting surface.",
+    "price": 130,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0cvss",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "category": "Electrician",
+    "name": "Light uninstallation (per light)",
+    "description": "Removal of individual light fixtures with care and proper handling.",
+    "price": 159,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0doqc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "category": "Electrician",
+    "name": "Inverter uninstallation",
+    "description": "Safe removal of the inverter and its connected wiring from the installation point.",
+    "price": 610,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0ers6",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "TV installation",
+    "description": "Professional setup and installation of your TV for a clean and convenient viewing setup.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0fl9w",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "TV uninstallation",
+    "description": "Careful removal of the TV from its existing setup for safe handling and relocation",
+    "price": 150,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0gi9l",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "WiFi CCTV installation",
+    "description": "Setup of WiFi-enabled CCTV cameras for convenient home monitoring and security.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0hfvl",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Room heater repair",
+    "description": "Diagnosis and repair of common room heater faults for safe and reliable operation.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0i8ug",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Video bell installation",
+    "description": "Setup of video doorbells for convenient visitor viewing and home monitoring.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0jb5v",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Mixer grinder repair",
+    "description": "Troubleshooting and repair of mixer grinder issues for smooth kitchen use.",
+    "price": 259,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0k7jd",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Electrician",
+    "name": "Decorative light installation (per 10 m)",
+    "description": "Installation of decorative lighting up to 10 metres for a bright and attractive setup.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0ljaw",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "category": "Electrician",
+    "name": "New construction wiring (casing)",
+    "description": "20 ft – Installation of electrical wiring with casing for new construction requirements.",
+    "price": 20,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0mvnx",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Electrician",
+    "name": "Track / false-ceiling light install (up to 2)",
+    "description": "Installation of up to 2 track or false-ceiling lights for focused and stylish illumination.",
+    "price": 160,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0nw4j",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Fan & Lights"
+  },
+  {
+    "category": "Electrician",
+    "name": "False ceiling wiring",
+    "description": "₹26 – Electrical wiring setup for false-ceiling lights and fixtu",
+    "price": 26,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0p0f4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Electrician",
+    "name": "New wiring with casing (5m)",
+    "description": "Installation of fresh electrical wiring with protective casing for a neat and organized setup.",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0pzvq",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Electrician",
+    "name": "New wiring without casing (5m)",
+    "description": "Installation of new electrical wiring without casing for basic power connections.",
+    "price": 150,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0qpam",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Wiring & MCB"
+  },
+  {
+    "category": "Plumber",
+    "name": "Bath accessory install",
+    "description": "Fitting bathroom accessories such as towel holders, soap dishes, and similar fixtures.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0tkeb",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Shower install",
+    "description": "Fitting a new shower with proper connections for regular bathroom use.",
+    "price": 160,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0uhm6",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Wash basin install",
+    "description": "Installing a wash basin with suitable fittings and connections for everyday use.",
+    "price": 400,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0vklo",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Basin & Fittings"
+  },
+  {
+    "category": "Plumber",
+    "name": "Bathroom tile grouting",
+    "description": "Filling and refreshing tile joints to improve the finish and help prevent water seepage.",
+    "price": 1600,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0wlfe",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Kitchen tile grouting",
+    "description": "Refreshing tile joints with grout to give the kitchen surface a cleaner and more finished appearance.",
+    "price": 1200,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0xbxm",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Shower filter install",
+    "description": "Fitting a shower filter with proper connections for convenient bathroom use.",
+    "price": 150,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0y1sl",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Washing machine filter install",
+    "description": "Fitting a suitable filter to the washing machine for cleaner water flow and appliance protection.",
+    "price": 140,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux0z0ft",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Drainage cover install",
+    "description": "Fitting a drainage cover to keep the drain protected and maintain a tidy surface.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux10gtt",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Drain & Blockage"
+  },
+  {
+    "category": "Plumber",
+    "name": "Floor-mounted western toilet repair",
+    "description": "Repairing common issues with floor-mounted western toilets to restore proper functionality.",
+    "price": 650,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux117fh",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Jet spray install/repair",
+    "description": "Fitting or fixing jet sprays to ensure proper water flow and convenient bathroom use.",
+    "price": 140,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux11zgl",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Tap repair",
+    "description": "Fixing leaking, loose, or faulty taps to restore smooth water flow.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux13tgm",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Tap install",
+    "description": "Fitting new taps with appropriate connections for dependable water flow.",
+    "price": 130,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux14glg",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Water tank repair",
+    "description": "Fixing leaks, fittings, and other common water tank issues to maintain proper water storage.",
+    "price": 189,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux169ja",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Water Tank"
+  },
+  {
+    "category": "Plumber",
+    "name": "Overhead tank install",
+    "description": "Installation of overhead water tanks with proper positioning and plumbing connections.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux17dkw",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Water Tank"
+  },
+  {
+    "category": "Plumber",
+    "name": "Water meter install",
+    "description": "Installing a water meter with proper pipe connections for monitoring water usage.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux18dph",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Air lock removal (motor)",
+    "description": "Clearing trapped air from the water line to help restore proper motor water flow.",
+    "price": 130,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux195ks",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Motor setup/replacement",
+    "description": "Installation or replacement of water motors with appropriate pipe and electrical connections.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1abvi",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Washing machine water inlet",
+    "description": "Connecting the washing machine water inlet line for proper water supply",
+    "price": 149,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1b9np",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Connection hoses setup",
+    "description": "Fitting and connecting hoses for reliable water flow between household fixtures and appliances.",
+    "price": 139,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1c0jy",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Waste pipe replacement",
+    "description": "Replacing damaged or leaking waste pipes to restore proper drainage and water flow.",
+    "price": 150,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1cyfy",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Sink drainage removal",
+    "description": "Removing existing sink drainage components for repair, replacement",
+    "price": 140,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1djng",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Drain & Blockage"
+  },
+  {
+    "category": "Plumber",
+    "name": "Bathroom drainage removal",
+    "description": "Removing existing bathroom drainage components for cleaning, repair, or replacement.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1e9kh",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Drain & Blockage"
+  },
+  {
+    "category": "Plumber",
+    "name": "Balcony drainage removal",
+    "description": "Removing existing balcony drainage components for cleaning, repair, or replacement.",
+    "price": 300,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1eyve",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Drain & Blockage"
+  },
+  {
+    "category": "Plumber",
+    "name": "Toilet seat cover replacement",
+    "description": "Replacing a damaged or worn toilet seat cover for improved comfort and hygiene.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1fnhr",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "External PVC flush tank repair",
+    "description": "Repairing common leaks, fittings, and flushing issues in external PVC flush tanks.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1gfba",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Water Tank"
+  },
+  {
+    "category": "Plumber",
+    "name": "Concealed flush tank repair",
+    "description": "Repairing concealed flush tank issues, including leaks, faulty fittings, and flushing problems.",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1h86i",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Water Tank"
+  },
+  {
+    "category": "Plumber",
+    "name": "Ceramic flush tank repair",
+    "description": "Repairing leaks, fittings, and flushing issues in ceramic flush tanks.",
+    "price": 239,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1i4ji",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Water Tank"
+  },
+  {
+    "category": "Plumber",
+    "name": "Toilet pot blockage removal",
+    "description": "Clearing toilet blockages to restore proper flushing and drainage.",
+    "price": 1299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1iy7y",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Drain & Blockage"
+  },
+  {
+    "category": "Plumber",
+    "name": "Western toilet replacement",
+    "description": "Removal of the existing toilet and installation of a new western toilet with proper connections.",
+    "price": 1499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1jnlk",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Indian toilet installation",
+    "description": "Installation of a squat-style Indian toilet with proper fittings and drainage connections.",
+    "price": 1399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1khst",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Flush tank replacement",
+    "description": "Removal of the existing flush tank and installation of a new one with proper water connections.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1m3qd",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Water Tank"
+  },
+  {
+    "category": "Plumber",
+    "name": "Western toilet installation",
+    "description": "Installation of a new western toilet with proper fitting, alignment, and drainage connections.",
+    "price": 1699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1ne3d",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Mixer tap repair",
+    "description": "Repairing faulty or leaking mixer taps to restore proper water flow and temperature control.",
+    "price": 200,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1oj9t",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Mixer tap installation",
+    "description": "Fitting a new mixer tap with proper water connections for smooth flow and temperature control.",
+    "price": 400,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1phjt",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Water nozzle install",
+    "description": "Fitting a water nozzle with proper connections for controlled and convenient water flow.",
+    "price": 79,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1q7h6",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Tap replacement",
+    "description": "Removing the old tap and installing a new one with proper water connections.",
+    "price": 120,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1rer1",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Tank pipeline repair",
+    "description": "Repairing leaks, damaged pipes, and connections in the water tank pipeline system.",
+    "price": 349,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1sj5h",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Water Tank"
+  },
+  {
+    "category": "Plumber",
+    "name": "Water overflow repair",
+    "description": "Fixing overflow issues in tanks, pipes, or fixtures to prevent unnecessary water wastage.",
+    "price": 250,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1ta52",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Pipeline services",
+    "description": "Repair, replacement, and installation of water pipelines and connections.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1uart",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Pipeline leakage repair",
+    "description": "Detecting and repairing leaking water pipelines to restore proper water flow and prevent water wastage.",
+    "price": 250,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1v3za",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Soap holder install",
+    "description": "Fitting a soap holder securely in the bathroom or wash area for convenient storage.",
+    "price": 90,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1vwp9",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Towel holder install",
+    "description": "Fitting a towel holder securely for convenient and organized towel storage.",
+    "price": 119,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1wq6w",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Bath shelf install",
+    "description": "Securely installing a bathroom shelf for convenient storage of toiletries and essentials.",
+    "price": 99,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1xfus",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Wash basin leakage repair",
+    "description": "Detecting and repairing leaks around the wash basin, fittings, and drainage connections.",
+    "price": 130,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1y3rx",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Basin & Fittings"
+  },
+  {
+    "category": "Plumber",
+    "name": "Waste coupling install",
+    "description": "Fitting a waste coupling to ensure proper drainage from sinks and wash basins.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1yoxh",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Wash basin blockage removal",
+    "description": "Clearing blockages from the wash basin drain to restore smooth water flow.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1zega",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Basin & Fittings"
+  },
+  {
+    "category": "Plumber",
+    "name": "Shower mixer tap install",
+    "description": "Fitting a shower mixer tap with proper water connections for smooth flow and temperature control.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux1zzt8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Shower repair",
+    "description": "Fixing common shower issues such as leaks, low water flow, or faulty fittings.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux20q7c",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Drainage blockage removal",
+    "description": "Clearing blocked drains to restore smooth water flow and proper drainage.",
+    "price": 249,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux21rd7",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Drain & Blockage"
+  },
+  {
+    "category": "Plumber",
+    "name": "Tap accessories install",
+    "description": "Fitting tap accessories such as aerators, extensions, and other compatible fittings.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux22dmt",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Motor installation",
+    "description": "Installing a water motor with proper plumbing and electrical connections for reliable operation.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux22xyu",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "External pipeline leakage repair",
+    "description": "Detecting and repairing leaks in external water pipelines to restore proper flow and prevent water wastage.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux23s3z",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Geyser connection leakage repair",
+    "description": "Repairing leaks around geyser water connections to restore safe and proper water flow.",
+    "price": 119,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux24ktr",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "RO water connection install",
+    "description": "Connecting the RO purifier to the water supply and drainage lines for proper operation.",
+    "price": 120,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux25e35",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Indian toilet repair/replacement",
+    "description": "Repairing or replacing Indian toilets with proper fitting, alignment, and drainage connections.",
+    "price": 699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux268gv",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Plumber consultation",
+    "description": "Professional assessment and guidance for plumbing repairs, installations, and maintenance needs.",
+    "price": 70,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux275jb",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Hot & cold tap repair / replacement",
+    "description": "Repairing or replacing hot and cold water taps with proper connections for smooth operation.",
+    "price": 450,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux27vq9",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Tap filter install",
+    "description": "Fitting a tap filter with proper connections for convenient and cleaner water flow.",
+    "price": 160,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux28owc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Tap & Mixer"
+  },
+  {
+    "category": "Plumber",
+    "name": "Bathtub installation",
+    "description": "Installing a bathtub with proper plumbing, drainage, and water connections.",
+    "price": 2399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux29xti",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Shower panel installation",
+    "description": "Installing a shower panel with proper water connections for smooth and reliable operation.",
+    "price": 2300,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux2amjq",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Normal bathroom fitting",
+    "description": "Installation of basic bathroom fixtures and fittings with proper plumbing connections.",
+    "price": 5999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux2cwdp",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Basin & Fittings"
+  },
+  {
+    "category": "Plumber",
+    "name": "Standard bathroom fitting",
+    "description": "Installation of standard bathroom fixtures and fittings with proper plumbing connections.",
+    "price": 8999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux2df2p",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Basin & Fittings"
+  },
+  {
+    "category": "Plumber",
+    "name": "Luxury bathroom fitting",
+    "description": "Installation of premium bathroom fixtures and fittings with proper plumbing connections.",
+    "price": 15000,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux2eb99",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Basin & Fittings"
+  },
+  {
+    "category": "Plumber",
+    "name": "Bathroom CPVC/UPVC pipeline blockage",
+    "description": "Clearing blockages in bathroom CPVC/UPVC pipelines to restore proper water flow.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux2f845",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Drain & Blockage"
+  },
+  {
+    "category": "Plumber",
+    "name": "Drainage chamber blockage (up to 3)",
+    "description": "Clearing blockages from up to 3 drainage chambers to restore proper wastewater flow.",
+    "price": 1500,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux2fyug",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "Drain & Blockage"
+  },
+  {
+    "category": "Plumber",
+    "name": "Wall-mount western toilet repair",
+    "description": "Repairing common issues with wall-mounted western toilets to restore proper functionality.",
+    "price": 999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux2gos2",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Plumber",
+    "name": "Indian to western toilet replacement",
+    "description": "Replacing an Indian toilet with a western toilet, including proper fitting and drainage connections.",
+    "price": 2999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "id": "smux2hezo",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    },
+    "sub": "General"
+  },
+  {
+    "category": "Cleaning",
+    "name": "outer glass cleaning",
+    "description": "",
+    "price": 500,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Glass Cleaning",
+    "id": "smv2pd09s",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Carpet cleaning",
+    "description": "Professional carpet cleaning to remove dust, dirt, stains, and odors, keeping your carpets fresh and clean.",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Sofa & Carpet",
+    "id": "smv3wucei",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Mattress cleaning (single)",
+    "description": "Professional single mattress cleaning to remove dust, stains, and odors for a cleaner and fresher sleeping surface.",
+    "price": 700,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Mattress Cleaning",
+    "id": "smv3wv14a",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Kitchen cleaning",
+    "description": "Deep cleaning of kitchen surfaces, countertops, tiles, and cabinets to remove grease, dirt, and stains.",
+    "price": 1500,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Bathroom & Kitchen",
+    "id": "smv3wwfek",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Full home basic (furnished apt)",
+    "description": "Basic cleaning of your furnished home, including dusting, sweeping, mopping, and surface cleaning for a neat and fresh living space.",
+    "price": 2799,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Full Home Deep Clean",
+    "id": "smv3wx8re",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Full home deep (furnished apt)",
+    "description": "Comprehensive deep cleaning of your furnished apartment, including floors, kitchen surfaces, bathrooms, and accessible areas. Starting price: ₹4,599. The final cost will be determined after assessing ",
+    "price": 4599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Full Home Deep Clean",
+    "id": "smv3x0pta",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Full home basic (unfurnished apt)",
+    "description": "Basic cleaning of your unfurnished apartment, including sweeping, mopping, dust removal, and accessible surface cleaning. Starting price: ₹3,800. Final pricing will be confirmed after a site visit and",
+    "price": 3800,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Full Home Deep Clean",
+    "id": "smv3x3llt",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Full home deep (unfurnished apt)",
+    "description": "Deep cleaning of your unfurnished apartment, including floors, bathrooms, kitchen surfaces, and accessible areas. Starting price: ₹4,599. Final pricing will be confirmed after a site visit and assessm",
+    "price": 4299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Full Home Deep Clean",
+    "id": "smv3x4z5i",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Basic furnished independent house",
+    "description": "Basic cleaning of your furnished independent house, including sweeping, mopping, dusting, and accessible surface cleaning. Final pricing will be confirmed after a site visit and assessment of the prop",
+    "price": 4200,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3x6h5x",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Deep furnished independent house",
+    "description": "Deep cleaning of your furnished independent house, including floors, kitchen, bathrooms, and accessible surfaces. Final pricing will be confirmed after a site visit and assessment of the property size",
+    "price": 6999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3x74zm",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Basic unfurnished independent house",
+    "description": "Basic cleaning of floors and accessible surfaces. Final pricing will be confirmed after a site visit and assessment of the p",
+    "price": 4999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3x8drp",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Deep unfurnished independent house",
+    "description": "Deep cleaning of floors, kitchens, bathrooms, and accessible surfaces. Final pricing will be confirmed after a site visit and assessment of the property.",
+    "price": 5500,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3x9kgx",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Unfurnished bedroom",
+    "description": "Cleaning of bedroom floors and accessible surfaces to remove dust and dirt.",
+    "price": 1499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xags4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Furnished bedroom",
+    "description": "Cleaning of bedroom floors, furniture surfaces, and accessible areas to remove dust and dirt.",
+    "price": 1400,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xb5pj",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Unfurnished living room",
+    "description": "Cleaning of floors and accessible surfaces to remove dust and dirt.",
+    "price": 999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Living Room",
+    "id": "smv3xcag8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Furnished living room",
+    "description": "Cleaning of floors, furniture surfaces, and accessible areas to remove dust and dirt.",
+    "price": 1299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Living Room",
+    "id": "smv3xdj86",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Bathroom cleaning",
+    "description": "Cleaning of bathroom floors, tiles, washbasins, and toilets to remove dirt and stains.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Bathroom & Kitchen",
+    "id": "smv3xervw",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Fabric sofa cleaning",
+    "description": "Professional fabric sofa cleaning to remove dust, dirt, and stains. Starting price: ₹250 per seater.",
+    "price": 250,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Sofa & Carpet",
+    "id": "smv3xi2pd",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Leather sofa cleaning",
+    "description": "Professional leather sofa cleaning to remove dust and dirt while maintaining the material's finish. Starting price: ₹399 per seater.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Sofa & Carpet",
+    "id": "smv3xj71k",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Lofted water tank cleaning",
+    "description": "Professional cleaning of lofted water tanks to remove dirt, sludge, and deposits.",
+    "price": 699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water tank Cleaning",
+    "id": "smv3xkqq1",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Underground tank cleaning",
+    "description": "Professional cleaning of underground water tanks to remove sludge, dirt, and deposits.",
+    "price": 800,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water tank Cleaning",
+    "id": "smv3xlgmo",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Move-in kitchen cleaning",
+    "description": "Deep cleaning of kitchen surfaces, cabinets, tiles, and countertops before moving in.",
+    "price": 899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Bathroom & Kitchen",
+    "id": "smv3xmczf",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Commercial cleaning",
+    "description": "Professional cleaning of offices, shops, and commercial spaces to maintain a clean and hygienic environment.Professional cleaning of offices, shops, and commercial spaces to maintain a clean and hygie",
+    "price": 699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xnwry",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Chimney basic cleaning",
+    "description": "Basic chimney cleaning to remove surface grease, dust, and dirt.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xoshc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Chimney deep cleaning",
+    "description": "Deep chimney cleaning to remove stubborn grease, oil deposits, and dirt for improved hygiene and performance.",
+    "price": 899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xpp59",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Move-in bathroom cleaning5r5",
+    "description": "Thorough bathroom cleaning, including floors, tiles, toilets, and washbasins, to ensure a clean and hygienic space before moving in",
+    "price": 549,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Bathroom & Kitchen",
+    "id": "smv3xqrof",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Bathroom deep cleaning",
+    "description": "Deep cleaning of bathroom floors, tiles, toilets, washbasins, and fittings to remove stubborn stains, dirt, and grime. Final pricing will be confirmed after a site visit and assessment of the bathroom",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Bathroom & Kitchen",
+    "id": "smv3xroyh",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Kitchen sink cleaning",
+    "description": "Cleaning of kitchen sinks to remove grease, food residue, and stains",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Bathroom & Kitchen",
+    "id": "smv3xsd9y",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Chimney & stove cleaning",
+    "description": "Cleaning of kitchen chimneys and stoves to remove grease, oil deposits, and food stains.",
+    "price": 899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xt366",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Fridge cleaning",
+    "description": "Cleaning of refrigerator interiors and shelves to remove food stains, spills, and unpleasant odors.",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xtr3t",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Ottoman cleaning",
+    "description": "Professional ottoman cleaning to remove dust, dirt, and stains.",
+    "price": 119,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xuj9j",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Lounge chair cleaning",
+    "description": "Professional lounge chair cleaning to remove dust, dirt, and stains",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xvq3s",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Study chair cleaning",
+    "description": "Cleaning of study chairs to remove dust, dirt, and stains.",
+    "price": 159,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xwyxo",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Exhaust fan cleaning",
+    "description": "Cleaning of exhaust fans to remove dust, grease, and dirt.",
+    "price": 80,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xxqis",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Gas stove cleaning",
+    "description": "Cleaning of gas stoves to remove grease, food residue, and stubborn stains",
+    "price": 129,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xyvwo",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Microwave cleaning",
+    "description": "Cleaning of microwave interiors and exteriors to remove food stains, grease, and unpleasant odors.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3xzjba",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Trolley & shelves cleaning",
+    "description": "Cleaning of kitchen trolleys and shelves to remove grease, dust, and dirt.",
+    "price": 1399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y0cu8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Wash basin cleaning",
+    "description": "Cleaning of washbasins to remove stains, dirt, and soap deposits.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y10p8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Fan cobweb dusting (1 room)",
+    "description": "Dusting of ceiling fans and removal of cobwebs in one room.",
+    "price": 219,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y1uz8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Mirror cleaning",
+    "description": "Cleaning of mirrors to remove dust, fingerprints, and stains for a clear, streak-free finish.",
+    "price": 69,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y2gc4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Glass partition cleaning",
+    "description": "Cleaning of glass partitions to remove dust, fingerprints, and stains for a clear, streak-free finish.",
+    "price": 100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Glass Cleaning",
+    "id": "smv3y36yn",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Door cleaning",
+    "description": "Cleaning of doors to remove dust, dirt, and stains.",
+    "price": 99,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y3yyz",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Air fryer cleaning",
+    "description": "Cleaning of air fryer baskets and interiors to remove grease, food residue, and buildup.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y4pfn",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "2 BHK deep cleaning (empty apt)",
+    "description": "Deep cleaning of your empty 2 BHK apartment, including floors, bathrooms, kitchen, and accessible surfaces.",
+    "price": 7999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y5jiq",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "3 BHK deep cleaning (empty apt)",
+    "description": "Deep cleaning of your empty 3 BHK apartment, including floors, bathrooms, kitchen, and accessible surfaces.",
+    "price": 10899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y6f9e",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "2 BHK deep cleaning (furnished apt)",
+    "description": "Deep cleaning of your furnished 2 BHK apartment, including floors, kitchen, bathrooms, and accessible furniture surfaces.",
+    "price": 8599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y79f7",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "3 BHK deep cleaning (furnished apt)",
+    "description": "Deep cleaning of your furnished 3 BHK apartment, including floors, kitchen, bathrooms, and accessible furniture surfaces",
+    "price": 12999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y88d4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Bathtub cleaning",
+    "description": "Cleaning of bathtubs to remove dirt, stains, soap residue, and buildup.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3y9993",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Shower enclosure glass cleaning",
+    "description": "Cleaning of shower glass panels to remove soap scum, water stains, and dirt for a clear finish.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Glass Cleaning",
+    "id": "smv3ya0q9",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Recliner / sofa-cum-bed cleaning",
+    "description": "Professional cleaning to remove dust, dirt, and stains from recliners and sofa-cum-beds. Starting price: ₹300 per seater.",
+    "price": 300,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Sofa & Carpet",
+    "id": "smv3yba93",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Dining chair cleaning",
+    "description": "Cleaning of dining chairs to remove dust, dirt, and stains.",
+    "price": 129,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3ybzlz",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Cushion cleaning",
+    "description": "Cleaning of cushions to remove dust, dirt, and stains. Starting price: ₹62 per cushion.",
+    "price": 62,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3ycp9x",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Tiles floor cleaning",
+    "description": "Professional tile floor cleaning to remove dirt, stains, and grime. Starting price: ₹4 per sq. ft.",
+    "price": 4,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3ydvuq",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Marble & granite floor cleaning",
+    "description": "Professional cleaning of marble and granite floors to remove dirt, stains, and grime. Starting price: ₹5 per sq. ft",
+    "price": 5,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yeiwl",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Kitchen deep cleaning (equipped)",
+    "description": "Deep cleaning of equipped kitchens, including countertops, cabinets, tiles, and accessible surfaces to remove grease and stubborn dirt.",
+    "price": 1899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Bathroom & Kitchen",
+    "id": "smv3yggit",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Hydraulic chimney deep cleaning",
+    "description": "Deep cleaning of hydraulic chimneys to remove stubborn grease, oil deposits, and dirt.",
+    "price": 999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yhdv4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Island chimney deep cleaning",
+    "description": "Deep cleaning of island chimneys to remove grease, oil deposits, and stubborn dirt.",
+    "price": 1299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yi80y",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "OTG machine cleaning",
+    "description": "Cleaning of OTG interiors and exteriors to remove grease, food residue, and stains.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yizhe",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Office boss chair cleaning",
+    "description": "Cleaning of office boss chairs to remove dust, dirt, and stains",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yjkjv",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Mattress cleaning (king / super king)",
+    "description": "Professional cleaning of king and super king mattresses to remove dust, stains, and unpleasant odors.",
+    "price": 1699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Mattress Cleaning",
+    "id": "smv3ykkfm",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Couch sofa cleaning",
+    "description": "Professional couch sofa cleaning to remove dust, dirt, and stains",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Sofa & Carpet",
+    "id": "smv3ylcuf",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Sofa stool cleaning",
+    "description": "Cleaning of sofa stools to remove dust, dirt, and stains.",
+    "price": 99,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Sofa & Carpet",
+    "id": "smv3ym0g1",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "1 BHK deep cleaning (empty apt)",
+    "description": "Deep cleaning of your empty 1 BHK apartment, including floors, kitchen, bathrooms, and accessible surfaces.",
+    "price": 3999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yna4w",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "1 BHK deep cleaning (furnished apt)",
+    "description": "Deep cleaning of your furnished 1 BHK apartment, including floors, kitchen, bathrooms, and accessible furniture surfaces",
+    "price": 5100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yo2ot",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "4 BHK deep cleaning (empty apt)",
+    "description": "Deep cleaning of your empty 4 BHK apartment, including floors, kitchen, bathrooms, and accessible surfaces.",
+    "price": 16999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3ypio6",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "5 BHK deep cleaning (empty apt)",
+    "description": "Deep cleaning of your empty 5 BHK apartment, including floors, kitchen, bathrooms, and accessible surfaces",
+    "price": 29999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yq7hn",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "1 BHK bungalow deep cleaning (empty)",
+    "description": "Deep cleaning of your empty 1 BHK bungalow, including floors, kitchen, bathrooms, and accessible surfaces",
+    "price": 5399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv3yr2ij",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Large concrete tank cleaning (5,000–1,00,000 L)",
+    "description": "Professional cleaning of large concrete water tanks to remove sludge, dirt, and deposits. Starting price: ₹2,299. Final pricing will be confirmed after a site visit and assessment of tank capacity, ac",
+    "price": 2100,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Concrete Tank Cleaning",
+    "id": "smv3ysjcp",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Cleaning",
+    "name": "Bathroom cleaning: XL (81–120 sqft)",
+    "description": "Professional bathroom cleaning to remove dirt, stains, and grime from floors, tiles, toilets, and washbasins ₹899 per washroom.",
+    "price": 899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Bathroom & Kitchen",
+    "id": "smv3z29r6",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Kitchen & bath (with prep)",
+    "description": "Pest control treatment for kitchens and bathrooms to help control common pests such as cockroaches and ants.",
+    "price": 1299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv560wuy",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Kitchen & bath (no utensil shifting)",
+    "description": "Effective pest control treatment for kitchens and bathrooms to help control common pests. Utensil shifting is not included. Pricing may vary depending on the area size and infestation level.",
+    "price": 1700,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv5643d8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Apartment (with utensil handling)",
+    "description": "Professional pest control treatment for apartments to help control common household pests. Includes utensil handling during treatment. Pricing may vary depending on the apartment size and level of inf",
+    "price": 1699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv566133",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Apartment (without utensil handling)",
+    "description": "Professional pest control treatment for apartments to help control common household pests. Utensil handling is not included. Pricing may vary depending on the apartment size and level of infestation.",
+    "price": 2199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv567u9v",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Bungalow (with utensil removal)",
+    "description": "Professional pest control treatment for bungalows to help control common household pests. Includes utensil removal during treatment. Pricing may vary depending on the property size and level of infest",
+    "price": 2499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv568jvg",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Cockroach control",
+    "description": "Effective cockroach control treatment for kitchens, bathrooms, and other areas to help eliminate cockroaches. Pricing may vary depending on the area size and level of infestation.",
+    "price": 1699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv56aa74",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Bed bug control",
+    "description": "Professional bed bug treatment to help eliminate bed bugs from beds, mattresses, and affected areas. Starting price: ₹1599. Pricing may vary depending on the area size and level of infestati",
+    "price": 1599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv56b6c8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Rodent control",
+    "description": "Professional rodent control treatment to help manage rats and mice in residential and commercial spaces. Starting price: ₹999. Pricing may vary depending on the area size and level of infestation.",
+    "price": 999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv56dhxq",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Pest Control",
+    "name": "Commercial pest management",
+    "description": "Professional pest management services for offices, shops, restaurants, and other commercial spaces to help control common pests. Starting price: ₹3599. Pricing may vary depending on the property size ",
+    "price": 3599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv56gjhe",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Painting",
+    "name": "Basic interior painting",
+    "description": "Basic interior painting starting at ₹14 per sq. ft. for a fresh, smooth finish. Final pricing may vary depending on wall condition and work requirements and will be confirmed after site inspection.",
+    "price": 14,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv6zupe6",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Painting",
+    "name": "Deluxe interior painting",
+    "description": "Premium interior painting at ₹21 per sq. ft. for an enhanced finish and beautiful walls.",
+    "price": 21,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv6zwzhm",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Painting",
+    "name": "Exterior painting",
+    "description": "Professional exterior painting for building walls using suitable exterior paint. The final scope and price will be confirmed after a site visit based on wall condition and paint requirements.",
+    "price": 20,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv700ks9",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Painting",
+    "name": "Wall stencil & custom designs",
+    "description": "Decorative wall painting using stencils and custom designs to enhance your walls.",
+    "price": 65,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv701u5d",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Painting",
+    "name": "Textured finishes & wall art",
+    "description": "Decorative wall finishes and artistic designs to enhance your walls with unique textures and styles.",
+    "price": 101,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv702oi7",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Painting",
+    "name": "Accent & statement wall",
+    "description": "Decorative painting for a feature wall to enhance your space with attractive colours and designs.",
+    "price": 85,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv703ts3",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Painting",
+    "name": "Wood work polishing",
+    "description": "Professional polishing of wooden doors, furniture, and other wooden surfaces to restore their shine and enhance their appearance.",
+    "price": 31,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv704woy",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Painting",
+    "name": "Cabinet refinishing",
+    "description": "Professional refinishing of kitchen cabinets and wooden cupboards to improve their appearance and give them a fresh renewed finish. The final scope and price will be confirmed after a site visit based",
+    "price": 65,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smv705y1l",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Packers & Movers",
+    "name": "1 BHK local shifting",
+    "description": "Reliable local shifting service for 1 BHK homes, including safe packing, loading, transportation, and unloading of household items.",
+    "price": 5200,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvfccxwg",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Packers & Movers",
+    "name": "2 BHK local shifting",
+    "description": "Hassle-free local shifting for 2 BHK homes, including safe packing, loading, transportation, and unloading of household belongings.",
+    "price": 6400,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvfcdx1s",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Packers & Movers",
+    "name": "3 BHK local shifting",
+    "description": "Stress-free relocation for 3 BHK homes with organized packing, careful handling of furniture and appliances, and secure door-to-door transportation.",
+    "price": 9700,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvfcfuub",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Packers & Movers",
+    "name": "4 BHK local shifting",
+    "description": "Convenient local shifting for 4 BHK homes, including careful loading, transportation, and unloading of household furniture, appliances, and belongings.",
+    "price": 13600,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvfch8gi",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Packers & Movers",
+    "name": "1 BHK long distance",
+    "description": "Secure long-distance relocation for 1 BHK homes with careful handling and reliable transportation of household belongings to your destination.",
+    "price": 15000,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvfci0r5",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Packers & Movers",
+    "name": "2 BHK long distance",
+    "description": "Reliable intercity relocation for 2 BHK homes, ensuring safe transportation of furniture, appliances, and household belongings to your new destination.",
+    "price": 19999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvfciq9u",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Packers & Movers",
+    "name": "4 BHK long distance",
+    "description": "Long-distance relocation for 4 BHK homes with organized logistics and secure transportation of household furniture, appliances, and personal belongings.",
+    "price": 44999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvfcjyax",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Gardening",
+    "name": "Soil health improvement",
+    "description": "Improve soil fertility and quality through suitable soil treatments and nutrient management.\nTreatment recommendations and costs may vary depending on soil condition and assessment.",
+    "price": 899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgneavc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 0,
+      "extras": []
+    }
+  },
+  {
+    "category": "Gardening",
+    "name": "Terrace gardening",
+    "description": "Create a beautiful terrace garden with suitable plants, pots, soil preparation, and space planning.\nFinal pricing depends on terrace size, plant selection, and installation requirements.",
+    "price": 999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgng7sz",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 0,
+      "extras": []
+    }
+  },
+  {
+    "category": "Gardening",
+    "name": "Balcony garden",
+    "description": "Create a beautiful balcony garden with carefully selected plants, decorative pots, and space-saving arrangements.",
+    "price": 1999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgnhqpe",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 0,
+      "extras": []
+    }
+  },
+  {
+    "category": "Gardening",
+    "name": "Vertical garden design",
+    "description": "Design a space-saving vertical garden using wall-mounted planters and suitable plants for a green, modern look.",
+    "price": 2999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgnij8b",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 0,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "AC gas refill/checkup",
+    "description": "Inspect AC gas levels, identify potential leaks, and refill refrigerant when required for efficient cooling.",
+    "price": 3599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgnlw7y",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "AC installation",
+    "description": "Professional AC installation, including indoor and outdoor unit mounting and essential connection setup.",
+    "price": 999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgnmw6o",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "AC uninstallation",
+    "description": "Safe removal of indoor and outdoor AC units with careful disconnection of electrical and refrigerant lines.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgno8s8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Microwave noise repair",
+    "description": "Diagnose and repair unusual noises caused by faulty motors, fans, or other internal components.",
+    "price": 269,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgq0292",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fridge not-cooling inspection",
+    "description": "Inspect the refrigerator to identify cooling issues, compressor faults, or refrigerant-related problems.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgq234a",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fridge door alignment repair",
+    "description": "Adjust and align the refrigerator door to ensure proper closing, secure fitting, and effective sealing.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgq2z4r",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fridge ice maker repair",
+    "description": "Diagnose and repair ice maker issues to restore proper ice production and dispensing functionality.",
+    "price": 259,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgq4hw7",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fridge door gasket replacement",
+    "description": "Replace damaged or loose door gaskets to prevent cold air leakage and maintain efficient refrigerator cooling.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgrcabm",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fridge gas refill",
+    "description": "Refill refrigerator refrigerant when required to restore proper cooling after checking for leaks.",
+    "price": 1449,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgrdptd",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Single door fridge repair",
+    "description": "Repair cooling issues, thermostat faults, and other common problems in single-door refrigerators.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgreol7",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Double door fridge repair",
+    "description": "Diagnose and repair cooling problems, compressor issues, and other faults in double-door refrigerators.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgrfk1a",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Microwave heating issue",
+    "description": "Inspect and repair microwave heating problems caused by faulty components or electrical issues.",
+    "price": 249,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrgrju",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Microwave display repair",
+    "description": "Repair faulty microwave displays, including blank screens, flickering digits, and unresponsive control panels.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrhm5p",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Microwave door gasket",
+    "description": "Replace damaged or worn-out microwave door seals to ensure proper closure and safe operation.",
+    "price": 349,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrifak",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Chimney repair",
+    "description": "Get your kitchen chimney working efficiently with professional repair of common mechanical, electrical, and suction issues.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrjg5l",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fan installation",
+    "description": "Professional installation of ceiling, wall, or exhaust fans with secure mounting and electrical connections.",
+    "price": 99,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrkitg",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fan uninstallation",
+    "description": "Safe removal of ceiling, wall, or exhaust fans with careful disconnection of electrical connections.",
+    "price": 89,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrldbf",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fan replacement",
+    "description": "Replace faulty or damaged fans with new units, including removal of the old fan and installation of the replacement.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrlym1",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fan repair",
+    "description": "Repair common fan issues, including slow speed, unusual noise, starting problems, and electrical faults",
+    "price": 149,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrn1ss",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fan regulator replacement",
+    "description": "Replace faulty fan regulators to restore smooth speed control and reliable fan operation.",
+    "price": 59,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrnu9w",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Water purifier installation",
+    "description": "Professional installation of RO, UV, and other water purifiers with proper plumbing connections and leak checks.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgrpfwt",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Water purifier uninstallation",
+    "description": "Safely remove your water purifier by disconnecting water lines, electrical connections, and mounting fixtures.",
+    "price": 389,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgrr9iv",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Water purifier service",
+    "description": "Get your water purifier inspected and serviced to maintain filtration performance, water flow, and overall efficiency.",
+    "price": 1699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgrrwsp",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Water purifier minor repair",
+    "description": "Fix minor water purifier issues, including leakage, low water flow, and loose connections.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgrsm7t",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Geyser installation",
+    "description": "Install a standard electric geyser with secure wall mounting and proper water and electrical connections.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrtv7s",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Geyser uninstallation",
+    "description": "Safely remove a standard electric geyser by disconnecting water and electrical connections.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrug4e",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Geyser repair",
+    "description": "Repair common geyser issues, including heating problems, water leakage, and thermostat malfunctions.",
+    "price": 349,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrv40p",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Geyser deep cleaning",
+    "description": "Deep clean the geyser tank to remove accumulated scale, sediment, and mineral deposits for better heating efficiency.",
+    "price": 699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrw76t",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Foam jet AC service",
+    "description": "Deep clean your AC using foam-based cleaning to remove accumulated dust, dirt, and grime from coils and other accessible components.",
+    "price": 649,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgrx2ml",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Water purifier repair check-up",
+    "description": "Inspect your water purifier to identify filtration issues, water leakage, low flow, or electrical faults.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgry1f4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Water purifier filter check-up",
+    "description": "Inspect purifier filters for clogging, wear, and filtration efficiency to help maintain water quality.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgrywqw",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Complete filter replacement",
+    "description": "Replace all applicable water purifier filters to restore filtration performance and maintain water quality.",
+    "price": 4999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgrzpyn",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Under-counter RO install",
+    "description": "Install an under-counter RO water purifier with proper plumbing connections, secure placement, and leak testing.",
+    "price": 699,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgs0p5v",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "AC power jet cleaning",
+    "description": "Deep clean your AC using high-pressure water jet cleaning to remove stubborn dust and dirt from coils and accessible components.",
+    "price": 469,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgs1h3x",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Split AC water leakage repair",
+    "description": "Diagnose and fix split AC water leakage caused by clogged drain pipes, drainage issues, or improper installation.",
+    "price": 439,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgs2hnc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "AC PCB repair",
+    "description": "Diagnose and repair faulty AC circuit boards (PCB) to restore proper cooling and electrical functionality.",
+    "price": 1839,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgs3bkg",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Window AC cooling coil repair",
+    "description": "Inspect and repair damaged cooling coils in window ACs to improve cooling performance and address refrigerant leaks.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgs3vtx",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fridge deep cleaning (single / double door)",
+    "description": "Deep clean single- and double-door refrigerators to remove dirt, stains, food residue, and unpleasant odours from accessible areas.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgs4q0q",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fridge PCB repair",
+    "description": "Diagnose and repair faulty refrigerator circuit boards (PCB) to restore proper cooling and electronic functions.",
+    "price": 1299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgs5mg9",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Washing machine general repair",
+    "description": "Diagnose and repair common washing machine issues, including drainage problems, unusual noise, and operational faults.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Washing Machine",
+    "id": "smvgs65p8",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Washing machine PCB repair",
+    "description": "Diagnose and repair faulty washing machine circuit boards (PCB) to restore proper electronic controls and machine operation.",
+    "price": 1899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Washing Machine",
+    "id": "smvgs70pt",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Gas stove repair (2–4 burner)",
+    "description": "Repair common issues in 2–4 burner gas stoves, including ignition problems, uneven flames, and clogged burners.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgs7pf2",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Hob stove repair (3–5 burner)",
+    "description": "Diagnose and repair 3–5 burner hob stoves, including ignition failures, uneven flames, and burner-related issues.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgs89eh",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Air cooler repair / installation",
+    "description": "Get your air cooler repaired or installed, including motor issues, water pump faults, and proper setup.",
+    "price": 359,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgs8xcp",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Chimney installation",
+    "description": "Professional kitchen chimney installation with secure mounting, duct connection, and proper exhaust setup.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgs9ogc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Chimney PCB repair",
+    "description": "Diagnose and repair faulty chimney circuit boards (PCB) to restore electronic controls and normal operation.",
+    "price": 1449,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsae9s",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Microwave PCB repair",
+    "description": "Diagnose and repair faulty microwave circuit boards (PCB) to restore proper controls and operating functions.",
+    "price": 1849,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsb7fg",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Window AC copper coil condenser repair",
+    "description": "Inspect and repair damaged copper condenser coils in window ACs to improve heat dissipation and cooling performance.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgscshp",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "AC gas refill above 4 ton (per TR)",
+    "description": "Refrigerant gas refill for AC units above 4 tons, charged at 1,000 per ton of refrigeration (TR).",
+    "price": 999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgsfix4",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "AC gas top-up above 4 ton (per TR)",
+    "description": "Top up refrigerant gas in AC units above 4 tons to support efficient cooling performance.\nPrice 600/TR",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "AC",
+    "id": "smvgsgyvg",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Geyser un-install",
+    "description": "Safely remove a standard electric geyser by disconnecting water pipes and electrical connections.",
+    "price": 639,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgshxg3",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Geyser install",
+    "description": "Install a standard electric geyser with secure wall mounting and proper water and electrical connections.",
+    "price": 599,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsitx9",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Geyser safety valve / gasket",
+    "description": "Replace faulty geyser safety valves or worn-out gaskets to help prevent leakage and ensure safe operation.",
+    "price": 199,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsks1e",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Washing machine install & demo",
+    "description": "Install your washing machine with proper inlet and outlet connections, followed by a basic demonstration of its features and operation.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Washing Machine",
+    "id": "smvgsldmf",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Washing machine uninstall",
+    "description": "Safely disconnect and remove your washing machine, including water inlet, drainage, and electrical connections.",
+    "price": 299,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Washing Machine",
+    "id": "smvgsm1n6",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Washing machine chemical wash (drum)",
+    "description": "Deep clean the washing machine drum using suitable cleaning chemicals to remove detergent residue, dirt, and unpleasant odours.",
+    "price": 999,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Washing Machine",
+    "id": "smvgsmlrc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Washing machine re-wiring",
+    "description": "Repair or replace damaged washing machine wiring to restore safe electrical connections and proper machine operation.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Washing Machine",
+    "id": "smvgsn80l",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Fridge inverter PCB repair",
+    "description": "Diagnose and repair faulty inverter PCBs in refrigerators to restore proper compressor operation and cooling performance.",
+    "price": 2499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgsnssw",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Side-by-side fridge PCB repair",
+    "description": "Diagnose and repair faulty circuit boards in side-by-side refrigerators to restore electronic controls and cooling functions.",
+    "price": 1839,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Refrigerator",
+    "id": "smvgsogrg",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Microwave deep cleaning",
+    "description": "Deep clean the microwave interior and accessible components to remove grease, food residue, and unpleasant odours.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsp8ss",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "RO membrane replacement (part)",
+    "description": "Replace the RO membrane to restore effective water filtration and improve purifier performance",
+    "price": 1499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgsq2gy",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "RO booster pump (part)",
+    "description": "Replace a faulty RO booster pump to restore proper water pressure and consistent purification performance.",
+    "price": 1899,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Water Purifier",
+    "id": "smvgsqnpv",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Air cooler installation",
+    "description": "Install your air cooler with proper placement, electrical connections, and basic operational checks for efficient cooling.",
+    "price": 499,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsr9hc",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Air cooler uninstallation",
+    "description": "Safely disconnect and remove your air cooler, ensuring proper handling of electrical connections and water lines, if applicable.",
+    "price": 349,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsruv1",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Air cooler fan motor replacement",
+    "description": "Replace a faulty air cooler fan motor to restore proper airflow and efficient cooling performance",
+    "price": 539,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsshef",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Air cooler water motor replacement",
+    "description": "Replace a faulty water pump motor to restore proper water circulation and effective cooling pad performance.",
+    "price": 399,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgst9n7",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Home Appliance",
+    "name": "Air cooler fan blade replacement",
+    "description": "Replace damaged or broken fan blades to restore proper airflow and smooth air cooler operation.",
+    "price": 359,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "General",
+    "id": "smvgsu50w",
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  },
+  {
+    "category": "Electrician",
+    "name": "Switch Board Installation",
+    "description": "Professional Installation of a single switch box",
+    "price": 350,
+    "duration": "30-60 mins",
+    "icon": "",
+    "sub": "Switch & Socket",
+    "id": "smvv1y7vr",
+    "overview": "",
+    "included": [],
+    "charges": {
+      "gstPercent": 18,
+      "platformFee": 5,
+      "extras": []
+    }
+  }
+]
