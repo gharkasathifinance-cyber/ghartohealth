@@ -791,7 +791,12 @@ const staticCache = new Map();   // full path -> { m, buf, gz, etag }  (re-read 
 function serveStatic(req, res, url) {
   let file = decodeURIComponent(url.pathname);
   if (file === '/') file = '/index.html';
-  const full = path.normalize(path.join(PUBLIC_DIR, file));
+  let full = path.normalize(path.join(PUBLIC_DIR, file));
+  // Photo not found at its folder path (e.g. /ambulance_pack/images/van.png)? Use the same file name from the main folder.
+  if (/\.(png|jpe?g|svg|webp|ico)$/i.test(file) && !fs.existsSync(full)) {
+    const base = path.basename(file);
+    const alt = path.join(PUBLIC_DIR, base); if (fs.existsSync(alt)) full = alt;
+  }
   if (!full.startsWith(PUBLIC_DIR)) return send(res, 403, 'Forbidden');
   if (BLOCKED.test(file) || (PUBLIC_DIR === __dirname && /^\/data\//i.test(file))) return send(res, 404, 'Not found');
   const ogKind = url.searchParams.get('for');
@@ -804,7 +809,15 @@ function serveStatic(req, res, url) {
     });
   }
   fs.stat(full, (e, st) => {
-    if (e || !st.isFile()) return send(res, 404, 'Not found');
+    if (e || !st.isFile()) {
+      // Image not found in its folder (e.g. uploaded without folders)? Try the same file name in the main folder.
+      const bn = path.basename(full);
+      if (/\.(png|jpe?g|svg|webp|gif|ico)$/i.test(bn) && !BLOCKED.test('/' + bn)) {
+        const alt = path.join(PUBLIC_DIR, bn);
+        if (alt !== full && fs.existsSync(alt)) return serveStatic(req, res, new URL('/' + encodeURIComponent(bn), 'http://localhost'));
+      }
+      return send(res, 404, 'Not found');
+    }
     const ext = path.extname(full).toLowerCase();
     const respond = (ent) => {
       const h = { 'Content-Type': MIME[ext] || 'application/octet-stream', 'ETag': ent.etag, 'Cache-Control': 'no-cache' };
