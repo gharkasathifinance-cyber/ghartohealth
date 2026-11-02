@@ -26,7 +26,7 @@ const hospCache = new Map();  // query -> { t, items }
 // Website files: use the "public" folder if it has index.html, otherwise the folder next to server.js
 const PUBLIC_DIR = fs.existsSync(path.join(__dirname, 'public', 'index.html')) ? path.join(__dirname, 'public') : __dirname;
 // Files that must never be served to the browser (bookings, keys, server code)
-const BLOCKED = /^\/(data|seed-data|node_modules|\.git)(\/|$)|^\/(server\.js|google-key\.txt|notify\.js|auth\.js|logs\.js|vendors\.js|tracking\.js|ambulance\.js|air-tracking\.js|invoice-store\.js|package(-lock)?\.json|\.env)$/i;
+const BLOCKED = /^\/(data|seed-data|node_modules|\.git)(\/|$)|^\/(air|ambulance)-[a-z-]+\.json$|^\/(server\.js|google-key\.txt|notify\.js|auth\.js|logs\.js|vendors\.js|tracking\.js|ambulance\.js|air-tracking\.js|invoice-store\.js|package(-lock)?\.json|\.env)$/i;
 const UPLOAD_DIR = path.join(PUBLIC_DIR, 'uploads');
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 // Airline MEDIF forms (admin can replace them from Ambulance Charges). Add more airlines here later, e.g. indigo: 'IndiGo'
@@ -117,13 +117,18 @@ async function notifyWhatsApp(b) {
 // (next to server.js). At start-up, any file missing in data/ is copied from seed-data/. Existing files are never overwritten.
 (function seedAdminSettings() {
   try {
-    const SEED_DIR = path.join(__dirname, 'seed-data'), DEST = path.join(__dirname, 'data');
-    if (!fs.existsSync(SEED_DIR)) return;
+    // Looks in seed-data/ first, then right next to server.js (so files uploaded to the main GitHub folder also work).
+    const DEST = path.join(__dirname, 'data');
+    const SOURCES = [path.join(__dirname, 'seed-data'), __dirname, process.cwd()];
     const FILES = ['air-operators.json', 'air-rates.json', 'air-base.json', 'air-operator-docs.json', 'ambulance-charges.json', 'ambulance-road.json', 'ambulance-prices.json', 'services.json', 'medical-services.json', 'amc-pricing.json'];
     fs.mkdirSync(DEST, { recursive: true });
     for (const f of FILES) {
-      const src = path.join(SEED_DIR, f), dst = path.join(DEST, f);
-      if (fs.existsSync(src) && !fs.existsSync(dst)) { fs.copyFileSync(src, dst); console.log('Restored ' + f + ' from seed-data/'); }
+      const dst = path.join(DEST, f);
+      if (fs.existsSync(dst)) continue;
+      for (const dir of SOURCES) {
+        const src = path.join(dir, f);
+        if (fs.existsSync(src)) { fs.copyFileSync(src, dst); console.log('Restored ' + f + ' from ' + path.relative(__dirname, dir || '.') + '/'); break; }
+      }
     }
   } catch (e) { console.log('seed-data restore failed:', e.message); }
 })();
