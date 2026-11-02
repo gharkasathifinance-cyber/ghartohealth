@@ -154,6 +154,14 @@ module.exports = function (c) {
     ? { name: c.clean(name || v.name || '', 80), lat: +(+v.lat).toFixed(5), lng: +(+v.lng).toFixed(5) } : null;
   const fromMapUrl = u => { const m = /query=(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/.exec(String(u || '')); return m ? { lat: +m[1], lng: +m[2] } : null; };
   const lerp = (a, b, p) => ({ lat: a.lat + (b.lat - a.lat) * p, lng: a.lng + (b.lng - a.lng) * p });
+  // Best operator first: base nearest to the client's pickup, then the operator with fewer bookings so far, then the admin's own priority order.
+  const rankOps = (bk, ops, list) => {
+    const pk = fromMapUrl(bk.maps && bk.maps.pickup), cnt = {};
+    (list || []).forEach(y => { if (y.operatorId) cnt[y.operatorId] = (cnt[y.operatorId] || 0) + 1; });
+    return ops.map((o, i) => ({ o, i, d: (pk && o.base) ? distKm(o.base, pk) : Infinity, n: cnt[o.id] || 0 }))
+      .sort((a, b) => (a.d - b.d) || (a.n - b.n) || (a.i - b.i)).map(x => x.o);
+  };
+  const isDemoBk = bk => !(bk.payment && bk.payment.mode === 'razorpay');   // demo / unpaid test booking
 
   // ---------- flight log maths ----------
   const plannedHours = (f, l, R) => distKm(l.from, l.to) * R.routeFactor / R.avgSpeedKmh;
@@ -580,20 +588,34 @@ module.exports = function (c) {
       const b = await body(), list = c.readBookings(), bk = getBk(list, b.id);
       if (!bk || !TYPES[bk.ambType]) return done(404, { error: 'Helicopter / charter booking not found.' });
       if (bk.status === 'cancelled' || bk.status === 'completed') return done(400, { error: 'This booking is already closed.' });
-      if (bk.flight) return done(400, { error: 'Live tracking has already started for this booking, so the operator cannot be changed now.' });
+      // Real (paid) bookings are locked once live tracking starts (the bill depends on the operator's rates). Demo / test bookings can always be changed: the demo mission is reset.
+      if (bk.flight && !isDemoBk(bk)) return done(400, { error: 'Live tracking has already started for this paid booking, so the operator cannot be changed now.' });
       const busy = busyMap(true), others = holdsNow().filter(h => h.ref !== bk.id), free = o => isReady(o) && o.aircraft === bk.ambType && (!busy[o.id] || busy[o.id] === bk.id) && !others.some(h => h.opId === o.id);
-      const want = c.clean(b.operatorId, 40), ops = getOps(), op = (!want || want === 'auto') ? ops.find(free) : ops.find(o => o.id === want);
+      const want = c.clean(b.operatorId, 40), ops = getOps(), op = (!want || want === 'auto') ? rankOps(bk, ops.filter(free), list)[0] : ops.find(o => o.id === want);
       if (!op) return done(400, { error: 'No free ' + TYPES[bk.ambType] + ' operator is ready right now.' });
       if (!free(op)) return done(400, { error: op.name + ' cannot be used: ' + (op.aircraft !== bk.ambType ? 'wrong aircraft type.' : !isReady(op) ? 'not ready (needs all documents verified, hourly rate and base airport, and "Available" ticked).' : 'busy with another booking.') });
       const was = bk.operatorId; bk.operatorId = op.id;
+      if (bk.flight) { delete bk.flight; (bk.history = bk.history || []).push({ at: new Date().toISOString(), event: 'Demo mission reset because the operator was changed' }); jobs.at = 0; }
       (bk.history = bk.history || []).push({ at: new Date().toISOString(), event: 'Air operator ' + (want && want !== 'auto' ? 'chosen by admin: ' : 'auto-assigned: ') + op.name + (op.phone ? ' (' + op.phone + ')' : '') + (was && was !== op.id ? ' (changed from the earlier operator)' : '') });
       c.saveBookings(list); return done(200, { ok: true, operator: opView(op.id) });
+    }
+    // ----- dropdown data: every operator of this booking's aircraft type, best match first, with the reason when one cannot be chosen.
+    if (p === '/api/air/admin-assign-options' && req.method === 'GET') {
+      const list = c.readBookings(), bk = getBk(list, url.searchParams.get('id'));
+      if (!bk || !TYPES[bk.ambType]) return done(404, { error: 'Helicopter / charter booking not found.' });
+      const busy = busyMap(true), others = holdsNow().filter(h => h.ref !== bk.id), pk = fromMapUrl(bk.maps && bk.maps.pickup);
+      const all = getOps().filter(o => o.aircraft === bk.ambType), ok = o => isReady(o) && (!busy[o.id] || busy[o.id] === bk.id) && !others.some(h => h.opId === o.id);
+      const best = rankOps(bk, all.filter(ok), list)[0], order = rankOps(bk, all, list);
+      const reason = o => !o.active ? 'Not available (switched off)' : !docsOk(o) ? 'Documents incomplete / not verified' : !o.base ? 'Base airport missing' : !(o.rates.hourlyRate > 0) ? 'Hourly rate missing' : (busy[o.id] && busy[o.id] !== bk.id) ? 'Busy with ' + busy[o.id] : others.some(h => h.opId === o.id) ? 'Held for another client (payment pending)' : '';
+      return done(200, { booking: bk.id, aircraft: TYPES[bk.ambType], current: bk.operatorId || '', locked: !!(bk.flight && !isDemoBk(bk)), demoReset: !!(bk.flight && isDemoBk(bk)), closed: bk.status === 'cancelled' || bk.status === 'completed',
+        auto: best ? { id: best.id, name: best.name } : null,
+        operators: order.map(o => ({ id: o.id, name: o.name, phone: o.phone, base: o.base ? o.base.name : '', distanceKm: (pk && o.base) ? Math.round(distKm(o.base, pk)) : null, canChoose: ok(o), reason: reason(o), best: !!best && best.id === o.id })) });
     }
     if (p === '/api/air/admin-auto-assign' && POST) {
       const list = c.readBookings(), busy = busyMap(true), holds = holdsNow(), ops = getOps().filter(isReady); let n = 0, left = 0;
       for (const bk of list) {
         if (!(bk.type === 'medical' && TYPES[bk.ambType] && bk.payment && !bk.operatorId && bk.status !== 'cancelled' && bk.status !== 'completed')) continue;
-        const op = ops.find(o => o.aircraft === bk.ambType && !busy[o.id] && !holds.some(h => h.opId === o.id && h.ref !== bk.id));
+        const op = rankOps(bk, ops.filter(o => o.aircraft === bk.ambType && !busy[o.id] && !holds.some(h => h.opId === o.id && h.ref !== bk.id)), list)[0];
         if (!op) { left++; continue; }
         bk.operatorId = op.id; busy[op.id] = bk.id; n++;
         (bk.history = bk.history || []).push({ at: new Date().toISOString(), event: 'Air operator auto-assigned: ' + op.name + (op.phone ? ' (' + op.phone + ')' : '') });
