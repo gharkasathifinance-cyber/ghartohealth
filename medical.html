@@ -71,6 +71,7 @@ dialog::backdrop{background:rgba(7,57,110,.45)}
 .chk{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;font-weight:500;color:#375775;margin-top:12px}
 .chk input{width:auto;margin-top:3px}
 .bar[hidden]{display:none}
+@media(max-width:700px){body{padding-bottom:110px}.val{max-width:100%}.vt strong{font-size:28px}}
 @media(max-width:860px){.grid,.how{grid-template-columns:1fr 1fr}.top h1{font-size:28px}}
 @media(max-width:560px){.grid,.how{grid-template-columns:1fr}.tabs button{padding:9px 14px;font-size:13px}}
 .gwrap{position:relative}.gdrop{position:absolute;z-index:60;background:#fff;border:1px solid #cfe0ee;border-radius:12px;box-shadow:0 8px 24px rgba(10,57,107,.18);overflow:hidden}.gdrop:empty{display:none}
@@ -709,7 +710,7 @@ function gSuggest(inp){clearTimeout(gTimer);var v=inp.value.trim(),b=gBox(inp),i
   }).catch(function(){gFail=true})},500)}
 document.addEventListener('input',function(e){var id=e.target.id;
  if(id==='aFrom'){route.fromLL=null;route.fromOut=false;svcShow();gSuggestRoad(e.target)}else if(id==='aTo'){route.toLL=null;route.toOut=false;svcShow();gSuggestRoad(e.target)}else if(id==='fA'){gAddrLL=null;gSuggest(e.target)}else if(id==='aFromC'){route.fromC=e.target.value;apClear('from');gSuggest(e.target)}else if(id==='aToC'){route.toC=e.target.value;apClear('to');gSuggest(e.target)}});
-document.addEventListener('mousedown',function(e){var it=e.target.closest&&e.target.closest('.gi');
+document.addEventListener('pointerdown',function(e){var it=e.target.closest&&e.target.closest('.gi');
  if(!it){document.querySelectorAll('.gdrop').forEach(function(x){x.innerHTML=''});return}
  e.preventDefault();var box=it.parentNode,s=box._list&&box._list[+it.dataset.i];if(s){gApply(box.getAttribute('data-for'),s.t,s.ll);if(s.manual)gNo[box.getAttribute('data-for')]=true}});
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.gloc');if(!b)return;e.preventDefault();gHere(b)});
@@ -729,7 +730,7 @@ function showQ(){var d=$('#qdlg');if(!d)return;$('#qdBody').innerHTML=qBody();if
 $('#qdlg').addEventListener('click',function(e){if(e.target.id==='vBookM'){this.close();$('#bBtn').click()}else if(e.target.id==='qdX'||e.target===this)this.close()});
 function reQuote(){clearTimeout(qtTimer);var vb=$('#valBox');if(vb)vb.innerHTML=valHtml();bar();var p=picked()[0];if(!DATA[key].pay||!p||qtNow())return;
  qtTimer=setTimeout(function(){if(!locOk())return;var k=qtKey();qtE=null;
-  fetch('/api/ambulance/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({option:p.id,pickup:route.from.trim(),drop:route.to.trim(),pickupLL:route.fromLL||null,dropLL:route.toLL||null,groundPickup:isAcAir()?route.gp:undefined,groundDrop:isAcAir()?route.gd:undefined,road:p.id==='van'?roadObj():undefined})}).then(function(r){return r.json()}).then(function(q){if(k!==qtKey())return;if(q&&q.quote)qt={key:k,quote:q.quote,payNow:q.payNow};else qtE={key:k,msg:(q&&q.error)||'Could not calculate the price. Please try again.'};var v2=$('#valBox');if(v2)v2.innerHTML=valHtml();bar()}).catch(function(){if(k!==qtKey())return;qtE={key:k,msg:'Could not get the price from the server. Please try again.'};var v3=$('#valBox');if(v3)v3.innerHTML=valHtml();bar()})},400)}
+  fetch('/api/ambulance/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({option:p.id,pickup:route.from.trim(),drop:route.to.trim(),pickupLL:route.fromLL||null,dropLL:route.toLL||null,groundPickup:isAcAir()?route.gp:undefined,groundDrop:isAcAir()?route.gd:undefined,road:p.id==='van'?roadObj():undefined})}).then(function(r){return r.json()}).then(function(q){if(k!==qtKey())return;if(q&&q.quote)qt={key:k,quote:q.quote,payNow:q.payNow};else qtE={key:k,msg:(q&&q.error)||'Could not calculate the price. Please try again.'};var v2=$('#valBox');if(v2){v2.innerHTML=valHtml();if(window.innerWidth<700&&qt&&qt.key===k&&!v2._seen){v2._seen=1;setTimeout(function(){v2.scrollIntoView({behavior:'smooth',block:'center'})},150)}}bar()}).catch(function(){if(k!==qtKey())return;qtE={key:k,msg:'Could not get the price from the server. Please try again.'};var v3=$('#valBox');if(v3)v3.innerHTML=valHtml();bar()})},400)}
 render();
 })();
 </script>
