@@ -26,7 +26,7 @@ const hospCache = new Map();  // query -> { t, items }
 // Website files: use the "public" folder if it has index.html, otherwise the folder next to server.js
 const PUBLIC_DIR = fs.existsSync(path.join(__dirname, 'public', 'index.html')) ? path.join(__dirname, 'public') : __dirname;
 // Files that must never be served to the browser (bookings, keys, server code)
-const BLOCKED = /^\/(data|node_modules|\.git)(\/|$)|^\/(server\.js|google-key\.txt|notify\.js|auth\.js|logs\.js|vendors\.js|tracking\.js|ambulance\.js|air-tracking\.js|invoice-store\.js|package(-lock)?\.json|\.env)$/i;
+const BLOCKED = /^\/(data|seed-data|node_modules|\.git)(\/|$)|^\/(server\.js|google-key\.txt|notify\.js|auth\.js|logs\.js|vendors\.js|tracking\.js|ambulance\.js|air-tracking\.js|invoice-store\.js|package(-lock)?\.json|\.env)$/i;
 const UPLOAD_DIR = path.join(PUBLIC_DIR, 'uploads');
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 // Airline MEDIF forms (admin can replace them from Ambulance Charges). Add more airlines here later, e.g. indigo: 'IndiGo'
@@ -111,6 +111,22 @@ async function notifyWhatsApp(b) {
   } catch (e) { console.log('WhatsApp alert failed:', e.message); }
 }
 
+// ---- Render fix: restore admin settings if data/ was wiped ----
+// Render's disk is reset on every restart/deploy, so charges, operators and rates saved in data/ vanish and the
+// charter / helicopter price stops showing. Put a copy of those settings files in a folder called seed-data/
+// (next to server.js). At start-up, any file missing in data/ is copied from seed-data/. Existing files are never overwritten.
+(function seedAdminSettings() {
+  try {
+    const SEED_DIR = path.join(__dirname, 'seed-data'), DEST = path.join(__dirname, 'data');
+    if (!fs.existsSync(SEED_DIR)) return;
+    const FILES = ['air-operators.json', 'air-rates.json', 'air-base.json', 'air-operator-docs.json', 'ambulance-charges.json', 'ambulance-road.json', 'ambulance-prices.json', 'services.json', 'medical-services.json', 'amc-pricing.json'];
+    fs.mkdirSync(DEST, { recursive: true });
+    for (const f of FILES) {
+      const src = path.join(SEED_DIR, f), dst = path.join(DEST, f);
+      if (fs.existsSync(src) && !fs.existsSync(dst)) { fs.copyFileSync(src, dst); console.log('Restored ' + f + ' from seed-data/'); }
+    }
+  } catch (e) { console.log('seed-data restore failed:', e.message); }
+})();
 const SERVICES_FILE = path.join(__dirname, 'data', 'services.json');
 // If data/services.json is missing (e.g. Render wiped the disk), copy the services.json that was uploaded next to server.js
 (function seedServicesFile() {
