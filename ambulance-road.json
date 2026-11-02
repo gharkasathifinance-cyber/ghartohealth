@@ -1,0 +1,31 @@
+{
+  "types": {
+    "bls": {
+      "base": 1000,
+      "perKm": 15
+    },
+    "als": {
+      "base": 2500,
+      "perKm": 25
+    }
+  },
+  "addons": {
+    "oxygen": {
+      "amount": 400
+    },
+    "paramedic": {
+      "amount": 600
+    },
+    "doctor": {
+      "amount": 1600
+    }
+  },
+  "baseKm": 5,
+  "roadFactor": 1.3,
+  "waitPerHour": 200,
+  "nightPct": 20,
+  "nightFrom": 22,
+  "nightTo": 6,
+  "payoutPct": 80,
+  "updatedAt": "2026-10-31T17:51:02.957Z"
+}

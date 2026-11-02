@@ -1,0 +1,28 @@
+{
+  "heli": {
+    "hourlyRate": 0,
+    "avgSpeedKmh": 200,
+    "routeFactor": 1.1,
+    "positioningPct": 100,
+    "returnPct": 100,
+    "landingFee": 0,
+    "waitingPerHour": 0,
+    "freeWaitMin": 45,
+    "groundMin": 20,
+    "minHours": 1,
+    "useExtras": 1
+  },
+  "charter": {
+    "hourlyRate": 450000,
+    "avgSpeedKmh": 600,
+    "routeFactor": 1.1,
+    "positioningPct": 100,
+    "returnPct": 100,
+    "landingFee": 0,
+    "waitingPerHour": 0,
+    "freeWaitMin": 45,
+    "groundMin": 20,
+    "minHours": 2,
+    "useExtras": 1
+  }
+}

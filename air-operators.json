@@ -1,0 +1,86 @@
+[
+  {
+    "id": "OP97fe6415",
+    "name": "pandey airline pvt ltd",
+    "phone": "7879370132",
+    "note": "",
+    "reg": "VT-IRV",
+    "aircraft": "charter",
+    "active": true,
+    "rates": {
+      "hourlyRate": 400000,
+      "avgSpeedKmh": 600,
+      "routeFactor": 1.1,
+      "positioningPct": 100,
+      "returnPct": 100,
+      "landingFee": 10000,
+      "waitingPerHour": 0,
+      "freeWaitMin": 45,
+      "groundMin": 20,
+      "minHours": 1,
+      "useExtras": 1
+    },
+    "base": {
+      "name": "Swami Vivekananda Airport, VIP Road Raipur, Raipur, Chhattisgarh, India",
+      "lat": 21.18536,
+      "lng": 81.74593
+    },
+    "createdAt": 1791891169133
+  },
+  {
+    "id": "OP8082d388",
+    "name": "shubham pvt ltd",
+    "phone": "7879125375",
+    "note": "",
+    "reg": "VT-NCJ",
+    "aircraft": "heli",
+    "active": true,
+    "rates": {
+      "hourlyRate": 150000,
+      "avgSpeedKmh": 418,
+      "routeFactor": 1.1,
+      "positioningPct": 100,
+      "returnPct": 100,
+      "landingFee": 5000,
+      "waitingPerHour": 0,
+      "freeWaitMin": 45,
+      "groundMin": 20,
+      "minHours": 1,
+      "useExtras": 1
+    },
+    "base": {
+      "name": "Swami Vivekananda Airport, VIP Road Raipur, Raipur, Chhattisgarh, India",
+      "lat": 21.18536,
+      "lng": 81.74593
+    },
+    "createdAt": 1791891218795
+  },
+  {
+    "id": "OPdfe65cda",
+    "name": "JR AIRLINES",
+    "phone": "7879370132",
+    "note": "Applied online 2026-10-15. Contact: Pankaj, gharkasathifinance@gmail.com",
+    "reg": "A7-ALM",
+    "aircraft": "charter",
+    "active": true,
+    "rates": {
+      "hourlyRate": 200000,
+      "avgSpeedKmh": 415,
+      "routeFactor": 1.1,
+      "positioningPct": 100,
+      "returnPct": 100,
+      "landingFee": 5000,
+      "waitingPerHour": 0,
+      "freeWaitMin": 45,
+      "groundMin": 20,
+      "minHours": 1,
+      "useExtras": 1
+    },
+    "base": {
+      "name": "Swami Vivekananda Airport, VIP Road Raipur, Raipur, Chhattisgarh, India",
+      "lat": 21.18536,
+      "lng": 81.74593
+    },
+    "createdAt": 1792050474752
+  }
+]

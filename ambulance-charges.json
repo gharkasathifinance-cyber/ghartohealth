@@ -1,0 +1,55 @@
+{
+  "feePct": 5,
+  "gstPct": 18,
+  "extras": {
+    "charter": [
+      {
+        "label": "Ground ambulance (both ends)",
+        "amount": 10000
+      },
+      {
+        "label": "Airport landing, parking and handling",
+        "amount": 20000
+      },
+      {
+        "label": "Medical team (doctor + paramedic)",
+        "amount": 40000
+      },
+      {
+        "label": "Oxygen and ICU equipment",
+        "amount": 15000
+      }
+    ],
+    "airline": [
+      {
+        "label": "Ground ambulance (both ends)",
+        "amount": 5000
+      },
+      {
+        "label": "Medical escort (doctor or paramedic)",
+        "amount": 15000
+      },
+      {
+        "label": "Oxygen support",
+        "amount": 3000
+      }
+    ],
+    "heli": [
+      {
+        "label": "Helipad landing and parking",
+        "amount": 10000
+      },
+      {
+        "label": "Medical team (doctor + paramedic)",
+        "amount": 20000
+      },
+      {
+        "label": "Ground ambulance (both ends)",
+        "amount": 5000
+      }
+    ],
+    "van": []
+  },
+  "airAdvance": 5000,
+  "updatedAt": "2026-10-31T17:51:02.969Z"
+}
